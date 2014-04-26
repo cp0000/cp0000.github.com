@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Heath Chan Documentation</title>
+    <meta name="keywords" content="documentation,dox" />
+    <meta name="description" content="Generate your documentation." />
+    <script src="assets/prettify.js"></script>
+    <script src="assets/jquery-1.8.2.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/base.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./index.html">Heath Chan</a>
+        </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+          
+          
+            <li>
+              <a href="./Android.html">Android</a>
+            </li>
+          
+            <li>
+              <a href="./Essay.html">Essay</a>
+            </li>
+          
+            <li>
+              <a href="./Mac-iOS.html">Mac-iOS</a>
+            </li>
+          
+            <li>
+              <a href="./书摘.html">书摘</a>
+            </li>
+          
+          
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div>
+    </nav>
+<div class="container content">
+  <div class="row">
+  	<div class="col-md-3">
+      <ul class="nav nav-list bs-docs-sidenav affix">
+
+  <li class="level_1">
+    <a href="#index_Mac/iOs Note" title="Mac/iOs Note">
+      <i class="icon-chevron-right"></i>Mac/iOs Note
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_Using clang, lldb, gcc and gdb" title="Using clang, lldb, gcc and gdb">
+      <i class="icon-chevron-right"></i>Using clang, lldb, gcc and gdb
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_objc memo" title="objc memo">
+      <i class="icon-chevron-right"></i>objc memo
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_objc runtime data struct" title="objc runtime data struct">
+      <i class="icon-chevron-right"></i>objc runtime data struct
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_ARC 以及 non-ARC" title="ARC 以及 non-ARC">
+      <i class="icon-chevron-right"></i>ARC 以及 non-ARC
+    </a>
+  </li>
+
+</ul>
+
+    </div>
+    <div class="col-md-9">
+      <section>
+        <h1 id="mac-ios-note">Mac/iOs Note</h1>
+<hr>
+<h2 id="using-clang-lldb-gcc-and-gdb">Using clang, lldb, gcc and gdb</h2>
+<p><em>Author: Pei Cheng</em>
+<em>Date: April 14, 2014</em></p>
+<hr>
+<p>clang: a C language family frontend for LLVM
+The goal of the Clang project is to create a new C,C++,Objective C and Objective C++ front-end of the LLVM compiler.</p>
+<ul>
+<li>fast compiles and low memorry use</li>
+<li>Expressive diagnostics</li>
+<li>GCC compatibility</li>
+</ul>
+<p>GCC:</p>
+<p>e.g:</p>
+<pre><code>gcc -Wall -g -o test test.c
+</code></pre><hr>
+<h2 id="objc-memo">objc memo</h2>
+<p><em>Author: Pei Cheng</em>
+<em>Date: April 9, 2014</em></p>
+<hr>
+<ul>
+<li>Objective-C Extensions</li>
+</ul>
+<p>Extensions are actually categories without the category name.It&#39;s often referred as anonymous categories.</p>
+<pre><code>@interface ClassName ()
+@end
+</code></pre><p>Characteristics of extensions</p>
+<pre><code>An extension cannot be declared for any class,only for the classes that we have original implementation of source code.
+
+An extension is adding private method and private variabled that are only spectify for the class.
+
+Any method or variable declared inside the extensions is not accessibly even to the inherited classes.
+</code></pre><p>＋ Objective-C Dynamic Binding</p>
+<p>Dynamic Binding is determing the method to invoke at runtime instead of at compile time.</p>
+<hr>
+<h2 id="objc-runtime-data-struct">objc runtime data struct</h2>
+<p><em>Author: Pei Cheng</em>
+<em>Date: March 12, 2014</em></p>
+<hr>
+<ul>
+<li>Objc about isa and initializ</li>
+</ul>
+<p>Under the hood, Objective-C objects are basically C structs. Each one contains a field called isa, which is a pointer to the class that the object is an instance of (that&#39;s how the object and Objective-C runtime knows what kind of object it is).</p>
+<p>Regarding the initialization of variables: in Objective-C, instance variables are automatically initialized to 0 (for C types like int) or nil (for Objective-C objects). Google&#39;s guidelines say that initializing your ivars to those values in your init methods is redundant, so don&#39;t do it.</p>
+<ul>
+<li><p>SEL (selector)</p>
+<pre><code>  typedef struct objc_selector *SEL;
+  struct objc_selector
+  {
+      union
+      {
+          /**
+           * The name of this selector.  Used for unregistered selectors.
+           */
+          const char *name;
+          /**
+           * The index of this selector in the selector table.  When a selector
+           * is registered with the runtime, its name is replaced by an index
+           * uniquely identifying this selector.  The index is used for dispatch.
+           */
+          uintptr_t index;
+      };
+      /**
+       * The Objective-C type encoding of the message identified by this selector.
+       */
+      const char * types;
+  };
+</code></pre></li>
+<li><p>Method</p>
+<pre><code>  struct objc_method
+  {
+      /**
+       * Selector used to send messages to this method.  The type encoding of
+       * this method should match the types field.
+       */
+      SEL         selector;
+      /**
+       * The type encoding for this selector.  Used only for introspection, and
+       * only required because of the stupid selector handling in the old GNU
+       * runtime.  In future, this field may be reused for something else.
+       */
+      const char *types;
+      /**
+       * A pointer to the function implementing this method.
+       */
+      IMP         imp;
+  };
+</code></pre></li>
+<li><p>Protocol : Object (objc 中的 NSObject)</p>
+<pre><code>  #ifdef __OBJC__
+  @interface Object { id isa; } @end
+  /**
+   * Definition of the Protocol type.  Protocols are objects, but are rarely used
+   * as such.
+   */
+  @interface Protocol : Object
+  {
+      @public
+  #else
+  struct objc_protocol
+  {
+      /** Class pointer. */
+      id                                   isa;
+  #endif 
+      /** 
+       * The name of this protocol.  Two protocols are regarded as identical if
+       * they have the same name. 
+       */
+      char                                *name;
+      /**
+       * The list of protocols that this protocol conforms to.
+       */
+      struct objc_protocol_list           *protocol_list;
+      /**
+       * List of instance methods required by this protocol.
+       */
+      struct objc_method_description_list *instance_methods;
+      /**
+       * List of class methods required by this protocol.
+       */
+      struct objc_method_description_list *class_methods; 
+  }
+</code></pre></li>
+<li><p>id</p>
+<pre><code>  /**
+   * Type for Objective-C objects.
+   */
+  typedef struct objc_object
+  {
+      /**
+       * Pointer to this object&#39;s class.  Accessing this directly is STRONGLY
+       * discouraged.  You are recommended to use object_getClass() instead.
+       */
+  #ifndef __OBJC_RUNTIME_INTERNAL__
+      __attribute__((deprecated))
+  #endif
+      Class isa;
+  } *id;
+</code></pre></li>
+<li><p>IMP</p>
+<pre><code>  /**
+  * Instance Method Pointer type.  Note: Since the calling convention for
+  * variadic functions sometimes differs from the calling convention for
+  * non-variadic functions, you must cast an IMP to the correct type before
+  * calling.
+  */
+  typedef id (*IMP)(id, SEL, ...);
+</code></pre></li>
+</ul>
+<hr>
+<h2 id="arc-non-arc">ARC 以及 non-ARC</h2>
+<p><em>Author: Pei Cheng</em>
+<em>Date: March 12, 2014</em></p>
+<hr>
+<ul>
+<li>ARC is a compiler level feature
+Apple’s documentation describes ARC as follows:</li>
+</ul>
+<p>“Automatic Reference Counting (ARC) is a compiler-level feature that simplifies the process of managing object lifetimes (memory management) in Cocoa applications.” </p>
+<p>ARC is not the garbage collection, it has no GC runtime cost;The compiler inserts retains and releases in all the places you should have anyway.
+Please read this article <a href="http://stackoverflow.com/questions/8760431/to-arc-or-not-to-arc-what-are-the-pros-and-cons">http://stackoverflow.com/questions/8760431/to-arc-or-not-to-arc-what-are-the-pros-and-cons</a></p>
+<p>ARC can be disabled on a file by file basis.</p>
+<ul>
+<li>ARC Qualifiers – Declared Properties</li>
+</ul>
+<p>Use the strong/weak qualifiers to notify the compiler of these relationships.</p>
+<p><strong>Strong References</strong>
+A strong reference is a reference to an object that stops it from being deallocated. In other words it creates a owner relationship. </p>
+<p>Under ARC we do the following to ensure a class instance takes an ownership interest a referenced object (i.e. so it cannot be deallocated until the owner is).</p>
+<pre><code>// ARC Compliant Declaration
+@property(strong) NSObject *obj;
+</code></pre><p><strong>Weak References</strong>
+A weak reference is a reference to an object that does not stop it from being deallocated. In other words, it does not create an owner relationship;</p>
+<p>Under ARC you would do the following to ensure you do not “own” the object being referred to (e.g. typically a child object should not own its parent, so we would use a weak reference).</p>
+<pre><code>// ARC Compliant Declaration
+@property(weak) NSObject *parentObj;
+</code></pre>
+      </section>
+  
+    </div>
+  </div>
+</div>
+      <footer class="footer">
+        <div class="container">
+          <p class="pull-right">
+            <a href="#">Back to top</a>
+          </p>
+          <p>文档</p>
+      </div>
+    </footer>
+    <script>
+      $(function() {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        var $window = $(window);
+        $('.bs-docs-sidenav').affix({
+          offset: {
+            top: function () {
+              return $window.width() <= 980 ? 290 : 210
+            },
+            bottom: 270
+          }
+        });
+        $(".content").find('h1, h2, h3, h4, h5, h6').each(function () {
+          var node = $(this);
+          // 总是设置id
+          node.attr("id", node.data('id') || "index_" + node.text());
+          node.css("paddingTop", 50);
+        });
+      });
+    </script>
+  
+  </body>
+</html>
+
