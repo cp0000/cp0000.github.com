@@ -188,7 +188,7 @@
       
         
           <h4 id="NSString_Property:copy_or_retain">NSString Property:copy or retain</h4>
-<p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>retain</code>)。</p>
+<p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>strong</code>)。</p>
 <p><strong>为什么会有<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
 <p>回答这个问题之前，我们先看段代码：</p>
 <pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">Fruit</span> : <span class="title">NSObject</span></span>
