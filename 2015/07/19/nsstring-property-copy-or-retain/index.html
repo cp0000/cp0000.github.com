@@ -43,7 +43,7 @@
 
 
 
-  <title> 2014电影清单 // cp (程培) </title>
+  <title> nsstring_property_copy_or_retain // cp (程培) </title>
 </head>
 
 <body>
@@ -146,7 +146,7 @@
           
           
             
-              2014电影清单
+              nsstring_property_copy_or_retain
             
           
         </h1>
@@ -154,14 +154,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2014-12-31
+          Posted on 2015-07-19
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; In
             
-              <a href="/categories/Movie/">Movie</a>
+              <a href="/categories/Tech/">Tech</a>
 
               
               
@@ -182,72 +182,52 @@
       
 
       
-        <p><strong>日本</strong></p>
-<ul>
-<li>萤火之森 Hotarubi no mori e</li>
-<li>萤火虫之墓 Grave of the Firefiles</li>
-<li>魔女宅急便 Kikis Delivery Service</li>
-<li>穿越时空的少女 The Girl Who Leapt Through Time</li>
-<li>寿司之神 Jiro Dreams Of Sushi</li>
-<li>七武士 Seven Samurai</li>
-<li>告白 Kokuhaku</li>
-<li>如父如子 Soshite Chichi ni Naru</li>
-</ul>
-<p><strong>中国</strong></p>
-<ul>
-<li>后会无期</li>
-<li>天注定</li>
-</ul>
-<p><strong>韩国</strong></p>
-<ul>
-<li>辩护人 </li>
-</ul>
-<p><strong>法国</strong></p>
-<ul>
-<li>普罗旺斯的夏天 Avis de mistral</li>
-<li>两天一夜 Deux jours une nuit</li>
-</ul>
-<p><strong>英美</strong></p>
-<ul>
-<li>狙击电话亭 Phone Booth</li>
-<li>猩球崛起2：黎明之战 Dawn of the Planet of the Apes</li>
-<li>星际穿越 Interstellar</li>
-<li>彗星來的那一夜 Coherence</li>
-<li>黑镜2014圣诞特辑 BlackMinor for 2014 christmas</li>
-<li>消失的爱人 Gone Girl</li>
-<li>内布拉斯加 Nebraska</li>
-<li>大地惊雷 True Grit</li>
-<li>重新开始 Begin Again</li>
-<li>美国队长2 寒冬战士 Captain America:The WinterSoldier</li>
-<li>为奴十二年 12 Years A Slave</li>
-<li>爱在午夜降临前 Before Midnight</li>
-<li>阅后即焚 Burn After Reading</li>
-<li>云图 Cloud Atlas</li>
-<li>卡特教练 Coach Carter</li>
-<li>撞车 Crash</li>
-<li>明日边缘 Edge of Tomorrow</li>
-<li>特种部队2：全面反击 G.I.Joe.Retaliation</li>
-<li>哥斯拉 Godzilla</li>
-<li>银河护卫队 Guardians of the Galaxy</li>
-<li>醉乡民谣 Inside Llewyn Davis</li>
-<li>不惧风暴 Into the Storm</li>
-<li>月球 Moon</li>
-<li>罪恶之城2 Sin City: A Dame to Kill For (2014)</li>
-<li>海盗电台 The Boat That Rocked</li>
-<li>金刚狼2 The Wolverine 2013</li>
-<li>致命拜访 The Invasion 2007</li>
-<li>华尔街之狼 The Wolf of Wall Street</li>
-<li>少年斯派维的奇异旅行 The Young and Prodigious.T.S.Spivet</li>
-<li>X战警：逆转未来 X-Men: Days of Future Past</li>
-<li>偷天换日 The ItalianJob</li>
-<li>变形金刚4.绝迹重生 Transformers Age of Extinction</li>
-<li>布达佩斯大饭店 The Grand Budapest</li>
-<li>超体 Lucy</li>
-<li>超凡蜘蛛侠2 The.Amazing.Spider-Man.2</li>
-<li>钢铁侠2: Iron Man 2</li>
-<li>黄金三镖客 Il buono, il brutto, il cattivo</li>
-<li>互联网之子 The Internet’s Own Boy: The Story of Aaron Swartz (2014)</li>
-</ul>
+        <h4 id="Mutable">Mutable</h4>
+<p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>retain</code>)。</p>
+<p><strong>为什么会<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
+<p>回答这个问题之前，我们先看段代码：</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">Fruit</span> : <span class="title">NSObject</span></span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>)     <span class="built_in">NSString</span>  * fruitNameCopy;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>)   <span class="built_in">NSString</span>  * fruitNameStrong;
+<span class="keyword">@end</span>
+
+<span class="built_in">NSMutableString</span> * fruitName = [<span class="built_in">NSMutableString</span> stringWithString:<span class="string">@"apple"</span>];
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit<span class="variable">.fruitNameCopy</span>     = fruitName;
+fruit<span class="variable">.fruitNameStrong</span>   = fruitName;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName); <span class="comment">// 0x7fddabd0e250  apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>); <span class="comment">// 0xa0000656c7070615 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>); <span class="comment">// 0x7fddabd0e250  apple</span>
+
+<span class="comment">//fruitName =@"pear";</span>
+[fruitName setString: <span class="string">@"pear"</span>];
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName); <span class="comment">// 0x7fddabd0e250  pear</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>); <span class="comment">// 0xa0000656c7070615 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>); <span class="comment">// 0x7fddabd0e250  pear</span>
+</code></pre><p>该段程序运行到结尾时， fruitNameCopy 的值是 apple，fruitNameCopy 的值是 pear，且两者的内存地址也不一样。<br>程序中，当我们对一个mutable对象做<code>copy</code>操作的时候，objc runtime 会用一次<a href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy" target="_blank" rel="external">深拷贝</a>来处理， runtime 会重新分配一块内存地址空间，并把原mutable对象的值拷贝过来。所以打印出来的 fruitNameCopy 和 fruitNameStrong 的内存地址是不一样的。而这之后在对 fruitName 做任何的赋值操作都只能作用于 fruitNameStrong.</p>
+<h4 id="Immutable">Immutable</h4>
+<p>那如果我们把 fruitName 改成 immutable 的会是怎样的了？</p>
+<pre><code><span class="built_in">NSString</span> * fruitName = <span class="string">@"apple"</span>;
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit<span class="variable">.fruitNameCopy</span>     = fruitName;
+fruit<span class="variable">.fruitNameStrong</span>   = fruitName;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>);<span class="comment">// 0x10e27b078 apple</span>
+
+fruitName =<span class="string">@"pear"</span>;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName);<span class="comment">// 0x10e27b0f8 pear</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>);<span class="comment">// 0x10e27b078 apple</span>
+</code></pre><p>结果是 fruitName, fruitNameCopy, fruitNameStrong 三者的地址都是一样的。按理说<code>copy</code>动作是深拷贝，fruitNameCopy指向的地址 应该是新分配的内存地址才对。<br>那为什么打印出来的地址却是同一个地址了？答案是 runtime 在这里做一个性能优化，@”apple” 是一个immutable的值，没有必要做一次深拷贝，直接做一次 retain 就达到目的了。</p>
+<h4 id="Summary">Summary</h4>
+<p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>类型的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code></strong><br>如果在程序中，你需要避免一个对象的某个属性被二次更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 <code>copy</code>。</p>
 
       
     </div>
@@ -259,13 +239,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/03/15/legend-of-a-suicide/">读书笔记：《一个自杀者的传说》</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/05/21/regular-expression-beginner/">Regular Expression</a>
+              <a href="/2015/07/13/movie-list-been-watched-2015-1st/">2015上半年看过的电影</a>
             
           </div>
         </div>
@@ -365,7 +343,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">This post does not have a Table Of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mutable"><span class="nav-number">1.</span> <span class="nav-text">Mutable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Immutable"><span class="nav-number">2.</span> <span class="nav-text">Immutable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Summary"><span class="nav-number">3.</span> <span class="nav-text">Summary</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
