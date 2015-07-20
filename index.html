@@ -149,7 +149,7 @@
           
             
               <a class="post-title-link" href="/2015/07/19/nsstring-property-copy-or-retain/">
-                From NSString Property:copy or retain To NSCopying
+                从 NSString Property:copy or retain 到 NSCopying
               </a>
             
           
@@ -187,7 +187,7 @@
 
       
         
-          <h4 id="从_NSString_Property:copy_or_retain_到_NSCopying">从 NSString Property:copy or retain 到 NSCopying</h4>
+          <h4 id="NSString_Property:copy_or_retain">NSString Property:copy or retain</h4>
 <p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>strong</code>)。</p>
 <p><strong>为什么会有<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
 <p>回答这个问题之前，我们先看段代码：</p>
@@ -250,15 +250,21 @@ places = @[@<span class="string">"uk"</span>, @<span class="string">"us"</span>]
 <span class="comment">//placesCopy: 0x7fc4e8c6f2a0 (china,japan)</span>
 <span class="comment">//placesStrong: 0x7fc4e8c6f2a0 (china,japan)</span>
 </code></pre><p>实验结果和 <code>NSString</code> 是一致的。</p>
-<p>其他的容器类 <code>NSDictionary</code>, <code>NSSet</code>,<code>NSIndexSet</code> 也是如此。我们打开这些类的头文件，以 <code>NSArray</code> 为例：</p>
-<pre><code><span class="input"><span class="prompt">@interface NSArray&lt;__covariant ObjectType&gt;</span> <span class="symbol">:</span> <span class="constant">NSObject</span> &lt;<span class="constant">NSCopying</span>, <span class="constant">NSMutableCopying</span>, <span class="constant">NSSecureCoding</span>, <span class="constant">NSFastEnumeration</span>&gt;</span>
-</code></pre><p>会发现这些类都采用了<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>协议.在<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
+<h4 id="NSCopying">NSCopying</h4>
+<p>如果你愿意，你可以试试看其他容器类 <code>NSDictionary</code>, <code>NSSet</code>,<code>NSIndexSet</code>， 会发现结果也保持一致。我们尝试解读这些类的头文件，作进一步的探索。以下是这些类头文件的节选：</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">NSString</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSArray</span>&lt;<span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSDictionary</span>&lt;<span class="title">__covariant</span> <span class="title">KeyType</span>, <span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSSet</span>&lt;<span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSIndexSet</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSIndexPath</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+</code></pre><p>会发现这些类都实现了<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>协议.在<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
 <pre><code>Implement NSCopying <span class="keyword">by</span> retaining <span class="operator">the</span> original instead <span class="operator">of</span> creating <span class="operator">a</span> <span class="built_in">new</span> copy when <span class="operator">the</span> class <span class="operator">and</span> its contents are immutable.
 </code></pre><p>这条准则很好的解释了上面的试验结果，让这些结果讲得通。</p>
 <h4 id="Summary">Summary</h4>
 <p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code>。</strong></p>
 <p><strong>如果在程序中我们自己定义的类也需要实现 <code>NSCopying</code> 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象</strong></p>
-<p>如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 <code>copy</code>。</p>
+<p><strong>如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 <code>copy</code></strong></p>
 
         
       
