@@ -249,7 +249,7 @@ places = @[@<span class="string">"uk"</span>, @<span class="string">"us"</span>]
 <pre><code><span class="input"><span class="prompt">@interface NSArray&lt;__covariant ObjectType&gt;</span> <span class="symbol">:</span> <span class="constant">NSObject</span> &lt;<span class="constant">NSCopying</span>, <span class="constant">NSMutableCopying</span>, <span class="constant">NSSecureCoding</span>, <span class="constant">NSFastEnumeration</span>&gt;</span>
 </code></pre><p>会发现这些类都采用了<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>协议.在<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
 <pre><code>Implement NSCopying <span class="keyword">by</span> retaining <span class="operator">the</span> original instead <span class="operator">of</span> creating <span class="operator">a</span> <span class="built_in">new</span> copy when <span class="operator">the</span> class <span class="operator">and</span> its contents are immutable.
-</code></pre><p>也验证了我们之前的试验结果。</p>
+</code></pre><p>这条准则很好的解释了上面的试验结果，让这些结果讲得通。</p>
 <h4 id="Summary">Summary</h4>
 <p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code>。</strong></p>
 <p><strong>如果在程序中我们自己定义的类也需要实现 <code>NSCopying</code> 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象</strong></p>
