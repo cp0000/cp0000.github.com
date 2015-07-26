@@ -43,7 +43,7 @@
 
 
 
-  <title> oc_checklist_answers // cp (程培) </title>
+  <title> objc interview checklist answers // cp (程培) </title>
 </head>
 
 <body>
@@ -146,7 +146,7 @@
           
           
             
-              oc_checklist_answers
+              objc interview checklist answers
             
           
         </h1>
@@ -157,6 +157,17 @@
           Posted on 2015-07-23
         </span>
 
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; In
+            
+              <a href="/categories/Tech/">Tech</a>
+
+              
+              
+
+            
+          </span>
         
 
         
@@ -265,7 +276,7 @@
    __unsafe_unretained id receiver;
    __unsafe_unretained Class super_class;
 };
-</code></pre><p>第一步：构造 objc_super 结构体的时候， 结构体第一个成员变量是 self， 第二个成员变量是 (id) class_getSuperclass(objc_getClass(“Son”)), 函数输出结果是为 Father。<br>第二步：去 Father 这个类里找 - (Class) class, 最红一层层在  NSObject 类中找到。最后内部使用 objc_msgSend(objc_super-&gt;receiver, @selector(class)) 去调用， 此时已经和 [self class] 调用相同了。</p>
+</code></pre><p>第一步：构造 objc_super 结构体的时候， 结构体第一个成员变量是 self， 第二个成员变量是 (id) class_getSuperclass(objc_getClass(“Son”)), 函数输出结果是为 Father。<br>第二步：去 Father 这个类里找 - (Class) class, 最后一层层在  NSObject 类中找到。最后内部使用 objc_msgSend(objc_super-&gt;receiver, @selector(class)) 去调用， 此时已经和 [self class] 调用相同了。</p>
 <h4 id="runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）">runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）</h4>
 <p>NSObject.h</p>
 <pre><code><span class="pp">- <span class="params">(<span class="variable">IMP</span>)</span>methodForSelector:<span class="params">(<span class="variable">SEL</span>)</span>aSelector</span>
@@ -306,8 +317,14 @@
 </ul>
 <h4 id="苹果是如何实现autoreleasepool的？">苹果是如何实现autoreleasepool的？</h4>
 <h4 id="使用block时什么情况会发生引用循环，如何解决？">使用block时什么情况会发生引用循环，如何解决？</h4>
+<p>一个对象对 block 进行了强引用，而在 block 内部有直接使用到该对象。</p>
+<p>声明一个 weak 的对象指向该对象， 在 block 内部使用该 weak 对象。</p>
 <h4 id="在block内如何修改block外部变量？">在block内如何修改block外部变量？</h4>
+<p>用 __block 修饰外部变量</p>
+<p>实现原理，简单来讲，外部变量通过指针传递，将变量传递到 block 内，所以可以修改变量值。</p>
 <h4 id="使用系统的某些block_api（如UIView的block版本写动画时），是否也考虑引用循环问题？">使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？</h4>
+<p>NO, since self will be captured in the block which is dispatched asynchronously, self will be implicity retained, and released again when the block has been finished.</p>
+<p>That means, the life-time of self will be extended  up until after the block finishes.</p>
 <h4 id="GCD的队列（dispatch_queue_t）分哪两种类型？">GCD的队列（dispatch_queue_t）分哪两种类型？</h4>
 <h4 id="如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）">如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）</h4>
 <h4 id="dispatch_barrier_async的作用是什么？">dispatch_barrier_async的作用是什么？</h4>
