@@ -43,7 +43,7 @@
 
 
 
-  <title> cp (程培) </title>
+  <title> oc_checklist_answers // cp (程培) </title>
 </head>
 
 <body>
@@ -57,9 +57,7 @@
   </div>
 <![endif]-->
 
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -135,9 +133,9 @@
       <div class="main-inner">
         <div id="content" class="content">
           
+
   <div id="posts" class="posts-expand">
     
-      
 
   <div class="post post-type-normal ">
     <div class="post-header">
@@ -148,9 +146,7 @@
           
           
             
-              <a class="post-title-link" href="/2015/07/23/oc-checklist-answers/">
-                oc_checklist_answers
-              </a>
+              oc_checklist_answers
             
           
         </h1>
@@ -175,8 +171,7 @@
       
 
       
-        
-          <h4 id="@property中有哪些属性关键字？">@property中有哪些属性关键字？</h4>
+        <h4 id="@property中有哪些属性关键字？">@property中有哪些属性关键字？</h4>
 <p>nonatomic (thread-unsafe)<br>atomic (default, thread safe)</p>
 <p>strong<br>weak<br>assign<br>copy</p>
 <p>getter (custom getter method name)<br>setter (custom setter method name)</p>
@@ -339,7 +334,6 @@
 <h4 id="如何调试BAD_ACCESS错误">如何调试BAD_ACCESS错误</h4>
 <h4 id="lldb（gdb）常用的调试命令？">lldb（gdb）常用的调试命令？</h4>
 
-        
       
     </div>
 
@@ -347,6 +341,18 @@
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/19/nsstring-property-copy-or-retain/">从 NSString Property:copy or retain 到 NSCopying</a>
+            
+          </div>
+        </div>
+      
 
       
       
@@ -354,12 +360,14 @@
   </div>
 
 
-    
-  </div>
 
-  
-  <div class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+    
+
+    
+      <div class="comments" id="comments">
+        
+      </div>
+    
   </div>
 
 
@@ -382,6 +390,15 @@
   <div id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table Of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
       
 
       <div class="site-overview">
@@ -425,6 +442,17 @@
 
       </div>
 
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#@property中有哪些属性关键字？"><span class="nav-number">1.</span> <span class="nav-text">@property中有哪些属性关键字？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#weak属性需要在dealloc中置nil么？"><span class="nav-number">2.</span> <span class="nav-text">weak属性需要在dealloc中置nil么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#@synthesize和@dynamic分别有什么作用？"><span class="nav-number">3.</span> <span class="nav-text">@synthesize和@dynamic分别有什么作用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？"><span class="nav-number">4.</span> <span class="nav-text">ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？"><span class="nav-number">5.</span> <span class="nav-text">用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？"><span class="nav-number">6.</span> <span class="nav-text">@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？"><span class="nav-number">7.</span> <span class="nav-text">在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objc中向一个nil对象发送消息将会发生什么？"><span class="nav-number">8.</span> <span class="nav-text">objc中向一个nil对象发送消息将会发生什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objc中向一个对象发送消息[obj_foo]和objc_msgSend()函数之间有什么关系？"><span class="nav-number">9.</span> <span class="nav-text">objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么时候会报unrecognized_selector的异常？"><span class="nav-number">10.</span> <span class="nav-text">什么时候会报unrecognized selector的异常？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一个objc对象如何进行内存布局？（考虑有父类的情况）"><span class="nav-number">11.</span> <span class="nav-text">一个objc对象如何进行内存布局？（考虑有父类的情况）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一个objc对象的isa的指针指向什么？有什么作用？"><span class="nav-number">12.</span> <span class="nav-text">一个objc对象的isa的指针指向什么？有什么作用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下面的代码输出什么？"><span class="nav-number">13.</span> <span class="nav-text">下面的代码输出什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）"><span class="nav-number">14.</span> <span class="nav-text">runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用runtime_Associate方法关联的对象，需要在主对象dealloc的时候释放么？"><span class="nav-number">15.</span> <span class="nav-text">使用runtime Associate方法关联的对象，需要在主对象dealloc的时候释放么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objc中的类方法和实例方法有什么本质区别和联系？"><span class="nav-number">16.</span> <span class="nav-text">objc中的类方法和实例方法有什么本质区别和联系？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#_objc_msgForward函数是做什么的，直接调用它将会发生什么？"><span class="nav-number">17.</span> <span class="nav-text">_objc_msgForward函数是做什么的，直接调用它将会发生什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#runtime如何实现weak变量的自动置nil？"><span class="nav-number">18.</span> <span class="nav-text">runtime如何实现weak变量的自动置nil？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？"><span class="nav-number">19.</span> <span class="nav-text">能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#runloop和线程有什么关系？"><span class="nav-number">20.</span> <span class="nav-text">runloop和线程有什么关系？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#runloop的mode作用是什么？"><span class="nav-number">21.</span> <span class="nav-text">runloop的mode作用是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#以+_scheduledTimerWithTimeInterval…的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？"><span class="nav-number">22.</span> <span class="nav-text">以+ scheduledTimerWithTimeInterval…的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#猜想runloop内部是如何实现的？"><span class="nav-number">23.</span> <span class="nav-text">猜想runloop内部是如何实现的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objc使用什么机制管理对象内存？"><span class="nav-number">24.</span> <span class="nav-text">objc使用什么机制管理对象内存？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARC通过什么方式帮助开发者管理内存？"><span class="nav-number">25.</span> <span class="nav-text">ARC通过什么方式帮助开发者管理内存？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）"><span class="nav-number">26.</span> <span class="nav-text">不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BAD_ACCESS在什么情况下出现？"><span class="nav-number">27.</span> <span class="nav-text">BAD_ACCESS在什么情况下出现？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#苹果是如何实现autoreleasepool的？"><span class="nav-number">28.</span> <span class="nav-text">苹果是如何实现autoreleasepool的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用block时什么情况会发生引用循环，如何解决？"><span class="nav-number">29.</span> <span class="nav-text">使用block时什么情况会发生引用循环，如何解决？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在block内如何修改block外部变量？"><span class="nav-number">30.</span> <span class="nav-text">在block内如何修改block外部变量？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用系统的某些block_api（如UIView的block版本写动画时），是否也考虑引用循环问题？"><span class="nav-number">31.</span> <span class="nav-text">使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GCD的队列（dispatch_queue_t）分哪两种类型？"><span class="nav-number">32.</span> <span class="nav-text">GCD的队列（dispatch_queue_t）分哪两种类型？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）"><span class="nav-number">33.</span> <span class="nav-text">如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch_barrier_async的作用是什么？"><span class="nav-number">34.</span> <span class="nav-text">dispatch_barrier_async的作用是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#苹果为什么要废弃dispatch_get_current_queue？"><span class="nav-number">35.</span> <span class="nav-text">苹果为什么要废弃dispatch_get_current_queue？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#以下代码运行结果如何？"><span class="nav-number">36.</span> <span class="nav-text">以下代码运行结果如何？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？"><span class="nav-number">37.</span> <span class="nav-text">addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何手动触发一个value的KVO"><span class="nav-number">38.</span> <span class="nav-text">如何手动触发一个value的KVO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#若一个类有实例变量NSString_*_foo，调用setValue:forKey:时，可以以foo还是_foo作为key？"><span class="nav-number">39.</span> <span class="nav-text">若一个类有实例变量NSString *_foo，调用setValue:forKey:时，可以以foo还是_foo作为key？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KVC的keyPath中的集合运算符如何使用？"><span class="nav-number">40.</span> <span class="nav-text">KVC的keyPath中的集合运算符如何使用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KVC和KVO的keyPath一定是属性么？"><span class="nav-number">41.</span> <span class="nav-text">KVC和KVO的keyPath一定是属性么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？"><span class="nav-number">42.</span> <span class="nav-text">如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apple用什么方式实现对一个对象的KVO？"><span class="nav-number">43.</span> <span class="nav-text">apple用什么方式实现对一个对象的KVO？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IBOutlet连出来的视图属性为什么可以被设置成weak?"><span class="nav-number">44.</span> <span class="nav-text">IBOutlet连出来的视图属性为什么可以被设置成weak?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IB中User_Defined_Runtime_Attributes如何使用？"><span class="nav-number">45.</span> <span class="nav-text">IB中User Defined Runtime Attributes如何使用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何调试BAD_ACCESS错误"><span class="nav-number">46.</span> <span class="nav-text">如何调试BAD_ACCESS错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lldb（gdb）常用的调试命令？"><span class="nav-number">47.</span> <span class="nav-text">lldb（gdb）常用的调试命令？</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
       
 
     </div>
@@ -487,6 +515,145 @@
   <script type="text/javascript" src="/js/search-toggle.js"></script>
 
   
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
 
   <script type="text/javascript">
     $(document).ready(function () {
