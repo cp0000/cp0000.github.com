@@ -187,17 +187,19 @@
 
       
         
-          <h4 id="indexing_服务">indexing 服务</h4>
-<p>当我们在使用 MacosX 系统的 spotlight search 搜索文件的时候，会发现可以很快的查询到我们想要的结果。举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：</p>
+          <h4 id="Indexing_服务">Indexing 服务</h4>
+<p>Maocx 系统的搜索服务 <code>spotlight</code> 相比大家都用过。用它可以很便捷的帮我们找到想要的文件。</p>
+<p>先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：</p>
 <p><img src="http://cp0000.github.io/assets/loadBlock.png" alt="loadBlock"></p>
-<p>spotlight 很迅速的帮我找到了出现 <code>_loadBlock</code> 这个字符串的文件。</p>
-<p>想象下，硬盘里面存储着如此多的文件的时候， spotlight 如此快速的查询到包涵这个字符串的文件，我很好奇这当中的实现方式。</p>
-<p>文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 <code>find</code> 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。<br>那答案是什么？</p>
-<p>提到搜索，我们首先想到的应该会是 Google, Google搜索引擎的工作原理大概是：通过代码在全球收集信息，建立词组的索引数据库，Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程<br>。那 Macosx 的本地文件搜索会不会也是这样子的了？答案是 YES。Macosx 使用了 indexing 的索引服务。简单来讲 Macosx 系统在平时会建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。</p>
-<p>这当中还有很多复杂的处理过程，如当运行时硬盘的文件产生变化时候，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 Lucene 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。</p>
+<p>spotlight 帮我找到了包含 <code>_loadBlock</code> 这个字符串的文件。</p>
+<p>想象下，电脑硬盘中存储着如此多的文件，<strong>spotlight 是如何如此快速的查询到包涵这个字符串的文件的？</strong></p>
+<p>在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？<br>关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 <code>find</code> 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。<strong>那答案是什么？</strong></p>
+<p>我们不妨先把目光放到<code>搜索</code>这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程<br>。那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的<code>indexing</code>的索引服务。关于<code>indexing</code>索引服务器，简单来讲 Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。</p>
+<p>当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 Lucene 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。</p>
 <h4 id="mdfind">mdfind</h4>
-<p>用 spotlight 的图形界面查询文件很方便，但是我平常的工作过程中，常常需要知道文件的绝对路径，图形界面并没有显示出来。这里有个小 tips，可以选择长按 command 键，界面右下方会出现文件的详细路径，不过如果路径太长，界面会显示不全，而且也没法去拷贝这个路径。我每次都得点击 show all in Finder…,很不方便。</p>
-<p>Macosx 提供了 command line 接口，我们可以在 terminal 中使用 mdfind 来进行 索引查询。比如要查询出文件内容中包含字符串 “_loadBlock”</p>
+<p>用 spotlight 的图形界面查询文件很方便，但是我平常的工作过程中，常常需要知道文件的绝对路径，但图形界面并没有显示出来。<strong>关于如何在spotlight界面显示文件的详细路径</strong>，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。</p>
+<p><strong>那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？</strong></p>
+<p>Macosx 提供了终端执行命令<code>mdfind</code>，我们可以在 terminal 中使用<code>mdfind</code>来进行索引查询。比如要查询出文件内容中包含字符串 “_loadBlock”, 在ternimal中输入以下命令即可：</p>
 <pre><code>mdfind 'kMDItemTextContent=<span class="string">"_loadBlock"</span>' 
 </code></pre><p>results:</p>
 <pre><code>/<span class="keyword">opt</span>/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.<span class="keyword">h</span>
@@ -208,16 +210,20 @@
 /<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.<span class="keyword">h</span>
 /<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.<span class="keyword">h</span>
 /<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.<span class="keyword">h</span>
-</code></pre><p>和图一中的结果有两点出入：<br>(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来, 系统应该是对结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。<br>(2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。分别查看下”_loadBlock”在文件中的具体情况，</p>
+</code></pre><p>对比终端查询结果和图一中的结果，会发现有两点出入：</p>
+<ul>
+<li>(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。</li>
+<li>(2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下”_loadBlock”在各个文件中的上下文，以下是节选</li>
+</ul>
 <p>nsBlocklistService.js</p>
 <pre><code><span class="keyword">this</span>._loadBlocklist();
 </code></pre><p>SKStorePageViewController</p>
 <pre><code><span class="title">CDUnknownBlockType</span> _loadBlock;
-</code></pre><p>所以问题应该是出在前后是否能跟其他字符串有关，修改查询语句</p>
+</code></pre><p>看上去问题应该是出在<code>_loadBlock</code>前后是否能跟别的字符串上，修改查询语句</p>
 <pre><code>mdfind 'kMDItemTextContent=<span class="string">"_loadBlock*"</span>' 
-</code></pre><p>果不其然可以查询到结果</p>
+</code></pre><p>果然可以查询到结果</p>
 <pre><code><span class="regexp">/Project/m</span>ozilla-central<span class="regexp">/toolkit/m</span>ozapps<span class="regexp">/extensions/</span>nsBlocklistService.js
-</code></pre><p>关于 mdfind 的一些常用查询语法，可参考 <a href="http://osxnotes.net/spotlight.html" target="_blank" rel="external"><code>osxnotes</code></a>。</p>
+</code></pre><p>关于 mdfind 的一些常用查询语法，可参考 <a href="http://osxnotes.net/spotlight.html" target="_blank" rel="external"><code>osxnotes</code></a>，这里列举了大量的例子。</p>
 
         
       
