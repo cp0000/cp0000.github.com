@@ -192,18 +192,20 @@
 <p>通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。</p>
 <h3 id="静态快捷键的添加">静态快捷键的添加</h3>
 <p>打开 Info.plist, 在该文件中添加如下键值：</p>
-<pre><code>![<span class="link_label">static_shortcut</span>](<span class="link_url">http://cp0000.github.io/assets/static_shortcut.jpg</span>)
-</code></pre><p>添加一个key为<code>UIApplicationShortcutItems</code>的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：</p>
-<pre><code><span class="bullet">+ </span>UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示
-<span class="bullet">+ </span>UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上
-<span class="bullet">+ </span>UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上
-<span class="bullet">+ </span>UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 [<span class="link_label">UIApplicationShortcutIcon_Class</span>](<span class="link_url">https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/index.html#//apple_ref/c/tdef/UIApplicationShortcutIconType</span>)
-<span class="bullet">+ </span>UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，35<span class="emphasis">*35的倍数（试过100*</span>100也是Ok的），并且单色。
-<span class="bullet">+ </span>UIApplicationShortcutItemUserInfo (optional): 传值用
-</code></pre><p>详情请<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36" target="_blank" rel="external">看这里</a></p>
+<p><img src="http://cp0000.github.io/assets/static_shortcut.jpg" alt="static_shortcut"></p>
+<p>添加一个key为<code>UIApplicationShortcutItems</code>的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：</p>
+<ul>
+<li>UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示</li>
+<li>UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上</li>
+<li>UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上</li>
+<li>UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 <a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/index.html#//apple_ref/c/tdef/UIApplicationShortcutIconType" target="_blank" rel="external">UIApplicationShortcutIcon_Class</a></li>
+<li>UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，35<em>35的倍数（试过100</em>100也是Ok的），并且单色。</li>
+<li>UIApplicationShortcutItemUserInfo (optional): 传值用</li>
+</ul>
+<p>详情请<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36" target="_blank" rel="external">看这里</a></p>
 <p>当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：</p>
-<pre><code>![<span class="link_label">shortcut2</span>](<span class="link_url">http://cp0000.github.io/assets/shortcut2.jpg</span>)
-</code></pre><p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节。</p>
+<p><img src="http://cp0000.github.io/assets/shortcut2.jpg" alt="shortcut2"></p>
+<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节。</p>
 <h3 id="动态标签的添加">动态标签的添加</h3>
 <p>所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：</p>
 <ul>
