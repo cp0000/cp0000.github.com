@@ -200,7 +200,7 @@
 <p>详情请<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36" target="_blank" rel="external">看这里</a></p>
 <p>当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：</p>
 <p><img src="http://cp0000.github.io/assets/shortcut2.jpg" alt="shortcut2"></p>
-<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节<a href="http://cp0000.github.io/2015/09/30/iOS9-Quick-Actions-shortcut/#模拟器上测试Shortcuts" target="_blank" rel="external">模拟器上测试Shortcut</a>。</p>
+<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节<a href="#jump">模拟器上测试Shortcut</a>。</p>
 <h3 id="动态标签的添加">动态标签的添加</h3>
 <p>所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：</p>
 <ul>
@@ -278,7 +278,7 @@
 
 <span class="keyword">@end</span>
 </code></pre><h3 id="模拟器上测试Shortcuts">模拟器上测试Shortcuts</h3>
-<p>Xcode7.0 的模拟器是没办法之间触发出 3D Touch 事件的，好在有人开发出了插件<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator" target="_blank" rel="external">SBShortcutMenuSimulator</a>.实用也很简单，只需要follow readme 中的 usage 便可。以下摘录</p>
+<p><span id="jump"></span><br>Xcode7.0 的模拟器是没办法之间触发出 3D Touch 事件的，好在有人开发出了插件<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator" target="_blank" rel="external">SBShortcutMenuSimulator</a>.实用也很简单，只需要follow readme 中的 usage 便可。以下摘录</p>
 <pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/DeskConnect/SBShortcutMenuSimulator.git
 <span class="keyword">cd</span> SBShortcutMenuSimulator
 <span class="keyword">make</span>
