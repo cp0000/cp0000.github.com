@@ -148,8 +148,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/">
-                uicollectionviews now have easy reordering （译）
+              <a class="post-title-link" href="/2015/09/30/iOS9-Quick-Actions-shortcut/">
+                iOS9_Quick_Actions_shortcut
               </a>
             
           
@@ -158,7 +158,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2015-08-22
+          Posted on 2015-09-30
         </span>
 
         
@@ -187,84 +187,117 @@
 
       
         
-          <h1 id="iOS_9-0_UICollectionView_拖拽效果实现">iOS 9.0 UICollectionView 拖拽效果实现</h1>
-<blockquote>
-<p>原文 <a href="http://nshint.io/blog/2015/07/16/uicollectionviews-now-have-easy-reordering/" target="_blank" rel="external">UICollectionViews Now Have Easy Reordering</a></p>
-</blockquote>
-<p>在<code>UICollectionView</code> 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 <code>UITableView</code>，它更加容易进行一些自定义的操作。我们组现在在项目中使用 <code>UICollectionView</code> 要多于 <code>UITableView</code>。伴随着 iOS 9 的 release，<code>UICollectionView</code>排序（动态拖拽）更加简单。在这之前，如果想对 <code>UICollectionView</code> 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址<a href="https://github.com/nshintio/uicollectionview-reordering" target="_blank" rel="external">uicollectionview-reordering</a>。</p>
-<p>实现拖动排序最简单的办法是使用 <code>UICollectionViewController</code>, 在 <code>UICollectionViewController</code> 中新增了一个属性  <code>installsStandardGestureForInteractiveMovement</code>, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。     我们所需要做的，只要重载下面这个方法就好了.</p>
-<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span></span> collectionView(collectionView: <span class="type">UICollectionView</span>,
-    moveItemAtIndexPath sourceIndexPath: <span class="type">NSIndexPath</span>,
-    toIndexPath destinationIndexPath: <span class="type">NSIndexPath</span>) {
-    <span class="comment">// move your data order</span>
-}
-</code></pre><p>当程序中重载了<code>moveItemAtIndexPath</code>，collectionView 就认为 cell 是可以移动的。</p>
-<pre><code>![<span class="link_label">reordering-01</span>](<span class="link_url">http://nshint.io/images/uicollectionview-reordering/1.gif</span>)
-</code></pre><p>那如果需要给某一个 <code>UIViewController</code> 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现<code>UICollectionViewDataSource</code>中上面提到的代理方法，还需要重写 <code>installsStandardGestureForInteractiveMovement</code>。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势<code>UILongPressGestureRecognizer</code>，它能够完全满足拖拽需求。</p>
-<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span></span> viewDidLoad() {
-    <span class="keyword">super</span>.viewDidLoad()
-    longPressGesture = <span class="type">UILongPressGestureRecognizer</span>(target: <span class="keyword">self</span>, action: <span class="string">"handleLongGesture:"</span>)
-    <span class="keyword">self</span>.collectionView.addGestureRecognizer(longPressGesture)
-}
-
-<span class="func"><span class="keyword">func</span></span> handleLongGesture(gesture: <span class="type">UILongPressGestureRecognizer</span>) {
-
-    <span class="keyword">switch</span>(gesture.state) {
-
-    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Began</span>:
-        guard <span class="keyword">let</span> selectedIndexPath = <span class="keyword">self</span>.collectionView.indexPathForItemAtPoint(gesture.locationInView(<span class="keyword">self</span>.collectionView)) <span class="keyword">else</span> {
-            <span class="keyword">break</span>
-        }
-        collectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
-    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Changed</span>:
-        collectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
-    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Ended</span>:
-        collectionView.endInteractiveMovement()
-    <span class="keyword">default</span>:
-        collectionView.cancelInteractiveMovement()
-    }
-}
-</code></pre><p>这段代码主要是给 collectionView 添加一个长手势识别器，并根据手势的不同状态调用collectionView的相关方法。</p>
+          <p>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。</p>
+<h2 id="Home_Screen_Quick_Actions">Home Screen Quick Actions</h2>
+<p>通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。</p>
+<h3 id="静态快捷键的添加">静态快捷键的添加</h3>
+<p>打开 Info.plist, 在该文件中添加如下键值：</p>
+<p><img src="http://cp0000.github.io/assets/static_shortcut.jpg" alt="static_shortcut"></p>
+<p>添加一个key为<code>UIApplicationShortcutItems</code>的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：</p>
 <ul>
-<li><code>beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)</code>: 该方法在开始拖拽某个cell时被调用</li>
-<li><code>updateInteractiveMovementTargetPosition(targetPosition:CGPoint)</code>: 根据手势更新拖拽cell的位置</li>
-<li><code>endInteractiveMovement()</code>: 手势结束时调用，结束拖拽</li>
-<li><code>cancelInteractiveMovement()</code>: 手势取消时调用，取消拖拽</li>
+<li>UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示</li>
+<li>UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上</li>
+<li>UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上</li>
+<li>UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 <a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/index.html#//apple_ref/c/tdef/UIApplicationShortcutIconType" target="_blank" rel="external">UIApplicationShortcutIcon_Class</a></li>
+<li>UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，35<em>35的倍数（试过100</em>100也是Ok的），并且单色。</li>
+<li>UIApplicationShortcutItemUserInfo (optional): 传值用</li>
 </ul>
-<p>这样就实现了需要的拖拽效果：</p>
-<p><img src="http://nshint.io/images/uicollectionview-reordering/2.gif" alt="reordering_collection_view"></p>
-<p>这段代码出来的效果和 <code>UICollectionViewController</code> 是一致的。很厉害吧，但更厉害的是我们可以用上面的方法对自定义的 collection view layout 进行拖拽。下面我们来实现一个简单的瀑布流。</p>
-<p><img src="http://nshint.io/images/uicollectionview-reordering/3.gif" alt="reordering_waterfall"></p>
-<p>昂～，看起来还凑合，但在移动的时候cell的size被改变了呢，如何才能保持cell的size不变呢？ <code>UICollectionViewLayout</code>提供了相关办法可以帮助我们解决这个问题。</p>
-<pre><code><span class="input"><span class="prompt">func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],
-    withTargetPosition targetPosition: CGPoint,
-    previousIndexPaths: [NSIndexPath],
-    previousPosition: CGPoint) -&gt;</span> <span class="constant">UICollectionViewLayoutInvalidationContext</span></span>
-<span class="input"><span class="prompt">
-func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(indexPaths: [NSIndexPath],
-    previousIndexPaths: [NSIndexPath],
-    movementCancelled: Bool) -&gt;</span> <span class="constant">UICollectionViewLayoutInvalidationContext</span></span>
-</code></pre><ul>
-<li>第一个函数会在 cells 拖拽过程中被调用</li>
-<li><p>第二个函数会在拖拽结束时候被调用。有了这些信息，我们可以使用一点小技巧去实现cell size不被改变的功能。</p>
-<p>  internal override func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],</p>
-<pre><code>  withTargetPosition targetPosition: <span class="built_in">CGPoint</span>,
-  previousIndexPaths: [<span class="built_in">NSIndexPath</span>],
-  previousPosition: <span class="built_in">CGPoint</span>) -&gt; UICollectionViewLayoutInvalidationContext {
-
-  var context = <span class="keyword">super</span><span class="variable">.invalidationContextForInteractivelyMovingItems</span>(targetIndexPaths,
-      withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths,
-      previousPosition: previousPosition)
-
-  <span class="keyword">self</span><span class="variable">.delegate</span>?<span class="variable">.collectionView</span>!(<span class="keyword">self</span><span class="variable">.collectionView</span>!, moveItemAtIndexPath: previousIndexPaths[<span class="number">0</span>],
-      toIndexPath: targetIndexPaths[<span class="number">0</span>])
-
-  <span class="keyword">return</span> context
-</code></pre><p>  }</p>
-</li>
+<p>详情请<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36" target="_blank" rel="external">看这里</a></p>
+<p>当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：</p>
+<p><img src="http://cp0000.github.io/assets/shortcut2.jpg" alt="shortcut2"></p>
+<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节<a href="#jump">模拟器上测试Shortcut</a>。</p>
+<h3 id="动态标签的添加">动态标签的添加</h3>
+<p>所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：</p>
+<ul>
+<li>UIApplicationShortcutItem 3DTouch标签的类</li>
+<li>UIApplicationShortcutIcon 标签中图片Icon的类</li>
 </ul>
-<p>解决方法很直接。获取当前被拖拽的cell的起始indexPath和目标indexPath,然后调用UICollectionViewDataSource代理方法移动当前正在被拖拽的cell。</p>
-<p>一个可以拖拽的的collectionView带来体验效果真的非常棒～</p>
+<h3 id="响应标签的行为">响应标签的行为</h3>
+<p>当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：</p>
+<pre><code><span class="pp">- <span class="params">(void)</span> application:<span class="params">(<span class="variable">UIApplication</span> *)</span>application performActionForShortcutItem:<span class="params">(<span class="variable">UIApplicationShortcutItem</span> *)</span>shortcutItem completionHandler:<span class="params">(void (^)</span><span class="params">(<span class="variable">BOOL</span>)</span>)completionHandler</span>
+</code></pre><p>当通过标签进入APP时，appdelegate中会回调到这个函数。当你处理完了标签需要做的工作之后，需要执行 <code>completionHandler</code>。</p>
+<p>这里有一个地方需要特别注意一下，用户按下标签进入应用要分成两种状况：启动APP，APP从后台回到前台。你需要在 <code>application:didFinishLaunchingWithOptions:</code> 或 <code>application:willFinishLaunchingWithOptions:</code> 中的一个去检查字典 <code>launchOptions</code> 中是否包含了<code>UIApplicationLaunchOptionsShortcutItemKey</code>。如果有这个key，则表示是启动app。你需要在此时设置好APP的view层级，并且为 application:willFinishLaunchingWithOptions: 返回 false。这样就可以阻止 <code>application(_:performActionForShortcutItem:completionHandler:)</code> 被调用，避免标签处理逻辑被处理两次。</p>
+<p>以下是 sample code (Objective_c)，demo 放在github上面<a href="https://github.com/cp0000/shortcutDemo" target="_blank" rel="external">shortcutDemo</a></p>
+<p>另外苹果官方提供了 swift 的<a href="https://developer.apple.com/library/prerelease/ios/samplecode/ApplicationShortcuts/Introduction/Intro.html" target="_blank" rel="external">sample code</a></p>
+<pre><code><span class="preprocessor">#import <span class="title">"AppDelegate.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">AppDelegate</span> ()</span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, retain) UIApplicationShortcutItem * launchedShortcutItem;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">AppDelegate</span></span>
+
+- (<span class="built_in">BOOL</span>) handledShortCutItem: (UIApplicationShortcutItem *) shortcutItem
+{
+    <span class="built_in">BOOL</span> handled = <span class="literal">NO</span>;
+    <span class="keyword">if</span> (!shortcutItem<span class="variable">.type</span>) <span class="keyword">return</span> <span class="literal">NO</span>;
+    <span class="keyword">if</span> (![shortcutItem<span class="variable">.type</span> isKindOfClass:[<span class="built_in">NSString</span> class]]) <span class="keyword">return</span> <span class="literal">NO</span>;
+
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:<span class="string">@"Shortcut Handled"</span> message:shortcutItem<span class="variable">.localizedTitle</span> preferredStyle: UIAlertControllerStyleAlert];
+    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:<span class="string">@"OK"</span> style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alertController addAction: alertAction];
+
+    [<span class="keyword">self</span><span class="variable">.window</span><span class="variable">.rootViewController</span> presentViewController: alertController animated: <span class="literal">YES</span> completion:<span class="literal">nil</span>];
+
+    <span class="keyword">return</span> handled;
+}
+
+- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions {
+    <span class="comment">// Override point for customization after application launch.</span>
+<span class="comment">//    Dynamic Shortcuts</span>
+    UIApplicationShortcutIcon * addIcon = [UIApplicationShortcutIcon iconWithType: UIApplicationShortcutIconTypeAdd];<span class="comment">//Icons should be square, single color,</span>
+
+    UIApplicationShortcutItem * addItem = [[UIApplicationShortcutItem alloc]initWithType: <span class="string">@"add"</span> localizedTitle: <span class="string">@"Add"</span> localizedSubtitle: <span class="literal">nil</span> icon: addIcon userInfo: <span class="literal">nil</span>];
+
+    [<span class="built_in">UIApplication</span> sharedApplication]<span class="variable">.shortcutItems</span> = @[addItem];
+
+    <span class="built_in">BOOL</span> shouldPerformAdditionalDelegateHandling    = <span class="literal">YES</span>;
+    <span class="keyword">if</span> (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) {
+        UIApplicationShortcutItem * shortcutItem = launchOptions[UIApplicationLaunchOptionsShortcutItemKey];
+        <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>   = shortcutItem;
+        <span class="comment">// This will block "performActionForShortcutItem:completionHandler" from being called.</span>
+        shouldPerformAdditionalDelegateHandling     = <span class="literal">NO</span>;
+    }
+    <span class="keyword">return</span> shouldPerformAdditionalDelegateHandling;
+}
+
+- (<span class="keyword">void</span>)applicationWillEnterForeground:(<span class="built_in">UIApplication</span> *)application {
+}
+
+- (<span class="keyword">void</span>)applicationDidBecomeActive:(<span class="built_in">UIApplication</span> *)application {
+    <span class="keyword">if</span>(!<span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>) {
+        <span class="keyword">return</span>;
+    }
+    [<span class="keyword">self</span> handledShortCutItem: <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>];
+
+    <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>   = <span class="literal">nil</span>;
+}
+
+- (<span class="keyword">void</span>) application:(<span class="built_in">UIApplication</span> *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">BOOL</span>))completionHandler
+{
+    <span class="built_in">BOOL</span> result = [<span class="keyword">self</span> handledShortCutItem: shortcutItem];
+    completionHandler(result);
+}
+
+<span class="keyword">@end</span>
+</code></pre><p><span id="simulator_shortcuts"></span></p>
+<h3 id="模拟器上测试Shortcuts">模拟器上测试Shortcuts</h3>
+<p>Xcode7.0 的模拟器是没办法之间触发出 3D Touch 事件的，好在有人开发出了插件<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator" target="_blank" rel="external">SBShortcutMenuSimulator</a>.实用也很简单，只需要follow readme 中的 usage 便可。以下摘录</p>
+<pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/DeskConnect/SBShortcutMenuSimulator.git
+<span class="keyword">cd</span> SBShortcutMenuSimulator
+<span class="keyword">make</span>
+
+xcrun simctl spawn booted launchctl <span class="keyword">debug</span> <span class="built_in">system</span>/<span class="keyword">com</span>.apple.SpringBoard --environment DYLD_INSERT_LIBRARIES=$PWD/SBShortcutMenuSimulator.dylib
+xcrun simctl spawn booted launchctl <span class="keyword">stop</span> <span class="keyword">com</span>.apple.SpringBoard
+
+<span class="keyword">echo</span> <span class="string">'com.apple.mobilecal'</span> | nc <span class="number">127.0</span>.<span class="number">0.1</span> <span class="number">8000</span>
+</code></pre><p>‘com.apple.mobilecal’ 替换成你需要测试的app的bundle就可以了，例如我的是 <code>chengpei.shortcutDemo</code></p>
+<pre><code><span class="title">echo</span> <span class="string">'chengpei.shortcutDemo'</span> | nc <span class="number">127.0.0.1</span> <span class="number">8000</span>
+</code></pre><p>上面的命令全都在clone的SBShortcutMenuSimulator目录下执行。</p>
+<h3 id="结语">结语</h3>
+<p>以上。</p>
 
         
       
@@ -286,7 +319,7 @@ func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(ind
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
   </div>
 
 
@@ -320,7 +353,7 @@ func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(ind
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

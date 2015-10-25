@@ -148,8 +148,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/07/19/nsstring-property-copy-or-retain/">
-                从 NSString Property:copy or retain 到 NSCopying
+              <a class="post-title-link" href="/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/">
+                uicollectionviews now have easy reordering （译）
               </a>
             
           
@@ -158,7 +158,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2015-07-19
+          Posted on 2015-08-22
         </span>
 
         
@@ -187,84 +187,84 @@
 
       
         
-          <h4 id="NSString_Property:copy_or_retain">NSString Property:copy or retain</h4>
-<p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>strong</code>)。</p>
-<p><strong>为什么会有<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
-<p>回答这个问题之前，我们先看段代码：</p>
-<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">Fruit</span> : <span class="title">NSObject</span></span>
-<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>)     <span class="built_in">NSString</span>  * fruitNameCopy;
-<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>)   <span class="built_in">NSString</span>  * fruitNameStrong;
-<span class="keyword">@end</span>
+          <h1 id="iOS_9-0_UICollectionView_拖拽效果实现">iOS 9.0 UICollectionView 拖拽效果实现</h1>
+<blockquote>
+<p>原文 <a href="http://nshint.io/blog/2015/07/16/uicollectionviews-now-have-easy-reordering/" target="_blank" rel="external">UICollectionViews Now Have Easy Reordering</a></p>
+</blockquote>
+<p>在<code>UICollectionView</code> 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 <code>UITableView</code>，它更加容易进行一些自定义的操作。我们组现在在项目中使用 <code>UICollectionView</code> 要多于 <code>UITableView</code>。伴随着 iOS 9 的 release，<code>UICollectionView</code>排序（动态拖拽）更加简单。在这之前，如果想对 <code>UICollectionView</code> 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址<a href="https://github.com/nshintio/uicollectionview-reordering" target="_blank" rel="external">uicollectionview-reordering</a>。</p>
+<p>实现拖动排序最简单的办法是使用 <code>UICollectionViewController</code>, 在 <code>UICollectionViewController</code> 中新增了一个属性  <code>installsStandardGestureForInteractiveMovement</code>, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。     我们所需要做的，只要重载下面这个方法就好了.</p>
+<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span></span> collectionView(collectionView: <span class="type">UICollectionView</span>,
+    moveItemAtIndexPath sourceIndexPath: <span class="type">NSIndexPath</span>,
+    toIndexPath destinationIndexPath: <span class="type">NSIndexPath</span>) {
+    <span class="comment">// move your data order</span>
+}
+</code></pre><p>当程序中重载了<code>moveItemAtIndexPath</code>，collectionView 就认为 cell 是可以移动的。</p>
+<pre><code>![<span class="link_label">reordering-01</span>](<span class="link_url">http://nshint.io/images/uicollectionview-reordering/1.gif</span>)
+</code></pre><p>那如果需要给某一个 <code>UIViewController</code> 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现<code>UICollectionViewDataSource</code>中上面提到的代理方法，还需要重写 <code>installsStandardGestureForInteractiveMovement</code>。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势<code>UILongPressGestureRecognizer</code>，它能够完全满足拖拽需求。</p>
+<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span></span> viewDidLoad() {
+    <span class="keyword">super</span>.viewDidLoad()
+    longPressGesture = <span class="type">UILongPressGestureRecognizer</span>(target: <span class="keyword">self</span>, action: <span class="string">"handleLongGesture:"</span>)
+    <span class="keyword">self</span>.collectionView.addGestureRecognizer(longPressGesture)
+}
 
-<span class="built_in">NSMutableString</span> * fruitName = [<span class="built_in">NSMutableString</span> stringWithString:<span class="string">@"apple"</span>];
+<span class="func"><span class="keyword">func</span></span> handleLongGesture(gesture: <span class="type">UILongPressGestureRecognizer</span>) {
 
-Fruit * fruit = [[Fruit alloc] init];
-fruit<span class="variable">.fruitNameCopy</span>     = fruitName;
-fruit<span class="variable">.fruitNameStrong</span>   = fruitName;
+    <span class="keyword">switch</span>(gesture.state) {
 
-<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName); <span class="comment">// 0x7fddabd0e250  apple</span>
-<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>); <span class="comment">// 0xa0000656c7070615 apple</span>
-<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>); <span class="comment">// 0x7fddabd0e250  apple</span>
+    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Began</span>:
+        guard <span class="keyword">let</span> selectedIndexPath = <span class="keyword">self</span>.collectionView.indexPathForItemAtPoint(gesture.locationInView(<span class="keyword">self</span>.collectionView)) <span class="keyword">else</span> {
+            <span class="keyword">break</span>
+        }
+        collectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
+    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Changed</span>:
+        collectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
+    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Ended</span>:
+        collectionView.endInteractiveMovement()
+    <span class="keyword">default</span>:
+        collectionView.cancelInteractiveMovement()
+    }
+}
+</code></pre><p>这段代码主要是给 collectionView 添加一个长手势识别器，并根据手势的不同状态调用collectionView的相关方法。</p>
+<ul>
+<li><code>beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)</code>: 该方法在开始拖拽某个cell时被调用</li>
+<li><code>updateInteractiveMovementTargetPosition(targetPosition:CGPoint)</code>: 根据手势更新拖拽cell的位置</li>
+<li><code>endInteractiveMovement()</code>: 手势结束时调用，结束拖拽</li>
+<li><code>cancelInteractiveMovement()</code>: 手势取消时调用，取消拖拽</li>
+</ul>
+<p>这样就实现了需要的拖拽效果：</p>
+<p><img src="http://nshint.io/images/uicollectionview-reordering/2.gif" alt="reordering_collection_view"></p>
+<p>这段代码出来的效果和 <code>UICollectionViewController</code> 是一致的。很厉害吧，但更厉害的是我们可以用上面的方法对自定义的 collection view layout 进行拖拽。下面我们来实现一个简单的瀑布流。</p>
+<p><img src="http://nshint.io/images/uicollectionview-reordering/3.gif" alt="reordering_waterfall"></p>
+<p>昂～，看起来还凑合，但在移动的时候cell的size被改变了呢，如何才能保持cell的size不变呢？ <code>UICollectionViewLayout</code>提供了相关办法可以帮助我们解决这个问题。</p>
+<pre><code><span class="input"><span class="prompt">func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],
+    withTargetPosition targetPosition: CGPoint,
+    previousIndexPaths: [NSIndexPath],
+    previousPosition: CGPoint) -&gt;</span> <span class="constant">UICollectionViewLayoutInvalidationContext</span></span>
+<span class="input"><span class="prompt">
+func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(indexPaths: [NSIndexPath],
+    previousIndexPaths: [NSIndexPath],
+    movementCancelled: Bool) -&gt;</span> <span class="constant">UICollectionViewLayoutInvalidationContext</span></span>
+</code></pre><ul>
+<li>第一个函数会在 cells 拖拽过程中被调用</li>
+<li><p>第二个函数会在拖拽结束时候被调用。有了这些信息，我们可以使用一点小技巧去实现cell size不被改变的功能。</p>
+<p>  internal override func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],</p>
+<pre><code>  withTargetPosition targetPosition: <span class="built_in">CGPoint</span>,
+  previousIndexPaths: [<span class="built_in">NSIndexPath</span>],
+  previousPosition: <span class="built_in">CGPoint</span>) -&gt; UICollectionViewLayoutInvalidationContext {
 
-<span class="comment">//fruitName =@"pear";</span>
-[fruitName setString: <span class="string">@"pear"</span>];
+  var context = <span class="keyword">super</span><span class="variable">.invalidationContextForInteractivelyMovingItems</span>(targetIndexPaths,
+      withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths,
+      previousPosition: previousPosition)
 
-<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName); <span class="comment">// 0x7fddabd0e250  pear</span>
-<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>); <span class="comment">// 0xa0000656c7070615 apple</span>
-<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>); <span class="comment">// 0x7fddabd0e250  pear</span>
-</code></pre><p>该段程序运行到结尾时， fruitNameCopy 的值是 apple，fruitNameCopy 的值是 pear，且两者的内存地址也不一样。<br>程序中，当我们对一个mutable对象做<code>copy</code>操作的时候，objc runtime 会用一次<a href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy" target="_blank" rel="external">深拷贝</a>来处理， runtime 会重新分配一块内存地址空间，并把原mutable对象的值拷贝过来。所以打印出来的 fruitNameCopy 和 fruitNameStrong 的内存地址是不一样的。而这之后在对 fruitName 做任何的赋值操作都只能作用于 fruitNameStrong.</p>
-<p><strong>那如果我们把 fruitName 改成 immutable 的会是怎样的了？</strong></p>
-<pre><code><span class="built_in">NSString</span> * fruitName = <span class="string">@"apple"</span>;
+  <span class="keyword">self</span><span class="variable">.delegate</span>?<span class="variable">.collectionView</span>!(<span class="keyword">self</span><span class="variable">.collectionView</span>!, moveItemAtIndexPath: previousIndexPaths[<span class="number">0</span>],
+      toIndexPath: targetIndexPaths[<span class="number">0</span>])
 
-Fruit * fruit = [[Fruit alloc] init];
-fruit<span class="variable">.fruitNameCopy</span>     = fruitName;
-fruit<span class="variable">.fruitNameStrong</span>   = fruitName;
-
-<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName);<span class="comment">// 0x10e27b078 apple</span>
-<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>);<span class="comment">// 0x10e27b078 apple</span>
-<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>);<span class="comment">// 0x10e27b078 apple</span>
-
-fruitName =<span class="string">@"pear"</span>;
-
-<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName);<span class="comment">// 0x10e27b0f8 pear</span>
-<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>);<span class="comment">// 0x10e27b078 apple</span>
-<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>);<span class="comment">// 0x10e27b078 apple</span>
-</code></pre><p>结果是 fruitName, fruitNameCopy, fruitNameStrong 三者的地址都是一样的。按理说<code>copy</code>动作是深拷贝，fruitNameCopy指向的地址 应该是新分配的内存地址才对。<br>那为什么打印出来的地址却是同一个地址了？答案是 runtime 在这里做一个性能优化，@”apple” 是一个immutable的值，没有必要做一次深拷贝，直接做一次 retain 就达到目的了。</p>
-<p><strong>试试看把<code>NSString</code>替换成<code>NSArray</code></strong></p>
-<p>对象 Fruit 中添加两个属性<br>    @property (nonatomic, copy)     NSArray  <em> placesCopy;<br>    @property (nonatomic, strong)   NSArray  </em> placesStrong;</p>
-<p>先用 mutable 的变量试试</p>
-<pre><code><span class="built_in">NSMutableArray</span> * places = [<span class="built_in">NSMutableArray</span> arrayWithArray:@[<span class="string">@"china"</span>, <span class="string">@"japan"</span>]];
-fruit<span class="variable">.placesCopy</span>    = places; <span class="comment">//placesCopy: 0x7f8f18d0c4f0 (china,japan)</span>
-fruit<span class="variable">.placesStrong</span>  = places; <span class="comment">//placesStrong: 0x7f8f18d51a80 (china,japan)</span>
-
-[places addObject:<span class="string">@"korea"</span>];
-<span class="comment">//placesCopy: 0x7f8f18d0c4f0 (china,japan)</span>
-<span class="comment">//placesStrong: 0x7f8f18d51a80 (china,japan, korea)</span>
-</code></pre><p>再用 immutable 的变量试试</p>
-<pre><code><span class="constant">NSArray * places</span> = @[@<span class="string">"china"</span>, @<span class="string">"japan"</span>];
-
-fruit.placesCopy    = places; <span class="comment">//placesCopy: 0x7fc4e8c6f2a0 (china,japan)</span>
-fruit.placesStrong  = places; <span class="comment">//placesStrong: 0x7fc4e8c6f2a0 (china,japan)</span>
-
-places = @[@<span class="string">"uk"</span>, @<span class="string">"us"</span>];
-<span class="comment">//placesCopy: 0x7fc4e8c6f2a0 (china,japan)</span>
-<span class="comment">//placesStrong: 0x7fc4e8c6f2a0 (china,japan)</span>
-</code></pre><p>实验结果和 <code>NSString</code> 是一致的。</p>
-<h4 id="NSCopying">NSCopying</h4>
-<p>如果你愿意，你可以试试看其他容器类 <code>NSDictionary</code>, <code>NSSet</code>,<code>NSIndexSet</code>， 会发现结果也保持一致。我们尝试解读这些类的头文件，作进一步的探索。以下是这些类头文件的节选：</p>
-<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">NSString</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
-<span class="class"><span class="keyword">@interface</span> <span class="title">NSArray</span>&lt;<span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
-<span class="class"><span class="keyword">@interface</span> <span class="title">NSDictionary</span>&lt;<span class="title">__covariant</span> <span class="title">KeyType</span>, <span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
-<span class="class"><span class="keyword">@interface</span> <span class="title">NSSet</span>&lt;<span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
-<span class="class"><span class="keyword">@interface</span> <span class="title">NSIndexSet</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
-<span class="class"><span class="keyword">@interface</span> <span class="title">NSIndexPath</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
-</code></pre><p>会发现这些类都实现了<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>协议.在<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
-<pre><code>Implement NSCopying <span class="keyword">by</span> retaining <span class="operator">the</span> original instead <span class="operator">of</span> creating <span class="operator">a</span> <span class="built_in">new</span> copy when <span class="operator">the</span> class <span class="operator">and</span> its contents are immutable.
-</code></pre><p>这条准则很好的解释了上面的试验结果，让这些结果讲得通。</p>
-<h4 id="Summary">Summary</h4>
-<p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code>。</strong></p>
-<p><strong>如果在程序中我们自己定义的类也需要实现 <code>NSCopying</code> 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象</strong></p>
-<p><strong>如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 <code>copy</code></strong></p>
+  <span class="keyword">return</span> context
+</code></pre><p>  }</p>
+</li>
+</ul>
+<p>解决方法很直接。获取当前被拖拽的cell的起始indexPath和目标indexPath,然后调用UICollectionViewDataSource代理方法移动当前正在被拖拽的cell。</p>
+<p>一个可以拖拽的的collectionView带来体验效果真的非常棒～</p>
 
         
       
@@ -286,7 +286,7 @@ places = @[@<span class="string">"uk"</span>, @<span class="string">"us"</span>]
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/6/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/8/">&raquo;</a>
   </div>
 
 
@@ -320,7 +320,7 @@ places = @[@<span class="string">"uk"</span>, @<span class="string">"us"</span>]
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
