@@ -272,8 +272,8 @@
     <span class="preprocessor">#<span class="title">"UIDeviceRGBColorSpace 1 0 0 1"</span></span>
 </code></pre><p>我们可以看到，界面上 tableViewCell 的背景颜色变成了红色。</p>
 <p><img src="http://cp0000.github.io/assets/blue.PNG" alt="shortcut2"></p>
-<p>以上操作的思路大致就是，听过 appdelegate =&gt; keyWindow =&gt; rootViewController =&gt; viewControllers =&gt; view </p>
-<p>当然你也可以骗骗自己，把余额这个label改成巨款，过过眼瘾</p>
+<p>以上操作的思路大致就是， appdelegate =&gt; keyWindow =&gt; rootViewController =&gt; viewControllers =&gt; view </p>
+<p>当然你也可以骗骗自己，把余额这个label的text改成巨款，过过眼瘾</p>
 <pre><code>    cy<span class="special">#</span> <span class="special">[</span>tableView subviews<span class="special">]</span>
     @<span class="special">[</span><span class="special">#</span>"&lt;UIRefreshControl: 0x16482c90; frame = (0 0; 320 60); hidden = YES; autoresize = W; layer = &lt;CALayer: 0x16256370&gt;&gt;",<span class="special">#</span>"&lt;UITableViewWrapperView: 0x1624cce0; frame = (0 0; 320 519); gestureRecognizers = &lt;NSArray: 0x16098960&gt;; layer = &lt;CALayer: 0x14e12cf0&gt;; contentOffset: <span class="special">{</span>0, 0<span class="special">}</span>; contentSize: <span class="special">{</span>320, 519<span class="special">}</span>&gt;",<span class="special">#</span>"&lt;UIView: 0x16216d10; frame = (0 780; 320 20); layer = &lt;CALayer: 0x162562c0&gt;&gt;",<span class="special">#</span>"&lt;WHAccountHeaderView: 0x16217c10; frame = (0 0; 320 180); layer = &lt;CALayer: 0x1637edd0&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x17635b80; frame = (0 180; 320 40); autoresize = W; layer = &lt;CALayer: 0x1620d670&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x161f4740; frame = (0 452.5; 320 2.5); alpha = 0; opaque = NO; autoresize = TM; userInteractionEnabled = NO; layer = &lt;CALayer: 0x161f47c0&gt;&gt;"<span class="special">]</span>
     cy<span class="special">#</span> var header = new Instance(0x16217c10)
