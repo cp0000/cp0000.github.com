@@ -191,7 +191,7 @@
 <p><a href="https://itunes.apple.com/us/app/b612-selfie-from-the-heart/id904209370?mt=8" target="_blank" rel="external">B612</a>是Line公司出品的一款非常棒的拍照软件。它的界面，交互，用起来非常顺手。app中的滤镜效果很赞，用户简单几步操作就可以生成一张很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。</p>
 <p>从AppStore上面下载B612的IPA文件，把文件的后缀名从 .IPA 修改成 .zip。解压zip文件之后，在Payload中有一个b612.app的文件，这里我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。经过以上几步操作我们就拿到了 B612 app的 bundle 文件信息。</p>
 <p>在使用B612的过程中，app会展列一个滤镜列表给用户进行选择（如下图）：</p>
-<p><img src="../../assets/b612_filter_list.png" alt="B612_filter_list">。</p>
+<p><img src="../../assets/b612_filter_list.png" alt="B612_filter_list" style="width: 400px;"></p>
 <p>使用的过程发现一个叫 China 的滤镜，China，中国？还是瓷器？叫China的滤镜会呈现出什么样子的效果，根据效果我们是否能推测出这里的China是要翻译成中国，还是瓷器咧？很有意思的样子。我们就拿这个滤镜当做目标吧。</p>
 <p>一般情况下，我的常用做法是在先前解压的文件夹中搜索一下相关的信息，碰碰运气。</p>
 <pre><code><span class="keyword">find</span> . -name <span class="string">"*china*"</span>                 
@@ -229,7 +229,7 @@
 <span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>   <span class="comment">1830</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageTracker</span><span class="string">.</span><span class="comment">h</span>
 </code></pre><p>要找到加密 .dat 文件的相关代码，我们需要使用另外一个非常强大的工具<a href="https://www.hex-rays.com/products/ida/index.shtml" target="_blank" rel="external">IDA</a>。IDA可以非常整洁的输出可执行文件的汇编代码，并且相互连接起来。不过这个软件非常之贵，但是它的免费版本已经够用了。</p>
 <p>把B612的可执行文件加载到IDA之后，我们在IDA中执行一个搜索，关键字是dat;幸运的是，搜索结果指向了一下的代码。虽然是汇编代码，但是不难看出两点信息，（1）dat后缀的文件是一张Image （2）程序中需要把文件的数据字节进行反向操作，达到混淆的目的。</p>
-<p><img src="../../assets/b612-reversebyte.png" alt="b612-reversebyte.png"></p>
+<p><img src="../../assets/b612-reversebyte.png" alt="reversebyte" style="width: 500px;"></p>
 <p>接下来验证一下线索结果：</p>
 <pre><code>- (<span class="keyword">void</span>)viewDidLoad {
     [<span class="keyword">super</span> viewDidLoad];
@@ -252,7 +252,7 @@
     <span class="keyword">return</span> reversedData;
 }
 </code></pre><p>上述代码让我们获得一张china的图片：</p>
-<p><img src="../../assets/china.png" alt="china"></p>
+<p><img src="../../assets/china.png" alt="china" style="width: 300px;"></p>
 <p>上述代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612Image</a></p>
 <p>OK，到此为止，我们解密了china.dat 这种类型的文件，它跟我们最终要挖掘的china滤镜是如何实现的之间肯定有着联系，但我们现在还不得知。</p>
 <h2 id="关于滤镜">关于滤镜</h2>
@@ -337,8 +337,8 @@ fragmentShaderString:
 <p>GPUImage 提供了<code>GPUImageLookupFilter</code>类来实现颜色查找类的滤镜</p>
 </blockquote>
 <p>这里我们直接使用OpenGL来实现China滤镜。阅读前面的shader代码，得知需要传递给shader两个texture，可以想象出一个是需要原图片，一个是china.dat转换出来的图片，经过顶点着色器和片段着色器，最终给目标图片加上滤镜。下面第一张图是原图，第二张是我用OpenGL实现的Demo效果图片，第三张是B612加china滤镜出来的结果。对比第二张和第三章，效果非常相似。利用OpenGL实现滤镜的代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612</a></p>
-<p><img src="../../assets/photo.jpg" alt="原图" style="width: 300px;"></p>
-<p><img src="../../assets/jingse.jpg" alt="Demo效果图" style="width: 300px;"><br><img src="../../assets/jingse_b612.jpg" alt="B612效果图" style="width: 300px;"></p>
+<p><img src="../../assets/photo.jpg" alt="原图" style="width: 250px;"></p>
+<p><img src="../../assets/jingse.jpg" alt="Demo效果图" style="width: 250px;"><br><img src="../../assets/jingse_b612.jpg" alt="B612效果图" style="width: 250px;"></p>
 
         
       
