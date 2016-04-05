@@ -148,8 +148,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/10/27/27/">
-                活到二十七
+              <a class="post-title-link" href="/2015/11/30/iOS-reverse-engineering-02/">
+                iOS逆向工程-0x01－工具篇-Cycript
               </a>
             
           
@@ -158,14 +158,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2015-10-27
+          Posted on 2015-11-30
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; In
             
-              <a href="/categories/Life/">Life</a>
+              <a href="/categories/Tech/">Tech</a>
 
               
               
@@ -187,21 +187,110 @@
 
       
         
-          <blockquote>
-<p>“Many people die at 25 and aren’t buried until 75.”(很多人25岁就死了，但是要75岁才被埋进土里)－－这是美国政治家，科学家富兰克林的名句。</p>
-</blockquote>
-<p>这里的死当然不是生理上的死亡，我的理解是指一个人的生活进入了静止的状态；早上8点起床，吃着相同的早餐，走着每天上下班的路去公司，开始一天忙碌的办公司生活，日复一日，循环至死。</p>
-<p>今天是我二七岁的生日，想来我自己不也是如此嘛？每天的日子趋于静止，今天像是昨天的拷贝。</p>
-<p>稍微观察下，生活中大家见面的时候，都会寒暄一句“最近在忙啥？”。想来这句话却很有意思，它鲜活的表现出了我们是一个好像不忙点啥，日子就没法过下去的种族。也是，我们身边的每个人每天都显得很忙；大家忙着挣钱，忙着找女人，忙着玩游戏，忙着去八卦，忙着娱乐，一刻都不得闲；但其实我觉得是人们害怕闲。因为一当闲下来，我们会不知道干嘛，进而觉得无聊，产生厌烦，最后感到孤独。</p>
-<p>我也是如此，为了让自己忙起来，我写博客，不停的往Wunderlist中加todos，看amazon上面的畅销书。坦白讲，长长的 TODO list 会让我产生一种心安。</p>
-<p>记得大二的时候，当时的我，一个中二青年，被乔布斯在斯坦福大学上的毕业演讲的震撼住了。其中有一段是</p>
+          <p>对于初开始学习iOS逆向工程的人来说，实现一个<code>tweak</code>可以算是入门逆向工程了。</p>
+<p>当然了，可能你现在还不知道<code>tweak</code>是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。</p>
 <blockquote>
-<p>Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven’t found it yet, keep looking. Don’t settle. As with all matters of the heart, you’ll know when you find it. </p>
+<p>比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码</p>
 </blockquote>
-<p>这么些年来，我一直被这个演讲所影响。我会时常问自己，到底想要成为什么样子的人，真正想要做的事情是什么。但在27岁生日这天，我不得不承认，我还是没有找到。有段时间，在做 reverse engineering 的时候，我的确遇到了那种 “啊哈” 时刻。但当我深入进去之后，了解业界专业的安全知识之后，我知道这东西是需要天分加大量的练习，可惜我不够，天分和练习都不够。而且我也没有豁出去，重新来过的勇气。</p>
-<p>或许是年纪的增长，近些日子，我会开始关注房子，汽车等诸如此类的事物。有时候我也想给自己弄个窝，不用寄人篱下，活得体面一点。这诺大的城市中，我也不想一直是那个漂泊的，东奔西跑的人。但高企的房价，不可理喻的限购政策又让我心灰意冷，不知出路在何处。</p>
-<p>只希望二十八的时候，自己晚上洗完澡倒头上床，盯着天花板的时候，知道自己到底在忙些什么。</p>
-<p><a href="http://music.163.com/#/song?id=28349599" target="_blank" rel="external">Johnny and Mary (Feat. Bryan Ferry)</a></p>
+<p>那问题来了，我们要如何知道哪个函数是账号登录函数咧？<strong>这就涉及到我们如何去分析一个iOS app</strong></p>
+<h2 id="分析_iOS_app_的两种方法">分析 iOS app 的两种方法</h2>
+<ul>
+<li><p>运行时分析</p>
+<ul>
+<li>GDB/LLDB</li>
+<li>Cycript</li>
+<li>Logify</li>
+<li>weak_classdump</li>
+<li>InspectiveC</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>可执行代码分析</p>
+<ul>
+<li>dumpdecrpted</li>
+<li>class_dump,class_dump_z,classdump_dyld</li>
+<li>Disassemblers<ul>
+<li>IDA</li>
+<li>Hopper</li>
+<li>otool</li>
+</ul>
+</li>
+<li>strings</li>
+<li>nm</li>
+</ul>
+</li>
+</ul>
+<p>先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。</p>
+<h3 id="Cycript">Cycript</h3>
+<p><a href="http://www.cycript.org/" target="_blank" rel="external">Cycript</a>最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。</p>
+<p>以下是 Cycript 的用途：</p>
+<ul>
+<li>能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController</li>
+<li>对程序中的类，可以获取到它用过的方法名称</li>
+<li>可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值</li>
+<li>能够执行 method swizzling， 替换某个指定的函数</li>
+<li>可以在运行时调用其他方法</li>
+</ul>
+<h4 id="安装_cycript">安装 cycript</h4>
+<p>首先利用 Cydia 下载 <code>mobilesubstrate</code> <code>adv-mds</code>;从<a href="www.cycript.org/debs/">官网</a>上面下载最新的包，并通过 <code>scp</code> 把文件拷贝到 iOS 设备上去，利用 <code>dpkg</code> 进行安装：</p>
+<pre><code>dpkg -<span class="keyword">i</span> cycript cycript_0.<span class="number">9.102</span>-<span class="number">1</span>_iphoneos-arm.<span class="keyword">deb</span>
+</code></pre><p>安装完成之后，执行 cycript 看是否工作：</p>
+<h4 id="用Cycript进行实时修改">用Cycript进行实时修改</h4>
+<p>本文将使用支付宝来进行测试。</p>
+<ul>
+<li>让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程</li>
+</ul>
+<pre><code>    chengpeide-iPhone:~ root<span class="preprocessor"># ps aux | grep AlipayWallet</span>
+    mobile     <span class="number">629</span>   <span class="number">0.0</span>  <span class="number">9.3</span>   <span class="number">815836</span>  <span class="number">47792</span>   ??  Ss    <span class="number">9</span>:<span class="number">45</span>PM   <span class="number">0</span>:<span class="number">34.79</span> /var/mobile/Containers/Bundle/Application/FB2E1466-<span class="number">0</span>D87-<span class="number">4</span>FF9-<span class="number">9616</span>-BD4269D61BCF/AlipayWallet<span class="variable">.app</span>/AlipayWallet
+    root       <span class="number">678</span>   <span class="number">0.0</span>  <span class="number">0.1</span>   <span class="number">536256</span>    <span class="number">412</span> s000  U+    <span class="number">9</span>:<span class="number">49</span>PM   <span class="number">0</span>:<span class="number">00.01</span> grep AlipayWallet
+
+    -rwxr-xr-x <span class="number">1</span> root admin <span class="number">906</span> Jan <span class="number">12</span>  <span class="number">2015</span> cycript
+    chengpeide-iPhone:/cp/Cycript_0<span class="number">.9</span><span class="number">.502</span> root<span class="preprocessor"># cycript -p 629</span>
+
+    cy<span class="preprocessor"># var app = [UIApplication sharedApplication]</span>
+    <span class="preprocessor">#<span class="title">"&lt;DFApplication: 0x14df44d0&gt;"</span></span>
+    cy<span class="preprocessor"># app.delegate</span>
+    <span class="preprocessor">#<span class="title">"&lt;DFClientDelegate: 0x14ed2d40&gt;"</span></span>
+    cy<span class="preprocessor"># app.keyWindow.rootViewController</span>
+    <span class="preprocessor">#<span class="title">"&lt;DFNavigationController: 0x15ac9a00&gt;"</span></span>
+    cy<span class="preprocessor"># var nav = new Instance(0x15ac9a00)</span>
+    <span class="preprocessor">#<span class="title">"&lt;DFNavigationController: 0x15ac9a00&gt;"</span></span>
+    cy<span class="preprocessor"># nav.topViewController.childViewControllers</span>
+    @[<span class="preprocessor">#<span class="title">"&lt;HPHomeWidgetGroup: 0x160a03d0&gt;"</span>,#<span class="title">"&lt;O2OIndexViewController: 0x15ad6600&gt;"</span>,#<span class="title">"&lt;APContactRecentViewController: 0x15afb600&gt;"</span>,#<span class="title">"&lt;WWAssetsViewController: 0x160a9da0&gt;"</span>]</span>
+    cy<span class="preprocessor"># var assetsViewController = new Instance(0x160a9da0)</span>
+    <span class="preprocessor">#<span class="title">"&lt;WWAssetsViewController: 0x160a9da0&gt;"</span></span>
+    cy<span class="preprocessor"># [assetsViewController.view subviews]</span>
+    @[<span class="preprocessor">#<span class="title">"&lt;UIView: 0x162d8000; frame = (0 0; 0 0); layer = &lt;CALayer: 0x162c85d0&gt;&gt;"</span>,#<span class="title">"&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: {0, -64}; contentSize: {320, 800}&gt;"</span>]</span>
+    cy<span class="preprocessor"># var tableView = new Instance (0x15433800)</span>
+    <span class="preprocessor">#<span class="title">"&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: {0, -42}; contentSize: {320, 800}&gt;"</span></span>
+    cy<span class="preprocessor"># tableView.backgroundColor = [UIColor redColor]</span>
+    <span class="preprocessor">#<span class="title">"UIDeviceRGBColorSpace 1 0 0 1"</span></span>
+
+    [tableView visibleCells]
+    @[<span class="preprocessor">#<span class="title">"&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;"</span>,#<span class="title">"&lt;DoubleInfoCell: 0x1569e800; baseClass = UITableViewCell; frame = (0 300; 320 80); autoresize = W; layer = &lt;CALayer: 0x16486e80&gt;&gt;"</span>,#<span class="title">"&lt;DoubleInfoCell: 0x15452e00; baseClass = UITableViewCell; frame = (0 380; 320 80); autoresize = W; layer = &lt;CALayer: 0x16491a50&gt;&gt;"</span>]</span>
+    cy<span class="preprocessor"># var headCell = new Instance (0x16160a40)</span>
+    <span class="preprocessor">#<span class="title">"&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;"</span></span>
+    cy<span class="preprocessor"># headCell.backgroundColor = [UIColor redColor]</span>
+    <span class="preprocessor">#<span class="title">"UIDeviceRGBColorSpace 1 0 0 1"</span></span>
+    cy<span class="preprocessor"># headCell.contentView.backgroundColor = [UIColor redColor]</span>
+    <span class="preprocessor">#<span class="title">"UIDeviceRGBColorSpace 1 0 0 1"</span></span>
+</code></pre><p>我们可以看到，界面上 tableViewCell 的背景颜色变成了红色。</p>
+<p><img src="http://cp0000.github.io/assets/blue.PNG" alt="shortcut2"></p>
+<p>以上操作的思路大致就是， appdelegate =&gt; keyWindow =&gt; rootViewController =&gt; viewControllers =&gt; view </p>
+<p>当然你也可以骗骗自己，把余额这个label的text改成巨款，过过眼瘾</p>
+<pre><code>    cy<span class="special">#</span> <span class="special">[</span>tableView subviews<span class="special">]</span>
+    @<span class="special">[</span><span class="special">#</span>"&lt;UIRefreshControl: 0x16482c90; frame = (0 0; 320 60); hidden = YES; autoresize = W; layer = &lt;CALayer: 0x16256370&gt;&gt;",<span class="special">#</span>"&lt;UITableViewWrapperView: 0x1624cce0; frame = (0 0; 320 519); gestureRecognizers = &lt;NSArray: 0x16098960&gt;; layer = &lt;CALayer: 0x14e12cf0&gt;; contentOffset: <span class="special">{</span>0, 0<span class="special">}</span>; contentSize: <span class="special">{</span>320, 519<span class="special">}</span>&gt;",<span class="special">#</span>"&lt;UIView: 0x16216d10; frame = (0 780; 320 20); layer = &lt;CALayer: 0x162562c0&gt;&gt;",<span class="special">#</span>"&lt;WHAccountHeaderView: 0x16217c10; frame = (0 0; 320 180); layer = &lt;CALayer: 0x1637edd0&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x17635b80; frame = (0 180; 320 40); autoresize = W; layer = &lt;CALayer: 0x1620d670&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x161f4740; frame = (0 452.5; 320 2.5); alpha = 0; opaque = NO; autoresize = TM; userInteractionEnabled = NO; layer = &lt;CALayer: 0x161f47c0&gt;&gt;"<span class="special">]</span>
+    cy<span class="special">#</span> var header = new Instance(0x16217c10)
+    <span class="special">#</span>"&lt;WHAccountHeaderView: 0x16217c10; frame = (0 0; 320 180); layer = &lt;CALayer: 0x1637edd0&gt;&gt;"
+    cy<span class="special">#</span> <span class="special">[</span>header subviews<span class="special">]</span>
+    @<span class="special">[</span><span class="special">#</span>"&lt;UIView: 0x161c6530; frame = (0 0; 320 117); layer = &lt;CALayer: 0x1638a780&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x16142d70; frame = (0 117.5; 106.667 62.5); layer = &lt;CALayer: 0x161f6350&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x16142de0; frame = (106.667 117.5; 106.667 62.5); layer = &lt;CALayer: 0x16109ed0&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x1610a4b0; frame = (213.333 117.5; 106.667 62.5); layer = &lt;CALayer: 0x163771b0&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x161082c0; frame = (122 28; 76 41); text = '0.00'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x14f73520&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x1610a520; frame = (246 42; 9 13); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x161025c0&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x161692b0; frame = (56.5 83; 13 13); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x16169330&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16169380; frame = (74.5 83; 189 13); text = '<span class="command">\xe</span>7<span class="command">\x</span>82<span class="command">\xb</span>9<span class="command">\xe</span>6<span class="command">\xad</span><span class="command">\xa</span>4<span class="command">\xe</span>5<span class="command">\xbc</span><span class="command">\x</span>80<span class="command">\xe</span>5<span class="command">\x</span>90<span class="command">\xaf</span><span class="command">\xe</span>8<span class="command">\xb</span>4<span class="command">\xa</span>6<span class="command">\xe</span>6<span class="command">\x</span>88<span class="command">\xb</span>7<span class="command">\xe</span>5<span class="command">\xae</span><span class="command">\x</span>89<span class="command">\xe</span>5<span class="command">\x</span>85<span class="command">\xa</span>8<span class="command">\xe</span>9<span class="command">\x</span>99<span class="command">\xa</span>9<span class="command">\xef</span><span class="command">\xbc</span><span class="command">\x</span>8c<span class="command">\xe</span>4<span class="command">\xba</span><span class="command">\xab</span>100<span class="command">\xe</span>4<span class="command">\xb</span>8<span class="command">\x</span>87<span class="command">\xe</span>4<span class="command">\xbf</span><span class="command">\x</span>9d<span class="command">\xe</span>9<span class="command">\x</span>9a<span class="command">\x</span>9c'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16169230&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16169570; frame = (36.8333 154.25; 33 12); text = '<span class="command">\xe</span>9<span class="command">\x</span>93<span class="command">\xb</span>6<span class="command">\xe</span>8<span class="command">\xa</span>1<span class="command">\x</span>8c<span class="command">\xe</span>5<span class="command">\x</span>8d<span class="command">\xa</span>1'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16169630&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16169810; frame = (48.3333 131.25; 10 17); text = '2'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x161698d0&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x16169ab0; frame = (42.3333 127.25; 22 22); hidden = YES; opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x16169b30&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16381200; frame = (149 154.25; 22 12); text = '<span class="command">\xe</span>4<span class="command">\xbd</span><span class="command">\x</span>99<span class="command">\xe</span>9<span class="command">\xa</span>2<span class="command">\x</span>9d'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16381160&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16380280; frame = (144 131.25; 32 17); text = '0.00'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16380340&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16380520; frame = (255.667 154.25; 22 12); text = '<span class="command">\xe</span>5<span class="command">\x</span>8d<span class="command">\xa</span>1<span class="command">\xe</span>5<span class="command">\x</span>8c<span class="command">\x</span>85'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x163805e0&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x1638d640; frame = (261.667 131.25; 10 17); text = '0'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x1638d700&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x16151570; frame = (0 117; 320 0.5); layer = &lt;CALayer: 0x161515e0&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x16151670; frame = (0 179.5; 320 0.5); layer = &lt;CALayer: 0x161516e0&gt;&gt;"<span class="special">]</span>
+    cy<span class="special">#</span> var label2= new Instance(0x161082c0)
+    <span class="special">#</span>"&lt;UILabel: 0x161082c0; frame = (122 28; 76 41); text = '0.00'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x14f73520&gt;&gt;"
+    cy<span class="special">#</span> label2.text=@"10000000000000"
+    @"10000000000000"
+</code></pre><p><img src="http://cp0000.github.io/assets/rich.PNG" alt="shortcut2"></p>
+<p>很好玩，也很有用的工具，cycript。当然cycript还有一些高级用法，后面会介绍。</p>
 
         
       
@@ -223,7 +312,7 @@
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
   </div>
 
 
@@ -257,7 +346,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

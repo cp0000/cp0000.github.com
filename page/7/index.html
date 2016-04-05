@@ -148,8 +148,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/09/30/iOS9-Quick-Actions-shortcut/">
-                3D-Touch(1) iOS9 Quick Actions Shortcut
+              <a class="post-title-link" href="/2015/10/27/27/">
+                活到二十七
               </a>
             
           
@@ -158,14 +158,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2015-09-30
+          Posted on 2015-10-27
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; In
             
-              <a href="/categories/Tech/">Tech</a>
+              <a href="/categories/Life/">Life</a>
 
               
               
@@ -187,117 +187,21 @@
 
       
         
-          <p>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。</p>
-<h2 id="Home_Screen_Quick_Actions">Home Screen Quick Actions</h2>
-<p>通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。</p>
-<h3 id="静态快捷键的添加">静态快捷键的添加</h3>
-<p>打开 Info.plist, 在该文件中添加如下键值：</p>
-<p><img src="http://cp0000.github.io/assets/static_shortcut.jpg" alt="static_shortcut"></p>
-<p>添加一个key为<code>UIApplicationShortcutItems</code>的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：</p>
-<ul>
-<li>UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示</li>
-<li>UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上</li>
-<li>UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上</li>
-<li>UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 <a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/index.html#//apple_ref/c/tdef/UIApplicationShortcutIconType" target="_blank" rel="external">UIApplicationShortcutIcon_Class</a></li>
-<li>UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，35<em>35的倍数（试过100</em>100也是Ok的），并且单色。</li>
-<li>UIApplicationShortcutItemUserInfo (optional): 传值用</li>
-</ul>
-<p>详情请<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36" target="_blank" rel="external">看这里</a></p>
-<p>当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：</p>
-<p><img src="http://cp0000.github.io/assets/shortcut2.jpg" alt="shortcut2"></p>
-<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节<a href="#jump">模拟器上测试Shortcut</a>。</p>
-<h3 id="动态标签的添加">动态标签的添加</h3>
-<p>所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：</p>
-<ul>
-<li>UIApplicationShortcutItem 3DTouch标签的类</li>
-<li>UIApplicationShortcutIcon 标签中图片Icon的类</li>
-</ul>
-<h3 id="响应标签的行为">响应标签的行为</h3>
-<p>当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：</p>
-<pre><code><span class="pp">- <span class="params">(void)</span> application:<span class="params">(<span class="variable">UIApplication</span> *)</span>application performActionForShortcutItem:<span class="params">(<span class="variable">UIApplicationShortcutItem</span> *)</span>shortcutItem completionHandler:<span class="params">(void (^)</span><span class="params">(<span class="variable">BOOL</span>)</span>)completionHandler</span>
-</code></pre><p>当通过标签进入APP时，appdelegate中会回调到这个函数。当你处理完了标签需要做的工作之后，需要执行 <code>completionHandler</code>。</p>
-<p>这里有一个地方需要特别注意一下，用户按下标签进入应用要分成两种状况：启动APP，APP从后台回到前台。你需要在 <code>application:didFinishLaunchingWithOptions:</code> 或 <code>application:willFinishLaunchingWithOptions:</code> 中的一个去检查字典 <code>launchOptions</code> 中是否包含了<code>UIApplicationLaunchOptionsShortcutItemKey</code>。如果有这个key，则表示是启动app。你需要在此时设置好APP的view层级，并且为 application:willFinishLaunchingWithOptions: 返回 false。这样就可以阻止 <code>application(_:performActionForShortcutItem:completionHandler:)</code> 被调用，避免标签处理逻辑被处理两次。</p>
-<p>以下是 sample code (Objective_c)，demo 放在github上面<a href="https://github.com/cp0000/shortcutDemo" target="_blank" rel="external">shortcutDemo</a></p>
-<p>另外苹果官方提供了 swift 的<a href="https://developer.apple.com/library/prerelease/ios/samplecode/ApplicationShortcuts/Introduction/Intro.html" target="_blank" rel="external">sample code</a></p>
-<pre><code><span class="preprocessor">#import <span class="title">"AppDelegate.h"</span></span>
-
-<span class="class"><span class="keyword">@interface</span> <span class="title">AppDelegate</span> ()</span>
-<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, retain) UIApplicationShortcutItem * launchedShortcutItem;
-
-<span class="keyword">@end</span>
-
-<span class="class"><span class="keyword">@implementation</span> <span class="title">AppDelegate</span></span>
-
-- (<span class="built_in">BOOL</span>) handledShortCutItem: (UIApplicationShortcutItem *) shortcutItem
-{
-    <span class="built_in">BOOL</span> handled = <span class="literal">NO</span>;
-    <span class="keyword">if</span> (!shortcutItem<span class="variable">.type</span>) <span class="keyword">return</span> <span class="literal">NO</span>;
-    <span class="keyword">if</span> (![shortcutItem<span class="variable">.type</span> isKindOfClass:[<span class="built_in">NSString</span> class]]) <span class="keyword">return</span> <span class="literal">NO</span>;
-
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:<span class="string">@"Shortcut Handled"</span> message:shortcutItem<span class="variable">.localizedTitle</span> preferredStyle: UIAlertControllerStyleAlert];
-    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:<span class="string">@"OK"</span> style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    }];
-    [alertController addAction: alertAction];
-
-    [<span class="keyword">self</span><span class="variable">.window</span><span class="variable">.rootViewController</span> presentViewController: alertController animated: <span class="literal">YES</span> completion:<span class="literal">nil</span>];
-
-    <span class="keyword">return</span> handled;
-}
-
-- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions {
-    <span class="comment">// Override point for customization after application launch.</span>
-<span class="comment">//    Dynamic Shortcuts</span>
-    UIApplicationShortcutIcon * addIcon = [UIApplicationShortcutIcon iconWithType: UIApplicationShortcutIconTypeAdd];<span class="comment">//Icons should be square, single color,</span>
-
-    UIApplicationShortcutItem * addItem = [[UIApplicationShortcutItem alloc]initWithType: <span class="string">@"add"</span> localizedTitle: <span class="string">@"Add"</span> localizedSubtitle: <span class="literal">nil</span> icon: addIcon userInfo: <span class="literal">nil</span>];
-
-    [<span class="built_in">UIApplication</span> sharedApplication]<span class="variable">.shortcutItems</span> = @[addItem];
-
-    <span class="built_in">BOOL</span> shouldPerformAdditionalDelegateHandling    = <span class="literal">YES</span>;
-    <span class="keyword">if</span> (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) {
-        UIApplicationShortcutItem * shortcutItem = launchOptions[UIApplicationLaunchOptionsShortcutItemKey];
-        <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>   = shortcutItem;
-        <span class="comment">// This will block "performActionForShortcutItem:completionHandler" from being called.</span>
-        shouldPerformAdditionalDelegateHandling     = <span class="literal">NO</span>;
-    }
-    <span class="keyword">return</span> shouldPerformAdditionalDelegateHandling;
-}
-
-- (<span class="keyword">void</span>)applicationWillEnterForeground:(<span class="built_in">UIApplication</span> *)application {
-}
-
-- (<span class="keyword">void</span>)applicationDidBecomeActive:(<span class="built_in">UIApplication</span> *)application {
-    <span class="keyword">if</span>(!<span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>) {
-        <span class="keyword">return</span>;
-    }
-    [<span class="keyword">self</span> handledShortCutItem: <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>];
-
-    <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>   = <span class="literal">nil</span>;
-}
-
-- (<span class="keyword">void</span>) application:(<span class="built_in">UIApplication</span> *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">BOOL</span>))completionHandler
-{
-    <span class="built_in">BOOL</span> result = [<span class="keyword">self</span> handledShortCutItem: shortcutItem];
-    completionHandler(result);
-}
-
-<span class="keyword">@end</span>
-</code></pre><p><span id="simulator_shortcuts"></span></p>
-<h3 id="模拟器上测试Shortcuts">模拟器上测试Shortcuts</h3>
-<p>Xcode7.0 的模拟器是没办法之间触发出 3D Touch 事件的，好在有人开发出了插件<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator" target="_blank" rel="external">SBShortcutMenuSimulator</a>.实用也很简单，只需要follow readme 中的 usage 便可。以下摘录</p>
-<pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/DeskConnect/SBShortcutMenuSimulator.git
-<span class="keyword">cd</span> SBShortcutMenuSimulator
-<span class="keyword">make</span>
-
-xcrun simctl spawn booted launchctl <span class="keyword">debug</span> <span class="built_in">system</span>/<span class="keyword">com</span>.apple.SpringBoard --environment DYLD_INSERT_LIBRARIES=$PWD/SBShortcutMenuSimulator.dylib
-xcrun simctl spawn booted launchctl <span class="keyword">stop</span> <span class="keyword">com</span>.apple.SpringBoard
-
-<span class="keyword">echo</span> <span class="string">'com.apple.mobilecal'</span> | nc <span class="number">127.0</span>.<span class="number">0.1</span> <span class="number">8000</span>
-</code></pre><p>‘com.apple.mobilecal’ 替换成你需要测试的app的bundle就可以了，例如我的是 <code>chengpei.shortcutDemo</code></p>
-<pre><code><span class="title">echo</span> <span class="string">'chengpei.shortcutDemo'</span> | nc <span class="number">127.0.0.1</span> <span class="number">8000</span>
-</code></pre><p>上面的命令全都在clone的SBShortcutMenuSimulator目录下执行。</p>
-<h3 id="结语">结语</h3>
-<p>以上。</p>
+          <blockquote>
+<p>“Many people die at 25 and aren’t buried until 75.”(很多人25岁就死了，但是要75岁才被埋进土里)－－这是美国政治家，科学家富兰克林的名句。</p>
+</blockquote>
+<p>这里的死当然不是生理上的死亡，我的理解是指一个人的生活进入了静止的状态；早上8点起床，吃着相同的早餐，走着每天上下班的路去公司，开始一天忙碌的办公司生活，日复一日，循环至死。</p>
+<p>今天是我二七岁的生日，想来我自己不也是如此嘛？每天的日子趋于静止，今天像是昨天的拷贝。</p>
+<p>稍微观察下，生活中大家见面的时候，都会寒暄一句“最近在忙啥？”。想来这句话却很有意思，它鲜活的表现出了我们是一个好像不忙点啥，日子就没法过下去的种族。也是，我们身边的每个人每天都显得很忙；大家忙着挣钱，忙着找女人，忙着玩游戏，忙着去八卦，忙着娱乐，一刻都不得闲；但其实我觉得是人们害怕闲。因为一当闲下来，我们会不知道干嘛，进而觉得无聊，产生厌烦，最后感到孤独。</p>
+<p>我也是如此，为了让自己忙起来，我写博客，不停的往Wunderlist中加todos，看amazon上面的畅销书。坦白讲，长长的 TODO list 会让我产生一种心安。</p>
+<p>记得大二的时候，当时的我，一个中二青年，被乔布斯在斯坦福大学上的毕业演讲的震撼住了。其中有一段是</p>
+<blockquote>
+<p>Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven’t found it yet, keep looking. Don’t settle. As with all matters of the heart, you’ll know when you find it. </p>
+</blockquote>
+<p>这么些年来，我一直被这个演讲所影响。我会时常问自己，到底想要成为什么样子的人，真正想要做的事情是什么。但在27岁生日这天，我不得不承认，我还是没有找到。有段时间，在做 reverse engineering 的时候，我的确遇到了那种 “啊哈” 时刻。但当我深入进去之后，了解业界专业的安全知识之后，我知道这东西是需要天分加大量的练习，可惜我不够，天分和练习都不够。而且我也没有豁出去，重新来过的勇气。</p>
+<p>或许是年纪的增长，近些日子，我会开始关注房子，汽车等诸如此类的事物。有时候我也想给自己弄个窝，不用寄人篱下，活得体面一点。这诺大的城市中，我也不想一直是那个漂泊的，东奔西跑的人。但高企的房价，不可理喻的限购政策又让我心灰意冷，不知出路在何处。</p>
+<p>只希望二十八的时候，自己晚上洗完澡倒头上床，盯着天花板的时候，知道自己到底在忙些什么。</p>
+<p><a href="http://music.163.com/#/song?id=28349599" target="_blank" rel="external">Johnny and Mary (Feat. Bryan Ferry)</a></p>
 
         
       
@@ -319,7 +223,7 @@ xcrun simctl spawn booted launchctl <span class="keyword">stop</span> <span clas
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/8/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/6/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/8/">&raquo;</a>
   </div>
 
 
@@ -353,7 +257,7 @@ xcrun simctl spawn booted launchctl <span class="keyword">stop</span> <span clas
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

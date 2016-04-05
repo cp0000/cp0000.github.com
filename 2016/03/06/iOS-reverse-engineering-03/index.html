@@ -1,0 +1,685 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+
+
+  <meta name="keywords" content="iOS Reverse Engineering," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    analytics: {
+      google: 'UA-63703524-1'
+    },
+    sidebar: 'post'
+  };
+</script>
+
+
+
+
+  <title> iOS逆向工程-0x02－Hacking on B612 // CP WRITINGS </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">CP WRITINGS</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            <i class="menu-item-icon icon-about"></i> <br />
+            About
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              iOS逆向工程-0x02－Hacking on B612
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          Posted on 2016-03-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; In
+            
+              <a href="/categories/Tech/">Tech</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>前面两篇iOS逆向的文章（<a href="http://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/" target="_blank" rel="external">iOS逆向工程-0x00－用途以及准备工作</a>,<a href="http://cp0000.github.io/2015/11/30/iOS-reverse-engineering-02/" target="_blank" rel="external">iOS逆向工程-0x01－工具篇-Cycript</a>）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。</p>
+<p><a href="https://itunes.apple.com/us/app/b612-selfie-from-the-heart/id904209370?mt=8" target="_blank" rel="external">B612</a>是Line公司出品的一款非常不错的拍照软件。它的界面，交互，流畅度用起来给人的感觉都很好。里面的滤镜很好用，简单操作就可以拍摄出一些很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。</p>
+<p>从AppStore上面下载B612的IPA文件，然后把文件的后缀名从 .IPA 修改成 .zip。然后解压文件之后，在Payload中有一个b612.app的文件，同样我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。</p>
+<p>就可以拿到 B612 app 的 bundle 文件信息了。</p>
+<p>在使用B612的时候，app会展列一个列表给用户选择不同的滤镜（如下图）：</p>
+<p><img src="../../assets/b612_filter_list.png" alt="B612_filter_list">。</p>
+<p>使用的过程发现一个叫 China 的滤镜，China，叫中国的滤镜会呈现出什么样子的效果，很有意思的样子。我们就拿这个滤镜当做目标吧。一般情况下，我的常用做法是在先前解压的文件夹中搜索一下相关的信息。</p>
+<pre><code><span class="keyword">find</span> . -name <span class="string">"*china*"</span>                 
+.<span class="regexp">/FilterThumb.bundle/</span>filterthumb_china.jpg
+.<span class="regexp">/ObfuscateImages.bundle/</span>lut<span class="regexp">/china.dat</span>
+</code></pre><p>运气不错。在ObfuscateImages.bundle发现了一个叫china.dat的文件。尝试用各种编辑器都没法打开，使用修改后缀名等之类的方法也没能成功打开。看来要获取这个文件的内容没有那么简单，开发者对这个文件做了相关解密工作。要想解密该文件，那只能在到汇编代码中寻找答案了。这里考虑到程序中在使用这个滤镜的时候，应该会加载该文件，并进行相关解密工作。</p>
+<h2 id="解密可执行文件_-_clutch_演示">解密可执行文件 - clutch 演示</h2>
+<p>接下来我们要去可执行文件中查询相关信息了。但是从苹果商店上面下载下来的IPA里面的可执行文件是被苹果加密过的,我们解谜它。我常用的工具是 <a href="https://github.com/KJCracks/Clutch" target="_blank" rel="external">clutch</a>,你可以clone一份repo到本地，然后编译得到一个clutch的程序，也可以直接下载release版本。然后把Clutch scp 到你的越狱机器上面就可以使用了。</p>
+<ul>
+<li><p>首先我们查找一下b612的bundle</p>
+<p>  iPhone:/usr root# ./Clutch -i|grep b612<br>  28) <b612 bundleid:="" com.linecorp.b612=""></b612></p>
+</li>
+<li><p>然后进行dump工作</p>
+<p>  iPhone:/usr root# ./Clutch -d com.linecorp.b612<br>  ….<br>  DONE: /private/var/mobile/Documents/Dumped/com.linecorp.b612-iOS7.0-(Clutch-2.0 RC2).ipa</p>
+</li>
+</ul>
+<p>最后会生成一个解密了的ipa文件，我们把它scp到电脑上来，进行分析。</p>
+<blockquote>
+<p>还有另外一个解密苹果商店加密的工具叫<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。由于在使用Clutch解密app的时候，消耗内存比较大，导致运行时会出现解密失败的情况，这个时候可以尝试使用<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。</p>
+</blockquote>
+<h2 id="分析可执行文件_-_class-dump_以及_IDA">分析可执行文件 - class-dump 以及 IDA</h2>
+<p>要分析解密之后的文件，我们可以使用<a href="https://github.com/nygard/class-dump" target="_blank" rel="external">class-dump</a>来导出程序的头文件。有了头文件列表之后，我们利用它来了解程序的架构，以及探索需要逆向的那一块功能所属的类名。</p>
+<pre><code><span class="comment">class</span><span class="literal">-</span><span class="comment">dump</span><span class="literal">-</span><span class="comment">z/mac_x86/class</span><span class="literal">-</span><span class="comment">dump</span><span class="literal">-</span><span class="comment">z</span> <span class="comment">b612</span> <span class="literal">-</span><span class="comment">H</span> <span class="literal">-</span><span class="comment">o</span> <span class="comment">headers</span>
+<span class="comment">cd</span> <span class="comment">headers</span>
+<span class="comment">total</span> <span class="comment">10728</span>
+<span class="comment">drwxr</span><span class="literal">-</span><span class="comment">xr</span><span class="literal">-</span><span class="comment">x</span>  <span class="comment">1295</span> <span class="comment">cp</span>  <span class="comment">wheel</span>  <span class="comment">44030</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="string">.</span>
+<span class="comment">drwxr</span><span class="literal">-</span><span class="comment">xr</span><span class="literal">-</span><span class="comment">x</span>   <span class="comment">455</span> <span class="comment">cp</span>  <span class="comment">wheel</span>  <span class="comment">15470</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="string">.</span><span class="string">.</span>
+<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">785</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTApplication</span><span class="string">.</span><span class="comment">h</span>
+<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">370</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporter</span><span class="string">.</span><span class="comment">h</span>
+<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">391</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporterPrivate</span><span class="string">.</span><span class="comment">h</span>
+<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">264</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporting</span><span class="string">.</span><span class="comment">h</span>
+<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>   <span class="comment">1830</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageTracker</span><span class="string">.</span><span class="comment">h</span>
+</code></pre><p>要找到加密 .dat 文件的相关代码，我们需要使用另外一个非常强大的工具<a href="https://www.hex-rays.com/products/ida/index.shtml" target="_blank" rel="external">IDA</a>。IDA可以非常整洁的输出可执行文件的汇编代码，并且相互连接起来。不过这个软件非常之贵，但是它的免费版本已经够用了。</p>
+<p>把B612的可执行文件加载到IDA之后，我们在IDA中执行一个搜索，关键字是dat;幸运的是，搜索结果指向了一下的代码。虽然是汇编代码，但是不难看出两点信息，（1）dat后缀的文件是一张Image （2）程序中需要把文件的数据字节进行反向操作，达到混淆的目的。</p>
+<p><img src="../../assets/b612-reversebyte.png" alt="b612-reversebyte.png"></p>
+<p>接下来验证一下线索结果：</p>
+<pre><code>- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+    NSData * data = [[NSData alloc] initWithContentsOfFile: [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"china"</span> ofType:<span class="string">@"dat"</span>]];
+    data = [<span class="keyword">self</span> reverseData: data];
+    <span class="built_in">UIImage</span> * image  = [<span class="built_in">UIImage</span> imageWithData: data];
+    <span class="built_in">UIImageView</span> * imageView = [[<span class="built_in">UIImageView</span> alloc] initWithImage: image];
+    imageView<span class="variable">.frame</span> = <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.bounds</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview: imageView];
+}
+- (NSData *)reverseData:(NSData *)data {
+    <span class="keyword">const</span> <span class="keyword">char</span> *bytes = [data bytes];
+    <span class="keyword">int</span> idx = [data length] - <span class="number">1</span>;
+    <span class="keyword">char</span> *reversedBytes = calloc(<span class="keyword">sizeof</span>(<span class="keyword">char</span>),[data length]);
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; [data length]; i++) {
+        reversedBytes[idx--] = bytes[i];
+    }
+    NSData *reversedData = [NSData dataWithBytes:reversedBytes length:[data length]];
+    free(reversedBytes);
+    <span class="keyword">return</span> reversedData;
+}
+</code></pre><p>上述代码让我们获得一张china的图片：</p>
+<p><img src="../../assets/china.png" alt="china"></p>
+<p>上述代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612Image</a></p>
+<p>OK，到此为止，我们解密了china.dat 这种类型的文件，它跟我们最终要挖掘的china滤镜是如何实现的之间肯定有着联系，但我们现在还不得知。</p>
+<h2 id="关于滤镜">关于滤镜</h2>
+<p>在iOS app 中给图片加滤镜是要通过OpenGL ES 去实现的，而现在app中普遍使用的是<a href="https://www.khronos.org/opengles/2_X/" target="_blank" rel="external">OpenGL ES 2.0</a>。这种情况下，滤镜一般都是通过OpenGL的shader来实现的。此时，前面dump出来的header就有用了，分析headers之后，我们发现了两个相关类 GPUImageFilter以及GLProgram。又由于shader在使用之前一定要尽兴link，compile操作。所以我们可以通过尝试hook这两个类的相关函数，来获得滤镜的shader。</p>
+<blockquote>
+<p>根据头文件我们能发现B612中使用了<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>。</p>
+</blockquote>
+<h2 id="Theos">Theos</h2>
+<p>关于如何hook app中的函数，我们需要使用工具<a href="http://iphonedevwiki.net/index.php/Theos" target="_blank" rel="external">Theos</a>.</p>
+<ul>
+<li>关于如何安装Theos，请阅读<a href="http://iphonedevwiki.net/index.php/Theos/Setup" target="_blank" rel="external">Theos Setup</a>。</li>
+<li>Logos相关语法，请参考<a href="http://iphonedevwiki.net/index.php/Logos" target="_blank" rel="external">Theos Logos</a></li>
+</ul>
+<p>我们为B612创建一个tweak;</p>
+<pre><code>$THEOS/bin/nic.pl 
+NIC <span class="number">2.0</span> - New Instance Creator
+------------------------------
+  [<span class="number">1.</span>] iphone/application
+  [<span class="number">2.</span>] iphone/<span class="keyword">library</span>
+  [<span class="number">3.</span>] iphone/preference_bundle
+  [<span class="number">4.</span>] iphone/tool
+  [<span class="number">5.</span>] iphone/tweak
+Choose a Template (required): <span class="number">5</span>
+Project Name (required): bsix
+Package Name [com.yourcompany.bsix]: com.cp.bsix
+Author/Maintainer Name [cp]: 
+[iphone/tweak] MobileSubstrate Bundle filter [com.apple.springboard]: com.linecorp.b612            
+[iphone/tweak] List of applications to terminate upon installation (space-separated, <span class="string">'-'</span> <span class="keyword">for</span> none) [SpringBoard]: b612
+Instantiating iphone/tweak <span class="keyword">in</span> bsix/<span class="keyword">...</span>
+Done.
+</code></pre><p>然后在Tweak.xm文件中编辑需要hook的函数：</p>
+<pre><code>%hook GLProgram
+-(<span class="property">id</span>)initWithVertexShaderString:(<span class="property">id</span>)vertexShaderString fragmentShaderString:(<span class="property">id</span>)<span class="type">string</span>
+{
+    [Logger <span class="command">log</span>: [NSString stringWithFormat:@<span class="string">"%@ %@"</span>, NSStringFromClass([self <span class="type">class</span>]), NSStringFromSelector(_cmd)]];
+    NSString * msg = [NSString stringWithFormat: @<span class="string">"vertexShaderString: %@ fragmentShaderString: %@ "</span>, vertexShaderString, <span class="type">string</span>];
+    [Logger <span class="command">log</span>: msg];
+<span class="command">    return</span> %orig;
+}
+%<span class="keyword">end</span>
+</code></pre><p>B612 tweak 的项目地址<a href="https://github.com/cp0000/B612Tweak" target="_blank" rel="external">B612Tweak</a>.编译之后，把.deb文件scp到越狱机器上，利用dpkg安装tweak，杀掉B612进程重启之后，tweak就可以hook相关函数了。以下是tweak打印出来的shader信息：</p>
+<pre><code>GLProgram initWithVertexShaderString:fragmentShaderString:
+vertexShaderString: 
+<span class="keyword">attribute</span> <span class="keyword">vec4</span> position; 
+<span class="keyword">attribute</span> <span class="keyword">vec4</span> inputTextureCoordinate; 
+<span class="keyword">attribute</span> <span class="keyword">vec4</span> inputTextureCoordinate2; 
+<span class="keyword">varying</span> <span class="keyword">vec2</span> textureCoordinate; 
+<span class="keyword">varying</span> <span class="keyword">vec2</span> textureCoordinate2; 
+<span class="keyword">void</span> main() { 
+    <span class="built_in">gl_Position</span> = position; 
+    textureCoordinate = inputTextureCoordinate.xy; 
+    textureCoordinate2 = inputTextureCoordinate2.xy; 
+} 
+fragmentShaderString: 
+<span class="keyword">varying</span> <span class="keyword">highp</span> <span class="keyword">vec2</span> textureCoordinate; 
+<span class="keyword">varying</span> <span class="keyword">highp</span> <span class="keyword">vec2</span> textureCoordinate2; 
+<span class="keyword">uniform</span> <span class="keyword">sampler2D</span> inputImageTexture; 
+<span class="keyword">uniform</span> <span class="keyword">sampler2D</span> inputImageTexture2; 
+<span class="keyword">void</span> main() { 
+    <span class="keyword">highp</span> <span class="keyword">vec4</span> textureColor = <span class="built_in">texture2D</span>(inputImageTexture, textureCoordinate); 
+    <span class="keyword">highp</span> <span class="keyword">float</span> blueColor = textureColor.b * <span class="number">63.0</span>; 
+    <span class="keyword">highp</span> <span class="keyword">vec2</span> quad1; 
+    quad1.y = <span class="built_in">floor</span>(<span class="built_in">floor</span>(blueColor) / <span class="number">8.0</span>); 
+    quad1.x = <span class="built_in">floor</span>(blueColor) - (quad1.y * <span class="number">8.0</span>); 
+    <span class="keyword">highp</span> <span class="keyword">vec2</span> quad2; 
+    quad2.y = <span class="built_in">floor</span>(<span class="built_in">ceil</span>(blueColor) / <span class="number">8.0</span>); 
+    quad2.x = <span class="built_in">ceil</span>(blueColor) - (quad2.y * <span class="number">8.0</span>); 
+    <span class="keyword">highp</span> <span class="keyword">vec2</span> texPos1; 
+    texPos1.x = (quad1.x * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.r); 
+    texPos1.y = (quad1.y * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.g); 
+    <span class="keyword">highp</span> <span class="keyword">vec2</span> texPos2; 
+    texPos2.x = (quad2.x * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.r); 
+    texPos2.y = (quad2.y * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.g); 
+    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor1 = <span class="built_in">texture2D</span>(inputImageTexture2, texPos1); 
+    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor2 = <span class="built_in">texture2D</span>(inputImageTexture2, texPos2); 
+    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor = <span class="built_in">mix</span>(newColor1, newColor2, <span class="built_in">fract</span>(blueColor)); 
+    <span class="built_in">gl_FragColor</span> = <span class="keyword">vec4</span>(newColor.rgb, textureColor.w); 
+}
+</code></pre><h2 id="关于使用OpenGL实现滤镜">关于使用OpenGL实现滤镜</h2>
+<p>前文提到过，根据class-dump出来的头文件，得知B612使用了<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>。理论上我们进一步研究下GPUImage项目，应该就可以实现china滤镜的效果了。</p>
+<blockquote>
+<p>GPUImage 提供了<code>GPUImageLookupFilter</code>类来实现颜色查找类的滤镜<br>这里我们直接使用OpenGL来实现china滤镜。阅读前面的shader代码，得知需要传递给shader两个texture，可以想象出一个是需要加滤镜的图片，一个是china.dat转换出来的图片，经过顶点着色器和片段着色器。最终给目标图片加上滤镜。以下左边是Demo实现的结果图片，右边是B612加china滤镜出来的结果，效果非常相似。关于利用OpenGL实现滤镜的代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612</a></p>
+</blockquote>
+<p><img src="../../assets/photo.jpg" alt="jingse_origin"><img src="../../assets/jingse.jpg" alt="jingse_demo"><img src="../../assets/jingse_b612.jpg" alt="jingse_demo"></p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS-Reverse-Engineering/"> #iOS Reverse Engineering </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/02/little-things-that-can-make-your-life-easier-in-2016/">一些能让iOS程序员在2016年生活变轻松的小事</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+
+    
+      <div class="comments" id="comments">
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table Of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="https://40.media.tumblr.com/44c4a707d0f0b37f7a2f1bf12ed145c2/tumblr_nn1oqi2p8q1t1nt9vo1_250.jpg" alt="Pei Cheng" />
+          <p class="site-author-name">Pei Cheng</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">categories</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">tags</span>
+              
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解密可执行文件_-_clutch_演示"><span class="nav-number">1.</span> <span class="nav-text">解密可执行文件 - clutch 演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析可执行文件_-_class-dump_以及_IDA"><span class="nav-number">2.</span> <span class="nav-text">分析可执行文件 - class-dump 以及 IDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于滤镜"><span class="nav-number">3.</span> <span class="nav-text">关于滤镜</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Theos"><span class="nav-number">4.</span> <span class="nav-text">Theos</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于使用OpenGL实现滤镜"><span class="nav-number">5.</span> <span class="nav-text">关于使用OpenGL实现滤镜</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2016
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Pei Cheng</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+  
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript" src="/js/analytics_google-analytics.js?v=0.4.3"></script>
+
+
+</body>
+</html>
