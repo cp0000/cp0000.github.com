@@ -183,32 +183,35 @@
 
       
         <p>前面两篇iOS逆向的文章（<a href="http://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/" target="_blank" rel="external">iOS逆向工程-0x00－用途以及准备工作</a>,<a href="http://cp0000.github.io/2015/11/30/iOS-reverse-engineering-02/" target="_blank" rel="external">iOS逆向工程-0x01－工具篇-Cycript</a>）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。</p>
-<p><a href="https://itunes.apple.com/us/app/b612-selfie-from-the-heart/id904209370?mt=8" target="_blank" rel="external">B612</a>是Line公司出品的一款非常不错的拍照软件。它的界面，交互，流畅度用起来给人的感觉都很好。里面的滤镜很好用，简单操作就可以拍摄出一些很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。</p>
-<p>从AppStore上面下载B612的IPA文件，然后把文件的后缀名从 .IPA 修改成 .zip。然后解压文件之后，在Payload中有一个b612.app的文件，同样我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。</p>
-<p>就可以拿到 B612 app 的 bundle 文件信息了。</p>
-<p>在使用B612的时候，app会展列一个列表给用户选择不同的滤镜（如下图）：</p>
+<p><a href="https://itunes.apple.com/us/app/b612-selfie-from-the-heart/id904209370?mt=8" target="_blank" rel="external">B612</a>是Line公司出品的一款非常棒的拍照软件。它的界面，交互，用起来非常顺手。app中的滤镜效果很赞，用户简单几步操作就可以生成一张很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。</p>
+<p>从AppStore上面下载B612的IPA文件，把文件的后缀名从 .IPA 修改成 .zip。解压zip文件之后，在Payload中有一个b612.app的文件，这里我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。经过以上几步操作我们就拿到了 B612 app的 bundle 文件信息。</p>
+<p>在使用B612的过程中，app会展列一个滤镜列表给用户进行选择（如下图）：</p>
 <p><img src="../../assets/b612_filter_list.png" alt="B612_filter_list">。</p>
-<p>使用的过程发现一个叫 China 的滤镜，China，叫中国的滤镜会呈现出什么样子的效果，很有意思的样子。我们就拿这个滤镜当做目标吧。一般情况下，我的常用做法是在先前解压的文件夹中搜索一下相关的信息。</p>
+<p>使用的过程发现一个叫 China 的滤镜，China，中国？还是瓷器？叫China的滤镜会呈现出什么样子的效果，根据效果我们是否能推测出这里的China是要翻译成中国，还是瓷器咧？很有意思的样子。我们就拿这个滤镜当做目标吧。</p>
+<p>一般情况下，我的常用做法是在先前解压的文件夹中搜索一下相关的信息，碰碰运气。</p>
 <pre><code><span class="keyword">find</span> . -name <span class="string">"*china*"</span>                 
 .<span class="regexp">/FilterThumb.bundle/</span>filterthumb_china.jpg
 .<span class="regexp">/ObfuscateImages.bundle/</span>lut<span class="regexp">/china.dat</span>
-</code></pre><p>运气不错。在ObfuscateImages.bundle发现了一个叫china.dat的文件。尝试用各种编辑器都没法打开，使用修改后缀名等之类的方法也没能成功打开。看来要获取这个文件的内容没有那么简单，开发者对这个文件做了相关解密工作。要想解密该文件，那只能在到汇编代码中寻找答案了。这里考虑到程序中在使用这个滤镜的时候，应该会加载该文件，并进行相关解密工作。</p>
+</code></pre><p>运气不错。在ObfuscateImages.bundle发现了一个叫china.dat的文件。不过尝试用各种编辑器都没法打开，使用修改后缀名等之类的方法也没能成功打开。看来要获取这个文件的内容没有那么简单，开发者对这个文件做了相关加密工作。要想解密该文件，我们可能需要到汇编代码中寻找答案了。</p>
+<blockquote>
+<p>这里考虑到程序在使用这个滤镜的时候，会加载该文件，并进行相关解密工作。所以下一步是要找到解密dat文件的地方，不过在此之前，我们还有一些工作要做。</p>
+</blockquote>
 <h2 id="解密可执行文件_-_clutch_演示">解密可执行文件 - clutch 演示</h2>
 <p>接下来我们要去可执行文件中查询相关信息了。但是从苹果商店上面下载下来的IPA里面的可执行文件是被苹果加密过的,我们解谜它。我常用的工具是 <a href="https://github.com/KJCracks/Clutch" target="_blank" rel="external">clutch</a>,你可以clone一份repo到本地，然后编译得到一个clutch的程序，也可以直接下载release版本。然后把Clutch scp 到你的越狱机器上面就可以使用了。</p>
 <ul>
 <li><p>首先我们查找一下b612的bundle</p>
-<p>  iPhone:/usr root# ./Clutch -i|grep b612<br>  28) <b612 bundleid:="" com.linecorp.b612=""></b612></p>
+<p>  iPhone:/usr root# ./Clutch -i|grep b612<br>  28)<b612 bundleid:="" com.linecorp.b612=""></b612></p>
 </li>
 <li><p>然后进行dump工作</p>
-<p>  iPhone:/usr root# ./Clutch -d com.linecorp.b612<br>  ….<br>  DONE: /private/var/mobile/Documents/Dumped/com.linecorp.b612-iOS7.0-(Clutch-2.0 RC2).ipa</p>
+<p>  iPhone:/usr root# ./Clutch -d com.linecorp.b612<br>  ….<br>  //程序输出相关log<br>  ….<br>  DONE: /private/var/mobile/Documents/Dumped/com.linecorp.b612-iOS7.0-(Clutch-2.0 RC2).ipa</p>
 </li>
 </ul>
 <p>最后会生成一个解密了的ipa文件，我们把它scp到电脑上来，进行分析。</p>
 <blockquote>
-<p>还有另外一个解密苹果商店加密的工具叫<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。由于在使用Clutch解密app的时候，消耗内存比较大，导致运行时会出现解密失败的情况，这个时候可以尝试使用<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。</p>
+<p>还有另外一个解密苹果商店加密IPA的工具叫<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。由于在使用Clutch解密app的时候，消耗内存比较大，导致运行时会出现解密失败的情况，这个时候可以尝试使用<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。</p>
 </blockquote>
 <h2 id="分析可执行文件_-_class-dump_以及_IDA">分析可执行文件 - class-dump 以及 IDA</h2>
-<p>要分析解密之后的文件，我们可以使用<a href="https://github.com/nygard/class-dump" target="_blank" rel="external">class-dump</a>来导出程序的头文件。有了头文件列表之后，我们利用它来了解程序的架构，以及探索需要逆向的那一块功能所属的类名。</p>
+<p>要分析解密之后的文件，我们可以使用<a href="https://github.com/nygard/class-dump" target="_blank" rel="external">class-dump</a>来导出程序的头文件。有了头文件列表之后，我们可以利用它来了解app的架构，使用的类库，以及探索需要逆向的那一块功能所属的类名。</p>
 <pre><code><span class="comment">class</span><span class="literal">-</span><span class="comment">dump</span><span class="literal">-</span><span class="comment">z/mac_x86/class</span><span class="literal">-</span><span class="comment">dump</span><span class="literal">-</span><span class="comment">z</span> <span class="comment">b612</span> <span class="literal">-</span><span class="comment">H</span> <span class="literal">-</span><span class="comment">o</span> <span class="comment">headers</span>
 <span class="comment">cd</span> <span class="comment">headers</span>
 <span class="comment">total</span> <span class="comment">10728</span>
@@ -248,17 +251,17 @@
 <p>上述代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612Image</a></p>
 <p>OK，到此为止，我们解密了china.dat 这种类型的文件，它跟我们最终要挖掘的china滤镜是如何实现的之间肯定有着联系，但我们现在还不得知。</p>
 <h2 id="关于滤镜">关于滤镜</h2>
-<p>在iOS app 中给图片加滤镜是要通过OpenGL ES 去实现的，而现在app中普遍使用的是<a href="https://www.khronos.org/opengles/2_X/" target="_blank" rel="external">OpenGL ES 2.0</a>。这种情况下，滤镜一般都是通过OpenGL的shader来实现的。此时，前面dump出来的header就有用了，分析headers之后，我们发现了两个相关类 GPUImageFilter以及GLProgram。又由于shader在使用之前一定要尽兴link，compile操作。所以我们可以通过尝试hook这两个类的相关函数，来获得滤镜的shader。</p>
+<p>在iOS app 中给图片加滤镜是要通过OpenGL ES 去实现的，而现在app中普遍使用的是<a href="https://www.khronos.org/opengles/2_X/" target="_blank" rel="external">OpenGL ES 2.0</a>。这种情况下，滤镜一般都是通过OpenGL的shader来实现的。此时，前面dump出来的header就有用了，分析headers之后，我们发现了两个相关类 GPUImageFilter以及GLProgram。又由于shader在使用之前一定要进行link，compile操作。所以我们可以通过尝试hook这两个类的相关函数，来获得滤镜的shader。</p>
 <blockquote>
-<p>根据头文件我们能发现B612中使用了<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>。</p>
+<p>根据头文件我们能发现B612是通过使用<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>框架来实现滤镜功能的。</p>
 </blockquote>
 <h2 id="Theos">Theos</h2>
-<p>关于如何hook app中的函数，我们需要使用工具<a href="http://iphonedevwiki.net/index.php/Theos" target="_blank" rel="external">Theos</a>.</p>
+<p>关于如何hook app 在运行时的函数，我们需要使用工具<a href="http://iphonedevwiki.net/index.php/Theos" target="_blank" rel="external">Theos</a>.</p>
 <ul>
 <li>关于如何安装Theos，请阅读<a href="http://iphonedevwiki.net/index.php/Theos/Setup" target="_blank" rel="external">Theos Setup</a>。</li>
 <li>Logos相关语法，请参考<a href="http://iphonedevwiki.net/index.php/Logos" target="_blank" rel="external">Theos Logos</a></li>
 </ul>
-<p>我们为B612创建一个tweak;</p>
+<p>安装好Theos之后，我们为B612创建一个tweak;</p>
 <pre><code>$THEOS/bin/nic.pl 
 NIC <span class="number">2.0</span> - New Instance Creator
 ------------------------------
@@ -285,7 +288,7 @@ Done.
 <span class="command">    return</span> %orig;
 }
 %<span class="keyword">end</span>
-</code></pre><p>B612 tweak 的项目地址<a href="https://github.com/cp0000/B612Tweak" target="_blank" rel="external">B612Tweak</a>.编译之后，把.deb文件scp到越狱机器上，利用dpkg安装tweak，杀掉B612进程重启之后，tweak就可以hook相关函数了。以下是tweak打印出来的shader信息：</p>
+</code></pre><p>B612 tweak 的项目地址<a href="https://github.com/cp0000/B612Tweak" target="_blank" rel="external">B612Tweak</a>.成功编译之后，把生成的.deb文件scp到越狱机器上，利用dpkg安装tweak；杀掉B612进程重启app之后，tweak就可以hook相关函数了。以下在点击China滤镜的时候，tweak打印出来的log信息：</p>
 <pre><code>GLProgram initWithVertexShaderString:fragmentShaderString:
 vertexShaderString: 
 <span class="keyword">attribute</span> <span class="keyword">vec4</span> position; 
@@ -324,11 +327,13 @@ fragmentShaderString:
     <span class="built_in">gl_FragColor</span> = <span class="keyword">vec4</span>(newColor.rgb, textureColor.w); 
 }
 </code></pre><h2 id="关于使用OpenGL实现滤镜">关于使用OpenGL实现滤镜</h2>
-<p>前文提到过，根据class-dump出来的头文件，得知B612使用了<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>。理论上我们进一步研究下GPUImage项目，应该就可以实现china滤镜的效果了。</p>
+<p>前文提到过，根据class-dump出来的头文件，得知B612使用了<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>。理论上我们下一步研究下GPUImage项目，应该就可以实现china滤镜的效果了，但GPUImage项目还是挺庞大，挺复杂的。</p>
 <blockquote>
-<p>GPUImage 提供了<code>GPUImageLookupFilter</code>类来实现颜色查找类的滤镜<br>这里我们直接使用OpenGL来实现china滤镜。阅读前面的shader代码，得知需要传递给shader两个texture，可以想象出一个是需要加滤镜的图片，一个是china.dat转换出来的图片，经过顶点着色器和片段着色器。最终给目标图片加上滤镜。以下左边是Demo实现的结果图片，右边是B612加china滤镜出来的结果，效果非常相似。关于利用OpenGL实现滤镜的代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612</a></p>
+<p>GPUImage 提供了<code>GPUImageLookupFilter</code>类来实现颜色查找类的滤镜</p>
 </blockquote>
-<p><img src="../../assets/photo.jpg" alt="jingse_origin"><img src="../../assets/jingse.jpg" alt="jingse_demo"><img src="../../assets/jingse_b612.jpg" alt="jingse_demo"></p>
+<p>这里我们直接使用OpenGL来实现China滤镜。阅读前面的shader代码，得知需要传递给shader两个texture，可以想象出一个是需要原图片，一个是china.dat转换出来的图片，经过顶点着色器和片段着色器，最终给目标图片加上滤镜。下面第一张图是原图，第二张是我用OpenGL实现的Demo效果图片，第三张是B612加china滤镜出来的结果。对比第二张和第三章，效果非常相似。利用OpenGL实现滤镜的代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612</a></p>
+<p><img src="../../assets/photo.jpg" alt="原图" style="width: 400px;"></p>
+<p><img src="../../assets/jingse.jpg" alt="Demo效果图" style="width: 400px;"><br><img src="../../assets/jingse_b612.jpg" alt="B612效果图" style="width: 400px;"></p>
 
       
     </div>
