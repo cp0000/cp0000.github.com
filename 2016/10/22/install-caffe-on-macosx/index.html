@@ -43,7 +43,7 @@
 
 
 
-  <title> install_caffe_on_macosx // CP WRITINGS </title>
+  <title> 如何在Macosx上安装caffe // CP WRITINGS </title>
 </head>
 
 <body>
@@ -146,7 +146,7 @@
           
           
             
-              install_caffe_on_macosx
+              如何在Macosx上安装caffe
             
           
         </h1>
@@ -182,23 +182,25 @@
       
 
       
-        <h1 id="如何在Macosx上安装caffe">如何在Macosx上安装caffe</h1>
-<p>在macosx上面安装深度学习框架<a href="http://caffe.berkeleyvision.org/" target="_blank" rel="external">caffe</a>是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。</p>
+        <p>在macosx上面安装深度学习框架<a href="http://caffe.berkeleyvision.org/" target="_blank" rel="external">caffe</a>是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。</p>
 <p><strong>硬软件环境</strong><br>&gt;<br>    电脑：iMac<br>    系统：OX EI Caption 版本10.11.4</p>
 <h2 id="Homebrew">Homebrew</h2>
 <p>官方推荐使用<a href="http://brew.sh" target="_blank" rel="external">Homebrew</a>来管理依赖项的下载，安装。</p>
 <h2 id="Anaconda_Python">Anaconda Python</h2>
-<p>Anaconda 是python 的一个常用的科学计算发行版，自带包管理器conda。从 <a href="https://store.continuum.io/cshop/anaconda/" target="_blank" rel="external">https://store.continuum.io/cshop/anaconda/</a> 下载并安装Anaconda Python.安装成功之后,记得在PATH添加ananconda执行文件的路径：</p>
+<p>Anaconda是python的一个常用的科学计算发行版，自带包管理器conda。从 <a href="https://store.continuum.io/cshop/anaconda/" target="_blank" rel="external">https://store.continuum.io/cshop/anaconda/</a> 下载并安装Anaconda Python。安装成功之后,记得在PATH添加ananconda执行文件的路径：</p>
 <pre><code><span class="keyword">export</span> PATH=~/anaconda/bin:<span class="variable">$PATH</span>
 </code></pre><h2 id="CUDA">CUDA</h2>
-<p>从<a href="https://developer.nvidia.com/cuda-downloads下载并安装CUDA" target="_blank" rel="external">https://developer.nvidia.com/cuda-downloads下载并安装CUDA</a> 8.0 (for OSX)<br>从<a href="http://www.nvidia.com/object/mac-driver-archive.html下载并安装最新的CUDA独立驱动。" target="_blank" rel="external">http://www.nvidia.com/object/mac-driver-archive.html下载并安装最新的CUDA独立驱动。</a><br>同样我们把驱动的可执行文件路径添加到PATH环境变量中(注意下载安装的CUDA的版本号)：</p>
+<p>从 <a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="external">https://developer.nvidia.com/cuda-downloads</a> 下载并安装CUDA 8.0 (for OSX)<br>从 <a href="http://www.nvidia.com/object/mac-driver-archive.html" target="_blank" rel="external">http://www.nvidia.com/object/mac-driver-archive.html</a> 下载并安装最新的CUDA独立驱动。<br>同样我们把驱动的可执行文件路径添加到PATH环境变量中(注意下载安装的CUDA的版本号)：</p>
 <pre><code><span class="keyword">export</span> PATH=/Developer/NVIDIA/CUDA-<span class="number">8.0</span>/bin/<span class="variable">$PATH</span>
 <span class="keyword">export</span> DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-<span class="number">8.0</span>/lib:<span class="variable">$DYLD_LIBRARY_PATH</span>
 </code></pre><h2 id="BLAS">BLAS</h2>
-<p>网上搜索到的教程中都是使用<a href="https://software.intel.com/en-us/intel-mkl" target="_blank" rel="external">Intel MKL</a>，查看这个网站就会发现这个库很贵，所以我安装的时候选择了<a href="www.openblas.net/">OpenBLAS</a></p>
+<p>网上搜索到的教程中都是使用<a href="https://software.intel.com/en-us/intel-mkl" target="_blank" rel="external">Intel MKL</a>，查看网站会发现intel-mkl收费很贵，所以我安装的时候选择了<a href="www.openblas.net/">OpenBLAS</a></p>
 <pre><code>brew <span class="operator"><span class="keyword">install</span> openblas</span>
-</code></pre><h2 id="cuDNN">cuDNN</h2>
-<p>从<a href="https://developer.nvidia.com/cudnn页面下载并安装cuDNN库,安装过程如下：" target="_blank" rel="external">https://developer.nvidia.com/cudnn页面下载并安装cuDNN库,安装过程如下：</a></p>
+</code></pre><blockquote>
+<p>关于 intel-mkl 和 openblas 的优劣，没有做过比较。在校大学生可通过学校邮箱在页面 <a href="https://software.intel.com/en-us/qualify-for-free-software/student" target="_blank" rel="external">https://software.intel.com/en-us/qualify-for-free-software/student</a> 申请安装包。</p>
+</blockquote>
+<h2 id="cuDNN">cuDNN</h2>
+<p>从 <a href="https://developer.nvidia.com/cudnn" target="_blank" rel="external">https://developer.nvidia.com/cudnn</a> 页面下载并安装cuDNN库,安装过程如下：</p>
 <pre><code>tar -xzvf cudnn-<span class="number">8.0</span>-osx-x64-v5.<span class="number">1</span>.tgz
 cd cuda
 sudo cp lib/* <span class="regexp">/usr/local</span><span class="regexp">/cuda/lib</span>
@@ -218,7 +220,7 @@ brew <span class="keyword">install</span> <span class="comment">--build-from-sou
 brew <span class="keyword">install</span> <span class="comment">--build-from-source --fresh -vd boost boost-python</span>
 brew <span class="keyword">install</span> hdf5</span>
 </code></pre><blockquote>
-<p>安装过程有点漫长，可能会出现一些错误，需要耐心的修复掉。如果你把电脑升级到最新的 macOS Sierra 10.12，会由于新系统不内置QTKit导致opencv安装失败。</p>
+<p>安装过程有点漫长，可能会出现一些错误，需要耐心的修复掉。<br>如果你把电脑升级到最新的 macOS Sierra 10.12，会由于新系统不内置QTKit导致opencv编译失败。</p>
 </blockquote>
 <h2 id="下载Caffe代码">下载Caffe代码</h2>
 <pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/BVLC/caff.git
@@ -262,7 +264,7 @@ BLAS_LIB := $(<span class="built_in">shell</span> brew <span class="comment">--p
 <span class="constant">PYTHON_INCLUDE </span>+= <span class="variable">$(</span>dir <span class="variable">$(</span>shell python -c <span class="string">'import numpy.core; print(numpy.core.__file__)'</span>))/<span class="keyword">include</span>
 <span class="constant">PYTHON_LIB </span>+= <span class="variable">$(</span>shell brew --prefix numpy)/lib
 </code></pre><h2 id="环境变量">环境变量</h2>
-<pre><code>export <span class="constant">DYLD_FALLBACK_LIBRARY_PATH</span>=<span class="regexp">/usr/local</span><span class="regexp">/cuda/lib</span><span class="symbol">:/Users/cp/anaconda/lib</span><span class="symbol">:/usr/local/lib</span><span class="symbol">:/usr/local/Cellar/</span><span class="symbol">:/usr/local/cuda/lib</span><span class="symbol">:/Users/peicheng/anaconda/lib</span><span class="symbol">:/usr/local/lib</span><span class="symbol">:/usr/lib</span><span class="symbol">:</span><span class="variable">$DYLD_FALLBACK_LIBRARY_PATH</span>
+<pre><code>export <span class="constant">DYLD_FALLBACK_LIBRARY_PATH</span>=<span class="regexp">/usr/local</span><span class="regexp">/cuda/lib</span><span class="symbol">:/Users/cp/anaconda/lib</span><span class="symbol">:/usr/local/lib</span><span class="symbol">:/usr/local/Cellar/</span><span class="symbol">:/usr/local/cuda/lib</span><span class="symbol">:~/anaconda/lib</span><span class="symbol">:/usr/local/lib</span><span class="symbol">:/usr/lib</span><span class="symbol">:</span><span class="variable">$DYLD_FALLBACK_LIBRARY_PATH</span>
 </code></pre><h2 id="编译caffe">编译caffe</h2>
 <pre><code><span class="keyword">make</span> clean
 <span class="keyword">make</span> <span class="keyword">all</span> -j8
@@ -392,7 +394,7 @@ BLAS_LIB := $(<span class="built_in">shell</span> brew <span class="comment">--p
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#如何在Macosx上安装caffe"><span class="nav-number">1.</span> <span class="nav-text">如何在Macosx上安装caffe</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Homebrew"><span class="nav-number">1.1.</span> <span class="nav-text">Homebrew</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Anaconda_Python"><span class="nav-number">1.2.</span> <span class="nav-text">Anaconda Python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CUDA"><span class="nav-number">1.3.</span> <span class="nav-text">CUDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BLAS"><span class="nav-number">1.4.</span> <span class="nav-text">BLAS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuDNN"><span class="nav-number">1.5.</span> <span class="nav-text">cuDNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖项_via_Homebrew"><span class="nav-number">1.6.</span> <span class="nav-text">安装依赖项 via Homebrew</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Caffe代码"><span class="nav-number">1.7.</span> <span class="nav-text">下载Caffe代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Makefile-config"><span class="nav-number">1.8.</span> <span class="nav-text">Makefile.config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量"><span class="nav-number">1.9.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译caffe"><span class="nav-number">1.10.</span> <span class="nav-text">编译caffe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References:"><span class="nav-number">1.11.</span> <span class="nav-text">References:</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Homebrew"><span class="nav-number">1.</span> <span class="nav-text">Homebrew</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Anaconda_Python"><span class="nav-number">2.</span> <span class="nav-text">Anaconda Python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CUDA"><span class="nav-number">3.</span> <span class="nav-text">CUDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BLAS"><span class="nav-number">4.</span> <span class="nav-text">BLAS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuDNN"><span class="nav-number">5.</span> <span class="nav-text">cuDNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖项_via_Homebrew"><span class="nav-number">6.</span> <span class="nav-text">安装依赖项 via Homebrew</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Caffe代码"><span class="nav-number">7.</span> <span class="nav-text">下载Caffe代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Makefile-config"><span class="nav-number">8.</span> <span class="nav-text">Makefile.config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量"><span class="nav-number">9.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译caffe"><span class="nav-number">10.</span> <span class="nav-text">编译caffe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References:"><span class="nav-number">11.</span> <span class="nav-text">References:</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
