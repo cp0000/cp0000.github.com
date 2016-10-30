@@ -43,7 +43,7 @@
 
 
 
-  <title> Openradar Stream // CP WRITINGS </title>
+  <title> 活到28 // CP WRITINGS </title>
 </head>
 
 <body>
@@ -146,7 +146,7 @@
           
           
             
-              Openradar Stream
+              活到28
             
           
         </h1>
@@ -154,20 +154,9 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2015-08-30
+          Posted on 2016-10-26
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; In
-            
-              <a href="/categories/Tech/">Tech</a>
-
-              
-              
-
-            
-          </span>
         
 
         
@@ -182,45 +171,16 @@
       
 
       
-        <p><img src="http://cp0000.github.io/assets/radardetector2.jpg" alt="Openradar Stream"></p>
-<h4 id="写在前面">写在前面</h4>
-<p>随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债”上，之前release了太多的feature，遗留了太多的bug，会在这一次修复掉。</p>
-<h4 id="Openradar_stream_的来由">Openradar stream 的来由</h4>
-<p>和大多数 iOS developers 一样，我也在第一时间安装了 iOS 9 beta版本。满足了尝鲜感之后，随着而来就是 beta 系统的不稳定，以及各种的bug。用 iOS 9 进行开发的过程中，我遇到了许许多多的坑，对于一些系统的bug，会花费掉我很多的时间去debug。然后，我发现了<a href="http://www.openradar.appspot.com/" target="_blank" rel="external">openradar</a>。一个 open database of radars for Apple bug。从openradar 上，你可以看到其他开发者提交的bug，这当然会为你省去很多的时间，帮助你避免很多的坑。</p>
-<p>后来我想我是不是应该做一个自动的脚本，定时的去抓取这个网页上面的信息，然后发到微博上。关注这个微博的人就可以在自己的时间线上面看到最新的bug了。这样做的好处是，一来你了解到bug信息，下次你遇到类似的问题，会联想到之前看过的bug信息，省去大量的时间。二来，刷微博的时候，还顺便学习了新知识，就没那么大的罪恶感了～。为此，我写一个tiny project，auto radarstream。</p>
-<h4 id="具体工作">具体工作</h4>
-<p>完成openradarstream，有以下事情需要去做</p>
-<p><strong>前期工作</strong></p>
-<ul>
-<li>申请一个微博账号，并申请微博OpenApi，获取到<code>apikey</code>和<code>apisecret</code>。</li>
-<li>获取到微博的 accessToken， expires</li>
-</ul>
-<p><strong>开发工具</strong></p>
-<ul>
-<li>language: python</li>
-<li>database: sqlite</li>
-</ul>
-<p><strong>细节</strong></p>
-<ul>
-<li>设置好微博的环境，其中微博的OpenAPI,使用开源库<a href="https://github.com/michaelliao/sinaweibopy" target="_blank" rel="external">sinaweibopy</a></li>
-<li>初始化数据库</li>
-</ul>
-<pre><code>    <span class="function"><span class="keyword">def</span> <span class="title">initDB</span> <span class="params">()</span>:</span>
-        <span class="keyword">print</span> <span class="string">'initDB ...'</span>
-        db = sqlite3.connect(sqlite_file)
-        cursor = db.cursor()
-        cursor.execute(<span class="string">'''CREATE TABLE IF NOT EXISTS
-                          bugs(id INTEGER PRIMARY KEY, bugid TEXT, status TEXT, originator TEXT, product TEXT, title TEXT)'''</span>)
-        db.commit()
-</code></pre><ul>
-<li><p>获取网站信息，并做相关处理。</p>
-<p>  第一步利用 urllib2 获取<a href="http://openradar.appspot.com/" target="_blank" rel="external">openradar</a>主页信息。<br>  第二步对获取到的信息，利用 BeautifulSoap 对<code>html</code>进行解析，得到一个buglist。<br>  第三步，由于网页上面的信息是按时间降序的，而我们是希望最新的bug，在本次最后一个发布，这样这条bug会出现在微博主页时间线的最上头。所以我们这里反转buglist。<br>  第四步，遍历buglist，发布没有发布的bug，并把发布过的bug插入数据库存档。</p>
-</li>
-</ul>
-<p>项目在Github上面的地址：<a href="https://github.com/cp0000/radarstream" target="_blank" rel="external">radarstream</a>。</p>
-<h4 id="最后">最后</h4>
-<p><strong>To track open radar posts, please follow <a href="http://weibo.com/p/1005051666350201" target="_blank" rel="external">@openradarstream</a></strong></p>
-
+        <p><code>信则有，不信则无</code>-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的<code>我思故我在</code>式的思维模式，但不可否认在特定条件下，这句话会对一个人起到良好的心理按摩作用。</p>
+<p>就个人而言，学习OpenGL编程是一个难度相对大的技术。也许是因为没有学习过计算机图形学，在学习OpenGL编程期间，会遇到各种不懂的名词概念：<code>着色器</code>，<code>光栅化</code>，<code>纹理</code>，<code>帧缓存</code>；OpenGL本身的状态机也不是很好理解；加上不友好的开发工具链（无法打印GPU数据，OpenGL crash堆栈信息很少）。这三点导致学习OpenGL是一门入门难度比较大，学习曲线陡峭的技术。刚开始的时候，困难的确比较多，很容易失去信心；这个时候，如果对自己说一句<code>信则有</code>，相信这东西自己是可以学出来。坚持持续不断的看教程，动手试错，最终是可以学出来的。</p>
+<p>同样，在学习蛙泳的时候，在升职答辩的时候，在健身的时候，在极限运动的时候；面对深水区的恐惧，主考官的质问，肌肉的酸痛，呼吸的急促，死亡的恐惧。我们需要鼓起勇气，运用我们一直练习的学习技巧，观察别人怎么做的，思考自己哪里做的不对，不停的模仿，不断的试错重来，不怕失败，自信每次都会有所进步，最终能够扛过这座山。</p>
+<p>如果说在28岁生日这一天，回顾过去一年，我有什么收获的话，</p>
+<p>&gt;<br>“立志不坚，终不济事。” —（宋）朱熹</p>
+<p>这句话是我最大的收获。</p>
+<blockquote>
+<p>对了，如果实在找不到信心的话，就这样想：”这么多人都行，我怎么可能不行”。</p>
+</blockquote>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="http://music.163.com/outchain/player?type=2&id=16148113&auto=1&height=66"></iframe>
       
     </div>
 
@@ -231,13 +191,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/03/There-will-be-blood/">There Will Be Blood</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/">UICollectionViews Now Have Easy Reordering （译）</a>
+              <a href="/2016/10/22/install-caffe-on-macosx/">如何在Macosx上安装caffe</a>
             
           </div>
         </div>
@@ -337,7 +295,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Openradar_stream_的来由"><span class="nav-number">2.</span> <span class="nav-text">Openradar stream 的来由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#具体工作"><span class="nav-number">3.</span> <span class="nav-text">具体工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+              <p class="post-toc-empty">This post does not have a Table Of Contents</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

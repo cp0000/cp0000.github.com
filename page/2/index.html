@@ -148,8 +148,8 @@
           
           
             
-              <a class="post-title-link" href="/2016/09/25/2016-1st-half/">
-                2016上半年电影，美剧，以及书 清单
+              <a class="post-title-link" href="/2016/10/22/install-caffe-on-macosx/">
+                如何在Macosx上安装caffe
               </a>
             
           
@@ -158,14 +158,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2016-09-25
+          Posted on 2016-10-22
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; In
             
-              <a href="/categories/Movie/">Movie</a>
+              <a href="/categories/Tech/">Tech</a>
 
               
               
@@ -187,121 +187,103 @@
 
       
         
-          <h2 id="电影">电影</h2>
-<h3 id="中国">中国</h3>
+          <p>在macosx上面安装深度学习框架<a href="http://caffe.berkeleyvision.org/" target="_blank" rel="external">caffe</a>是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。</p>
+<p><strong>硬软件环境</strong><br>&gt;<br>    电脑：iMac<br>    系统：OX EI Caption 版本10.11.4</p>
+<h2 id="Homebrew">Homebrew</h2>
+<p>官方推荐使用<a href="http://brew.sh" target="_blank" rel="external">Homebrew</a>来管理依赖项的下载，安装。</p>
+<h2 id="Anaconda_Python">Anaconda Python</h2>
+<p>Anaconda是python的一个常用的科学计算发行版，自带包管理器conda。从 <a href="https://store.continuum.io/cshop/anaconda/" target="_blank" rel="external">https://store.continuum.io/cshop/anaconda/</a> 下载并安装Anaconda Python。安装成功之后,记得在PATH添加ananconda执行文件的路径：</p>
+<pre><code><span class="keyword">export</span> PATH=~/anaconda/bin:<span class="variable">$PATH</span>
+</code></pre><h2 id="CUDA">CUDA</h2>
+<p>从 <a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="external">https://developer.nvidia.com/cuda-downloads</a> 下载并安装CUDA 8.0 (for OSX)<br>从 <a href="http://www.nvidia.com/object/mac-driver-archive.html" target="_blank" rel="external">http://www.nvidia.com/object/mac-driver-archive.html</a> 下载并安装最新的CUDA独立驱动。<br>同样我们把驱动的可执行文件路径添加到PATH环境变量中(注意下载安装的CUDA的版本号)：</p>
+<pre><code><span class="keyword">export</span> PATH=/Developer/NVIDIA/CUDA-<span class="number">8.0</span>/bin/<span class="variable">$PATH</span>
+<span class="keyword">export</span> DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-<span class="number">8.0</span>/lib:<span class="variable">$DYLD_LIBRARY_PATH</span>
+</code></pre><h2 id="BLAS">BLAS</h2>
+<p>网上搜索到的教程中都是使用<a href="https://software.intel.com/en-us/intel-mkl" target="_blank" rel="external">Intel MKL</a>，查看网站会发现intel-mkl收费很贵，所以我安装的时候选择了<a href="www.openblas.net/">OpenBLAS</a></p>
+<pre><code>brew <span class="operator"><span class="keyword">install</span> openblas</span>
+</code></pre><blockquote>
+<p>关于 intel-mkl 和 openblas 的优劣，没有做过比较。在校大学生可通过学校邮箱在页面 <a href="https://software.intel.com/en-us/qualify-for-free-software/student" target="_blank" rel="external">https://software.intel.com/en-us/qualify-for-free-software/student</a> 申请安装包。</p>
+</blockquote>
+<h2 id="cuDNN">cuDNN</h2>
+<p>从 <a href="https://developer.nvidia.com/cudnn" target="_blank" rel="external">https://developer.nvidia.com/cudnn</a> 页面下载并安装cuDNN库,安装过程如下：</p>
+<pre><code>tar -xzvf cudnn-<span class="number">8.0</span>-osx-x64-v5.<span class="number">1</span>.tgz
+cd cuda
+sudo cp lib/* <span class="regexp">/usr/local</span><span class="regexp">/cuda/lib</span>
+sudo cp <span class="keyword">include</span>/cudnn.h /usr/local/cuda/<span class="keyword">include</span>/
+</code></pre><h2 id="安装依赖项_via_Homebrew">安装依赖项 via Homebrew</h2>
+<p>首先我们需要修改下homebrew安装 opencv 时需要用到的opencv.rb文件</p>
+<pre><code>brew <span class="keyword">edit</span> opencv
+</code></pre><p>将下面两行：</p>
+<pre><code>args &lt;&lt; "-DPYTHON_LIBRARY=#{<span class="ruby">py_lib}</span>/libpython2.7.#{<span class="ruby">dylib}</span>"
+args &lt;&lt; "-DPYTHON_INCLUDE_DIR=#{<span class="ruby">py_prefix}</span>/include/python2.7"
+</code></pre><p>替换为：</p>
+<pre><code><span class="keyword">args</span> &lt;&lt; <span class="string">"-DPYTHON_LIBRARY=#{py_prefix}/lib/libpython2.7.dylib"</span>
+<span class="keyword">args</span> &lt;&lt; <span class="string">"-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7"</span>
+</code></pre><p>然后开始安装依赖项：</p>
+<pre><code>brew <span class="operator"><span class="keyword">install</span> <span class="comment">--fresh -vd snappy leveldb gflags glog szip lmdb homebrew/science/opencv</span>
+brew <span class="keyword">install</span> <span class="comment">--build-from-source --with-python --fresh -vd protobuf</span>
+brew <span class="keyword">install</span> <span class="comment">--build-from-source --fresh -vd boost boost-python</span>
+brew <span class="keyword">install</span> hdf5</span>
+</code></pre><blockquote>
+<p>安装过程有点漫长，可能会出现一些错误，需要耐心的修复掉。<br>如果你把电脑升级到最新的 macOS Sierra 10.12，会由于新系统不内置QTKit导致opencv编译失败。</p>
+</blockquote>
+<h2 id="下载Caffe代码">下载Caffe代码</h2>
+<pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/BVLC/caff.git
+<span class="keyword">cd</span> caffe
+<span class="keyword">cp</span> Makefile.config.example Makefile.config
+</code></pre><h2 id="Makefile-config">Makefile.config</h2>
+<p>修改Makefile.config</p>
+<pre><code>BLAS:=<span class="built_in">open</span>
+BLAS_INCLUDE := $(<span class="built_in">shell</span> brew <span class="comment">--prefix openblas)/include</span>
+BLAS_LIB := $(<span class="built_in">shell</span> brew <span class="comment">--prefix openblas)/lib</span>
+</code></pre><p>取消CUDDNN的注释</p>
+<pre><code><span class="attribute">USE_CUDNN :</span>=<span class="string"> 1</span>
+</code></pre><p>检查设置Python路径</p>
+<pre><code><span class="comment"># NOTE: this is required only if you will compile the python interface.</span>
+<span class="comment"># We need to be able to find Python.h and numpy/arrayobject.h.</span>
+<span class="comment"># PYTHON_INCLUDE := /usr/include/python2.7 \</span>
+<span class="comment">#         /usr/lib/python2.7/dist-packages/numpy/core/include</span>
+<span class="comment"># Anaconda Python distribution is quite popular. Include path:</span>
+<span class="comment"># Verify anaconda location, sometimes it's in root.</span>
+<span class="comment"># ANACONDA_HOME := $(HOME)/anaconda</span>
+<span class="comment"># PYTHON_INCLUDE := $(ANACONDA_HOME)/include \</span>
+        <span class="comment"># $(ANACONDA_HOME)/include/python2.7 \</span>
+        <span class="comment"># $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \</span>
+
+<span class="constant">ANACONDA_HOME </span><span class="symbol">:</span>= <span class="variable">$(</span><span class="constant">HOME)</span>/anaconda
+<span class="constant">PYTHON_INCLUDE </span><span class="symbol">:</span>= <span class="variable">$(</span><span class="constant">ANACONDA_HOME)</span>/<span class="keyword">include</span> \
+<span class="variable">$(</span><span class="constant">ANACONDA_HOME)</span>/<span class="keyword">include</span>/python2.<span class="number">7</span> \
+<span class="variable">$(</span><span class="constant">ANACONDA_HOME)</span>/lib/python2.<span class="number">7</span>/site-packages/numpy/core/<span class="keyword">include</span> \
+
+
+<span class="comment"># Uncomment to use Python 3 (default is Python 2)</span>
+<span class="comment"># PYTHON_LIBRARIES := boost_python3 python3.5m</span>
+<span class="comment"># PYTHON_INCLUDE := /usr/include/python3.5m \</span>
+<span class="comment">#                 /usr/lib/python3.5/dist-packages/numpy/core/include</span>
+
+<span class="comment"># We need to be able to find libpythonX.X.so or .dylib.</span>
+<span class="comment"># PYTHON_LIB := /usr/lib</span>
+<span class="constant">PYTHON_LIB </span><span class="symbol">:</span>= <span class="variable">$(</span><span class="constant">ANACONDA_HOME)</span>/lib
+
+<span class="comment"># Homebrew installs numpy in a non standard path (keg only)</span>
+<span class="constant">PYTHON_INCLUDE </span>+= <span class="variable">$(</span>dir <span class="variable">$(</span>shell python -c <span class="string">'import numpy.core; print(numpy.core.__file__)'</span>))/<span class="keyword">include</span>
+<span class="constant">PYTHON_LIB </span>+= <span class="variable">$(</span>shell brew --prefix numpy)/lib
+</code></pre><h2 id="环境变量">环境变量</h2>
+<pre><code>export <span class="constant">DYLD_FALLBACK_LIBRARY_PATH</span>=<span class="regexp">/usr/local</span><span class="regexp">/cuda/lib</span><span class="symbol">:/Users/cp/anaconda/lib</span><span class="symbol">:/usr/local/lib</span><span class="symbol">:/usr/local/Cellar/</span><span class="symbol">:/usr/local/cuda/lib</span><span class="symbol">:~/anaconda/lib</span><span class="symbol">:/usr/local/lib</span><span class="symbol">:/usr/lib</span><span class="symbol">:</span><span class="variable">$DYLD_FALLBACK_LIBRARY_PATH</span>
+</code></pre><h2 id="编译caffe">编译caffe</h2>
+<pre><code><span class="keyword">make</span> clean
+<span class="keyword">make</span> <span class="keyword">all</span> -j8
+<span class="keyword">make</span> runtest
+</code></pre><p>runtest 相对会花些时间</p>
+<pre><code><span class="keyword">make</span> pycaffe
+<span class="keyword">make</span> distribute
+</code></pre><p>就大功告成了</p>
+<h2 id="References:">References:</h2>
 <ul>
-<li>饮食男女</li>
-<li>喜宴</li>
-<li><p>推手</p>
-<blockquote>
-<p>李安“父亲”三部曲；在三部电影里面，饰演男主角的郎雄，都给人一种很亲切的感觉，让人很喜爱这老头儿。最喜欢《饮食男女》中吴倩莲饰演的二姐，走在最先锋的人，却最终选择了守住传统。</p>
-</blockquote>
-</li>
-<li><p>北京遇上西雅图之不二情书</p>
-<blockquote>
-<p>加分的是那对老夫妇，以及老爷子身上的文人气质</p>
-</blockquote>
-</li>
-<li><p>寒战2</p>
-<blockquote>
-<p>梁sir还是那么棒</p>
-</blockquote>
-</li>
-<li>使徒行者</li>
-<li>火锅英雄</li>
-<li>老炮儿</li>
+<li><a href="http://caffe.berkeleyvision.org/installation.html" target="_blank" rel="external">http://caffe.berkeleyvision.org/installation.html</a></li>
+<li><a href="https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29" target="_blank" rel="external">https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29</a></li>
+<li><a href="http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/" target="_blank" rel="external">http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/</a></li>
 </ul>
-<h3 id="日本">日本</h3>
-<ul>
-<li><p>步伐不停</p>
-<blockquote>
-<p>平淡的，生活化的，舍不得结束的</p>
-</blockquote>
-</li>
-<li><p>海街日记</p>
-<blockquote>
-<p>依旧是平淡的，生活化的，舍不得结束的</p>
-</blockquote>
-</li>
-<li><p>怪物之子</p>
-</li>
-</ul>
-<h3 id="美国">美国</h3>
-<ul>
-<li><p>谍影重重5</p>
-<blockquote>
-<p>熟悉的伯恩回来了，但感觉整个的电影的高潮部分是在希腊街头的那段追杀。</p>
-</blockquote>
-</li>
-<li><p>火星救援</p>
-<blockquote>
-<p>最爱马特呆萌种土豆那一段</p>
-</blockquote>
-</li>
-<li>十二怒汉<blockquote>
-<p>剧情精彩，回味无穷 </p>
-</blockquote>
-</li>
-<li>生为蓝调<blockquote>
-<p>冲着伊桑霍克看的</p>
-</blockquote>
-</li>
-<li>功夫熊猫3</li>
-<li>疯狂动物城</li>
-<li>蝙蝠侠大战超人：正义黎明</li>
-<li>奇幻森林</li>
-<li>美国队长3</li>
-<li>泰山归来：险战丛林</li>
-<li>九条命</li>
-<li>X战警：天启</li>
-<li>硬核亨利</li>
-</ul>
-<h3 id="韩国">韩国</h3>
-<ul>
-<li>哭声<blockquote>
-<p>看完堵得慌</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="美剧">美剧</h2>
-<ul>
-<li><p>毒枭第二季</p>
-<blockquote>
-<p>和第一季一样，还是那个魔幻的哥伦比亚</p>
-</blockquote>
-</li>
-<li><p>权利的游戏第六季</p>
-<blockquote>
-<p>私生子之战，我看了三遍了</p>
-</blockquote>
-</li>
-<li><p>绝命律师第二季</p>
-<blockquote>
-<p>好看，推荐</p>
-</blockquote>
-</li>
-<li><p>黑客军团第二季</p>
-<blockquote>
-<p>强迫症让我看完了第二季，应该会看第三季</p>
-</blockquote>
-</li>
-<li><p>怪奇物语</p>
-<blockquote>
-<p>为了拍第二季，第一季的结尾让人不适，不打算看第二季</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="书">书</h2>
-<ul>
-<li>《你是一切的答案》</li>
-<li>《程序员的思维锻炼》<blockquote>
-<p><a href="http://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/" target="_blank" rel="external">读书笔记</a></p>
-</blockquote>
-</li>
-</ul>
-<blockquote>
-<p>没写评论的，在我看来是可看可不看的</p>
-</blockquote>
 
         
       
@@ -323,7 +305,7 @@
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
   </div>
 
 
@@ -357,7 +339,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
