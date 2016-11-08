@@ -43,7 +43,7 @@
 
 
 
-  <title> 奶奶 // CP WRITINGS </title>
+  <title> ffmpeg 使用例程 // CP WRITINGS </title>
 </head>
 
 <body>
@@ -146,7 +146,7 @@
           
           
             
-              奶奶
+              ffmpeg 使用例程
             
           
         </h1>
@@ -154,14 +154,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2015-04-05
+          Posted on 2016-11-07
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; In
             
-              <a href="/categories/Life/">Life</a>
+              <a href="/categories/Tech/">Tech</a>
 
               
               
@@ -182,18 +182,60 @@
       
 
       
-        <p><img src="http://cp0000.github.io/assets/yejuhua.png" alt="Wild chrysanthemum"></p>
-<p>我和弟弟从小是被奶奶带大的，直到我们前后出去念大学，才从奶奶身边离开。我们跟奶奶很亲。</p>
-<p>奶奶是一个典型的农村妇女，她有三个儿子，两个女儿，另外还有一对继子，继女。二姑，也就是奶奶的大女儿，在二十年前患乳腺癌去世了。二姑走的时候，奶奶很伤心。每逢清明，她总是叮嘱我们记得给二姑烧纸。而爷爷，在我还未出生的时候就已经过世了。从奶奶口中得知爷爷是个脾气非常暴躁的人。爷爷过世的时候，我爸爸20岁不到，小叔叔15不到。至于奶奶和爷爷感情如何，奶奶没跟我们说过，我也未曾问起。</p>
-<p>奶奶年轻时候生活的年代极其困难，这使得她养成了非常节约的习惯。小时候，家里面条件非常困难，我爸爸是木匠，每年都要外出务工，挣养家糊口的钱。每当我们想买些乱七八糟的的东西，奶奶都会告诫我们爸爸挣钱不容易，在外面打工很辛苦，不能乱花钱。奶奶会想办法帮我们家节约开支，隔断时间会让我和弟弟记日常支出的账，这个习惯我坚持到现在。</p>
-<p>上学时，奶奶每天早起，给我们做饭，让我们吃完去上学。奶奶做的菜，口味偏咸。我最爱吃她煮的鱼，和红薯粉条。冬天的周末，三个人围着煤炉，吃热气腾腾的鱼，这算是少年时最开心的光景。</p>
-<p>刚上大学的时候，爸爸打电话跟我说，你第一次一个人出远门，跟奶奶又生活了那么久，奶奶在家很想你，你要多打电话给她。这之后我养成了每个周末都会打电话给奶奶的习惯。电话内容大多数时候是我询问一下她的身体情况，奶奶跟我说一下她周遭发生的家长里短，让我在外头要注意安全之类的。有时候，我忘记打了，后来补打的时候，奶奶都会很担心的说：你怎么礼拜天没打电话。以为我出了什么事情。而我每次出门上学的时候，她都会包红包给我。这些红包，我没花，保留了下来留作纪念，弟弟也是如此。我们也是在最近才得知彼此做了相同的事情。</p>
-<p>工作之后，只能在逢年过节的时候回趟家，看望一下奶奶。在家里，我和弟弟最喜欢做的事情就是坐在奶奶房门前的走廊上，陪着奶奶一起晒太阳。大多时候，弟弟陪着奶奶聊天，我只是呆坐在旁边，默默的听着。</p>
-<p>近些年，奶奶一直说她自己身体不行了，估计时间不多了，还说假如真的走了，也不要回来，耽误了工作。每每听到她说这些，我们孙子辈都不太高兴，跟她说不要老是说死字。弟弟说，在今年春节的时候，他跟奶奶说，奶奶90岁的时候，他30岁，那时候，他也应该成家立业了。他说奶奶当时听到他这么说的时候很开心，还把这些话说给其他人听。而我也曾经幻想过能够带着自己建立的家庭回去探望她。</p>
-<p>她今年86岁，近些年的日子过的孤单且并不顺心，时常生病。我在外头时不时会担心她的健康，偶尔还会做噩梦，梦见她走了，每次都会半夜吓醒，然后庆幸还好这只是个梦。今年3月18号的午后，农历的正月二十八，奶奶终于还是离开了我们。奶奶走的时候，我在从上海回桐城的路上，得知消息后我抬头朝家的方向望了望。</p>
-<p>回家做丧事的时候，有段路，只有爸爸，弟弟，我三个人。爸爸说了句：奶奶走之后，整个人空空的，感觉生活没有意思。我“嗯”了一声。</p>
-<p>奶奶走了半个多月，我们都非常想念她。</p>
-<p>15年清明</p>
+        <p>本文介绍<a href="https://en.wikipedia.org/wiki/FFmpeg" target="_blank" rel="external">ffmpeg</a>命令行的一些使用方法；</p>
+<h2 id="参数">参数</h2>
+<h3 id="主要参数">主要参数</h3>
+<ul>
+<li>-i——设置输入档名。</li>
+<li>-f——设置输出格式。</li>
+<li>-y——若输出文件已存在时则覆盖文件。</li>
+<li>-fs——超过指定的文件大小时则结束转换。</li>
+<li>-ss——从指定时间开始转换。</li>
+<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
+<li>-title——设置标题。</li>
+<li>-timestamp——设置时间戳。</li>
+<li>-vsync——增减Frame使影音同步。<h3 id="视频参数">视频参数</h3>
+</li>
+<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
+<li>-r——设置帧率值，默认为25。</li>
+<li>-s——设置画面的宽与高。</li>
+<li>-aspect——设置画面的比例。</li>
+<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
+<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数">声音参数</h3>
+</li>
+<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
+<li>-ar——设置采样率。</li>
+<li>-ac——设置声音的Channel数。</li>
+<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
+<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
+<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
+</ul>
+<h2 id="例子">例子</h2>
+<p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
+<h3 id="裁剪视频">裁剪视频</h3>
+<p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
+<pre><code><span class="attribute">ffmpeg -i input.mp4  -strict -2 -vf crop</span>=<span class="string">405:720:420:0  video_out.mp4</span>
+</code></pre><p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
+<h3 id="视频转换成图片">视频转换成图片</h3>
+<pre><code> ffmpeg -i input.mp4 <span class="keyword">image</span><span class="variable">%3d</span>.png
+</code></pre><p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
+<pre><code> ffmpeg -i input.mp4 -r <span class="number">30</span>  <span class="variable">$filename</span><span class="variable">%3d</span>.png  
+</code></pre><p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
+<pre><code>ffprobe <span class="string">"input.mp4"</span> -v <span class="number">0</span> -select_streams v  -print_format flat -show_entries <span class="variable">stream=</span>r_frame_rate 
+</code></pre><h3 id="剪辑视频">剪辑视频</h3>
+<p>一段长视频只需要保留其中一段，可用如下命令：</p>
+<pre><code><span class="tag">ffmpeg</span> <span class="tag">-i</span> <span class="tag">input</span><span class="class">.mp4</span> <span class="tag">-ss</span> 00<span class="pseudo">:00</span><span class="pseudo">:21</span> <span class="tag">-t</span> 00<span class="pseudo">:00</span><span class="pseudo">:10</span> <span class="tag">-acodec</span> <span class="tag">aac</span> <span class="tag">-vcodec</span> <span class="tag">h264</span> <span class="tag">-strict</span> <span class="tag">-2</span> <span class="tag">out</span><span class="class">.mp4</span>
+</code></pre><p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
+<h3 id="调整视频分辨率大小">调整视频分辨率大小</h3>
+<p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
+<pre><code><span class="attribute">ffmpeg -i input.mp4 -vf scale</span>=<span class="string">853:480 -acodec aac -vcodec h264 out.mp4</span>
+</code></pre><ul>
+<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
+<li><code>-vcodec h264</code> 指定视频使用 h264 编码。<blockquote>
+<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
+</blockquote>
+</li>
+</ul>
 
       
     </div>
@@ -205,13 +247,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/07/tennis/">网球以及德约科维奇</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/15/legend-of-a-suicide/">读书笔记：《一个自杀者的传说》</a>
+              <a href="/2016/10/26/28/">活到28</a>
             
           </div>
         </div>
@@ -311,7 +351,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">This post does not have a Table Of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">1.</span> <span class="nav-text">参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要参数"><span class="nav-number">1.1.</span> <span class="nav-text">主要参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#视频参数"><span class="nav-number">1.2.</span> <span class="nav-text">视频参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#声音参数"><span class="nav-number">1.3.</span> <span class="nav-text">声音参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">2.</span> <span class="nav-text">例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#裁剪视频"><span class="nav-number">2.1.</span> <span class="nav-text">裁剪视频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#视频转换成图片"><span class="nav-number">2.2.</span> <span class="nav-text">视频转换成图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剪辑视频"><span class="nav-number">2.3.</span> <span class="nav-text">剪辑视频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调整视频分辨率大小"><span class="nav-number">2.4.</span> <span class="nav-text">调整视频分辨率大小</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

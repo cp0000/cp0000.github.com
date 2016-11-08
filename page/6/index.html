@@ -148,8 +148,8 @@
           
           
             
-              <a class="post-title-link" href="/2016/03/06/iOS-reverse-engineering-03/">
-                iOS逆向工程-0x02－Hacking on B612
+              <a class="post-title-link" href="/2016/06/11/pragmatic-thinking-and-learning/">
+                《程序员的思维训练》读书笔记
               </a>
             
           
@@ -158,14 +158,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          Posted on 2016-03-06
+          Posted on 2016-06-11
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; In
             
-              <a href="/categories/Tech/">Tech</a>
+              <a href="/categories/Reading-notes/">Reading notes</a>
 
               
               
@@ -187,158 +187,101 @@
 
       
         
-          <p>前面两篇iOS逆向的文章（<a href="http://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/" target="_blank" rel="external">iOS逆向工程-0x00－用途以及准备工作</a>,<a href="http://cp0000.github.io/2015/11/30/iOS-reverse-engineering-02/" target="_blank" rel="external">iOS逆向工程-0x01－工具篇-Cycript</a>）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。</p>
-<p><a href="https://itunes.apple.com/us/app/b612-selfie-from-the-heart/id904209370?mt=8" target="_blank" rel="external">B612</a>是Line公司出品的一款非常棒的拍照软件。它的界面，交互，用起来非常顺手。app中的滤镜效果很赞，用户简单几步操作就可以生成一张很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。</p>
-<p>从AppStore上面下载B612的IPA文件，把文件的后缀名从 .IPA 修改成 .zip。解压zip文件之后，在Payload中有一个b612.app的文件，这里我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。经过以上几步操作我们就拿到了 B612 app的 bundle 文件信息。</p>
-<p>在使用B612的过程中，app会展列一个滤镜列表给用户进行选择（如下图）：</p>
-<p><img src="http://cp0000.github.io/assets/b612_filter_list.png" alt="B612_filter_list" style="width: 400px;"></p>
-<p>使用的过程发现一个叫 China 的滤镜，China，中国？还是瓷器？叫China的滤镜会呈现出什么样子的效果，根据效果我们是否能推测出这里的China是要翻译成中国，还是瓷器咧？很有意思的样子。我们就拿这个滤镜当做目标吧。</p>
-<p>一般情况下，我的常用做法是在先前解压的文件夹中搜索一下相关的信息，碰碰运气。</p>
-<pre><code><span class="keyword">find</span> . -name <span class="string">"*china*"</span>                 
-.<span class="regexp">/FilterThumb.bundle/</span>filterthumb_china.jpg
-.<span class="regexp">/ObfuscateImages.bundle/</span>lut<span class="regexp">/china.dat</span>
-</code></pre><p>运气不错。在ObfuscateImages.bundle发现了一个叫china.dat的文件。不过尝试用各种编辑器都没法打开，使用修改后缀名等之类的方法也没能成功打开。看来要获取这个文件的内容没有那么简单，开发者对这个文件做了相关加密工作。要想解密该文件，我们可能需要到汇编代码中寻找答案了。</p>
-<blockquote>
-<p>这里考虑到程序在使用这个滤镜的时候，会加载该文件，并进行相关解密工作。所以下一步是要找到解密dat文件的地方，不过在此之前，我们还有一些工作要做。</p>
-</blockquote>
-<h2 id="解密可执行文件_-_clutch_演示">解密可执行文件 - clutch 演示</h2>
-<p>接下来我们要去可执行文件中查询相关信息了。但是从苹果商店上面下载下来的IPA里面的可执行文件是被苹果加密过的,我们解谜它。我常用的工具是 <a href="https://github.com/KJCracks/Clutch" target="_blank" rel="external">clutch</a>,你可以clone一份repo到本地，然后编译得到一个clutch的程序，也可以直接下载release版本。然后把Clutch scp 到你的越狱机器上面就可以使用了。</p>
+          <p><img src="https://img1.doubanio.com/lpic/s4548399.jpg" style="width: 120px;"></p>
+<h2 id="技术从业人员的五个级别">技术从业人员的五个级别</h2>
+<p>书中开篇介绍一项技术领域的从业人员，大体可以分成五个级别：新手，高级新手，胜任者，精通者，专家。从名次表面就很好理解这五个级别所代表的意思。有意思的地方在于现在国内的大型互联网公司内部，技术人员的职级分类也是如此：初级工程师，工程师，高级工程师，资深工程师，专家。文中列举了一些各个级别的人的一些有意思的特征，如新手非常在乎他们是否成功，新手不是特别想要学习，他们只是想要一个立竿见影的效果，如果出错，他们非常容易慌乱。高级新手能够根据过去的经验，逐步在正确的情景中采纳建议，但他们不想要全局思维。胜任者是可以独立解决问题，并开始考虑如何解决新的问题，胜任者的工作更多的是基于谨慎的计划和过去的经验，如果没有更多的经验，在解决问题时，他们难以确定关注哪些细节。精通者能够纠正以往不好的工作表现，他们会反思以前是如何做的，并修改其做法，期望下一次表现得更好，如此，自我改进就会出现。专家根据直觉工作，而不需要理由，专家的数量很少，大概占总人数的1%～5%。</p>
+<p>而要想而从新手一步一步升级成为专家，自身要发生如下三个重要变化才行：</p>
 <ul>
-<li><p>首先我们查找一下b612的bundle</p>
-<p>  iPhone:/usr root# ./Clutch -i|grep b612<br>  28)<b612 bundleid:="" com.linecorp.b612=""></b612></p>
-</li>
-<li><p>然后进行dump工作</p>
-<p>  iPhone:/usr root# ./Clutch -d com.linecorp.b612<br>  ….<br>  //程序输出相关log<br>  ….<br>  DONE: /private/var/mobile/Documents/Dumped/com.linecorp.b612-iOS7.0-(Clutch-2.0 RC2).ipa</p>
-</li>
+<li>从依赖规则向依赖直觉转变</li>
+<li>观念的改变，问题已不再是一个相关度等同的所有单元的集合体，而是一个完整和独特的真题，其中某些单元是相关的。</li>
+<li>最后，从问题的旁观者转变为问题涉及的系统本身的一部分。</li>
 </ul>
-<p>最后会生成一个解密了的ipa文件，我们把它scp到电脑上来，进行分析。</p>
-<blockquote>
-<p>还有另外一个解密苹果商店加密IPA的工具叫<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。由于在使用Clutch解密app的时候，消耗内存比较大，导致运行时会出现解密失败的情况，这个时候可以尝试使用<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。</p>
-</blockquote>
-<h2 id="分析可执行文件_-_class-dump_以及_IDA">分析可执行文件 - class-dump 以及 IDA</h2>
-<p>要分析解密之后的文件，我们可以使用<a href="https://github.com/nygard/class-dump" target="_blank" rel="external">class-dump</a>来导出程序的头文件。有了头文件列表之后，我们可以利用它来了解app的架构，使用的类库，以及探索需要逆向的那一块功能所属的类名。</p>
-<pre><code><span class="comment">class</span><span class="literal">-</span><span class="comment">dump</span><span class="literal">-</span><span class="comment">z/mac_x86/class</span><span class="literal">-</span><span class="comment">dump</span><span class="literal">-</span><span class="comment">z</span> <span class="comment">b612</span> <span class="literal">-</span><span class="comment">H</span> <span class="literal">-</span><span class="comment">o</span> <span class="comment">headers</span>
-<span class="comment">cd</span> <span class="comment">headers</span>
-<span class="comment">total</span> <span class="comment">10728</span>
-<span class="comment">drwxr</span><span class="literal">-</span><span class="comment">xr</span><span class="literal">-</span><span class="comment">x</span>  <span class="comment">1295</span> <span class="comment">cp</span>  <span class="comment">wheel</span>  <span class="comment">44030</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="string">.</span>
-<span class="comment">drwxr</span><span class="literal">-</span><span class="comment">xr</span><span class="literal">-</span><span class="comment">x</span>   <span class="comment">455</span> <span class="comment">cp</span>  <span class="comment">wheel</span>  <span class="comment">15470</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="string">.</span><span class="string">.</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">785</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTApplication</span><span class="string">.</span><span class="comment">h</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">370</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporter</span><span class="string">.</span><span class="comment">h</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">391</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporterPrivate</span><span class="string">.</span><span class="comment">h</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">264</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporting</span><span class="string">.</span><span class="comment">h</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>   <span class="comment">1830</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageTracker</span><span class="string">.</span><span class="comment">h</span>
-</code></pre><p>要找到加密 .dat 文件的相关代码，我们需要使用另外一个非常强大的工具<a href="https://www.hex-rays.com/products/ida/index.shtml" target="_blank" rel="external">IDA</a>。IDA可以非常整洁的输出可执行文件的汇编代码，并且相互连接起来。不过这个软件非常之贵，但是它的免费版本已经够用了。</p>
-<p>把B612的可执行文件加载到IDA之后，我们在IDA中执行一个搜索，关键字是dat;幸运的是，搜索结果指向了一下的代码。虽然是汇编代码，但是不难看出两点信息，（1）dat后缀的文件是一张Image （2）程序中需要把文件的数据字节进行反向操作，达到混淆的目的。</p>
-<p><img src="http://cp0000.github.io/assets/b612-reversebyte.png" alt="reversebyte" style="width: 500px;"></p>
-<p>接下来验证一下线索结果：</p>
-<pre><code>- (<span class="keyword">void</span>)viewDidLoad {
-    [<span class="keyword">super</span> viewDidLoad];
-    NSData * data = [[NSData alloc] initWithContentsOfFile: [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"china"</span> ofType:<span class="string">@"dat"</span>]];
-    data = [<span class="keyword">self</span> reverseData: data];
-    <span class="built_in">UIImage</span> * image  = [<span class="built_in">UIImage</span> imageWithData: data];
-    <span class="built_in">UIImageView</span> * imageView = [[<span class="built_in">UIImageView</span> alloc] initWithImage: image];
-    imageView<span class="variable">.frame</span> = <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.bounds</span>;
-    [<span class="keyword">self</span><span class="variable">.view</span> addSubview: imageView];
-}
-- (NSData *)reverseData:(NSData *)data {
-    <span class="keyword">const</span> <span class="keyword">char</span> *bytes = [data bytes];
-    <span class="keyword">int</span> idx = [data length] - <span class="number">1</span>;
-    <span class="keyword">char</span> *reversedBytes = calloc(<span class="keyword">sizeof</span>(<span class="keyword">char</span>),[data length]);
-    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; [data length]; i++) {
-        reversedBytes[idx--] = bytes[i];
-    }
-    NSData *reversedData = [NSData dataWithBytes:reversedBytes length:[data length]];
-    free(reversedBytes);
-    <span class="keyword">return</span> reversedData;
-}
-</code></pre><p>上述代码让我们获得一张china的图片：</p>
-<p><img src="http://cp0000.github.io/assets/china.png" alt="china" style="width: 300px;"></p>
-<p>上述代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612Image</a></p>
-<p>OK，到此为止，我们解密了china.dat 这种类型的文件，它跟我们最终要挖掘的china滤镜是如何实现的之间肯定有着联系，但我们现在还不得知。</p>
-<h2 id="关于滤镜">关于滤镜</h2>
-<p>在iOS app 中给图片加滤镜是要通过OpenGL ES 去实现的，而现在app中普遍使用的是<a href="https://www.khronos.org/opengles/2_X/" target="_blank" rel="external">OpenGL ES 2.0</a>。这种情况下，滤镜一般都是通过OpenGL的shader来实现的。此时，前面dump出来的header就有用了，分析headers之后，我们发现了两个相关类 GPUImageFilter以及GLProgram。又由于shader在使用之前一定要进行link，compile操作。所以我们可以通过尝试hook这两个类的相关函数，来获得滤镜的shader。</p>
-<blockquote>
-<p>根据头文件我们能发现B612是通过使用<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>框架来实现滤镜功能的。</p>
-</blockquote>
-<h2 id="Theos">Theos</h2>
-<p>关于如何hook app 在运行时的函数，我们需要使用工具<a href="http://iphonedevwiki.net/index.php/Theos" target="_blank" rel="external">Theos</a>.</p>
+<p>然后，令人沮丧的是，研究表明，大多数人的大多数技能，在他们生命的大多数时间里，从没有高于第二阶段高级新手，这里的大多数指的是70%的人。</p>
+<h2 id="大脑的两种思考模式（L_&amp;_R）">大脑的两种思考模式（L &amp; R）</h2>
+<p>书中第二部分介绍了大脑两种思考模式，L模式－线性模式，R模式－富模式。R型对直觉。L型让你细致工作并实现目标。要想获得最佳性能，需要两种模式协同工作。</p>
+<p>L型提供以下9种能力：</p>
 <ul>
-<li>关于如何安装Theos，请阅读<a href="http://iphonedevwiki.net/index.php/Theos/Setup" target="_blank" rel="external">Theos Setup</a>。</li>
-<li>Logos相关语法，请参考<a href="http://iphonedevwiki.net/index.php/Logos" target="_blank" rel="external">Theos Logos</a></li>
+<li>语言能力</li>
+<li>分析能力</li>
+<li>符号能力</li>
+<li>抽象能力</li>
+<li>实践能力</li>
+<li>推理能力</li>
+<li>数字能力</li>
+<li>逻辑能力</li>
+<li>线性思维能力</li>
 </ul>
-<p>安装好Theos之后，我们为B612创建一个tweak;</p>
-<pre><code>$THEOS/bin/nic.pl 
-NIC <span class="number">2.0</span> - New Instance Creator
-------------------------------
-  [<span class="number">1.</span>] iphone/application
-  [<span class="number">2.</span>] iphone/<span class="keyword">library</span>
-  [<span class="number">3.</span>] iphone/preference_bundle
-  [<span class="number">4.</span>] iphone/tool
-  [<span class="number">5.</span>] iphone/tweak
-Choose a Template (required): <span class="number">5</span>
-Project Name (required): bsix
-Package Name [com.yourcompany.bsix]: com.cp.bsix
-Author/Maintainer Name [cp]: 
-[iphone/tweak] MobileSubstrate Bundle filter [com.apple.springboard]: com.linecorp.b612            
-[iphone/tweak] List of applications to terminate upon installation (space-separated, <span class="string">'-'</span> <span class="keyword">for</span> none) [SpringBoard]: b612
-Instantiating iphone/tweak <span class="keyword">in</span> bsix/<span class="keyword">...</span>
-Done.
-</code></pre><p>然后在Tweak.xm文件中编辑需要hook的函数：</p>
-<pre><code>%hook GLProgram
--(<span class="property">id</span>)initWithVertexShaderString:(<span class="property">id</span>)vertexShaderString fragmentShaderString:(<span class="property">id</span>)<span class="type">string</span>
-{
-    [Logger <span class="command">log</span>: [NSString stringWithFormat:@<span class="string">"%@ %@"</span>, NSStringFromClass([self <span class="type">class</span>]), NSStringFromSelector(_cmd)]];
-    NSString * msg = [NSString stringWithFormat: @<span class="string">"vertexShaderString: %@ fragmentShaderString: %@ "</span>, vertexShaderString, <span class="type">string</span>];
-    [Logger <span class="command">log</span>: msg];
-<span class="command">    return</span> %orig;
-}
-%<span class="keyword">end</span>
-</code></pre><p>B612 tweak 的项目地址<a href="https://github.com/cp0000/B612Tweak" target="_blank" rel="external">B612Tweak</a>.成功编译之后，把生成的.deb文件scp到越狱机器上，利用dpkg安装tweak；杀掉B612进程重启app之后，tweak就可以hook相关函数了。以下在点击China滤镜的时候，tweak打印出来的log信息：</p>
-<pre><code>GLProgram initWithVertexShaderString:fragmentShaderString:
-vertexShaderString: 
-<span class="keyword">attribute</span> <span class="keyword">vec4</span> position; 
-<span class="keyword">attribute</span> <span class="keyword">vec4</span> inputTextureCoordinate; 
-<span class="keyword">attribute</span> <span class="keyword">vec4</span> inputTextureCoordinate2; 
-<span class="keyword">varying</span> <span class="keyword">vec2</span> textureCoordinate; 
-<span class="keyword">varying</span> <span class="keyword">vec2</span> textureCoordinate2; 
-<span class="keyword">void</span> main() { 
-    <span class="built_in">gl_Position</span> = position; 
-    textureCoordinate = inputTextureCoordinate.xy; 
-    textureCoordinate2 = inputTextureCoordinate2.xy; 
-} 
-fragmentShaderString: 
-<span class="keyword">varying</span> <span class="keyword">highp</span> <span class="keyword">vec2</span> textureCoordinate; 
-<span class="keyword">varying</span> <span class="keyword">highp</span> <span class="keyword">vec2</span> textureCoordinate2; 
-<span class="keyword">uniform</span> <span class="keyword">sampler2D</span> inputImageTexture; 
-<span class="keyword">uniform</span> <span class="keyword">sampler2D</span> inputImageTexture2; 
-<span class="keyword">void</span> main() { 
-    <span class="keyword">highp</span> <span class="keyword">vec4</span> textureColor = <span class="built_in">texture2D</span>(inputImageTexture, textureCoordinate); 
-    <span class="keyword">highp</span> <span class="keyword">float</span> blueColor = textureColor.b * <span class="number">63.0</span>; 
-    <span class="keyword">highp</span> <span class="keyword">vec2</span> quad1; 
-    quad1.y = <span class="built_in">floor</span>(<span class="built_in">floor</span>(blueColor) / <span class="number">8.0</span>); 
-    quad1.x = <span class="built_in">floor</span>(blueColor) - (quad1.y * <span class="number">8.0</span>); 
-    <span class="keyword">highp</span> <span class="keyword">vec2</span> quad2; 
-    quad2.y = <span class="built_in">floor</span>(<span class="built_in">ceil</span>(blueColor) / <span class="number">8.0</span>); 
-    quad2.x = <span class="built_in">ceil</span>(blueColor) - (quad2.y * <span class="number">8.0</span>); 
-    <span class="keyword">highp</span> <span class="keyword">vec2</span> texPos1; 
-    texPos1.x = (quad1.x * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.r); 
-    texPos1.y = (quad1.y * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.g); 
-    <span class="keyword">highp</span> <span class="keyword">vec2</span> texPos2; 
-    texPos2.x = (quad2.x * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.r); 
-    texPos2.y = (quad2.y * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.g); 
-    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor1 = <span class="built_in">texture2D</span>(inputImageTexture2, texPos1); 
-    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor2 = <span class="built_in">texture2D</span>(inputImageTexture2, texPos2); 
-    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor = <span class="built_in">mix</span>(newColor1, newColor2, <span class="built_in">fract</span>(blueColor)); 
-    <span class="built_in">gl_FragColor</span> = <span class="keyword">vec4</span>(newColor.rgb, textureColor.w); 
-}
-</code></pre><h2 id="关于使用OpenGL实现滤镜">关于使用OpenGL实现滤镜</h2>
-<p>前文提到过，根据class-dump出来的头文件，得知B612使用了<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>。理论上我们下一步研究下GPUImage项目，应该就可以实现china滤镜的效果了，但GPUImage项目还是挺庞大，挺复杂的。</p>
+<p>这些都是白领们，信息工作者和工程师们最渴望的本领。上学的时候测验也是这些能力。</p>
+<p>R型提供的能力：</p>
+<ul>
+<li>非语言</li>
+<li>非理性</li>
+<li>综合</li>
+<li>空间性</li>
+<li>具体</li>
+<li>直觉</li>
+<li>分析</li>
+<li>全面</li>
+<li>非线性</li>
+</ul>
+<p>R型是非语言的，注重整体的，直觉的，跳跃的，这些特点似乎更适合艺术家。但R型的类比和整体思考方式对软件架构和设计非常有价值，好的设计就是由这些组成的。R型还负责综合，而综合是一项非常强大的学习技术。乃至于麻省理工学院媒体实验室创始人建议，真正想要了解一只青蛙，传统的解剖不是办法，更好的方式是构造一直青蛙。（联想到软件开发中，如果想真正搞透某个模块，重造轮子应该是最好的方式）。</p>
+<p>接着书中谈到相对于L型，为何R型也如此重要。一家公司的产品是否能够成功，R型思维起到很重要因素。因为R型管理美学，而商品化意味着美学品味的竞争。<strong>作者强调产品的设计胜于功能，是否有吸引力很重要。</strong>好的设计，会给用户带来积极的情感，而积极的情感对学习和创造思维非常关键。处于“高兴”的状态可以扩展你的思维过程，激活更多的大脑物质（意味着用户从产品获取到快感，成就感，自然就会愿意使用产品）。</p>
+<p>当然了，美学不仅仅指的是用户界面,产品的Logo，也包括代码和注释的布局，变量名的选择和桌面的整理，还有其他领域的方方面面。（此时，想起了乔布斯的那句“It’s all about the taste”）</p>
+<h2 id="如何利用L型和R型协同工作">如何利用L型和R型协同工作</h2>
+<p>然后书中第四章介绍了如何利用右脑，也就是如何促成R型到L型的转换。其中我觉得很有意思的是酒醉写作，酒醒修改。因为酒醉的时候，你拥有自由的创造空间，不受“常识”或者“实用”束缚，可以尽情发挥自己的创造力或随后抛掉那些荒诞的东西。</p>
+<p>下面是举了几个关于 L 型和 R 型协调工作的其它几种方式：</p>
+<ul>
+<li>结对编程：工作时，一个人用L型，一个人用R型</li>
+<li>隐喻相通：隐喻，语言和意像共同的地基，是在左右脑半球之间，在潜意识和意识之间来回游弋的途径。隐喻时一种激发创造力的强大技术。</li>
+<li>并列参照系</li>
+<li>幽默：幽默既不是浪费时间，也不是无害的消遣，而是反映了思维，学习和创造所必需的重要能力。他与联系有关。幽默产生于在不同的想法中制造新奇的联系。在任何情况下，幽默的能力都来自于发掘或扩展常规之外的关系，真正突破思维界限。</li>
+</ul>
+<p>文中还有一段关于外向和内向的人讨论。外向的人乐于与人交往并参加社会活动。内向的人则不是，他们具有领地意识，需要私人的精神和环境空间，内向的人从独立的活动中获得力量，厌倦社会活动。百分之七十五的人偏于外向型，剩下百分之二十五的人则希望单独呆着。</p>
+<h2 id="学习">学习</h2>
+<p>在当今技术和文化环境下，学习能力可能是成功的最重要因素。它决定了你是“大获全胜”还是“勉强通过”。</p>
+<ul>
+<li>技术本身不重要，持续学习才是最重要的。</li>
+<li>学习不是强加于你的，而是需要你主动做的事情</li>
+<li>仅仅掌握知识，而不去实践，没有用</li>
+<li>随机的方法，没有目标和反馈，往往会导致随机的结果</li>
+</ul>
+<p>那如何在现实中使学习更有效率？需要使用SMART目标和实用投资计划管理目标和计划。</p>
+<p>SMART 代表具体的，可度量的，可实现的，相关的和时间可控的（Specific，Measurable,Achievable,Relevant,and Time-boxed）。</p>
+<ul>
+<li>具体的：一个目标任务应该是具体的。也就是说，只说“我想学习swift”是不够的。应该把事情具体化，例如“我想要用Swift编写一个记账软件”</li>
+<li>可度量的：如何知道你何时完成？为了努力实现目标任务，不管采用什么办法，你必须能够度量它。可度量的与具体的相辅相成。很难度量笼统抽象的事物，但是很容易度量具体和详细的事物，只要使用确切的数字即可。如果你认为无法度量自己的目标任务，那么可能它还不够具体。“写一部小说就像在黑夜里开车。你只能看到车灯照亮的部分，但是你却可以走完整个旅程”。你不必看清你去往何处。不必看清你的目的地和沿途的一切。你只需看清面前的一两米即可。</li>
+<li>可实现的</li>
+<li>相关的：目标需要相关，需要在你掌握之中</li>
+<li>时间可控的：没有期限，目标会逐步衰退，永远被每天更紧急的事情所排挤。</li>
+</ul>
+<h2 id="管理知识投资">管理知识投资</h2>
+<ul>
+<li>制定具体计划：制定计划就是巨大的进步。计划要具体，要运用SMART目标理念，要为不同时间段设计不同层次的目标。记住艾森豪威尔将军对我们的建议：作计划比计划本身重要得多。</li>
+<li>多样化：不要把所有的鸡蛋放在同一个篮子里，需要很好地组合语言，环境，技术，行业和非技术领域（管理，公共演讲，，人类学，音乐，艺术，等等）</li>
+<li>主动投资：需要客观地按天来评估你的计划，如实地判断运行状况。</li>
+<li>定期投资：需要定期投资最低限度的时间量，养成一种习惯。并非每期学习都同样富有成效，但是只要定期安排学习，长期来看一定会成功。</li>
+</ul>
+<h2 id="控制注意力">控制注意力</h2>
+<p>在我们生活的这个信息丰富的时代，过多的信息导致了知识和注意力的匮乏。置身于应接不暇的信息中，很容易失去思考的重心。要更好地管理自己的思维需要从以下三个方面做起：</p>
+<ul>
+<li>提高注意力：可以通过冥想来提高自己的注意力。关于如何冥想，文中提到的是，打坐，然后所有事情就是注意自己的呼吸。详细的步骤需要自身对着书中的介绍去实践。</li>
+<li>管理知识：使用wiki</li>
+<li>优化当前情境：多任务处理对生产力会造成重大损失，记住，无论你做什么，请不要同时都做，避免分心。</li>
+</ul>
+<h2 id="改变">改变</h2>
+<p>一些帮助我们管理有效改变的建议。</p>
+<ul>
+<li>制定计划</li>
+<li>“不作为”是敌人，而“错误”不是</li>
+<li>给新习惯适应的时间</li>
+<li>信念是真实的</li>
+<li>采取步步为营的细小步骤</li>
+</ul>
+<p>最后，选择开始做什么并不特别重要，重要的是主动尝试学习到的知识，做出改变。</p>
 <blockquote>
-<p>GPUImage 提供了<code>GPUImageLookupFilter</code>类来实现颜色查找类的滤镜</p>
+<p>不管你能做什么，或者期望自己能做什么，现在就开始做。勇敢可以给人智慧，力量和神奇。现在就开始做吧。 －－歌德</p>
 </blockquote>
-<p>这里我们直接使用OpenGL来实现China滤镜。阅读前面的shader代码，得知需要传递给shader两个texture，可以想象出一个是需要原图片，一个是china.dat转换出来的图片，经过顶点着色器和片段着色器，最终给目标图片加上滤镜。下面第一张图是原图，第二张是我用OpenGL实现的Demo效果图片，第三张是B612加china滤镜出来的结果。对比第二张和第三章，效果非常相似。利用OpenGL实现滤镜的代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612</a></p>
-<p><img src="http://cp0000.github.io/assets/photo.jpg" alt="原图" style="width: 250px;"></p>
-<p><img src="http://cp0000.github.io/assets/jingse.jpg" alt="Demo效果图" style="width: 250px;"><img src="http://cp0000.github.io/assets/jingse_b612.jpg" alt="B612效果图" style="width: 250px;"></p>
+<p>以上是我读书过程中做的一些书摘。作为一个软件从业人员，我对文中作者的很多观点都很是赞同，对这本书也有点相见恨晚的味道。读这本书的时候，最重要的环节就是尝试去做书中提到的种种实践；就像我们在研究一门新的技术的时候，重要的一环是用新技术去解决某个问题。这种学习方式是我从业以来一直惯用的方式。<br>很好的一本书，值得推荐给别人去看，不论这个人是不是程序员。</p>
 
         
       
@@ -360,7 +303,7 @@ fragmentShaderString:
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/7/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/7/">&raquo;</a>
   </div>
 
 
@@ -394,7 +337,7 @@ fragmentShaderString:
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
