@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Learning OpenGL：帧缓冲对象（Frame Buffer Object） | CP WRITINGS</title>
+  <title>Learning OpenGL：帧缓冲对象 | CP WRITINGS</title>
   <meta name="description" content="" />
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -44,7 +44,7 @@
       </time>
     
 </span>
-    <h1 class="post-title">Learning OpenGL：帧缓冲对象（Frame Buffer Object）</h1>
+    <h1 class="post-title">Learning OpenGL：帧缓冲对象</h1>
     <section class="post-content">
       <h2 id="背景">背景</h2>
 <p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
@@ -81,17 +81,22 @@
 <p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终回呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
 <pre><code><span class="title">glBindFramebuffer</span> (GL_FRAMEBUFFER, <span class="number">0</span>);
 </code></pre><h3 id="创建纹理附加图像">创建纹理附加图像</h3>
-<p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong><br>    glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level);</p>
-<ul>
+<p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
+<pre><code>glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint <span class="built_in">texture</span>,GLint level);
+</code></pre><ul>
 <li>target: 绑定目标，一般为 GL_FRAMEBUFFER</li>
 <li>attachment:附加点，可选为GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT,GL_STENCIK_ATTACHMENT</li>
 <li>textTarget: 纹理的绑定目标，一般为 GL_TEXTURE_2D</li>
 <li>texture：实际的纹理对象</li>
-<li><p>level：mipmap级别，一般为0</p>
-<p>  GLuint texture;<br>  glGenTextures(1, &amp;texture);<br>  glBindTexture(GL_TEXTURE_2D, texture);<br>  glTexImage2D(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); //末尾的NULL表示我们只预分配空间，而不实际加载纹理<br>  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);<br>  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</p>
-</li>
+<li>level：mipmap级别，一般为0</li>
 </ul>
-<p>上面创建的纹理图像，可以附加到FBO：</p>
+<pre><code>GLuint texture;
+<span class="function">glGenTextures</span>(1, &amp;texture);
+<span class="function">glBindTexture</span>(GL_TEXTURE_2D, texture);
+<span class="function">glTexImage2D</span>(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); <span class="comment">//末尾的NULL表示我们只预分配空间，而不实际加载纹理</span>
+<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+</code></pre><p>上面创建的纹理图像，可以附加到FBO：</p>
 <pre><code>glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, <span class="built_in">texture</span>, <span class="number">0</span>);
 </code></pre><p>FBO创建和准备工作完成额，在利用FBO作图前，我们需要介绍另一个附加图像-RenderBuffer。</p>
 <h3 id="创建Renderbuffer附加图像">创建Renderbuffer附加图像</h3>
@@ -163,6 +168,8 @@ glDisable(GL_DEPTH_TEST);
 glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
 glDrawArrays(GL_TRIANGLES, <span class="number">0</span>, <span class="number">6</span>);
 glBindVertexArray(<span class="number">0</span>);
+</code></pre><h3 id="后处理">后处理</h3>
+<pre><code>&gt;待续
 </code></pre>
     </section>
     <footer class="post-footer">
