@@ -50,7 +50,7 @@
 <p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
 <h2 id="FBO">FBO</h2>
 <p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
-<p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）.</p>
+<p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。</p>
 <p>帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：</p>
 <pre><code>&gt;注：OpenGL <span class="literal">es</span> <span class="number">2.0</span> 也只有一个颜色附加点
 </code></pre><p><img src="http://www.songho.ca/opengl/files/gl_fbo01.png" alt="framebuffer object"></p>
@@ -78,7 +78,7 @@
 <li><p>每个缓冲区的采样需要一致</p>
 </li>
 </ul>
-<p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终回呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
+<p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
 <pre><code><span class="title">glBindFramebuffer</span> (GL_FRAMEBUFFER, <span class="number">0</span>);
 </code></pre><h3 id="创建纹理附加图像">创建纹理附加图像</h3>
 <p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
@@ -102,9 +102,9 @@
 <h3 id="创建Renderbuffer附加图像">创建Renderbuffer附加图像</h3>
 <p>和纹理图像一样，一个renderbuffer对象也是一个缓冲，它可以是一堆字节，整数，像素等。renderbuffer的优点是：它以OpenGL原生渲染格式存储它的数据，因此在离屏渲染到帧缓冲的时候，这些数据相当于被优化过。</p>
 <p>renderbuffer对象将所有渲染数据直接储存在它们的缓冲里，而不会进行针对特定纹理格式的任何转换，这样它们就成了一种快速可写的存储介质了。然后，renderbuffer对象通常是只写的，不能修改它们。</p>
-<p>因为renderbuffer对象中的数据已经是原声格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。</p>
+<p>因为renderbuffer对象中的数据已经是原生格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。</p>
 <blockquote>
-<p>解释下为什么一次渲染的末尾需要交换帧缓冲数据，由于我们自己创建了一个FBO，接下来所有的渲染操作都在这个创建的FBO上，当一次渲染结束之后，需要把这个FBO中的数据交换到默认FBO中去，最终显示在屏幕上。</p>
+<p>要了解为什么渲染的末尾需要交换帧缓冲数据，和谁交换帧缓冲数据，需要理解什么叫双缓存。所谓双缓存机制指的是显示系统通常会引入两个缓冲区，在这种情况下，GPU会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU会直接把视频控制器的指针指向第二个缓冲器。</p>
 </blockquote>
 <p>创建和销毁RenderBuffer也很简单：</p>
 <pre><code><span class="keyword">void</span> glGenRenderbuffers(GLsizei n, GLuint * ids);
@@ -195,6 +195,10 @@ glBindVertexArray(<span class="number">0</span>);
     </footer>
   </article>
   <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2017/05/21/travel-to-australia/">
+        ← 澳大利亚游记
+    </a>
     
     <span class="page-number">•</span>
     
