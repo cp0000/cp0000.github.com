@@ -1,34 +1,164 @@
-include mixins
+<!DOCTYPE html>
+<html>
 
-extends partial/layout
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>2016年度总结 | CP WRITINGS</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-block site_title
-    != page.title + " · " + config.title
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+  <meta name="generator" content="CP WRITINGS">
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .share
-      .evernote
-        a.fa.fa-bookmark(href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();", ref="nofollow", target="_blank")
-      .weibo
-        a.fa.fa-weibo(href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));")
-      .twitter
-        a.fa.fa-twitter(href=url_for("http://twitter.com/home?status="+","+config.url+"/"+page.path+","+config.title+","+page.title+",;"))
-    - var prev = page.prev ? page.prev.path : false;
-    - var next = page.next ? page.next.path : false;
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+  
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">CP WRITINGS</h1>
+            <h2 class="blog-description"></h2>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-12-11T06:56:52.000Z" itemprop="datePublished">
+          Dec 11 2016
+      </time>
+    
+</span>
+    <h1 class="post-title">2016年度总结</h1>
+    <section class="post-content">
+      <h3 id="娱乐">娱乐</h3>
+<p><strong>年度电影</strong></p>
+<p><a href="https://movie.douban.com/subject/25895901/" target="_blank" rel="external">海街日记</a><img src="https://img3.doubanio.com/view/photo/photo/public/p2283110641.jpg" style="width: 120px;"></p>
+<p><strong>年度歌曲</strong> </p>
+<p><a href="http://music.163.com/#/song?id=29724295" target="_blank" rel="external">热河</a></p>
+<p><img src="
+http://img.xiami.net/images/album/img94/7194/14157293421415729342_2.jpg" style="width: 120px;"></p>
+<p><strong>年度美剧</strong></p>
+<p><a href="https://movie.douban.com/subject/3016187/" target="_blank" rel="external">Game of Thrones</a></p>
+<p><img src="https://img1.doubanio.com/view/movie_poster_cover/lpst/public/p896064368.jpg" style="width: 120px;"></p>
+<p><strong>年度书籍</strong></p>
+<p><a href="https://book.douban.com/subject/26576861/" target="_blank" rel="external">最好的告别</a></p>
+<p><img src="https://img3.doubanio.com/lpic/s28355811.jpg" style="width: 120px;"></p>
+<p><strong>年度Podcast</strong></p>
+<p><a href="https://ipn.li/taiyilaile/" target="_blank" rel="external">太医来了</a></p>
+<p><img src="https://pic4.zhimg.com/8746e3b32e6afbf06eda1a4d69d2bb5b_xl.jpg" style="width: 80px;"></p>
+<p><strong>年度电视节目</strong></p>
+<p><a href="http://www.iqiyi.com/a_19rrgifngp.html" target="_blank" rel="external">晓松奇谈</a></p>
+<p><img src="http://pic0.qiyipic.com/common/lego/20160104/f6e30204caa345508edd843c182ad7c6.jpg" style="width: 240px;"></p>
+<h3 id="体育">体育</h3>
+<p><strong>年度NBA比赛</strong></p>
+<p>15-16赛季，西部决赛第七场</p>
+<p>金州勇士-俄克拉何马城雷霆</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/zh/0/0f/Golden_State_Warriors_logo.png" style="width: 120px;"> <img src="https://upload.wikimedia.org/wikipedia/zh/f/f6/OKC_Thunder.png" style="width: 120px;"></p>
+<p><strong>年度足球比赛</strong></p>
+<p>15欧锦赛 1/4 决赛：德国-意大利</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/zh/thumb/e/e3/DFBEagle.svg/400px-DFBEagle.svg.png" style="width: 120px;">  <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/9/97/FIGC_logo.svg/207px-FIGC_logo.svg.png" style="width: 120px;"></p>
+<h3 id="工作">工作</h3>
+<p><strong>年度编程语言</strong></p>
+<p><a href="https://zh.wikipedia.org/wiki/OpenGL" target="_blank" rel="external">OpenGL</a></p>
+<p><img src="https://www.opengl.org/img/opengl_logo.png" style="width: 180px;"></p>
+<p><strong>年度App</strong></p>
+<p><a href="https://itunes.apple.com/us/app/msqrd-live-filters-face-swap/id1065249424?mt=8" target="_blank" rel="external">MSQRD</a></p>
+<p><img src="http://is5.mzstatic.com/image/thumb/Purple71/v4/78/76/b3/7876b386-4821-5fb0-8e98-a524bd3dec14/source/630x630bf.jpg" style="width: 120px;"></p>
+<p><strong>年度开源项目</strong></p>
+<p><a href="https://github.com/BradLarson/GPUImage.git" target="_blank" rel="external">GPUImage</a></p>
+<p><strong>年度工具</strong></p>
+<p>macOS / iOS 备忘录</p>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Pei Cheng</h4>
+    <p>A developer</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://cp0000.github.io/2016/12/11/2016-summary/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cp0000.github.io/2016/12/11/2016-summary/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://cp0000.github.io/2016/12/11/2016-summary/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2016/12/18/opengl-3d-matrix/">
+        ← OpenGL ES 2.0 3D基础（1）－矩阵
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/11/07/ffmpeg-command-example/">
+        ffmpeg 使用例程 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
+
+    
+</div>
+</main>
+
+
+  
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63703524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+</body>
+</html>

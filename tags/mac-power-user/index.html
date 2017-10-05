@@ -1,16 +1,115 @@
-extends partial/layout
+<!DOCTYPE html>
+<html>
 
-block site_title
-  != page.tag + " · " + config.title
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Tag: mac power user | CP WRITINGS</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-block description
-  - var desc = '标签：' + page.tag + ' - ' + config.title;
-  meta(name="description", content=desc)
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
 
-block content
-  .autopagerize_page_element: .content
-    .archive.animated.fadeInDown
-      ul.list-with-title
-        include mixins
-        +postList()
-        +make_pager(__('prev'), __('next'))
+  <meta name="generator" content="CP WRITINGS">
+
+  
+  
+  
+
+  
+</head>
+
+
+<body class="home-template">
+
+  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">CP WRITINGS</h1>
+            <h2 class="blog-description"></h2>
+        </div>
+    </div>
+</header>
+  
+<main class="content" role="main">
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2015-08-02T03:31:18.000Z" itemprop="datePublished">
+          Aug 2 2015
+      </time>
+    
+    
+    | 
+    <a href='/tags/mac-power-user/'>mac power user</a>
+    
+    
+</span>
+      <h2 class="post-title"><a href="/2015/08/02/mdfind-note/">Spotlight & MDFind</a></h2>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        Indexing 服务
+Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。
+先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：
+
+spotlight 帮我找到了包含 _loadBlock 这个字符串的文件。
+想象下，电脑硬盘中存储着如此多的文件，spotlight 是如何如此快速的查询到包涵这个字符串的文件的？
+在查找答案之前，我们不妨自己来试着
+      
+      </p>
+      
+      <p>
+          <a href="/2015/08/02/mdfind-note/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    
+    <span class="page-number">Page  of </span>
+    
+  </nav>
+</main>
+
+
+  
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63703524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+</body>
+</html>

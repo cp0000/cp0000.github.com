@@ -1,34 +1,225 @@
-include mixins
+<!DOCTYPE html>
+<html>
 
-extends partial/layout
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>OpenGL ES 2.0 3D基础（1）－矩阵 | CP WRITINGS</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-block site_title
-    != page.title + " · " + config.title
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+  <meta name="generator" content="CP WRITINGS">
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .share
-      .evernote
-        a.fa.fa-bookmark(href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();", ref="nofollow", target="_blank")
-      .weibo
-        a.fa.fa-weibo(href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));")
-      .twitter
-        a.fa.fa-twitter(href=url_for("http://twitter.com/home?status="+","+config.url+"/"+page.path+","+config.title+","+page.title+",;"))
-    - var prev = page.prev ? page.prev.path : false;
-    - var next = page.next ? page.next.path : false;
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+  
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">CP WRITINGS</h1>
+            <h2 class="blog-description"></h2>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-12-18T06:37:53.000Z" itemprop="datePublished">
+          Dec 18 2016
+      </time>
+    
+</span>
+    <h1 class="post-title">OpenGL ES 2.0 3D基础（1）－矩阵</h1>
+    <section class="post-content">
+      <h2 id="Overview">Overview</h2>
+<p>移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。</p>
+<h2 id="线性代数">线性代数</h2>
+<p>学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。</p>
+<h3 id="向量运算">向量运算</h3>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F" target="_blank" rel="external">向量</a>: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。</p>
+<h4 id="向量加减">向量加减</h4>
+<p>向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_01.png" alt=""></p>
+<h4 id="向量相乘">向量相乘</h4>
+<h5 id="点乘">点乘</h5>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_02.png" alt=""></p>
+<h4 id="叉乘">叉乘</h4>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_03.png" alt=""></p>
+<h3 id="矩阵运算">矩阵运算</h3>
+<h4 id="矩阵简介">矩阵简介</h4>
+<p>数学上，一个  m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_04.png" alt=""></p>
+<h4 id="矩阵运算规则">矩阵运算规则</h4>
+<h5 id="矩阵的加减">矩阵的加减</h5>
+<p>矩阵与标量之间的加减：</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_05.png" alt=""></p>
+<p>矩阵与矩阵之间的加减：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_06.png" alt=""></p>
+<h5 id="矩阵乘法">矩阵乘法</h5>
+<ul>
+<li><p>矩阵数乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_07.png" alt=""></p>
+</li>
+<li><p>矩阵相乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_08.png" alt=""></p>
+</li>
+</ul>
+<h4 id="单位矩阵">单位矩阵</h4>
+<p>在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_09.png" alt=""></p>
+<p>单位矩阵通常是生成其他变换矩阵的起点。</p>
+<h4 id="缩放矩阵">缩放矩阵</h4>
+<p>对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_11.png" alt=""></p>
+<h4 id="位移矩阵">位移矩阵</h4>
+<p>位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_12.png" alt=""></p>
+<h4 id="旋转矩阵">旋转矩阵</h4>
+<p>（Rx,Ry,Rz）代表任意旋转轴，θ是角度：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_16.png" alt=""></p>
+<h5 id="累积变换">累积变换</h5>
+<p>上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：</p>
+<pre><code>TransformedVector = TranslationMatrix <span class="keyword">*</span> RotationMatrix <span class="keyword">*</span> ScaleMatrix <span class="keyword">*</span> OriginalVector;
+</code></pre><p>这行代码首先执行缩放，接着旋转，最后才是平移</p>
+<h2 id="坐标系统">坐标系统</h2>
+<p>OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：</p>
+<ul>
+<li>局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。</li>
+<li><p>世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。</p>
+<blockquote>
+<p>模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。</p>
+</blockquote>
+</li>
+<li><p>观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。</p>
+</li>
+<li><p>裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。</p>
+</li>
+</ul>
+<p>将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。</p>
+<ul>
+<li>屏幕空间（Screen Space）</li>
+</ul>
+<h3 id="正交投影（Orthographic_Projection）">正交投影（Orthographic Projection）</h3>
+<p>正交投影矩阵定义一个立方体的平截头箱，在这个立方体之外的顶点都会被裁剪掉。</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_18.png" alt=""></p>
+<p>正交投影矩阵直接将坐标映射到2D平面上。不过正交投影没有透视效果，远处箱子和近处箱子投射到平面上是一样大的，这和我们日常生活中看东西时近大远小的视觉效果是不符的。要解决这个问题，我们需要用到透视投影。</p>
+<h3 id="透视投影（Perspective_Projection）">透视投影（Perspective Projection）</h3>
+<p>透视投影定义一个大平截头体。透视投影有两种表述方式：</p>
+<ul>
+<li>视锥体：</li>
+</ul>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_19.png" alt=""></p>
+<p>glFrustum (left, right, bottom, top, zNear, zFar);</p>
+<p>left,right,bottom,top定义near裁剪面大小，zNear和zFar定义从观察点到远近两个裁剪面的距离。这六个参数定义出六个裁剪面构成的视锥体。</p>
+<ul>
+<li>透视图：</li>
+</ul>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_20.png" alt=""></p>
+<p>gluPerspective(fovy, aspect, zNear, zFar);</p>
+<ul>
+<li>fovy: camera 在 y 方向上的视线角度（0~180)</li>
+<li>aspect定义近截面的宽高比 aspect=w/h</li>
+<li><p>zNear, zFar: 观察点到远近两个裁剪面的距离</p>
+<p>透视体参数转换车过视锥体参数：</p>
+<pre><code>  tan(fovy<span class="regexp">/2) = (h /</span> <span class="number">2</span>)/zNear<span class="function"> -&gt;</span> h; 
+  w =  h * aspect<span class="function"> -&gt;</span> w;
+</code></pre></li>
+</ul>
+<h3 id="矩阵组合">矩阵组合</h3>
+<p>基于前面介绍的4个变换矩阵：模型矩阵，世界矩阵，观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程变换到裁剪坐标：</p>
+<pre><code><span class="attribute">Vclip</span>=<span class="string">Mprojection⋅Mview⋅Mmodel⋅Vlocal</span>
+</code></pre><blockquote>
+<p>注意矩阵运算的顺序是从右往左阅读，最终计算出来的顶点赋值给<code>gl_Position</code></p>
+</blockquote>
+<h2 id="3D_Demo">3D Demo</h2>
+<p>至此我们了解了OpenGL 3D渲染中需要知道的矩阵知识，运用这些知识，便可进行开发OpenGL3D程序了；苹果官方提供一个很好的GL demo <a href="https://developer.apple.com/library/content/samplecode/GLEssentials/Introduction/Intro.html" target="_blank" rel="external">GLEssentials</a></p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_21.png" alt=""></p>
+<h2 id="结束">结束</h2>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Pei Cheng</h4>
+    <p>A developer</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://cp0000.github.io/2016/12/18/opengl-3d-matrix/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cp0000.github.io/2016/12/18/opengl-3d-matrix/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://cp0000.github.io/2016/12/18/opengl-3d-matrix/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2017/01/29/becoming-steve-jobs/">
+        ← 读书笔记《成为乔布斯》
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/12/11/2016-summary/">
+        2016年度总结 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
+
+    
+</div>
+</main>
+
+
+  
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63703524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+</body>
+</html>

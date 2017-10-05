@@ -1,34 +1,206 @@
-include mixins
+<!DOCTYPE html>
+<html>
 
-extends partial/layout
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>3D-Touch(2) PEEK And POP | CP WRITINGS</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-block site_title
-    != page.title + " · " + config.title
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+  <meta name="generator" content="CP WRITINGS">
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .share
-      .evernote
-        a.fa.fa-bookmark(href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();", ref="nofollow", target="_blank")
-      .weibo
-        a.fa.fa-weibo(href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));")
-      .twitter
-        a.fa.fa-twitter(href=url_for("http://twitter.com/home?status="+","+config.url+"/"+page.path+","+config.title+","+page.title+",;"))
-    - var prev = page.prev ? page.prev.path : false;
-    - var next = page.next ? page.next.path : false;
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+  
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">CP WRITINGS</h1>
+            <h2 class="blog-description"></h2>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2015-10-25T02:36:21.000Z" itemprop="datePublished">
+          Oct 25 2015
+      </time>
+    
+</span>
+    <h1 class="post-title">3D-Touch(2) PEEK And POP</h1>
+    <section class="post-content">
+      <p>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp; Pop 的相关知识点。</p>
+<p>在给你的app接入peeking and poping 的功能之前，需要先了解该操作的三个属性， peeking, preview actions, poping。如下图所示：</p>
+<p><img src="http://cp0000.github.io/assets/peekandpop.gif" alt="peek_and_pop"></p>
+<p>用户在 Peeking 图片，视频，网页等内容的时候，能够在不去加载全部内容的情况下获取到更多详细的内容。</p>
+<h2 id="PEEKING">PEEKING</h2>
+<p>当用户对某个view做peeking操作时，程序会展现给用户相对应内容的快照。Peek 操作是 3DTouch 中实现起来相对比较复杂的模块。Peek and Pop API 中有一个 <code>UIViewControllerPreviewingDelegate</code>,给指定的view需要注册这个delegate，就可以接收到系统回调过来的3D Touch事件。</p>
+<pre><code>override func viewDidLoad() {
+    <span class="keyword">super</span>.viewDidLoad()
+
+    /*  
+        Register <span class="keyword">for</span> `<span class="javascript">UIViewControllerPreviewingDelegate</span>` to enable
+        <span class="string">"Peek"</span> <span class="keyword">and</span> <span class="string">"Pop"</span>.
+        The view controller will be automatically unregistered <span class="keyword">when</span> it <span class="keyword">is</span>
+        deallocated.
+    */
+    registerForPreviewingWithDelegate(self, <span class="attribute">sourceView</span>: view)
+}
+</code></pre><p>这里有一点需要注意，我们可以在一个 view Controller 中，给多个view注册 Previewing Delegate ，但是我们不能反复去注册同一个view。</p>
+<blockquote>
+<p>“You can designate more than one source view for a single registered view controller, but you cannot designate a single view as a source view more than once.”</p>
+</blockquote>
+<p>Peek的操作过程可以分解成下面三个步骤：</p>
+<p><img src="http://cp0000.github.io/assets/peek_and_pop2.png" alt="peek_and_pop_2"></p>
+<p>Peek的系统回调函数会提供一个关于 source view的context，以及 touch事件的point。以sourceView为 collectionView为例，回调函数中我们需要处理以下三件事情：</p>
+<ul>
+<li>(1) 根据 location 找到被 peeked 的 cell，以及cell的 NSIndexPath</li>
+<li>(2) 设置 previewingContext 的 sourceRect 大小</li>
+<li>(3) alloc 一个 PreViewController，并设置背景图片，title之类的， 然后返回这个 PreviewController</li>
+</ul>
+<p><strong>UICOLLECTIONVIEW 代码片段</strong></p>
+<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span></span> viewDidLoad() {
+    <span class="keyword">super</span>.viewDidLoad()
+
+    registerForPreviewingWithDelegate(<span class="keyword">self</span>, sourceView: tableView)
+}
+
+<span class="func"><span class="keyword">func</span></span> previewingContext(previewingContext: <span class="type">UIViewControllerPreviewing</span>, viewControllerForLocation location: <span class="type">CGPoint</span>) -&gt; <span class="type">UIViewController</span>? {
+    guard <span class="keyword">let</span> indexPath = collectionView?.indexPathForItemAtPoint(location) <span class="keyword">else</span> { <span class="keyword">return</span> <span class="built_in">nil</span> }
+
+    guard <span class="keyword">let</span> cell = collectionView?.cellForItemAtIndexPath(indexPath) <span class="keyword">else</span> { <span class="keyword">return</span> <span class="built_in">nil</span> }
+
+    guard <span class="keyword">let</span> detailVC = storyboard?.instantiateViewControllerWithIdentifier(<span class="string">"DetailViewController"</span>) <span class="keyword">as</span>? <span class="type">DetailViewController</span> <span class="keyword">else</span> { <span class="keyword">return</span> <span class="built_in">nil</span> }
+
+    <span class="keyword">let</span> photo = photos[indexPath.row]
+    detailVC.photo = photo
+
+    detailVC.preferredContentSize = <span class="type">CGSize</span>(width: <span class="number">0.0</span>, height: <span class="number">300</span>)
+
+    previewingContext.sourceRect = cell.frame
+
+    <span class="keyword">return</span> detailVC
+}
+</code></pre><h2 id="UIPREVIEWACTIONITEMS">UIPREVIEWACTIONITEMS</h2>
+<p>当用户在 PreViewing Controller 的界面，手指往上推，会从屏幕底部弹出一个类似 actionsheet 的界面，这个是 <code>UIPreviewActions</code>。那如何给指定的 preViewController 自定义这些 <code>UIPreviewActions</code>？ 方法很简单，override UIViewController 中的 preViewActionItems() 方法，在该方法中定义好 actionItems 的数组就好了：</p>
+<pre><code>override func previewActionItems<span class="function"><span class="params">()</span> -&gt;</span> [UIPreviewActionItem] {
+
+    <span class="reserved">let</span> likeAction = UIPreviewAction<span class="function"><span class="params">(title: <span class="string">"Like"</span>, style: .Default)</span> { <span class="params">(action, viewController)</span> -&gt;</span> Void <span class="keyword">in</span>
+        <span class="built_in">print</span>(<span class="string">"You liked the photo"</span>)
+    }
+
+    <span class="reserved">let</span> deleteAction = UIPreviewAction<span class="function"><span class="params">(title: <span class="string">"Delete"</span>, style: .Destructive)</span> { <span class="params">(action, viewController)</span> -&gt;</span> Void <span class="keyword">in</span>
+        <span class="built_in">print</span>(<span class="string">"You deleted the photo"</span>)
+    }
+
+    <span class="reserved">let</span> groupAction = UIPreviewActionGroup (<span class="attribute">title</span>: <span class="string">"Group"</span>, <span class="attribute">style</span>: .Default, <span class="attribute">actions</span>: [likeAction, deleteAction])
+    <span class="keyword">return</span> [likeAction, deleteAction, groupAction]
+
+}
+</code></pre><p>另外苹果还提供了 <code>UIPreviewActionGroup</code>，顾名思义就是把几个UIPreviewActionItem操作放到一起，组成一个组。</p>
+<h2 id="POPPING">POPPING</h2>
+<p>poping 操作处理起来相对简单。在回调函数中</p>
+<pre><code><span class="func"><span class="keyword">func</span></span> previewingContext(previewingContext: <span class="type">UIViewControllerPreviewing</span>, commitViewController viewControllerToCommit: <span class="type">UIViewController</span>) {
+    <span class="comment">//Here's where you commit (pop)</span>
+}
+</code></pre><p>我们需要根据preViewingContext来确定poping的时候需要commit的ViewController就好了。</p>
+<h2 id="WEBVIEW_PEEK_AND_POP">WEBVIEW PEEK AND POP</h2>
+<p>让 <code>UIWebView</code> 和 <code>WKWebview</code> 支持 Peek&amp;Pop就很简单了：</p>
+<pre><code>webView.<span class="variable">allowsLinkPreview =</span> <span class="constant">true</span>
+</code></pre><h2 id="结语">结语</h2>
+<p>以上。</p>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Pei Cheng</h4>
+    <p>A developer</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://cp0000.github.io/2015/10/25/Peek-and-pop/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cp0000.github.io/2015/10/25/Peek-and-pop/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://cp0000.github.io/2015/10/25/Peek-and-pop/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2015/10/27/27/">
+        ← 活到二十七
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2015/09/30/iOS9-Quick-Actions-shortcut/">
+        3D-Touch(1) iOS9 Quick Actions Shortcut →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
+
+    
+</div>
+</main>
+
+
+  
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63703524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+</body>
+</html>
