@@ -1,204 +1,34 @@
-<!DOCTYPE html>
-<html>
+include mixins
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>UICollectionViews Now Have Easy Reordering （译） | CP WRITINGS</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+extends partial/layout
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+block site_title
+    != page.title + " · " + config.title
 
-  <meta name="generator" content="CP WRITINGS">
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
 
-  
-  
-  
-
-  
-</head>
-
-
-<body class="post-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">CP WRITINGS</h1>
-            <h2 class="blog-description"></h2>
-        </div>
-    </div>
-</header>
-  
-
-<main class="content" role="main">
-  <article class="post">
-    <span class="post-meta">
-      <time datetime="2015-08-22T01:52:28.000Z" itemprop="datePublished">
-          Aug 22 2015
-      </time>
-    
-</span>
-    <h1 class="post-title">UICollectionViews Now Have Easy Reordering （译）</h1>
-    <section class="post-content">
-      <h1 id="iOS_9-0_UICollectionView_拖拽效果实现">iOS 9.0 UICollectionView 拖拽效果实现</h1>
-<blockquote>
-<p>原文 <a href="http://nshint.io/blog/2015/07/16/uicollectionviews-now-have-easy-reordering/" target="_blank" rel="external">UICollectionViews Now Have Easy Reordering</a></p>
-</blockquote>
-<p>在<code>UICollectionView</code> 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 <code>UITableView</code>，它更加容易进行一些自定义的操作。我们组现在在项目中使用 <code>UICollectionView</code> 要多于 <code>UITableView</code>。伴随着 iOS 9 的 release，<code>UICollectionView</code>排序（动态拖拽）更加简单。在这之前，如果想对 <code>UICollectionView</code> 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址<a href="https://github.com/nshintio/uicollectionview-reordering" target="_blank" rel="external">uicollectionview-reordering</a>。</p>
-<p>实现拖动排序最简单的办法是使用 <code>UICollectionViewController</code>, 在 <code>UICollectionViewController</code> 中新增了一个属性  <code>installsStandardGestureForInteractiveMovement</code>, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。     我们所需要做的，只要重载下面这个方法就好了.</p>
-<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span></span> collectionView(collectionView: <span class="type">UICollectionView</span>,
-    moveItemAtIndexPath sourceIndexPath: <span class="type">NSIndexPath</span>,
-    toIndexPath destinationIndexPath: <span class="type">NSIndexPath</span>) {
-    <span class="comment">// move your data order</span>
-}
-</code></pre><p>当程序中重载了<code>moveItemAtIndexPath</code>，collectionView 就认为 cell 是可以移动的。</p>
-<pre><code>![<span class="link_label">reordering-01</span>](<span class="link_url">http://nshint.io/images/uicollectionview-reordering/1.gif</span>)
-</code></pre><p>那如果需要给某一个 <code>UIViewController</code> 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现<code>UICollectionViewDataSource</code>中上面提到的代理方法，还需要重写 <code>installsStandardGestureForInteractiveMovement</code>。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势<code>UILongPressGestureRecognizer</code>，它能够完全满足拖拽需求。</p>
-<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span></span> viewDidLoad() {
-    <span class="keyword">super</span>.viewDidLoad()
-    longPressGesture = <span class="type">UILongPressGestureRecognizer</span>(target: <span class="keyword">self</span>, action: <span class="string">"handleLongGesture:"</span>)
-    <span class="keyword">self</span>.collectionView.addGestureRecognizer(longPressGesture)
-}
-
-<span class="func"><span class="keyword">func</span></span> handleLongGesture(gesture: <span class="type">UILongPressGestureRecognizer</span>) {
-
-    <span class="keyword">switch</span>(gesture.state) {
-
-    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Began</span>:
-        guard <span class="keyword">let</span> selectedIndexPath = <span class="keyword">self</span>.collectionView.indexPathForItemAtPoint(gesture.locationInView(<span class="keyword">self</span>.collectionView)) <span class="keyword">else</span> {
-            <span class="keyword">break</span>
-        }
-        collectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
-    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Changed</span>:
-        collectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
-    <span class="keyword">case</span> <span class="type">UIGestureRecognizerState</span>.<span class="type">Ended</span>:
-        collectionView.endInteractiveMovement()
-    <span class="keyword">default</span>:
-        collectionView.cancelInteractiveMovement()
-    }
-}
-</code></pre><p>这段代码主要是给 collectionView 添加一个长手势识别器，并根据手势的不同状态调用collectionView的相关方法。</p>
-<ul>
-<li><code>beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)</code>: 该方法在开始拖拽某个cell时被调用</li>
-<li><code>updateInteractiveMovementTargetPosition(targetPosition:CGPoint)</code>: 根据手势更新拖拽cell的位置</li>
-<li><code>endInteractiveMovement()</code>: 手势结束时调用，结束拖拽</li>
-<li><code>cancelInteractiveMovement()</code>: 手势取消时调用，取消拖拽</li>
-</ul>
-<p>这样就实现了需要的拖拽效果：</p>
-<p><img src="http://nshint.io/images/uicollectionview-reordering/2.gif" alt="reordering_collection_view"></p>
-<p>这段代码出来的效果和 <code>UICollectionViewController</code> 是一致的。很厉害吧，但更厉害的是我们可以用上面的方法对自定义的 collection view layout 进行拖拽。下面我们来实现一个简单的瀑布流。</p>
-<p><img src="http://nshint.io/images/uicollectionview-reordering/3.gif" alt="reordering_waterfall"></p>
-<p>昂～，看起来还凑合，但在移动的时候cell的size被改变了呢，如何才能保持cell的size不变呢？ <code>UICollectionViewLayout</code>提供了相关办法可以帮助我们解决这个问题。</p>
-<pre><code><span class="input"><span class="prompt">func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],
-    withTargetPosition targetPosition: CGPoint,
-    previousIndexPaths: [NSIndexPath],
-    previousPosition: CGPoint) -&gt;</span> <span class="constant">UICollectionViewLayoutInvalidationContext</span></span>
-<span class="input"><span class="prompt">
-func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(indexPaths: [NSIndexPath],
-    previousIndexPaths: [NSIndexPath],
-    movementCancelled: Bool) -&gt;</span> <span class="constant">UICollectionViewLayoutInvalidationContext</span></span>
-</code></pre><ul>
-<li>第一个函数会在 cells 拖拽过程中被调用</li>
-<li><p>第二个函数会在拖拽结束时候被调用。有了这些信息，我们可以使用一点小技巧去实现cell size不被改变的功能。</p>
-<p>  internal override func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],</p>
-<pre><code>  withTargetPosition targetPosition: <span class="built_in">CGPoint</span>,
-  previousIndexPaths: [<span class="built_in">NSIndexPath</span>],
-  previousPosition: <span class="built_in">CGPoint</span>) -&gt; UICollectionViewLayoutInvalidationContext {
-
-  var context = <span class="keyword">super</span><span class="variable">.invalidationContextForInteractivelyMovingItems</span>(targetIndexPaths,
-      withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths,
-      previousPosition: previousPosition)
-
-  <span class="keyword">self</span><span class="variable">.delegate</span>?<span class="variable">.collectionView</span>!(<span class="keyword">self</span><span class="variable">.collectionView</span>!, moveItemAtIndexPath: previousIndexPaths[<span class="number">0</span>],
-      toIndexPath: targetIndexPaths[<span class="number">0</span>])
-
-  <span class="keyword">return</span> context
-</code></pre><p>  }</p>
-</li>
-</ul>
-<p>解决方法很直接。获取当前被拖拽的cell的起始indexPath和目标indexPath,然后调用UICollectionViewDataSource代理方法移动当前正在被拖拽的cell。</p>
-<p>一个可以拖拽的的collectionView带来体验效果真的非常棒～</p>
-
-    </section>
-    <footer class="post-footer">
-      <section class="author">
-    <h4>Pei Cheng</h4>
-    <p>A developer</p>
-</section>
-      <section class="share">
-    <h4>Share this post</h4>
-    <a class="icon-twitter" href="http://twitter.com/share?url=http://cp0000.github.io/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/"
-       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-        <span class="hidden">Twitter</span>
-    </a>
-    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cp0000.github.io/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/"
-       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-        <span class="hidden">Facebook</span>
-    </a>
-    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://cp0000.github.io/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/"
-       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-        <span class="hidden">Google+</span>
-    </a>
-</section>
-    </footer>
-  </article>
-  <nav class="pagination" role="pagination">
-    
-    <a class="newer-posts" href="/2015/08/30/openradarstream/">
-        ← Openradar Stream
-    </a>
-    
-    <span class="page-number">•</span>
-    
-    <a class="older-posts" href="/2015/08/02/mdfind-note/">
-        Spotlight & MDFind →
-    </a>
-    
-</nav>
-  <div id="comment" class="comments-area">
-    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
-
-    
-</div>
-</main>
-
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
-</footer>
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
-
-
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-63703524-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-
-
-
-
-
-</body>
-</html>
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .share
+      .evernote
+        a.fa.fa-bookmark(href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();", ref="nofollow", target="_blank")
+      .weibo
+        a.fa.fa-weibo(href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));")
+      .twitter
+        a.fa.fa-twitter(href=url_for("http://twitter.com/home?status="+","+config.url+"/"+page.path+","+config.title+","+page.title+",;"))
+    - var prev = page.prev ? page.prev.path : false;
+    - var next = page.next ? page.next.path : false;
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

@@ -1,145 +1,34 @@
-<!DOCTYPE html>
-<html>
+include mixins
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>There Will Be Blood | CP WRITINGS</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+extends partial/layout
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+block site_title
+    != page.title + " · " + config.title
 
-  <meta name="generator" content="CP WRITINGS">
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
 
-  
-  
-  
-
-  
-</head>
-
-
-<body class="post-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">CP WRITINGS</h1>
-            <h2 class="blog-description"></h2>
-        </div>
-    </div>
-</header>
-  
-
-<main class="content" role="main">
-  <article class="post">
-    <span class="post-meta">
-      <time datetime="2015-09-03T15:47:22.000Z" itemprop="datePublished">
-          Sep 3 2015
-      </time>
-    
-</span>
-    <h1 class="post-title">There Will Be Blood</h1>
-    <section class="post-content">
-      <p><img src="http://cp0000.github.io/assets/there_will_be_blood.jpg" alt="pic"></p>
-<p>&gt;<br>如果你喜欢《老无所依》，去看《血色将至》<br>如果你喜欢西部片，去看《血色将至》<br>如果你喜欢电影，去看《血色将至》  </p>
-<p>电影讲述的是一个银矿勘探者如何通过自身的艰苦奋斗最终成为石油大亨的故事。在观看影片的过程中，主角丹尼尔身上的所表现出来的气质，和我们今天所传扬的创业者身上的气质有着极大相似之处。（当然这些创业者的气质我也是从书中，网络中得来）。其中有两个场景给我映像极其深刻。</p>
-<ul>
-<li><p>场景一：丹尼尔刚刚开发的新油井发生不幸发生意外，井喷了。丹尼尔的儿子 H.W 在井喷中意外受伤。丹尼尔把受伤的儿子抱到安全地带之后，在明知道儿子因伤至聋，极其需要爸爸的情况下，毅然丢下了儿子，跑去事故现场救灾。当身边的伙伴皱着眉头看着大火的时候，丹尼尔却笑着说：你干嘛要愁眉头，井喷证明了下面埋藏着无穷的石油，我们要发财了。此时，他已经把H.W的情况抛之脑后，心里所想全部是采油的事情。当伙伴问他H.W怎么样了，他才想起来儿子情况很不好。影片此后的镜头就是海报中的场景，丹尼尔指挥者工人用炸药把油井炸封起来。</p>
-</li>
-<li><p>第二个场景是，为了运输开采出来的石油。丹尼尔决心建一条油管通往大海。但油管铺设遇到了需要通过一块没有弄到租借权的土地。为了能够租下这块地，丹尼尔忍辱负重跑去教堂接受小人Eli神父洗礼。洗礼过程中Eli出于对丹尼尔的嫉妒狠狠的打了几个丹尼尔耳光（个人觉得Eli是在嫉妒丹尼尔，嫉妒他给小镇带来了繁荣，嫉妒他的石油生意）。但此时的丹尼尔并不在意被Eli侮辱，他只在意这块地终于租下来了，石油管道的铺设有谱了，自己的石油生意真的要做起来了。（这里有个细节，在还没有和土地主人谈妥之前，丹尼尔已经在那块地上面打桩测量油管路线。这一情节，也表明了丹尼尔对自己能够说明别人把地租给他的强大自信）</p>
-</li>
-</ul>
-<p>这两个场景都表现出了，丹尼尔对石油开采的极度专注和极大热情。开采过程的任何困难，挫折对于丹尼尔来说都不是问题，井喷不怕，火灾不怕，被小人侮辱无所谓。他眼中只关心和石油相关的事情，他探索油田，建筑油井，铺设油管，一切都是为了自己的石油生意。在生意路上遇到的问题，丹尼尔唯一做的就是自信满满的去解决它。</p>
-<p>如果从资本家，企业家的角度来看丹尼尔，他无意是成功创业家的典范。创业后辈们无疑可以从他的事迹中汲取到很多的经验和养分。而他对当地石油的开采，无疑也提高当地人民的生活水平。</p>
-<p>但这部电影不是单单讲述一个成功企业家的创业故事，还描述了丹尼尔作为一个人与这个上世界其它人的关系和情感。</p>
-<p>我想绝大多数人应该都会害怕孤独吧，开心没人分享，失落无人倾诉。丹尼尔人生就是如此，影片开篇十几分钟跟默片一般，没有一句台词，镜头中只有丹尼尔一个人胡子拉渣的孤独的在矿井中勘探。有了油井，挣了初始资本之后，丹尼尔则每次都会带着H.W去做和卖家谈买卖。美国是一个清教徒国家，大家信上帝，非常重视家庭，大部分都会买亲情的帐。当在H.W变聋之后，为了专注工作，丹尼尔又能冷酷地把儿子从自己身边送走，寄养在别处。不过每个人都渴望亲情，渴望被别人所理解，丹尼尔内心深处也是如此。冒牌弟弟Henry的到来，让他在一段时间好似找到了久违的亲情。但可惜这个Henry是冒牌的，丹尼尔发现真相之后，开枪直接打死了冒牌的Henry，尽管冒牌Henry是唯一能和丹尼尔说得上话的人。</p>
-<p>野心，孤独，对权力的欲望，虚伪，憎恶，不信任，丧失人性，这是丹尼尔作为人的一面。但与此同时，他却又是成功的资本家，他成功创业的事迹又会被当今的社会所传颂。或许按中国人的智慧，这就叫是非功过三七开吧。</p>
-<p>熙熙皆为利来，攘攘皆为利往。丹尼尔这样的人在当代中国应该很受崇拜吧，应该会。</p>
-<p>最后，摘录片中我喜欢的一段台词，也是丹尼尔唯一一次吐露自己心声的一段对话</p>
-<p><strong>亨利：</strong><br>　　……你为什么离家出走？我知道你和父亲的关系不好。<br><strong>丹尼尔：</strong><br>　　我替地质调查局工作，去了堪萨斯。<br>　　我没法留在家里，不可能。<br>　　我不喜欢解释自己的行为。<br>　　……<br><strong>丹尼尔：</strong><br>　　你是个愤怒的人吗，亨利？<br><strong>亨利：</strong><br>　　愤怒什么？<br><strong>丹尼尔：</strong><br>　　你嫉妒吗？你会嫉妒别人吗？<br><strong>亨利：</strong><br>　　我想不会。不嫉妒。<br><strong>丹尼尔：</strong><br>　　我有一颗争强好胜的心。<br>　　我不想看到别人成功。<br>　　我憎恨大多数人。<br><strong>亨利：</strong><br>　　我已经没有那种心气了……<br>　　辛苦工作却总不能成功――所有的失败让我……我就不在乎了。<br><strong>丹尼尔：</strong><br>　　我心里有，你心里就也有。<br>　　有时候我注视着人群，看不到任何值得我爱的东西。<br>　　我只想挣到足够的钱好让我远离所有的人。<br>　　……<br><strong>丹尼尔：</strong><br>　　我不想提那些事。<br>　　我看到人们最丑陋的一面，亨利。<br>　　我能得到我所要的一切，根本用不着去看那些丑陋背后还有什么。<br>　　经过这么多年，我的仇恨一点一滴越积越深。<br>　　你来这儿，给了我喘息的机会。我自己一个人坚持不下去……同这些人纠缠。   </p>
-<p><strong>英文版</strong></p>
-<p><strong>Plainview</strong>: Are you an angry man. Henry?<br><strong>Henry Brands</strong>: About what?<br><strong>Plainview</strong>: Are you envious? D’you get envious?<br><strong>Henry Brands</strong>: I don’t think so. No.<br><strong>Plainview</strong>: I have a competition in me. I want no one else to succeed. I hate most people.<br><strong>Henry Brands</strong>: That part of me is gone. Working and not succeeding- all my, uh… failures has left me, uh… I just don’t… care.<br><strong>Plainview</strong>: Well, if it’s in me, it’s in you. There are times when I… I look at people and I see nothing worth liking. I want to earn enough money I can get away from everyone.<br><strong>Henry Brands</strong>: What will you do about your boy?<br><strong>Plainview</strong>: I don’t know. Uhhhh, maybe it’ll change. Does your sound come back to you? I don’t know. Maybe no one knows that. A doctor might not know that.<br><strong>Henry Brands</strong>: Where’s his mother?<br><strong>Plainview</strong>: I don’t want to talk about those things. I see the worst in people, Henry. I don’t need to look past seeing them to get all I need. I’ve built up my hatreds over the years, little by little. Having you here gives me a second breath of life. I can’t keep doing this on my own… with these, umm… people.   </p>
-
-    </section>
-    <footer class="post-footer">
-      <section class="author">
-    <h4>Pei Cheng</h4>
-    <p>A developer</p>
-</section>
-      <section class="share">
-    <h4>Share this post</h4>
-    <a class="icon-twitter" href="http://twitter.com/share?url=http://cp0000.github.io/2015/09/03/There-will-be-blood/"
-       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-        <span class="hidden">Twitter</span>
-    </a>
-    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cp0000.github.io/2015/09/03/There-will-be-blood/"
-       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-        <span class="hidden">Facebook</span>
-    </a>
-    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://cp0000.github.io/2015/09/03/There-will-be-blood/"
-       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-        <span class="hidden">Google+</span>
-    </a>
-</section>
-    </footer>
-  </article>
-  <nav class="pagination" role="pagination">
-    
-    <a class="newer-posts" href="/2015/09/30/iOS9-Quick-Actions-shortcut/">
-        ← 3D-Touch(1) iOS9 Quick Actions Shortcut
-    </a>
-    
-    <span class="page-number">•</span>
-    
-    <a class="older-posts" href="/2015/08/30/openradarstream/">
-        Openradar Stream →
-    </a>
-    
-</nav>
-  <div id="comment" class="comments-area">
-    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
-
-    
-</div>
-</main>
-
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
-</footer>
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
-
-
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-63703524-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-
-
-
-
-
-</body>
-</html>
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .share
+      .evernote
+        a.fa.fa-bookmark(href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();", ref="nofollow", target="_blank")
+      .weibo
+        a.fa.fa-weibo(href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));")
+      .twitter
+        a.fa.fa-twitter(href=url_for("http://twitter.com/home?status="+","+config.url+"/"+page.path+","+config.title+","+page.title+",;"))
+    - var prev = page.prev ? page.prev.path : false;
+    - var next = page.next ? page.next.path : false;
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

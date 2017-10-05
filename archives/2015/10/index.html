@@ -1,133 +1,16 @@
-<!DOCTYPE html>
-<html>
+extends partial/layout
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Archives: 2015/10 | CP WRITINGS</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+block site_title
+    !=  "归档 · " + config.title
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+block description
+    - var desc = '归档页面 - ' + config.title;
+    meta(name="description", content=desc)
 
-  <meta name="generator" content="CP WRITINGS">
-
-  
-  
-  
-
-  
-</head>
-
-
-<body class="home-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">CP WRITINGS</h1>
-            <h2 class="blog-description"></h2>
-        </div>
-    </div>
-</header>
-  
-<main class="content" role="main">
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-10-26T16:05:53.000Z" itemprop="datePublished">
-          Oct 27 2015
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2015/10/27/27/">活到二十七</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        
-“Many people die at 25 and aren’t buried until 75.”(很多人25岁就死了，但是要75岁才被埋进土里)－－这是美国政治家，科学家富兰克林的名句。
-
-这里的死当然不是生理上的死亡，我的理解是指一个人的生活进入了静止的状态；早上8点起床，吃着相同的早餐，走着每天上下班的路去公司，开始一天忙碌的办公司生活，日复一日，循环至死。
-今天是我二七岁的生日，想来我自己不也是如此嘛？每天的日子趋于静止，
-      
-      </p>
-      
-      <p>
-          <a href="/2015/10/27/27/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-10-25T02:36:21.000Z" itemprop="datePublished">
-          Oct 25 2015
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2015/10/25/Peek-and-pop/">3D-Touch(2) PEEK And POP</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp; Pop 的相关知识点。
-在给你的app接入peeking and poping 的功能之前，需要先了解该操作的三个属性， peeking, preview actions, popi
-      
-      </p>
-      
-      <p>
-          <a href="/2015/10/25/Peek-and-pop/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <nav class="pagination" role="pagination">
-    
-    <span class="page-number">Page  of </span>
-    
-  </nav>
-</main>
-
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
-</footer>
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
-
-
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-63703524-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-
-
-
-
-
-</body>
-</html>
+block content
+    .autopagerize_page_element: .content
+      .archive.animated.fadeInDown
+        ul.list-with-title
+          include mixins
+          +postList()
+          +make_pager(__('prev'), __('next'))

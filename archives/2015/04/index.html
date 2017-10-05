@@ -1,106 +1,16 @@
-<!DOCTYPE html>
-<html>
+extends partial/layout
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Archives: 2015/4 | CP WRITINGS</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+block site_title
+    !=  "归档 · " + config.title
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+block description
+    - var desc = '归档页面 - ' + config.title;
+    meta(name="description", content=desc)
 
-  <meta name="generator" content="CP WRITINGS">
-
-  
-  
-  
-
-  
-</head>
-
-
-<body class="home-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">CP WRITINGS</h1>
-            <h2 class="blog-description"></h2>
-        </div>
-    </div>
-</header>
-  
-<main class="content" role="main">
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-04-05T02:35:36.000Z" itemprop="datePublished">
-          Apr 5 2015
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2015/04/05/nainai/">奶奶</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        
-我和弟弟从小是被奶奶带大的，直到我们前后出去念大学，才从奶奶身边离开。我们跟奶奶很亲。
-奶奶是一个典型的农村妇女，她有三个儿子，两个女儿，另外还有一对继子，继女。二姑，也就是奶奶的大女儿，在二十年前患乳腺癌去世了。二姑走的时候，奶奶很伤心。每逢清明，她总是叮嘱我们记得给二姑烧纸。而爷爷，在我还未出生的时候就已经过世了。从奶奶口中得知爷爷是个脾气非常暴躁的人。爷爷过世的时候，我爸爸20岁不到，小叔叔15不到。至于奶奶和爷爷感情如何，奶奶
-      
-      </p>
-      
-      <p>
-          <a href="/2015/04/05/nainai/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <nav class="pagination" role="pagination">
-    
-    <span class="page-number">Page  of </span>
-    
-  </nav>
-</main>
-
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
-</footer>
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
-
-
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-63703524-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-
-
-
-
-
-</body>
-</html>
+block content
+    .autopagerize_page_element: .content
+      .archive.animated.fadeInDown
+        ul.list-with-title
+          include mixins
+          +postList()
+          +make_pager(__('prev'), __('next'))

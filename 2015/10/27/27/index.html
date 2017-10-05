@@ -1,141 +1,34 @@
-<!DOCTYPE html>
-<html>
+include mixins
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>活到二十七 | CP WRITINGS</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+extends partial/layout
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+block site_title
+    != page.title + " · " + config.title
 
-  <meta name="generator" content="CP WRITINGS">
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
 
-  
-  
-  
-
-  
-</head>
-
-
-<body class="post-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">CP WRITINGS</h1>
-            <h2 class="blog-description"></h2>
-        </div>
-    </div>
-</header>
-  
-
-<main class="content" role="main">
-  <article class="post">
-    <span class="post-meta">
-      <time datetime="2015-10-26T16:05:53.000Z" itemprop="datePublished">
-          Oct 27 2015
-      </time>
-    
-</span>
-    <h1 class="post-title">活到二十七</h1>
-    <section class="post-content">
-      <blockquote>
-<p>“Many people die at 25 and aren’t buried until 75.”(很多人25岁就死了，但是要75岁才被埋进土里)－－这是美国政治家，科学家富兰克林的名句。</p>
-</blockquote>
-<p>这里的死当然不是生理上的死亡，我的理解是指一个人的生活进入了静止的状态；早上8点起床，吃着相同的早餐，走着每天上下班的路去公司，开始一天忙碌的办公司生活，日复一日，循环至死。</p>
-<p>今天是我二七岁的生日，想来我自己不也是如此嘛？每天的日子趋于静止，今天像是昨天的拷贝。</p>
-<p>稍微观察下，生活中大家见面的时候，都会寒暄一句“最近在忙啥？”。想来这句话却很有意思，它鲜活的表现出了我们是一个好像不忙点啥，日子就没法过下去的种族。也是，我们身边的每个人每天都显得很忙；大家忙着挣钱，忙着找女人，忙着玩游戏，忙着去八卦，忙着娱乐，一刻都不得闲；但其实我觉得是人们害怕闲。因为一当闲下来，我们会不知道干嘛，进而觉得无聊，产生厌烦，最后感到孤独。</p>
-<p>我也是如此，为了让自己忙起来，我写博客，不停的往Wunderlist中加todos，看amazon上面的畅销书。坦白讲，长长的 TODO list 会让我产生一种心安。</p>
-<p>记得大二的时候，当时的我，一个中二青年，被乔布斯在斯坦福大学上的毕业演讲的震撼住了。其中有一段是</p>
-<blockquote>
-<p>Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven’t found it yet, keep looking. Don’t settle. As with all matters of the heart, you’ll know when you find it. </p>
-</blockquote>
-<p>这么些年来，我一直被这个演讲所影响。我会时常问自己，到底想要成为什么样子的人，真正想要做的事情是什么。但在27岁生日这天，我不得不承认，我还是没有找到。有段时间，在做 reverse engineering 的时候，我的确遇到了那种 “啊哈” 时刻。但当我深入进去之后，了解业界专业的安全知识之后，我知道这东西是需要天分加大量的练习，可惜我不够，天分和练习都不够。而且我也没有豁出去，重新来过的勇气。</p>
-<p>或许是年纪的增长，近些日子，我会开始关注房子，汽车等诸如此类的事物。有时候我也想给自己弄个窝，不用寄人篱下，活得体面一点。这诺大的城市中，我也不想一直是那个漂泊的，东奔西跑的人。但高企的房价，不可理喻的限购政策又让我心灰意冷，不知出路在何处。</p>
-<p>只希望二十八的时候，自己晚上洗完澡倒头上床，盯着天花板的时候，知道自己到底在忙些什么。</p>
-<p><a href="http://music.163.com/#/song?id=28349599" target="_blank" rel="external">Johnny and Mary (Feat. Bryan Ferry)</a></p>
-
-    </section>
-    <footer class="post-footer">
-      <section class="author">
-    <h4>Pei Cheng</h4>
-    <p>A developer</p>
-</section>
-      <section class="share">
-    <h4>Share this post</h4>
-    <a class="icon-twitter" href="http://twitter.com/share?url=http://cp0000.github.io/2015/10/27/27/"
-       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-        <span class="hidden">Twitter</span>
-    </a>
-    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cp0000.github.io/2015/10/27/27/"
-       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-        <span class="hidden">Facebook</span>
-    </a>
-    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://cp0000.github.io/2015/10/27/27/"
-       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-        <span class="hidden">Google+</span>
-    </a>
-</section>
-    </footer>
-  </article>
-  <nav class="pagination" role="pagination">
-    
-    <a class="newer-posts" href="/2015/11/21/iOS-reverse-engineering-01/">
-        ← iOS逆向工程-0x00－用途以及准备工作
-    </a>
-    
-    <span class="page-number">•</span>
-    
-    <a class="older-posts" href="/2015/10/25/Peek-and-pop/">
-        3D-Touch(2) PEEK And POP →
-    </a>
-    
-</nav>
-  <div id="comment" class="comments-area">
-    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
-
-    
-</div>
-</main>
-
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
-</footer>
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
-
-
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-63703524-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-
-
-
-
-
-</body>
-</html>
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .share
+      .evernote
+        a.fa.fa-bookmark(href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();", ref="nofollow", target="_blank")
+      .weibo
+        a.fa.fa-weibo(href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));")
+      .twitter
+        a.fa.fa-twitter(href=url_for("http://twitter.com/home?status="+","+config.url+"/"+page.path+","+config.title+","+page.title+",;"))
+    - var prev = page.prev ? page.prev.path : false;
+    - var next = page.next ? page.next.path : false;
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments
