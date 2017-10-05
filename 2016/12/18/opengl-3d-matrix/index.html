@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>OpenGL ES 2.0 3D基础－矩阵投影 | CP WRITINGS</title>
+  <title>OpenGL ES 2.0 3D基础（1）－矩阵 | CP WRITINGS</title>
   <meta name="description" content="" />
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -44,10 +44,9 @@
       </time>
     
 </span>
-    <h1 class="post-title">OpenGL ES 2.0 3D基础－矩阵投影</h1>
+    <h1 class="post-title">OpenGL ES 2.0 3D基础（1）－矩阵</h1>
     <section class="post-content">
-      <h1 id="OpenGL_ES_2-0_3D基础－矩阵投影">OpenGL ES 2.0 3D基础－矩阵投影</h1>
-<h2 id="Overview">Overview</h2>
+      <h2 id="Overview">Overview</h2>
 <p>移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。</p>
 <h2 id="线性代数">线性代数</h2>
 <p>学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。</p>
@@ -88,6 +87,10 @@
 <p>位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_12.png" alt=""></p>
 <h4 id="旋转矩阵">旋转矩阵</h4>
 <p>（Rx,Ry,Rz）代表任意旋转轴，θ是角度：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_16.png" alt=""></p>
+<h5 id="累积变换">累积变换</h5>
+<p>上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：</p>
+<pre><code>TransformedVector = TranslationMatrix <span class="keyword">*</span> RotationMatrix <span class="keyword">*</span> ScaleMatrix <span class="keyword">*</span> OriginalVector;
+</code></pre><p>这行代码首先执行缩放，接着旋转，最后才是平移</p>
 <h2 id="坐标系统">坐标系统</h2>
 <p>OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：</p>
 <ul>
