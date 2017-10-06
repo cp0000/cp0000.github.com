@@ -1,289 +1,135 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <title>Archives: 2016/11 | CP WRITINGS</title>
-  <meta name="author" content="Pei Cheng">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+
+  <meta name="generator" content="CP WRITINGS">
 
   
-  <meta property="og:site_name" content="CP WRITINGS"/>
-
   
-    <meta property="og:image" content="undefined"/>
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="CP WRITINGS" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  <script src="/js/jquery.min.js"></script>
   
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-45019001-1', 'topdna.org');
-  ga('send', 'pageview');
-
-</script>
-
-
 </head>
 
 
-<body>
-  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">CP WRITINGS</a></h1>
-  <h2><a href="/"></a></h2>
-</div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">首页</a></li>
-    
-      <li><a href="http://traceinvest.com">TraceInvest</a></li>
-    
-      <li><a href="/categories/essay/">随感</a></li>
-    
-      <li><a href="/categories/tech/">技术</a></li>
-    
-      <li><a href="/categories/investment/">理财</a></li>
-    
-      <li><a href="/categories/life/">生活</a></li>
-    
-      <li><a href="/archives">归档</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2016/11</h2>
+<body class="home-template">
 
-
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2016-11-07T13:03:47.000Z"><a href="/2016/11/07/ffmpeg-command-example/">Nov 7 2016</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/11/07/ffmpeg-command-example/">ffmpeg 使用例程</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>本文介绍<a href="https://en.wikipedia.org/wiki/FFmpeg" target="_blank" rel="external">ffmpeg</a>命令行的一些使用方法；</p>
-<h2 id="参数">参数</h2>
-<h3 id="主要参数">主要参数</h3>
-<ul>
-<li>-i——设置输入档名。</li>
-<li>-f——设置输出格式。</li>
-<li>-y——若输出文件已存在时则覆盖文件。</li>
-<li>-fs——超过指定的文件大小时则结束转换。</li>
-<li>-ss——从指定时间开始转换。</li>
-<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
-<li>-title——设置标题。</li>
-<li>-timestamp——设置时间戳。</li>
-<li>-vsync——增减Frame使影音同步。<h3 id="视频参数">视频参数</h3>
-</li>
-<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
-<li>-r——设置帧率值，默认为25。</li>
-<li>-s——设置画面的宽与高。</li>
-<li>-aspect——设置画面的比例。</li>
-<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
-<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数">声音参数</h3>
-</li>
-<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
-<li>-ar——设置采样率。</li>
-<li>-ac——设置声音的Channel数。</li>
-<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
-<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
-<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
-</ul>
-<h2 id="例子">例子</h2>
-<p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
-<h3 id="裁剪视频">裁剪视频</h3>
-<p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
-<pre><code><span class="attribute">ffmpeg -i input.mp4  -strict -2 -vf crop</span>=<span class="string">405:720:420:0  video_out.mp4</span>
-</code></pre><p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
-<h3 id="视频转换成图片">视频转换成图片</h3>
-<pre><code> ffmpeg -i input.mp4 <span class="keyword">image</span><span class="variable">%3d</span>.png
-</code></pre><p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
-<pre><code> ffmpeg -i input.mp4 -r <span class="number">30</span>  <span class="variable">$filename</span><span class="variable">%3d</span>.png  
-</code></pre><p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
-<pre><code>ffprobe <span class="string">"input.mp4"</span> -v <span class="number">0</span> -select_streams v  -print_format flat -show_entries <span class="variable">stream=</span>r_frame_rate 
-</code></pre><h3 id="剪辑视频">剪辑视频</h3>
-<p>一段长视频只需要保留其中一段，可用如下命令：</p>
-<pre><code><span class="tag">ffmpeg</span> <span class="tag">-i</span> <span class="tag">input</span><span class="class">.mp4</span> <span class="tag">-ss</span> 00<span class="pseudo">:00</span><span class="pseudo">:21</span> <span class="tag">-t</span> 00<span class="pseudo">:00</span><span class="pseudo">:10</span> <span class="tag">-acodec</span> <span class="tag">aac</span> <span class="tag">-vcodec</span> <span class="tag">h264</span> <span class="tag">-strict</span> <span class="tag">-2</span> <span class="tag">out</span><span class="class">.mp4</span>
-</code></pre><p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
-<h3 id="调整视频分辨率大小">调整视频分辨率大小</h3>
-<p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
-<pre><code><span class="attribute">ffmpeg -i input.mp4 -vf scale</span>=<span class="string">853:480 -acodec aac -vcodec h264 out.mp4</span>
-</code></pre><ul>
-<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
-<li><code>-vcodec h264</code> 指定视频使用 h264 编码。<blockquote>
-<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
-</blockquote>
-</li>
-</ul>
-
-      
+  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">CP WRITINGS</h1>
+            <h2 class="blog-description"></h2>
+        </div>
     </div>
-    <footer>
+</header>
+  
+<main class="content" role="main">
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-11-07T13:03:47.000Z" itemprop="datePublished">
+          Nov 7 2016
+      </time>
+    
+</span>
+      <h2 class="post-title"><a href="/2016/11/07/ffmpeg-command-example/">ffmpeg 使用例程</a></h2>
+    </header>
+    <section class="post-excerpt">
+      <p>
       
-        
-        
+        本文介绍ffmpeg命令行的一些使用方法；
+参数
+主要参数
+
+-i——设置输入档名。
+-f——设置输出格式。
+-y——若输出文件已存在时则覆盖文件。
+-fs——超过指定的文件大小时则结束转换。
+-ss——从指定时间开始转换。
+-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。
+-title——设置标题。
+-timestamp——设置时间戳。
+
       
-      <div class="clearfix"></div>
-    </footer>
+      </p>
+      
+      <p>
+          <a href="/2016/11/07/ffmpeg-command-example/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    
+    <span class="page-number">Page 1 of 1</span>
+    
+  </nav>
+</main>
+
+
+  
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
   </div>
-</article>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
 
 
-  
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63703524-1']);
+    _gaq.push(['_trackPageview']);
 
-  <ul class="page-direction" id="page-direction">
-    <li><a class="page-prev icon-chevron-sign-left" href="javascript:;" title="Prev"></a></li>
-    <li><a class="page-next icon-chevron-sign-right" href="javascript:;" title="Next"></a></li>
-</ul>
-
-<nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <i class="icon-search"></i>
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/iOS-Reverse-Engineering/">iOS Reverse Engineering</a><small>3</small></li>
-  
-    <li><a href="/tags/mac-power-user/">mac power user</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-  <div class="trace-invest">
-    <span>
-        <a href="http://traceinvest.com" target="_blank">欢迎光临我的美股投资相关网站 :</br>traceinvest.com</a>
-    </span>
-</div>
-
-
-  
-<div class="widget tag">
-  <h3 class="title">Recent Posts</h3>
-  <ul class="entry">
-    
-      <li>
-        <a href="/2017/10/04/opengl-lighting/">Learning OpenGL：光照</a>
-      </li>
-    
-      <li>
-        <a href="/2017/08/06/shoe-dog/">读书笔记：《鞋狗》</a>
-      </li>
-    
-      <li>
-        <a href="/2017/07/02/Kangrinboqe/">冈仁波齐</a>
-      </li>
-    
-      <li>
-        <a href="/2017/03/19/framebuffer-object-opengl/">Learning OpenGL：帧缓冲对象</a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/26/GLSL-Dictionary/">Learning OpenGL：GLSL Shader 手册</a>
-      </li>
-    
-      <li>
-        <a href="/2017/01/29/becoming-steve-jobs/">读书笔记《成为乔布斯》</a>
-      </li>
-    
-      <li>
-        <a href="/2016/12/18/opengl-3d-matrix/">OpenGL ES 2.0 3D基础（1）－矩阵</a>
-      </li>
-    
-      <li>
-        <a href="/2016/12/11/2016-summary/">2016年度总结</a>
-      </li>
-    
-      <li>
-        <a href="/2016/11/07/ffmpeg-command-example/">ffmpeg 使用例程</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/26/28/">活到28</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/22/install-caffe-on-macosx/">如何在Macosx上安装caffe</a>
-      </li>
-    
-      <li>
-        <a href="/2016/09/25/2016-1st-half/">2016上半年电影，美剧，以及书 清单</a>
-      </li>
-    
-  </ul>
-</div>
-
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-  &copy; 2017 Pei Cheng
-  
-</div>
-<div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
 
 
 
+<link rel="stylesheet" href="/modules/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/modules/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+    (function($){
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+        var wrapAll = function(q) {
+            $(q).each( function() {
+                var $img = $(this),
+                        href = $img.attr('src');
+                $img.wrap('<a rel="fancybox" href="' + href + '" title="' + $img.attr('alt') + '" class="link"></a>');
+            });
+        };
+
+        wrapAll('.post-content img');
+        wrapAll('.post-excerpt img');
+        $('[rel="fancybox"]').fancybox();
+    })(jQuery);
+</script>
+
+
 
 </body>
-
 </html>

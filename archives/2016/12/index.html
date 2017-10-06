@@ -1,414 +1,190 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <title>Archives: 2016/12 | CP WRITINGS</title>
-  <meta name="author" content="Pei Cheng">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+
+  <meta name="generator" content="CP WRITINGS">
 
   
-  <meta property="og:site_name" content="CP WRITINGS"/>
-
   
-    <meta property="og:image" content="undefined"/>
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="CP WRITINGS" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  <script src="/js/jquery.min.js"></script>
   
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-45019001-1', 'topdna.org');
-  ga('send', 'pageview');
-
-</script>
-
-
 </head>
 
 
-<body>
-  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">CP WRITINGS</a></h1>
-  <h2><a href="/"></a></h2>
-</div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">首页</a></li>
-    
-      <li><a href="http://traceinvest.com">TraceInvest</a></li>
-    
-      <li><a href="/categories/essay/">随感</a></li>
-    
-      <li><a href="/categories/tech/">技术</a></li>
-    
-      <li><a href="/categories/investment/">理财</a></li>
-    
-      <li><a href="/categories/life/">生活</a></li>
-    
-      <li><a href="/archives">归档</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2016/12</h2>
+<body class="home-template">
 
-
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2016-12-18T06:37:53.000Z"><a href="/2016/12/18/opengl-3d-matrix/">Dec 18 2016</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/12/18/opengl-3d-matrix/">OpenGL ES 2.0 3D基础（1）－矩阵</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Overview">Overview</h2>
-<p>移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。</p>
-<h2 id="线性代数">线性代数</h2>
-<p>学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。</p>
-<h3 id="向量运算">向量运算</h3>
-<p><a href="https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F" target="_blank" rel="external">向量</a>: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。</p>
-<h4 id="向量加减">向量加减</h4>
-<p>向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_01.png" alt=""></p>
-<h4 id="向量相乘">向量相乘</h4>
-<h5 id="点乘">点乘</h5>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_02.png" alt=""></p>
-<h4 id="叉乘">叉乘</h4>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_03.png" alt=""></p>
-<h3 id="矩阵运算">矩阵运算</h3>
-<h4 id="矩阵简介">矩阵简介</h4>
-<p>数学上，一个  m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_04.png" alt=""></p>
-<h4 id="矩阵运算规则">矩阵运算规则</h4>
-<h5 id="矩阵的加减">矩阵的加减</h5>
-<p>矩阵与标量之间的加减：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_05.png" alt=""></p>
-<p>矩阵与矩阵之间的加减：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_06.png" alt=""></p>
-<h5 id="矩阵乘法">矩阵乘法</h5>
-<ul>
-<li><p>矩阵数乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_07.png" alt=""></p>
-</li>
-<li><p>矩阵相乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_08.png" alt=""></p>
-</li>
-</ul>
-<h4 id="单位矩阵">单位矩阵</h4>
-<p>在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_09.png" alt=""></p>
-<p>单位矩阵通常是生成其他变换矩阵的起点。</p>
-<h4 id="缩放矩阵">缩放矩阵</h4>
-<p>对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_11.png" alt=""></p>
-<h4 id="位移矩阵">位移矩阵</h4>
-<p>位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_12.png" alt=""></p>
-<h4 id="旋转矩阵">旋转矩阵</h4>
-<p>（Rx,Ry,Rz）代表任意旋转轴，θ是角度：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_16.png" alt=""></p>
-<h5 id="累积变换">累积变换</h5>
-<p>上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：</p>
-<pre><code>TransformedVector = TranslationMatrix <span class="keyword">*</span> RotationMatrix <span class="keyword">*</span> ScaleMatrix <span class="keyword">*</span> OriginalVector;
-</code></pre><p>这行代码首先执行缩放，接着旋转，最后才是平移</p>
-<h2 id="坐标系统">坐标系统</h2>
-<p>OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：</p>
-<ul>
-<li>局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。</li>
-<li><p>世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。</p>
-<blockquote>
-<p>模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。</p>
-</blockquote>
-</li>
-<li><p>观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。</p>
-</li>
-<li><p>裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。</p>
-</li>
-</ul>
-<p>将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。</p>
-<ul>
-<li>屏幕空间（Screen Space）</li>
-</ul>
-<h3 id="正交投影（Orthographic_Projection）">正交投影（Orthographic Projection）</h3>
-<p>正交投影矩阵定义一个立方体的平截头箱，在这个立方体之外的顶点都会被裁剪掉。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_18.png" alt=""></p>
-<p>正交投影矩阵直接将坐标映射到2D平面上。不过正交投影没有透视效果，远处箱子和近处箱子投射到平面上是一样大的，这和我们日常生活中看东西时近大远小的视觉效果是不符的。要解决这个问题，我们需要用到透视投影。</p>
-<h3 id="透视投影（Perspective_Projection）">透视投影（Perspective Projection）</h3>
-<p>透视投影定义一个大平截头体。透视投影有两种表述方式：</p>
-<ul>
-<li>视锥体：</li>
-</ul>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_19.png" alt=""></p>
-<p>glFrustum (left, right, bottom, top, zNear, zFar);</p>
-<p>left,right,bottom,top定义near裁剪面大小，zNear和zFar定义从观察点到远近两个裁剪面的距离。这六个参数定义出六个裁剪面构成的视锥体。</p>
-<ul>
-<li>透视图：</li>
-</ul>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_20.png" alt=""></p>
-<p>gluPerspective(fovy, aspect, zNear, zFar);</p>
-<ul>
-<li>fovy: camera 在 y 方向上的视线角度（0~180)</li>
-<li>aspect定义近截面的宽高比 aspect=w/h</li>
-<li><p>zNear, zFar: 观察点到远近两个裁剪面的距离</p>
-<p>透视体参数转换车过视锥体参数：</p>
-<pre><code>  tan(fovy<span class="regexp">/2) = (h /</span> <span class="number">2</span>)/zNear<span class="function"> -&gt;</span> h; 
-  w =  h * aspect<span class="function"> -&gt;</span> w;
-</code></pre></li>
-</ul>
-<h3 id="矩阵组合">矩阵组合</h3>
-<p>基于前面介绍的4个变换矩阵：模型矩阵，世界矩阵，观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程变换到裁剪坐标：</p>
-<pre><code><span class="attribute">Vclip</span>=<span class="string">Mprojection⋅Mview⋅Mmodel⋅Vlocal</span>
-</code></pre><blockquote>
-<p>注意矩阵运算的顺序是从右往左阅读，最终计算出来的顶点赋值给<code>gl_Position</code></p>
-</blockquote>
-<h2 id="3D_Demo">3D Demo</h2>
-<p>至此我们了解了OpenGL 3D渲染中需要知道的矩阵知识，运用这些知识，便可进行开发OpenGL3D程序了；苹果官方提供一个很好的GL demo <a href="https://developer.apple.com/library/content/samplecode/GLEssentials/Introduction/Intro.html" target="_blank" rel="external">GLEssentials</a></p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_21.png" alt=""></p>
-<h2 id="结束">结束</h2>
-
-      
+  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">CP WRITINGS</h1>
+            <h2 class="blog-description"></h2>
+        </div>
     </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
+</header>
   
-    <article class="post">
+<main class="content" role="main">
   
-    <div class="gallery">
-  <div class="photoset">
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-12-18T06:37:53.000Z" itemprop="datePublished">
+          Dec 18 2016
+      </time>
     
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2016-12-11T06:56:52.000Z"><a href="/2016/12/11/2016-summary/">Dec 11 2016</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/12/11/2016-summary/">2016年度总结</a></h1>
-  
-
+</span>
+      <h2 class="post-title"><a href="/2016/12/18/opengl-3d-matrix/">OpenGL ES 2.0 3D基础（1）－矩阵</a></h2>
     </header>
-    <div class="entry">
+    <section class="post-excerpt">
+      <p>
       
-        <h3 id="娱乐">娱乐</h3>
-<p><strong>年度电影</strong></p>
-<p><a href="https://movie.douban.com/subject/25895901/" target="_blank" rel="external">海街日记</a><img src="https://img3.doubanio.com/view/photo/photo/public/p2283110641.jpg" style="width: 120px;"></p>
-<p><strong>年度歌曲</strong> </p>
-<p><a href="http://music.163.com/#/song?id=29724295" target="_blank" rel="external">热河</a></p>
-<p><img src="
-http://img.xiami.net/images/album/img94/7194/14157293421415729342_2.jpg" style="width: 120px;"></p>
-<p><strong>年度美剧</strong></p>
-<p><a href="https://movie.douban.com/subject/3016187/" target="_blank" rel="external">Game of Thrones</a></p>
-<p><img src="https://img1.doubanio.com/view/movie_poster_cover/lpst/public/p896064368.jpg" style="width: 120px;"></p>
-<p><strong>年度书籍</strong></p>
-<p><a href="https://book.douban.com/subject/26576861/" target="_blank" rel="external">最好的告别</a></p>
-<p><img src="https://img3.doubanio.com/lpic/s28355811.jpg" style="width: 120px;"></p>
-<p><strong>年度Podcast</strong></p>
-<p><a href="https://ipn.li/taiyilaile/" target="_blank" rel="external">太医来了</a></p>
-<p><img src="https://pic4.zhimg.com/8746e3b32e6afbf06eda1a4d69d2bb5b_xl.jpg" style="width: 80px;"></p>
-<p><strong>年度电视节目</strong></p>
-<p><a href="http://www.iqiyi.com/a_19rrgifngp.html" target="_blank" rel="external">晓松奇谈</a></p>
-<p><img src="http://pic0.qiyipic.com/common/lego/20160104/f6e30204caa345508edd843c182ad7c6.jpg" style="width: 240px;"></p>
-<h3 id="体育">体育</h3>
-<p><strong>年度NBA比赛</strong></p>
-<p>15-16赛季，西部决赛第七场</p>
-<p>金州勇士-俄克拉何马城雷霆</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/zh/0/0f/Golden_State_Warriors_logo.png" style="width: 120px;"> <img src="https://upload.wikimedia.org/wikipedia/zh/f/f6/OKC_Thunder.png" style="width: 120px;"></p>
-<p><strong>年度足球比赛</strong></p>
-<p>15欧锦赛 1/4 决赛：德国-意大利</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/zh/thumb/e/e3/DFBEagle.svg/400px-DFBEagle.svg.png" style="width: 120px;">  <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/9/97/FIGC_logo.svg/207px-FIGC_logo.svg.png" style="width: 120px;"></p>
-<h3 id="工作">工作</h3>
-<p><strong>年度编程语言</strong></p>
-<p><a href="https://zh.wikipedia.org/wiki/OpenGL" target="_blank" rel="external">OpenGL</a></p>
-<p><img src="https://www.opengl.org/img/opengl_logo.png" style="width: 180px;"></p>
-<p><strong>年度App</strong></p>
-<p><a href="https://itunes.apple.com/us/app/msqrd-live-filters-face-swap/id1065249424?mt=8" target="_blank" rel="external">MSQRD</a></p>
-<p><img src="http://is5.mzstatic.com/image/thumb/Purple71/v4/78/76/b3/7876b386-4821-5fb0-8e98-a524bd3dec14/source/630x630bf.jpg" style="width: 120px;"></p>
-<p><strong>年度开源项目</strong></p>
-<p><a href="https://github.com/BradLarson/GPUImage.git" target="_blank" rel="external">GPUImage</a></p>
-<p><strong>年度工具</strong></p>
-<p>macOS / iOS 备忘录</p>
+        Overview
+移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。
+线性代数
+学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。
+向量运算
+向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。
+向量加减
+向量的加（减）法
+      
+      </p>
+      
+      <p>
+          <a href="/2016/12/18/opengl-3d-matrix/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-12-11T06:56:52.000Z" itemprop="datePublished">
+          Dec 11 2016
+      </time>
+    
+</span>
+      <h2 class="post-title"><a href="/2016/12/11/2016-summary/">2016年度总结</a></h2>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        娱乐
+年度电影
+海街日记
+年度歌曲 
+热河
 
+年度美剧
+Game of Thrones
+
+年度书籍
+最好的告别
+
+年度Podcast
+太医来了
+
+年度电视节目
+晓松奇谈
+
+体育
+年度NBA比赛
+15-16赛季，西部决赛第七场
+金州勇士-俄克拉何马城雷霆
+ 
+年度足球比赛
+15欧锦赛 1/4 决赛：德国-意大利
+  
+工作
+年度编程语言
+OpenGL
+
+年度App
+MSQRD
+
+年度开源项目
+GPUImage
+年度工具
+macOS / i
       
-    </div>
-    <footer>
+      </p>
       
-        
-        
+      <p>
+          <a href="/2016/12/11/2016-summary/" class="excerpt-link">Read More...</a>
+      </p>
       
-      <div class="clearfix"></div>
-    </footer>
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    
+    <span class="page-number">Page 1 of 1</span>
+    
+  </nav>
+</main>
+
+
+  
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
   </div>
-</article>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
 
 
-  
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63703524-1']);
+    _gaq.push(['_trackPageview']);
 
-  <ul class="page-direction" id="page-direction">
-    <li><a class="page-prev icon-chevron-sign-left" href="javascript:;" title="Prev"></a></li>
-    <li><a class="page-next icon-chevron-sign-right" href="javascript:;" title="Next"></a></li>
-</ul>
-
-<nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <i class="icon-search"></i>
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/iOS-Reverse-Engineering/">iOS Reverse Engineering</a><small>3</small></li>
-  
-    <li><a href="/tags/mac-power-user/">mac power user</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-  <div class="trace-invest">
-    <span>
-        <a href="http://traceinvest.com" target="_blank">欢迎光临我的美股投资相关网站 :</br>traceinvest.com</a>
-    </span>
-</div>
-
-
-  
-<div class="widget tag">
-  <h3 class="title">Recent Posts</h3>
-  <ul class="entry">
-    
-      <li>
-        <a href="/2017/10/04/opengl-lighting/">Learning OpenGL：光照</a>
-      </li>
-    
-      <li>
-        <a href="/2017/08/06/shoe-dog/">读书笔记：《鞋狗》</a>
-      </li>
-    
-      <li>
-        <a href="/2017/07/02/Kangrinboqe/">冈仁波齐</a>
-      </li>
-    
-      <li>
-        <a href="/2017/03/19/framebuffer-object-opengl/">Learning OpenGL：帧缓冲对象</a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/26/GLSL-Dictionary/">Learning OpenGL：GLSL Shader 手册</a>
-      </li>
-    
-      <li>
-        <a href="/2017/01/29/becoming-steve-jobs/">读书笔记《成为乔布斯》</a>
-      </li>
-    
-      <li>
-        <a href="/2016/12/18/opengl-3d-matrix/">OpenGL ES 2.0 3D基础（1）－矩阵</a>
-      </li>
-    
-      <li>
-        <a href="/2016/12/11/2016-summary/">2016年度总结</a>
-      </li>
-    
-      <li>
-        <a href="/2016/11/07/ffmpeg-command-example/">ffmpeg 使用例程</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/26/28/">活到28</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/22/install-caffe-on-macosx/">如何在Macosx上安装caffe</a>
-      </li>
-    
-      <li>
-        <a href="/2016/09/25/2016-1st-half/">2016上半年电影，美剧，以及书 清单</a>
-      </li>
-    
-  </ul>
-</div>
-
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-  &copy; 2017 Pei Cheng
-  
-</div>
-<div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
 
 
 
+<link rel="stylesheet" href="/modules/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/modules/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+    (function($){
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+        var wrapAll = function(q) {
+            $(q).each( function() {
+                var $img = $(this),
+                        href = $img.attr('src');
+                $img.wrap('<a rel="fancybox" href="' + href + '" title="' + $img.attr('alt') + '" class="link"></a>');
+            });
+        };
+
+        wrapAll('.post-content img');
+        wrapAll('.post-excerpt img');
+        $('[rel="fancybox"]').fancybox();
+    })(jQuery);
+</script>
+
+
 
 </body>
-
 </html>

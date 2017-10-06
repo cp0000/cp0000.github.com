@@ -1,359 +1,126 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <title>Archives: 2017/3 | CP WRITINGS</title>
-  <meta name="author" content="Pei Cheng">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+
+  <meta name="generator" content="CP WRITINGS">
 
   
-  <meta property="og:site_name" content="CP WRITINGS"/>
-
   
-    <meta property="og:image" content="undefined"/>
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="CP WRITINGS" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  <script src="/js/jquery.min.js"></script>
   
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-45019001-1', 'topdna.org');
-  ga('send', 'pageview');
-
-</script>
-
-
 </head>
 
 
-<body>
-  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">CP WRITINGS</a></h1>
-  <h2><a href="/"></a></h2>
-</div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">首页</a></li>
-    
-      <li><a href="http://traceinvest.com">TraceInvest</a></li>
-    
-      <li><a href="/categories/essay/">随感</a></li>
-    
-      <li><a href="/categories/tech/">技术</a></li>
-    
-      <li><a href="/categories/investment/">理财</a></li>
-    
-      <li><a href="/categories/life/">生活</a></li>
-    
-      <li><a href="/archives">归档</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2017/3</h2>
+<body class="home-template">
 
-
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2017-03-19T06:20:09.000Z"><a href="/2017/03/19/framebuffer-object-opengl/">Mar 19 2017</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/03/19/framebuffer-object-opengl/">Learning OpenGL：帧缓冲对象</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="背景">背景</h2>
-<p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
-<h2 id="FBO">FBO</h2>
-<p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
-<p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。</p>
-<p>帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：</p>
-<pre><code>&gt;注：OpenGL <span class="literal">es</span> <span class="number">2.0</span> 也只有一个颜色附加点
-</code></pre><p><img src="http://www.songho.ca/opengl/files/gl_fbo01.png" alt="framebuffer object"></p>
-<p>从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。</p>
-<h3 id="创建_FBO">创建 FBO</h3>
-<p>创建和销毁FBO的步骤很简单：</p>
-<pre><code><span class="keyword">void</span> glGenFramebuffers(GLsizei n, GLuint * ids);
-<span class="keyword">void</span> glDeleteFramebuffers(GLsizei n, <span class="keyword">const</span> GLuint * ids);
-</code></pre><p>将FBO绑定到目标对象：</p>
-<pre><code><span class="keyword">void</span> glBindFramebuffer(GLenum target, GLuint <span class="keyword">id</span>)
-</code></pre><ul>
-<li>target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER—缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。</li>
-<li>id 即为创建出来的帧缓冲id</li>
-</ul>
-<p>通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。</p>
-<p>OpenGL要求，一个完整的FBO需要满足以下条件：</p>
-<ul>
-<li>至少附加一个缓冲区（颜色，深度或模版）</li>
-<li>至少有一个颜色附加</li>
-<li><p>所有的附加必须完整（预分配了内存）</p>
-<blockquote>
-<p>if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整</p>
-</blockquote>
-</li>
-<li><p>每个缓冲区的采样需要一致</p>
-</li>
-</ul>
-<p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
-<pre><code><span class="title">glBindFramebuffer</span> (GL_FRAMEBUFFER, <span class="number">0</span>);
-</code></pre><h3 id="创建纹理附加图像">创建纹理附加图像</h3>
-<p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
-<pre><code>glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint <span class="built_in">texture</span>,GLint level);
-</code></pre><ul>
-<li>target: 绑定目标，一般为 GL_FRAMEBUFFER</li>
-<li>attachment:附加点，可选为GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT,GL_STENCIK_ATTACHMENT</li>
-<li>textTarget: 纹理的绑定目标，一般为 GL_TEXTURE_2D</li>
-<li>texture：实际的纹理对象</li>
-<li>level：mipmap级别，一般为0</li>
-</ul>
-<pre><code>GLuint texture;
-<span class="function">glGenTextures</span>(1, &amp;texture);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, texture);
-<span class="function">glTexImage2D</span>(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); <span class="comment">//末尾的NULL表示我们只预分配空间，而不实际加载纹理</span>
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-</code></pre><p>上面创建的纹理图像，可以附加到FBO：</p>
-<pre><code>glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, <span class="built_in">texture</span>, <span class="number">0</span>);
-</code></pre><p>FBO创建和准备工作完成额，在利用FBO作图前，我们需要介绍另一个附加图像-RenderBuffer。</p>
-<h3 id="创建Renderbuffer附加图像">创建Renderbuffer附加图像</h3>
-<p>和纹理图像一样，一个renderbuffer对象也是一个缓冲，它可以是一堆字节，整数，像素等。renderbuffer的优点是：它以OpenGL原生渲染格式存储它的数据，因此在离屏渲染到帧缓冲的时候，这些数据相当于被优化过。</p>
-<p>renderbuffer对象将所有渲染数据直接储存在它们的缓冲里，而不会进行针对特定纹理格式的任何转换，这样它们就成了一种快速可写的存储介质了。然后，renderbuffer对象通常是只写的，不能修改它们。</p>
-<p>因为renderbuffer对象中的数据已经是原生格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。</p>
-<blockquote>
-<p>要了解为什么渲染的末尾需要交换帧缓冲数据，和谁交换帧缓冲数据，需要理解什么叫双缓存。所谓双缓存机制指的是显示系统通常会引入两个缓冲区，在这种情况下，GPU会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU会直接把视频控制器的指针指向第二个缓冲器。</p>
-</blockquote>
-<p>创建和销毁RenderBuffer也很简单：</p>
-<pre><code><span class="keyword">void</span> glGenRenderbuffers(GLsizei n, GLuint * ids);
-<span class="keyword">void</span> glDeleteRenderbuffers(GLsizei n, <span class="keyword">const</span> GLuint * ids);
-</code></pre><p>绑定到目标对象：</p>
-<pre><code><span class="title">glBindRenderbuffer</span> (GL_RENDERBUFFER,rbo);
-</code></pre><p>需为 RBO 预分配内存空间：</p>
-<pre><code>void glRenderbufferStorage (GLenum target, GLenum internalFormat, GLsizei <span class="attribute">width</span>, GLsizei <span class="attribute">height</span>);
-</code></pre><p>RBO绑定到FBO</p>
-<pre><code><span class="title">glFramebufferRenderbuffer</span> (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rboId);
-</code></pre><p>在帧缓冲项目中，renderbuffer可以优化渲染，但重要的是要懂得何时使用renderbuffer对象，何时使用纹理。通常规则是：如果你永远都不需要从特定的缓冲中进行采样，renderbuffer对特定缓冲是更明智的选择。如果需要从比如颜色或深度值这样的特定缓冲采样数据的话，最好使用纹理。</p>
-<h3 id="渲染到纹理">渲染到纹理</h3>
-<p>到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。</p>
-<p><strong>Step1: 创建并绑定帧缓冲</strong></p>
-<pre><code>GLuint framebuffer;
-<span class="function">glGenFramebuffers</span>(1, &amp;framebuffer);
-<span class="function">glBindFramebuffer</span>(GL_FRAMEBUFFER, framebuffer);
-</code></pre><p><strong>Step2: 创建一个纹理</strong></p>
-<pre><code><span class="comment">// Generate texture</span>
-GLuint texColorBuffer;
-<span class="function">glGenTextures</span>(1, &amp;texColorBuffer);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, texColorBuffer);
-<span class="function">glTexImage2D</span>(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, 0);
-
-<span class="comment">// Attach it to currently bound framebuffer object</span>
-<span class="function">glFramebufferTexture2D</span>(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
-</code></pre><p><strong>Step3 创建renderbuffer来进行深度测试</strong></p>
-<p>为了让OpenGL进行深度测试，我们必须要确保向帧缓冲中添加一个深度附件。由于我们只采样颜色缓冲，并不采样深度，模版缓冲，所以我们可以创建一个渲染缓冲对象来达到这个目的。</p>
-<pre><code>GLuint rbo;
-<span class="function">glGenRenderbuffers</span>(1, &amp;rbo);
-<span class="function">glBindRenderbuffer</span>(GL_RENDERBUFFER, rbo);
-<span class="function">glRenderbufferStorage</span>(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);  
-<span class="function">glBindRenderbuffer</span>(GL_RENDERBUFFER, 0);
-</code></pre><p>把renderbuffer对象附加到帧缓冲的深度和模版附件上：</p>
-<pre><code><span class="function">glFramebufferRenderbuffer</span>(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-</code></pre><p>所以，为了把场景绘制到一个单独的纹理，我们必须以下面步骤来做：</p>
-<ul>
-<li>创建并绑定一个新的帧缓冲，并在这个帧缓冲上做相关渲染操作</li>
-<li>绑定默认帧缓冲</li>
-<li>绘制一个铺满屏幕的四边形，并用新的帧缓冲的颜色缓冲作为输入的纹理</li>
-</ul>
-<p>以下是每一帧渲染的伪代码：</p>
-<pre><code><span class="comment">//First pass</span>
-glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-glClearColor(<span class="number">0.f</span>,<span class="number">0.f</span>,<span class="number">0.f</span>, <span class="number">1.0f</span>);
-glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-glEnable(GL_DEPTH_TEST);
-DrawScene();
-
-<span class="comment">// Second pass</span>
-glBindFramebuffer(GL_FRAMEBUFFER, <span class="number">0</span>); <span class="comment">// back to default</span>
-glClearColor(<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>);
-glClear(GL_COLOR_BUFFER_BIT);
-
-screenShader.Use();  
-glBindVertexArray(quadVAO);
-glDisable(GL_DEPTH_TEST);
-glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-glDrawArrays(GL_TRIANGLES, <span class="number">0</span>, <span class="number">6</span>);
-glBindVertexArray(<span class="number">0</span>);
-</code></pre><h3 id="后处理">后处理</h3>
-<pre><code>&gt;待续
-</code></pre>
-      
+  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">CP WRITINGS</h1>
+            <h2 class="blog-description"></h2>
+        </div>
     </div>
-    <footer>
+</header>
+  
+<main class="content" role="main">
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-03-19T06:20:09.000Z" itemprop="datePublished">
+          Mar 19 2017
+      </time>
+    
+</span>
+      <h2 class="post-title"><a href="/2017/03/19/framebuffer-object-opengl/">Learning OpenGL：帧缓冲对象</a></h2>
+    </header>
+    <section class="post-excerpt">
+      <p>
       
-        
-        
+        背景
+使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。
+FBO
+在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓
       
-      <div class="clearfix"></div>
-    </footer>
+      </p>
+      
+      <p>
+          <a href="/2017/03/19/framebuffer-object-opengl/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    
+    <span class="page-number">Page 1 of 1</span>
+    
+  </nav>
+</main>
+
+
+  
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
   </div>
-</article>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
 
 
-  
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63703524-1']);
+    _gaq.push(['_trackPageview']);
 
-  <ul class="page-direction" id="page-direction">
-    <li><a class="page-prev icon-chevron-sign-left" href="javascript:;" title="Prev"></a></li>
-    <li><a class="page-next icon-chevron-sign-right" href="javascript:;" title="Next"></a></li>
-</ul>
-
-<nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <i class="icon-search"></i>
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/iOS-Reverse-Engineering/">iOS Reverse Engineering</a><small>3</small></li>
-  
-    <li><a href="/tags/mac-power-user/">mac power user</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-  <div class="trace-invest">
-    <span>
-        <a href="http://traceinvest.com" target="_blank">欢迎光临我的美股投资相关网站 :</br>traceinvest.com</a>
-    </span>
-</div>
-
-
-  
-<div class="widget tag">
-  <h3 class="title">Recent Posts</h3>
-  <ul class="entry">
-    
-      <li>
-        <a href="/2017/10/04/opengl-lighting/">Learning OpenGL：光照</a>
-      </li>
-    
-      <li>
-        <a href="/2017/08/06/shoe-dog/">读书笔记：《鞋狗》</a>
-      </li>
-    
-      <li>
-        <a href="/2017/07/02/Kangrinboqe/">冈仁波齐</a>
-      </li>
-    
-      <li>
-        <a href="/2017/03/19/framebuffer-object-opengl/">Learning OpenGL：帧缓冲对象</a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/26/GLSL-Dictionary/">Learning OpenGL：GLSL Shader 手册</a>
-      </li>
-    
-      <li>
-        <a href="/2017/01/29/becoming-steve-jobs/">读书笔记《成为乔布斯》</a>
-      </li>
-    
-      <li>
-        <a href="/2016/12/18/opengl-3d-matrix/">OpenGL ES 2.0 3D基础（1）－矩阵</a>
-      </li>
-    
-      <li>
-        <a href="/2016/12/11/2016-summary/">2016年度总结</a>
-      </li>
-    
-      <li>
-        <a href="/2016/11/07/ffmpeg-command-example/">ffmpeg 使用例程</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/26/28/">活到28</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/22/install-caffe-on-macosx/">如何在Macosx上安装caffe</a>
-      </li>
-    
-      <li>
-        <a href="/2016/09/25/2016-1st-half/">2016上半年电影，美剧，以及书 清单</a>
-      </li>
-    
-  </ul>
-</div>
-
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-  &copy; 2017 Pei Cheng
-  
-</div>
-<div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
 
 
 
+<link rel="stylesheet" href="/modules/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/modules/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+    (function($){
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+        var wrapAll = function(q) {
+            $(q).each( function() {
+                var $img = $(this),
+                        href = $img.attr('src');
+                $img.wrap('<a rel="fancybox" href="' + href + '" title="' + $img.attr('alt') + '" class="link"></a>');
+            });
+        };
+
+        wrapAll('.post-content img');
+        wrapAll('.post-excerpt img');
+        $('[rel="fancybox"]').fancybox();
+    })(jQuery);
+</script>
+
+
 
 </body>
-
 </html>
