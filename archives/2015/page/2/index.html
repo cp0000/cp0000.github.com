@@ -8,7 +8,7 @@
   <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CP WRITINGS">
-<meta property="og:url" content="http://cp0000.github.io/archives/2015/page/2/">
+<meta property="og:url" content="http://yoursite.com/archives/2015/page/2/">
 <meta property="og:site_name" content="CP WRITINGS">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -56,18 +56,572 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-2015-2nd-movie-list" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-mdfind-note" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
       <header class="article-header">
         
   
-    <a class="article-title" href="/2015/12/27/2015-2nd-movie-list/">2015下半年电影清单</a>
+    <a class="article-title" href="/2015/08/02/mdfind-note/">Spotlight &amp; MDFind</a>
   
 
       </header>
     
-    <time class="article-date" datetime="2015-12-27T14:16:11.000Z" itemprop="datePublished">12-27-2015</time>
+    <time class="article-date" datetime="2015-08-02T03:31:18.000Z" itemprop="datePublished">08-02-2015</time>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Indexing_服务">Indexing 服务</h4>
+<p>Maocx 系统的搜索服务 <code>spotlight</code> 想必大家都用过。它可以很便捷的帮我们找到想要的文件。</p>
+<p>先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：</p>
+<p><img src="http://cp0000.github.io/assets/loadBlock.png" alt="loadBlock"></p>
+<p>spotlight 帮我找到了包含 <code>_loadBlock</code> 这个字符串的文件。</p>
+<p>想象下，电脑硬盘中存储着如此多的文件，<strong>spotlight 是如何如此快速的查询到包涵这个字符串的文件的？</strong></p>
+<p>在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？<br>关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 <code>find</code> 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。<strong>那答案是什么？</strong></p>
+<p>我们不妨先把目光放到<code>搜索</code>这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。<br>那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的<code>indexing</code>的索引服务。那什么是<code>indexing</code>索引服务器，简单来讲： Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。</p>
+<p>当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 <a href="https://lucene.apache.org/" target="_blank" rel="external">Lucene</a> 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。</p>
+<h4 id="mdfind">mdfind</h4>
+<p>用 spotlight 的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。<strong>关于如何在spotlight界面显示文件的详细路径</strong>，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。</p>
+<p><strong>那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？</strong></p>
+<p>Macosx 提供了终端执行命令<code>mdfind</code>，我们可以在 terminal 中使用<code>mdfind</code>来进行索引查询。比如要查询出文件内容中包含字符串 “_loadBlock”, 在ternimal中输入以下命令即可：</p>
+<pre><code>mdfind 'kMDItemTextContent=<span class="string">"_loadBlock"</span>' 
+</code></pre><p>results:</p>
+<pre><code>/<span class="keyword">opt</span>/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.<span class="keyword">h</span>
+/<span class="keyword">opt</span>/dev/appstore_cracked/StoreKit_headers/SKStoreProductViewController.<span class="keyword">h</span>
+/<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUWebViewController.<span class="keyword">h</span>
+/<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUStorePageViewController.<span class="keyword">h</span>
+/<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUPreviewOverlayViewController.<span class="keyword">h</span>
+/<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.<span class="keyword">h</span>
+/<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.<span class="keyword">h</span>
+/<span class="keyword">opt</span>/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.<span class="keyword">h</span>
+</code></pre><p>对比终端查询结果和图一中的结果，会发现有两点出入：</p>
+<ul>
+<li>(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。</li>
+<li>(2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下”_loadBlock”在各个文件中的上下文，以下是节选</li>
+</ul>
+<p>nsBlocklistService.js</p>
+<pre><code><span class="keyword">this</span>._loadBlocklist();
+</code></pre><p>SKStorePageViewController</p>
+<pre><code><span class="title">CDUnknownBlockType</span> _loadBlock;
+</code></pre><p>看上去问题应该是出在<code>_loadBlock</code>前后是否能跟别的字符串上，修改查询语句</p>
+<pre><code>mdfind 'kMDItemTextContent=<span class="string">"_loadBlock*"</span>' 
+</code></pre><p>果然可以查询到结果</p>
+<pre><code><span class="regexp">/Project/m</span>ozilla-central<span class="regexp">/toolkit/m</span>ozapps<span class="regexp">/extensions/</span>nsBlocklistService.js
+</code></pre><p>关于 mdfind 的一些常用查询语法，可参考 <a href="http://osxnotes.net/spotlight.html" target="_blank" rel="external"><code>osxnotes</code></a>，这里列举了大量的例子。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/02/mdfind-note/" data-id="055qjclc5nuaib8u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac-power-user/">mac power user</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-oc-checklist-answers" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/07/23/oc-checklist-answers/">Objc Interview Checklist Answers</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-07-23T13:12:55.000Z" itemprop="datePublished">07-23-2015</time>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="@property中有哪些属性关键字？">@property中有哪些属性关键字？</h4>
+<p>nonatomic (thread-unsafe)<br>atomic (default, thread safe)</p>
+<p>strong<br>weak<br>assign<br>copy</p>
+<p>getter (custom getter method name)<br>setter (custom setter method name)</p>
+<p>readwrite (default)<br>readonly</p>
+<h4 id="weak属性需要在dealloc中置nil么？">weak属性需要在dealloc中置nil么？</h4>
+<p>不需要，runtime会在weak属性在释放的时候，自动把变量至为 nil;</p>
+<h4 id="@synthesize和@dynamic分别有什么作用？">@synthesize和@dynamic分别有什么作用？</h4>
+<p>@synthesize 自动生成属性 getter 和 setter 方法.<br>LLVM Compiler 4.0之后，编译器会对@property 属性自动的添加 @synthesize ivar = _ivar,自动帮你生成 getter/setter 方法，以及自动绑定_ivar 实例变量。</p>
+<p>@dynamic 是为了告诉编译器，getter/setter 方法将会在其他地方（父类，runtime）实现，这样可以消除warnnig</p>
+<h4 id="ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？">ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？</h4>
+<p>atomic, assign, readwrite</p>
+<h4 id="用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？">用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</h4>
+<p><a href="http://cp0000.github.io/2015/07/19/nsstring-property-copy-or-retain/" target="_blank" rel="external">NSString Property:copy or retain</a></p>
+<h4 id="@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？">@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？</h4>
+<p>首先 complier 会根据 @interface 中的 @property 属性自动生成一份属性名前加<code>_</code>的实例变量。LLVM Compiler 4.0 之后，会自动添加@synthesize ivar = _ivar。</p>
+<p>自定义的实例变量 _foo 会和 foo 会自动合成。</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()</span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> foo;
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span>
+{
+    <span class="built_in">NSInteger</span> _foo;
+}
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+    _foo = <span class="number">90</span>;
+    <span class="built_in">NSLog</span>(<span class="string">@"self.foo: %ld"</span>, (<span class="keyword">long</span>)<span class="keyword">self</span><span class="variable">.foo</span>); <span class="comment">//self.foo: 90</span>
+}
+</code></pre><p>然后还有一个现象：</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()</span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> foo;
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span>
+{
+    <span class="built_in">NSInteger</span> foo;
+}
+</code></pre><p>complier 会报 warning : Autosynthesized property ‘foo’ will use synthesized instance variable ‘_foo’, not existing instance variable ‘foo’</p>
+<h4 id="在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？">在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？</h4>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span></span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> foo;
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span>
+{
+    <span class="built_in">NSInteger</span> _foo3;
+
+}
+<span class="keyword">@synthesize</span> foo = _foo3;
+</code></pre><p>这样 .m 中就可以 _foo3, 开放给外部的接口 foo，可以隐藏实例变量的名称。</p>
+<h4 id="objc中向一个nil对象发送消息将会发生什么？">objc中向一个nil对象发送消息将会发生什么？</h4>
+<ul>
+<li>nil is basically a null pointer (i.e it is the number zero stored in a pointer).</li>
+<li>All messages to nil are legal (they won’t cause a  crash), but they dont’t do anything.</li>
+<li>All messages to nil return nil, or 0, or 0.0, or NO, depending on the return type.</li>
+</ul>
+<h4 id="objc中向一个对象发送消息[obj_foo]和objc_msgSend()函数之间有什么关系？">objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？</h4>
+<p>简单来讲 compiler 会把 [receiver message] 转换成 objc_msgSend(receiver, selector, arg1, arg2, …)</p>
+<h4 id="什么时候会报unrecognized_selector的异常？">什么时候会报unrecognized selector的异常？</h4>
+<ul>
+<li>the object’s class, the object’s superclass, the root class, all of them are not implement the called message.</li>
+<li>the reveiver has been released</li>
+</ul>
+<h4 id="一个objc对象如何进行内存布局？（考虑有父类的情况）">一个objc对象如何进行内存布局？（考虑有父类的情况）</h4>
+<ul>
+<li>所有父类的成员变量和自己的成员变量都会存放在该对象所对应的存储空间中</li>
+<li>每一个对象内部都有一个isa指针，指向他的类对象，类对象中存放着本对象的 1）对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）<br>2）成员变量的列表<br>3）属性列表</li>
+</ul>
+<h4 id="一个objc对象的isa的指针指向什么？有什么作用？">一个objc对象的isa的指针指向什么？有什么作用？</h4>
+<p>每一个对象都有一个名为 isa 的指针，指向该对象的类。每一个类描述了一系列它的实例特点，包括成员变量的列表，成员函数的列表等。<br>所有元类的 isa 指针都会指向一个根元类（root <code>metaclass</code>）.</p>
+<h4 id="下面的代码输出什么？">下面的代码输出什么？</h4>
+<pre><code><span class="variable">@implementation</span> <span class="constant">Son</span> <span class="symbol">:</span> <span class="constant">Father</span>
+- (id)init
+{
+    <span class="keyword">self</span> = [<span class="keyword">super</span> init];
+    <span class="keyword">if</span> (<span class="keyword">self</span>) {
+        <span class="constant">NSLog</span>(@<span class="string">"%@"</span>, <span class="constant">NSStringFromClass</span>([<span class="keyword">self</span> <span class="class"><span class="keyword">class</span>]));</span>
+        <span class="constant">NSLog</span>(@<span class="string">"%@"</span>, <span class="constant">NSStringFromClass</span>([<span class="keyword">super</span> <span class="class"><span class="keyword">class</span>]));</span>
+    }
+    <span class="keyword">return</span> <span class="keyword">self</span>;
+}
+<span class="variable">@end</span>
+</code></pre><p>都是 Son  </p>
+<p>调用[self class]，会转换成 id objc_msgSend(id self, SEL op, …)， 在使用 objc_msgSend 时，第一个参数是 Son 当前的这个实例。第二个参数， 先从 Son 类中找 - (Class) class，没找到， 去父类 Father 中找，也没有，再去 Father 的父类 NSObject 中去找，在 NSObject 的类中发现这个 class 方法， 而 NSObject 的 - (Class) class 的实现就是返回 self 的类别，所以上述结果为 Son</p>
+<p>objc runtime 开源代码对 - (Class) class 方法的实现</p>
+<pre><code>- (<span class="constant">Class</span>) <span class="class"><span class="keyword">class</span> {</span>
+    <span class="keyword">return</span> object_getClass (<span class="keyword">self</span>);
+}
+</code></pre><p>当调用 [super class],会转换成 objc_msgSendSuper 函数。</p>
+<pre><code>id objc_msgSendSuper(struct objc_super *super, SEL op, <span class="keyword">...</span>)
+</code></pre><p>其中 objc_super 的结构体为</p>
+<pre><code><span class="class"><span class="keyword">struct</span> <span class="title">objc_super</span> </span>{
+   __unsafe_unretained id receiver;
+   __unsafe_unretained Class super_class;
+};
+</code></pre><p>第一步：构造 objc_super 结构体的时候， 结构体第一个成员变量是 self， 第二个成员变量是 (id) class_getSuperclass(objc_getClass(“Son”)), 函数输出结果是为 Father。<br>第二步：去 Father 这个类里找 - (Class) class, 最后一层层在  NSObject 类中找到。最后内部使用 objc_msgSend(objc_super-&gt;receiver, @selector(class)) 去调用， 此时已经和 [self class] 调用相同了。</p>
+<h4 id="runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）">runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）</h4>
+<p>NSObject.h</p>
+<pre><code><span class="pp">- <span class="params">(<span class="variable">IMP</span>)</span>methodForSelector:<span class="params">(<span class="variable">SEL</span>)</span>aSelector</span>
+</code></pre><p>objc-class.m </p>
+<pre><code>IMP class_getMethodImplementation(<span class="class"><span class="keyword">Class</span> <span class="title">cls</span>, <span class="title">SEL</span> <span class="title">sel</span>)</span>
+</code></pre><p>每一个类对象中管理者一个methodlist,方法列表中记录着方法的名称,方法实现,以及参数类型.</p>
+<h4 id="使用runtime_Associate方法关联的对象，需要在主对象dealloc的时候释放么？">使用runtime Associate方法关联的对象，需要在主对象dealloc的时候释放么？</h4>
+<p>无论在MRC下还是ARC下均不需要</p>
+<p>对象的内存销毁时间表，分四个步骤</p>
+<pre><code>1. 调用 -release ：引用计数变为零
+    <span class="keyword">*</span> 对象正在被销毁，生命周期即将结束.
+    <span class="keyword">*</span> 不能再有新的 __weak 弱引用， 否则将指向 nil.
+    <span class="keyword">*</span> 调用 [self dealloc] 
+2. 父类 调用 -dealloc
+    <span class="keyword">*</span> 继承关系中最底层的父类 在调用 -dealloc
+    <span class="keyword">*</span> 如果是 MRC 代码 则会手动释放实例变量们（iVars）
+    <span class="keyword">*</span> 继承关系中每一层的父类 都在调用 -dealloc
+3. NSObject 调 -dealloc
+    <span class="keyword">*</span> 只做一件事：调用 Objective-C runtime 中的 object_dispose() 方法
+4. 调用 object_dispose()
+    <span class="keyword">*</span> 为 C++ 的实例变量们（iVars）调用 destructors 
+    <span class="keyword">*</span> 为 ARC 状态下的 实例变量们（iVars） 调用 -release 
+    <span class="keyword">*</span> 解除所有使用 runtime Associate方法关联的对象
+    <span class="keyword">*</span> 解除所有 __weak 引用
+    <span class="keyword">*</span> 调用 free()
+</code></pre><h4 id="objc中的类方法和实例方法有什么本质区别和联系？">objc中的类方法和实例方法有什么本质区别和联系？</h4>
+<p>类方法：</p>
+<ul>
+<li>类方法是属于类对象的</li>
+<li>类方法只能通过类对象调用</li>
+<li>类方法中的self是类对象</li>
+<li>类方法可以调用其他的类方法</li>
+<li>类方法中不能访问成员变量</li>
+<li>类方法中不定直接调用对象方法</li>
+</ul>
+<p>实例方法：</p>
+<ul>
+<li>实例方法是属于实例对象的</li>
+<li>实例方法只能通过实例对象调用</li>
+<li>实例方法中的self是实例对象</li>
+<li>实例方法中可以访问成员变量</li>
+<li>实例方法中直接调用实例方法</li>
+<li>实例方法中也可以调用类方法(通过类名)</li>
+</ul>
+<h4 id="_objc_msgForward函数是做什么的，直接调用它将会发生什么？">_objc_msgForward函数是做什么的，直接调用它将会发生什么？</h4>
+<h4 id="runtime如何实现weak变量的自动置nil？">runtime如何实现weak变量的自动置nil？</h4>
+<p>runtime 对注册的类， 会进行布局，对于 weak 对象会放入一个 hash 表中。 用 weak 指向的对象地址作为 key，当此对象的引用计数为0的时候会 dealloc.假如 weak 指向的对象内存地址是a，那么就会以a为键， 在这个 weak 表中搜索，找到所有以a为键的 weak 对象，从而设置为 nil。</p>
+<h4 id="能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？">能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？</h4>
+<ul>
+<li>不能向编译后得到的类中增加实例变量；</li>
+<li>能向运行时创建的类中添加实例变量；</li>
+</ul>
+<p>解释下：</p>
+<p>＋ 编译后的类已经注册在runtime中，类结构体中的 objc_ivar_list 实例变量的链表和 instance_size 实例变量的内存大小已经确定，同时 runtime 会调用 class_setIvarLayout 或 class_setWeakivarLayout 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；</p>
+<ul>
+<li>运行时创建的类是可以添加实例变量，调用 class_addIvar 函数。但是得在调用 objc_allocateClassPair 之后，objc_registerClassPair 之前，原因同上。</li>
+</ul>
+<h4 id="runloop和线程有什么关系？">runloop和线程有什么关系？</h4>
+<p>首先 runloop 是一直运行着的循环。run loops 是线程的基础架构部分。每个线程都有与之相对应的 runloop 对象。</p>
+<ul>
+<li>主线的的runloop默认是开启的</li>
+<li>其他线程的runloop是默认没有开启的</li>
+</ul>
+<h4 id="runloop的mode作用是什么？">runloop的mode作用是什么？</h4>
+<p>model 主要是用来指定时间在运行循环中的优先级的<br>苹果公开提供的 Mode 有两个：<br>kCFRunLoopDefaultMode<br>kCFRunLoopCommonModes</p>
+<h4 id="以+_scheduledTimerWithTimeInterval…的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？">以+ scheduledTimerWithTimeInterval…的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？</h4>
+<p>Runloop 只能运行在一种model 下，如果要换mode，当前的runloop也需要停下来重启成新的。利用这个机制，Scrollview滚动过程中NSDefaultRUnllopMode(kCFRunLoopDefaultMode)的mode会切换到UITrackingRunLoopMode来保证ScrollView的流畅滑动：只能在NSDefaultRunloopMode模式下处理的事件会影响scrollview的滑动。</p>
+<p>如果我们把一个NSTimer对象以NSDefaultRunLoopMode(kCFRunLoopDefaultMode)添加到主运行循环中的时候，ScrollView滚动过程中会因为mode的切换，而导致NSTimer将不再被调度。同时因为mode还是可定制的，所以：Timer 计时会被scrollview的滑动影响的问题可以通过将timer添加到NSRunLoppCommonModes(kCFRunLoopCommonModes)来解决。</p>
+<pre><code><span class="comment">//将timer添加到NSDefaultRunLoopMode中</span>
+[NSTimer scheduledTimerWithTimeInterval:<span class="number">1.0</span>
+     target:<span class="keyword">self</span>
+     selector:<span class="keyword">@selector</span>(timerTick:)
+     userInfo:<span class="literal">nil</span>
+     repeats:<span class="literal">YES</span>];
+<span class="comment">//然后再添加到NSRunLoopCommonModes里</span>
+NSTimer *timer = [NSTimer timerWithTimeInterval:<span class="number">1.0</span>
+     target:<span class="keyword">self</span>
+     selector:<span class="keyword">@selector</span>(timerTick:)
+     userInfo:<span class="literal">nil</span>
+     repeats:<span class="literal">YES</span>];
+[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+</code></pre><h4 id="猜想runloop内部是如何实现的？">猜想runloop内部是如何实现的？</h4>
+<pre><code><span class="title">while</span> (date &lt; untileDate) {
+    <span class="title">id</span> event = listenEvent (); 
+    <span class="title">handleEvent</span> (v);
+}
+</code></pre><h4 id="objc使用什么机制管理对象内存？">objc使用什么机制管理对象内存？</h4>
+<p>通过 retainCount 的机制来决定对象是否需要释放每次 runloop 的时候，都会检查对象的retainCount，如果retainCount 为 0，说明该对象没有地方需要继续使用了，可以释放掉了。</p>
+<h4 id="ARC通过什么方式帮助开发者管理内存？">ARC通过什么方式帮助开发者管理内存？</h4>
+<p>编译时根据代码上下文，插入 retain/release </p>
+<h4 id="不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）">不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）</h4>
+<p>在每次 eventloop 开始创建自动创建释放池， 在每次事件结束销毁自动释放池。<br>以 viewDidLoad 方法为例，在viewDidLoad方法开始执行之前创建自动释放池,在viewDidAppear方法执行之后销毁自动释放池。</p>
+<h4 id="BAD_ACCESS在什么情况下出现？">BAD_ACCESS在什么情况下出现？</h4>
+<ul>
+<li>访问了野指针</li>
+<li>死循环</li>
+</ul>
+<h4 id="苹果是如何实现autoreleasepool的？">苹果是如何实现autoreleasepool的？</h4>
+<p>autoreleasepool以一个队列数组的形式实现，主要通过下列三个函数完成.</p>
+<ul>
+<li>objc_autoreleasepoolPush</li>
+<li>objc_autoreleasepoolPop</li>
+<li>objc_autorelease</li>
+</ul>
+<p>对autorelease分别执行push，和pop操作。销毁对象时执行release操作。</p>
+<h4 id="使用block时什么情况会发生引用循环，如何解决？">使用block时什么情况会发生引用循环，如何解决？</h4>
+<p>一个对象对 block 进行了强引用，而在 block 内部有直接使用到该对象。</p>
+<p>声明一个 weak 的对象指向该对象， 在 block 内部使用该 weak 对象。</p>
+<pre><code><span class="keyword">id</span> <span class="keyword">weak</span> weakSelf = <span class="keyword">self</span>; 或者 <span class="keyword">weak</span> __<span class="keyword">typeof</span>(&amp;*<span class="keyword">self</span>)weakSelf = <span class="keyword">self</span>该方法可以设置宏
+<span class="keyword">id</span> __block weakSelf = <span class="keyword">self</span>;
+</code></pre><h4 id="在block内如何修改block外部变量？">在block内如何修改block外部变量？</h4>
+<p>默认情况下，在block中访问的外部变量时复制过去的，既：写操作不对原变量生效。但是可以通过加上__block修饰外部变量。</p>
+<pre><code>__block <span class="keyword">int</span> a = <span class="number">0</span>;
+<span class="keyword">void</span>  (^foo)(<span class="keyword">void</span>) = ^{ 
+    a = <span class="number">1</span>; 
+}
+f00();
+</code></pre><p>实现原理，简单来讲，外部变量通过指针传递，将变量传递到 block 内，所以可以修改变量值。</p>
+<h4 id="使用系统的某些block_api（如UIView的block版本写动画时），是否也考虑引用循环问题？">使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？</h4>
+<p>NO, since self will be captured in the block which is dispatched asynchronously, self will be implicity retained, and released again when the block has been finished.</p>
+<p>That means, the life-time of self will be extended  up until after the block finishes.</p>
+<h4 id="GCD的队列（dispatch_queue_t）分哪两种类型？">GCD的队列（dispatch_queue_t）分哪两种类型？</h4>
+<ul>
+<li>串行队列Serial Dispatch Queue</li>
+<li>并行队列Concurrent Dispatch Queue</li>
+</ul>
+<h4 id="如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）">如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）</h4>
+<p>使用 Dispatch Group 追加block到Global Group Queue，这些block如果全部执行完毕，就会执行Main Dispatch Queue中的结束处理的block</p>
+<pre><code>dispatch_queue_t <span class="built_in">queue</span> <span class="subst">=</span> dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);
+dispatch_group_t <span class="keyword">group</span> <span class="subst">=</span> dispatch_group_create();
+dispatch_group_async(<span class="keyword">group</span>, <span class="built_in">queue</span>, ^{ <span class="comment">/*加载图片1 */</span> });
+dispatch_group_async(<span class="keyword">group</span>, <span class="built_in">queue</span>, ^{ <span class="comment">/*加载图片2 */</span> });
+dispatch_group_async(<span class="keyword">group</span>, <span class="built_in">queue</span>, ^{ <span class="comment">/*加载图片3 */</span> }); 
+dispatch_group_notify(<span class="keyword">group</span>, dispatch_get_main_queue(), ^{
+        <span class="comment">// 合并图片</span>
+});
+</code></pre><h4 id="dispatch_barrier_async的作用是什么？">dispatch_barrier_async的作用是什么？</h4>
+<p>在并行队列中，为了保持某些任务的顺序，需要等待一些人物完成后才能继续进行，使用 barrier 来等待之前任务完成，避免数据竞争等问题。dispatch_barrier_async 函数会等待追加到 Concurrent Dispatch Queue 并行队列中的操作全部执行完之后，然后再执行 dispatch_barrier_async 函数追加的处理，等 dispatch_barrier_async<br>追加的处理执行结束之后，Concurrent Dispatch Queue 才恢复之前的动作继续执行。</p>
+<pre><code><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"test_queue"</span>, DISPATCH_QUEUE_CONCURRENT);  
+<span class="built_in">dispatch_async</span>(queue, ^{  
+    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];  
+    <span class="built_in">NSLog</span>(<span class="string">@"dispatch_async1"</span>);  
+});  
+<span class="built_in">dispatch_async</span>(queue, ^{  
+    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">4</span>];  
+    <span class="built_in">NSLog</span>(<span class="string">@"dispatch_async2"</span>);  
+});  
+dispatch_barrier_async(queue, ^{  
+    <span class="built_in">NSLog</span>(<span class="string">@"dispatch_barrier_async"</span>);  
+    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">4</span>];  
+
+});  
+<span class="built_in">dispatch_async</span>(queue, ^{  
+    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1</span>];  
+    <span class="built_in">NSLog</span>(<span class="string">@"dispatch_async3"</span>);  
+}); 
+</code></pre><h4 id="苹果为什么要废弃dispatch_get_current_queue？">苹果为什么要废弃dispatch_get_current_queue？</h4>
+<p>dispatch_get_current_queue容易造成死锁</p>
+<h4 id="以下代码运行结果如何？">以下代码运行结果如何？</h4>
+<pre><code>- (void)viewDidLoad
+{
+    <span class="attr_selector">[super viewDidLoad]</span>;
+    <span class="function">NSLog</span>(<span class="at_rule">@<span class="string">"1"</span>);</span>
+    <span class="function">dispatch_sync</span>(<span class="function">dispatch_get_main_queue</span>(), ^{
+        <span class="function">NSLog</span>(<span class="at_rule">@<span class="string">"2"</span>);</span>
+    });
+    <span class="function">NSLog</span>(<span class="at_rule">@<span class="string">"3"</span>);</span>
+}
+</code></pre><p>只输出：1 。发生主线程锁死。原因是主队列在等待 dispatch_sync(dispatch_get_main_queue(), ^{NSLog(@”2”);});执行。dispatch_sync 在等待著队列执行完毕，造成死锁。</p>
+<h4 id="addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？">addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？</h4>
+<pre><code><span class="comment">// 添加键值观察</span>
+<span class="comment">/*
+1 观察者，负责处理监听事件的对象
+2 观察的属性
+3 观察的选项
+4 上下文
+*/</span>
+[<span class="keyword">self</span>.person addObserver:<span class="keyword">self</span> forKeyPath:@<span class="string">"name"</span> options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:@<span class="string">"Person Name"</span>];
+</code></pre><p>observer中需要实现以下方法：</p>
+<pre><code><span class="comment">// 所有的 kvo 监听到事件，都会调用此方法</span>
+<span class="comment">/*
+ 1. 观察的属性
+ 2. 观察的对象
+ 3. change 属性变化字典（新／旧）
+ 4. 上下文，与监听的时候传递的一致
+ */</span>
+- (<span class="keyword">void</span>)observeValueForKeyPath:(<span class="built_in">NSString</span> *)keyPath ofObject:(<span class="keyword">id</span>)object change:(<span class="built_in">NSDictionary</span> *)change context:(<span class="keyword">void</span> *)context;
+</code></pre><h4 id="如何手动触发一个value的KVO">如何手动触发一个value的KVO</h4>
+<p>所谓的“手动触发”是区别于”自动触发：<br>自动触发是指类似这种场景：在注册 KVO 之前设置一个初始值，注册之后，设置一个不一样的值，就可以触发了。想知道如何手动触发，就得搞明白自动触发 KVO 的原理：</p>
+<p>键值观察通知依赖于 NSObject 的两个方法： willChangeValueForKey: 和 didChangeValueForKey:。在一个被观察属性发生改变之前，willChangeValueForKey:一定会被调用，这就会记录旧的值。而当改变发生之后，didChangeValueForKey:会被调用，继而observeValueForKey:ofObject:change:context也会被调用。如果可以手动实现这些调用，就可以实现“手动触发”了；</p>
+<p>那么”手动触发“的使用场景是什么？一般我们只在希望能控制”回调的调用时机”时才会这么做。</p>
+<p>具体做法如下：</p>
+<p>如果这个value是表示时间的 self.now,那么代码如下：</p>
+<pre><code><span class="comment">//@property (nonatomic, strong) NSDate *now;</span>
+- (<span class="keyword">void</span>)viewDidLoad
+{
+    [<span class="keyword">super</span> viewDidLoad];
+    [<span class="keyword">self</span> willChangeValueForKey:<span class="string">@"now"</span>]; <span class="comment">// “手动触发self.now的KVO”，必写。</span>
+    [<span class="keyword">self</span> didChangeValueForKey:<span class="string">@"now"</span>]; <span class="comment">// “手动触发self.now的KVO”，必写。</span>
+}
+</code></pre><p>但是平时我们一般不会这么干，我们都是等系统去“自动触发”。“自动触发”的实现原理：</p>
+<p>比如调用 setNow: 时，系统还会以某种方式在中间插入 wilChangeValueForKey: 、 didChangeValueForKey: 和 observeValueForKeyPath:ofObject:change:context: 的调用。</p>
+<h4 id="若一个类有实例变量NSString_*_foo，调用setValue:forKey:时，可以以foo还是_foo作为key？">若一个类有实例变量NSString *_foo，调用setValue:forKey:时，可以以foo还是_foo作为key？</h4>
+<p>Both</p>
+<h4 id="KVC的keyPath中的集合运算符如何使用？">KVC的keyPath中的集合运算符如何使用？</h4>
+<ul>
+<li>必须用在集合对象上或普通对象的集合属性上</li>
+<li>简单集合运算符有 @avg, @count, @max, @min, @sum</li>
+<li>格式 @”sum.age”或@”集合属性.@max.age”</li>
+</ul>
+<h4 id="KVC和KVO的keyPath一定是属性么？">KVC和KVO的keyPath一定是属性么？</h4>
+<p>KVO支持实例变量</p>
+<h4 id="如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？">如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？</h4>
+<h4 id="apple用什么方式实现对一个对象的KVO？">apple用什么方式实现对一个对象的KVO？</h4>
+<p>当你观察一个对象时，一个新的类会被动态创建。这个类继承自该对象的原本的类，并重写了被观察属性的setter方法。重写setter方法会负责在调用原setter方法之前和之后，通知所有观察对象：值的更改。最后通过 isa 混写 （isa-swizzling）把这个对象的 isa 指针（isa指针告诉Runtime系统这个对象的类是什么）指向这个新创建的子类，对象就神奇的变成了新创建的子类的实例。</p>
+<p>详细解释：</p>
+<p>键值观察者通知依赖于NSObject的两个方法： willChangeValueForKey: and didChangeValueForKey: 。在一个被观察属性发生改变之前, willChangeValueForKey: 一定会被调用，这就会记录旧的值。而当发生改变之后，didChangeValueForKey:会被调用，继而observerValueForKey:ofObject:change:context:也会被调用。可以手动实现这些调用，但很少这么做。一般我们只在希望能控制回调的调用时机时才会这么做。大部分情况下，改变通知会自动调用。</p>
+<h4 id="IBOutlet连出来的视图属性为什么可以被设置成weak?">IBOutlet连出来的视图属性为什么可以被设置成weak?</h4>
+<p>因为既然有外链那么视图在xib或者storyboard中肯定存在，视图已经对它有一个强引用了</p>
+<h4 id="IB中User_Defined_Runtime_Attributes如何使用？">IB中User Defined Runtime Attributes如何使用？</h4>
+<p>它能够通过KVC的方式配置一些你在interface builder 中不能配置的属性。当你希望在IB中作尽可能多得事情，这个特性能够帮助你编写更加轻量级的viewcontroller</p>
+<h4 id="如何调试BAD_ACCESS错误">如何调试BAD_ACCESS错误</h4>
+<ul>
+<li>From the Scheme toolbar menu, choose a scheme.</li>
+<li>From the same menu, choose Edit Scheme to display the scheme dialog</li>
+<li>In the left column, select run</li>
+<li>To specify runtime diagnostics,click the Diagnostics tab.</li>
+<li>For debug BAD_ACCESS, enable the Enable Zombie Objects checkbox.</li>
+<li>Click Close</li>
+<li>Click the Run button or chosse Product &gt; Run</li>
+</ul>
+<h4 id="lldb（gdb）常用的调试命令？">lldb（gdb）常用的调试命令？</h4>
+<p><code>po</code> <code>expression</code> <code>call</code> <code>thread return &lt;RETURN EXPRESSION&gt;</code> <code>b</code> <code>thread backtrace</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/23/oc-checklist-answers/" data-id="axssyuliyzo8xv14" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-nsstring-property-copy-or-retain" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/07/19/nsstring-property-copy-or-retain/">从 NSString Property:copy or retain 到 NSCopying</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-07-19T03:50:04.000Z" itemprop="datePublished">07-19-2015</time>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="NSString_Property:copy_or_retain">NSString Property:copy or retain</h4>
+<p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>strong</code>)。</p>
+<p><strong>为什么会有<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
+<p>回答这个问题之前，我们先看段代码：</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">Fruit</span> : <span class="title">NSObject</span></span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>)     <span class="built_in">NSString</span>  * fruitNameCopy;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>)   <span class="built_in">NSString</span>  * fruitNameStrong;
+<span class="keyword">@end</span>
+
+<span class="built_in">NSMutableString</span> * fruitName = [<span class="built_in">NSMutableString</span> stringWithString:<span class="string">@"apple"</span>];
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit<span class="variable">.fruitNameCopy</span>     = fruitName;
+fruit<span class="variable">.fruitNameStrong</span>   = fruitName;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName); <span class="comment">// 0x7fddabd0e250  apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>); <span class="comment">// 0xa0000656c7070615 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>); <span class="comment">// 0x7fddabd0e250  apple</span>
+
+<span class="comment">//fruitName =@"pear";</span>
+[fruitName setString: <span class="string">@"pear"</span>];
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName); <span class="comment">// 0x7fddabd0e250  pear</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>); <span class="comment">// 0xa0000656c7070615 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>); <span class="comment">// 0x7fddabd0e250  pear</span>
+</code></pre><p>该段程序运行到结尾时， fruitNameCopy 的值是 apple，fruitNameCopy 的值是 pear，且两者的内存地址也不一样。<br>程序中，当我们对一个mutable对象做<code>copy</code>操作的时候，objc runtime 会用一次<a href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy" target="_blank" rel="external">深拷贝</a>来处理， runtime 会重新分配一块内存地址空间，并把原mutable对象的值拷贝过来。所以打印出来的 fruitNameCopy 和 fruitNameStrong 的内存地址是不一样的。而这之后在对 fruitName 做任何的赋值操作都只能作用于 fruitNameStrong.</p>
+<p><strong>那如果我们把 fruitName 改成 immutable 的会是怎样的了？</strong></p>
+<pre><code><span class="built_in">NSString</span> * fruitName = <span class="string">@"apple"</span>;
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit<span class="variable">.fruitNameCopy</span>     = fruitName;
+fruit<span class="variable">.fruitNameStrong</span>   = fruitName;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>);<span class="comment">// 0x10e27b078 apple</span>
+
+fruitName =<span class="string">@"pear"</span>;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName);<span class="comment">// 0x10e27b0f8 pear</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>);<span class="comment">// 0x10e27b078 apple</span>
+</code></pre><p>结果是 fruitName, fruitNameCopy, fruitNameStrong 三者的地址都是一样的。按理说<code>copy</code>动作是深拷贝，fruitNameCopy指向的地址 应该是新分配的内存地址才对。<br>那为什么打印出来的地址却是同一个地址了？答案是 runtime 在这里做一个性能优化，@”apple” 是一个immutable的值，没有必要做一次深拷贝，直接做一次 retain 就达到目的了。</p>
+<p><strong>试试看把<code>NSString</code>替换成<code>NSArray</code></strong></p>
+<p>对象 Fruit 中添加两个属性<br>    @property (nonatomic, copy)     NSArray  <em> placesCopy;<br>    @property (nonatomic, strong)   NSArray  </em> placesStrong;</p>
+<p>先用 mutable 的变量试试</p>
+<pre><code><span class="built_in">NSMutableArray</span> * places = [<span class="built_in">NSMutableArray</span> arrayWithArray:@[<span class="string">@"china"</span>, <span class="string">@"japan"</span>]];
+fruit<span class="variable">.placesCopy</span>    = places; <span class="comment">//placesCopy: 0x7f8f18d0c4f0 (china,japan)</span>
+fruit<span class="variable">.placesStrong</span>  = places; <span class="comment">//placesStrong: 0x7f8f18d51a80 (china,japan)</span>
+
+[places addObject:<span class="string">@"korea"</span>];
+<span class="comment">//placesCopy: 0x7f8f18d0c4f0 (china,japan)</span>
+<span class="comment">//placesStrong: 0x7f8f18d51a80 (china,japan, korea)</span>
+</code></pre><p>再用 immutable 的变量试试</p>
+<pre><code><span class="constant">NSArray * places</span> = @[@<span class="string">"china"</span>, @<span class="string">"japan"</span>];
+
+fruit.placesCopy    = places; <span class="comment">//placesCopy: 0x7fc4e8c6f2a0 (china,japan)</span>
+fruit.placesStrong  = places; <span class="comment">//placesStrong: 0x7fc4e8c6f2a0 (china,japan)</span>
+
+places = @[@<span class="string">"uk"</span>, @<span class="string">"us"</span>];
+<span class="comment">//placesCopy: 0x7fc4e8c6f2a0 (china,japan)</span>
+<span class="comment">//placesStrong: 0x7fc4e8c6f2a0 (china,japan)</span>
+</code></pre><p>实验结果和 <code>NSString</code> 是一致的。</p>
+<h4 id="NSCopying">NSCopying</h4>
+<p>如果你愿意，你可以试试看其他容器类 <code>NSDictionary</code>, <code>NSSet</code>,<code>NSIndexSet</code>， 会发现结果也保持一致。我们尝试解读这些类的头文件，作进一步的探索。以下是这些类头文件的节选：</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">NSString</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSArray</span>&lt;<span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSDictionary</span>&lt;<span class="title">__covariant</span> <span class="title">KeyType</span>, <span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSSet</span>&lt;<span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSIndexSet</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSIndexPath</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+</code></pre><p>会发现这些类都实现了<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>协议.在<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
+<pre><code>Implement NSCopying <span class="keyword">by</span> retaining <span class="operator">the</span> original instead <span class="operator">of</span> creating <span class="operator">a</span> <span class="built_in">new</span> copy when <span class="operator">the</span> class <span class="operator">and</span> its contents are immutable.
+</code></pre><p>这条准则很好的解释了上面的试验结果，让这些结果讲得通。</p>
+<h4 id="Summary">Summary</h4>
+<p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code>。</strong></p>
+<p><strong>如果在程序中我们自己定义的类也需要实现 <code>NSCopying</code> 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象</strong></p>
+<p><strong>如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 <code>copy</code></strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/19/nsstring-property-copy-or-retain/" data-id="0d684k0622gr4kym" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-movie-list-been-watched-2015-1st" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/07/13/movie-list-been-watched-2015-1st/">2015上半年看过的电影</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-07-13T14:40:09.000Z" itemprop="datePublished">07-13-2015</time>
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/Movie/">Movie</a>
@@ -77,65 +631,212 @@
   <div class="article-inner">
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>中国大陆</strong></p>
+        <p><strong>中国</strong></p>
 <ul>
-<li><a href="http://movie.douban.com/subject/25710912/" target="_blank" rel="external">港囧 (2015)</a></li>
-<li><a href="http://movie.douban.com/subject/26277313/" target="_blank" rel="external">西游记之大圣归来 (2015)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/3077412/" target="_blank" rel="external">寻龙诀 (2015)</a> ✔</li>
+<li>一步之遥 </li>
 </ul>
-<p><strong>中国香港</strong></p>
+<p><strong>United States</strong></p>
 <ul>
-<li><a href="http://movie.douban.com/subject/1298898/" target="_blank" rel="external">暗战 暗戰 (1999)</a> ✔</li>
+<li>Chirldhood</li>
+<li>Nebraska</li>
+<li>August Osage County</li>
+<li>American Sniper</li>
+<li>Birdman</li>
+<li>2001: A Space Odyssey</li>
+<li>Driving Miss Daisy</li>
+<li>The Maze Runner</li>
+<li>Big Hero 6</li>
+<li>Lost In Translation</li>
+<li>Fast &amp; Furious 7</li>
 </ul>
-<p><strong>中国台湾</strong></p>
+<p><strong>Japan</strong></p>
 <ul>
-<li><a href="http://movie.douban.com/subject/26366465/" target="_blank" rel="external">我的少女时代 我的少女時代 (2015)</a>✔</li>
+<li>Seven Samurai</li>
+<li>Little Forest Natsu Aki</li>
+<li>The Little House</li>
+<li>Our Mother</li>
 </ul>
-<p><strong>欧美</strong></p>
+<p><strong>Korea</strong></p>
 <ul>
-<li><a href="http://movie.douban.com/subject/1866473/" target="_blank" rel="external">蚁人 Ant-Man (2015)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/11624706/" target="_blank" rel="external">小黄人大眼萌 Minions (2015)</a></li>
-<li><a href="http://movie.douban.com/subject/10727641/" target="_blank" rel="external">碟中谍5：神秘国度 Mission: Impossible - Rogue Nation (2015)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/10463953/" target="_blank" rel="external">模仿游戏 The Imitation Game (2014)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/10440138/" target="_blank" rel="external">侏罗纪世界 Jurassic World (2015)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/1293530/" target="_blank" rel="external">角斗士 Gladiator (2000)</a>✔</li>
-<li><a href="http://movie.douban.com/subject/1945780/" target="_blank" rel="external">血色将至 There Will Be Blood (2007)</a>✔✔✔</li>
-<li><a href="http://movie.douban.com/subject/3008247/" target="_blank" rel="external">穿条纹睡衣的男孩 The Boy in the Striped Pajamas (2008)</a></li>
-<li><a href="http://movie.douban.com/subject/25773932/" target="_blank" rel="external">爆裂鼓手 Whiplash (2014)</a> ✔✔</li>
-<li><a href="http://movie.douban.com/subject/2044089/" target="_blank" rel="external">杀手没有假期 In Bruges (2008)</a></li>
-<li><a href="http://movie.douban.com/subject/3592854/" target="_blank" rel="external">疯狂的麦克斯4：狂暴之路 （Mad Max: Fury Road）</a>✔</li>
-<li><a href="http://movie.douban.com/subject/24815950/" target="_blank" rel="external">万物理论 The Theory of Everything (2014)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/25766754/" target="_blank" rel="external">年轻气盛 Youth (2015)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/10533913/" target="_blank" rel="external">头脑特工队 Inside Out (2015)</a></li>
-<li><a href="http://movie.douban.com/subject/11620560/" target="_blank" rel="external">007：幽灵党 Spectre (2015)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/6873042/" target="_blank" rel="external">明日世界 Tomorrowland (2015)</a></li>
-<li><a href="http://movie.douban.com/subject/6846893/" target="_blank" rel="external">超能查派 Chappie (2015)</a></li>
-</ul>
-<p><strong>日本</strong></p>
-<ul>
-<li><a href="http://movie.douban.com/subject/25814707/" target="_blank" rel="external">小森林 冬春篇 リトル・フォレスト 冬・春 (2015)</a> ✔✔✔✔</li>
-<li><a href="http://movie.douban.com/subject/2000741/" target="_blank" rel="external">母亲 母べえ (2008)</a> ✔✔✔✔</li>
-<li><a href="http://movie.douban.com/subject/26147706/" target="_blank" rel="external">花与爱丽丝杀人事件 花とアリス殺人事件 (2015)</a> ✔✔✔</li>
-</ul>
-<p><strong>美剧</strong></p>
-<ul>
-<li><a href="http://movie.douban.com/subject/26290409/" target="_blank" rel="external">黑客军团 第一季 Mr. Robot Season 1 (2015)</a> ✔</li>
-<li><a href="http://movie.douban.com/subject/10748120/" target="_blank" rel="external">真探 第一季 True Detective Season 1 (2014)</a> ✔✔✔</li>
-<li><a href="http://movie.douban.com/subject/25837700/" target="_blank" rel="external">真探 第二季 True Detective Season 2 (2015)</a></li>
-<li><a href="http://movie.douban.com/subject/25850640/" target="_blank" rel="external">毒枭 第一季 Narcos Season 1 (2015)</a> ✔✔</li>
-<li><a href="http://movie.douban.com/subject/20644938/" target="_blank" rel="external">硅谷 第一季 Silicon Valley Season 1 (2014)</a>✔</li>
-<li><a href="http://movie.douban.com/subject/25871679/" target="_blank" rel="external">硅谷 第二季 Silicon Valley Season 2 (2015)</a>✔</li>
-<li><a href="http://movie.douban.com/subject/25770124/" target="_blank" rel="external">政局边缘 The Brink (2015)</a></li>
-</ul>
-<p><strong>英剧</strong></p>
-<ul>
-<li><a href="http://movie.douban.com/subject/26170816/" target="_blank" rel="external">真实的人类 第一季 Humans Season 1 (2015)</a>✔</li>
+<li>Snowpiercer</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2015/12/27/2015-2nd-movie-list/" data-id="tk5kpjox3qr04a1k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/13/movie-list-been-watched-2015-1st/" data-id="mabi3dmp6lq8001g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-za-huo-che-de-ren" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/07/05/za-huo-che-de-ren/">砸火车的人</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-07-05T06:52:27.000Z" itemprop="datePublished">07-05-2015</time>
+    
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://cp0000.github.io/assets/kite-runner.jpg" alt="kite-runner"></p>
+<p>罗素在《幸福之路》一书中有一节是讨论关于<code>厌烦与兴奋</code>的。里面说到现代人对比我们的祖先更少厌烦，但却更怕厌烦。我们进行听音乐，玩电子游戏，看电影，或许都是为了消除厌烦吧。甚至有时候，我觉得读书也是消除厌烦，而不是为了获取知识。</p>
+<p>我一直把自己当作一个喜欢读书的人来对待，但事实上我读过的书很少。</p>
+<p>当然需要说明的是，我这里指的书籍是剔除了上学时候的教科书，工作之后的专业书籍。对我而言，这些书大都有一些不得不去读的意味，为了升学，为了升职，为了生存。要从这类书籍中要获取到乐趣是不太容易的。所以我这里读的书指的是一些“闲书”，纯粹因个人喜好而去看的书。</p>
+<p>为了消除厌烦，我们总是希望能够从同样喜欢读书且品味没那么糟糕的人口中获得一些推荐的书籍，以备我们无聊的时候可以用来打发时间。记得上大学的时候，我总是喜欢推荐一本叫《追风筝的人》的书给其他人以换取其他人的推荐。书很薄，读起来很流畅，不会觉的累，故事精彩缺让人回味无穷。今天我抄袭此书的名字，取名这篇文章叫《砸火车的人》，来回忆一段同样是年少时发生的一件不光彩的事迹。</p>
+<p>我一直是一个本分，胆子不大的人。小时候，可能是由于年纪原因，我也算是村庄里面孩子的头头。我们几个人早上一起上学，放学一起玩弹珠，打打扑克。映像中聚众打架，偷庄稼这种事情可能也就干过一两次。我们阵容很小，稳定的阵容只有我，弟弟，黑皮，还有几个经常一起玩，但是不是固定阵容的。黑皮那个时候跟我们玩的最好，上小学的时候我们总是在一起玩，砸火车的事情也是我们一起干的。</p>
+<p>有段时间，黑皮说他跟其他人一起去村子旁边的火车道上砸过火车，很好玩。我当时一是好奇心作祟，二是自尊心要强，于是说我们也要去砸火车。<br>于是在某个无所事事的周末下午，我，弟弟，黑皮加上另外两三个人，不记得是谁了。一道去了村旁边的火车道上准备砸火车。来到火车道上，我们在旁边埋伏好，过了一伙儿，一列货车就缓缓驶了过来。等火车头经过我们的时候，黑皮立马从地上捡起石头砸向火车头，剩下的人看此情况，于是也都纷纷捡起石头砸向火车。不一会儿，火车就开走了，我们玩的很开心，有时候你很难搞清楚为啥我们对搞破坏是如此的感兴趣。然而出乎意料的事情发生了，火车在不远去停了下来，尽然倒退了。我们几个当时年纪都很小，我最大，也才上小学三年级，一下子就慌了。火车里面的人是要回来逮捕我们，怎么办。慌乱中，我们往旁边的山头上跑，在一个沟渠里面躲了起来。自然，9岁小孩的毛把戏，是逃不过这帮开火车大人的眼睛的。他们很快就把我们揪了出来。我记得当时自己全身都在发抖，很害怕。那帮家伙要把我们拎上火车，然后带走。至于去哪里，天知道。我只记得我拼命的说火车头不是我砸的，不是我砸的，我没有砸前面的火车头。事态发展的太快，然后矛头不知怎么着就指向了黑皮，我和其他几个人都说是他砸的，出卖了黑皮，为了保全自己；但那个时候火车里面的人搞错了，以为我们说的是我弟弟，便拉着我弟弟要上火车；我很害怕，不知该怎么办，但是我没敢上去阻止，只是在旁边大声说不是我弟弟，是黑皮，毫无保留的把黑皮卖掉了。然后黑皮被他们拖上了火车，就要被带走了。被火车带走，对于一个9岁的孩子来说，可能跟死亡也没啥区别吧。</p>
+<p>幸好这个时候在田里面干活的农人都赶了过来，大伙儿一起劝说火车上的那帮家伙，大概是些小孩子不懂事之类的，好说歹说黑皮终于没有被带走，算是幸免于难。不过火车上的那帮家伙还是把黑皮的名字，家庭地址，学校记了下来，后面还把这件事通报到学校，黑皮被批评了一番。</p>
+<p>每次回想起这件事情，我都为自己的不道义感到害臊。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/05/za-huo-che-de-ren/" data-id="p4j9kbew66h40wt4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tennis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/06/07/tennis/">网球以及德约科维奇</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-06-07T01:41:30.000Z" itemprop="datePublished">06-07-2015</time>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Sports/">Sports</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://cp0000.github.io/assets/xiaode.jpg" alt="Novak Djokovic"></p>
+<p>我是从何时开始看网球的？应该是08年的澳网，那年我大一，放寒假在家过年，某个下午无聊的翻看体育台，无意中被澳网的比赛吸引住了，从此便养成了看网球比赛的习惯。</p>
+<p>四大满贯中澳网的赛程赶巧在中国农历新年附近，而且比赛地墨尔本和北京在经度上只相差两个时区，这样比赛时间基本上都在国内白天下午进行。对于中国观众来说观看澳网比赛还是非常方便的。这也是为何四大满贯中我最中意澳网。当然了，还有另外一个原因，澳网是德约科维奇成绩最好的大满贯赛事。</p>
+<p>07,08年的时候，世界第一是瑞士天王费德勒，那个时候费天王还正值当打之年，对网坛有着非同寻常的统治力。极度优雅的反手，关键时刻稳定的Ace球，一切看起来都那么的完美，对那种刚刚开始看网球的人应该都有着无比寻常的吸引力。不过我还是最中意小德 ，因为我不是那种非常强烈的 <code>Glory Hunter</code>，我更中意那种有朝气的事务。小德在08年的时候，常年排名在世界第三，也会被戏称三德子。不过，在看他的比赛的时候，你还是能够感受他身体里面迸发出来的求胜欲，你会觉得他会变的很强的人，未来看起来应该会很有搞头的样子。就像我最钟爱的球队是阿森纳一样，从我2007年开始看阿森纳比赛之后，这7，8年，阿森纳不是英超里面最强的队伍。不过你可以感受到温格对这支队伍的发展规划，阿森纳的比赛，球场上踢出来的足球能让你感到很舒服，球员也已年轻队员为主，朝气蓬勃。</p>
+<p>关于小德的比赛映像最深的是2012年他跟纳达尔那场耗时6个小时的澳网决赛。比赛中，双方表现出来的技战力，韧性，决心都是令人惊叹的。双方你来我往，每一个回合的挥拍，我都看的心欲破膛。普通人的生活，绝大多数时刻都沉浸在茶米油盐酱醋茶的琐碎里，或许能享受一份闲适，但也可能缺少那种能让人肾上腺素极度分泌的紧张时刻。这也是网球比赛，或者说体育比赛的魅力吧。他能在某一段时间，能让人忘却现实生活中的烦忧，沉浸在此刻的比赛中。顺便插一句，或许这也是为何年轻人喜爱电子竞技类游戏的原因吧。那场比赛德约最终赢得了冠军，我想那是他为自己带上天王皇冠的一场比赛。赢取比赛后，他疯狂的撕掉了自己的球衣，冲着球场外怒吼，像一头雄狮。</p>
+<p>这场比赛，就我而言，是德约目前职业生涯最好的一场比赛，对于纳达尔来说，或许是最不愿追忆的比赛。纳达尔打得足够好，表现出了超强的韧性，有机会赢得冠军的，但他却输了比赛，给自己的人生留了一个很大的遗憾。但人生中，能够获得这样的一场比赛也是非常幸运的。不是每个人都有机会去在这样的舞台上为自己去打这样一场重要的比赛的。</p>
+<p>昨天晚上，德约在15年的法网半决赛中五盘大战中赢了穆雷，来到了法网决赛，冲击属于他人生的全满贯。祝他好运！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/07/tennis/" data-id="qcjwfbhbtj6qz9bu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-nainai" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/04/05/nainai/">奶奶</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-04-05T02:35:36.000Z" itemprop="datePublished">04-05-2015</time>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Life/">Life</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://cp0000.github.io/assets/yejuhua.png" alt="Wild chrysanthemum"></p>
+<p>我和弟弟从小是被奶奶带大的，直到我们前后出去念大学，才从奶奶身边离开。我们跟奶奶很亲。</p>
+<p>奶奶是一个典型的农村妇女，她有三个儿子，两个女儿，另外还有一对继子，继女。二姑，也就是奶奶的大女儿，在二十年前患乳腺癌去世了。二姑走的时候，奶奶很伤心。每逢清明，她总是叮嘱我们记得给二姑烧纸。而爷爷，在我还未出生的时候就已经过世了。从奶奶口中得知爷爷是个脾气非常暴躁的人。爷爷过世的时候，我爸爸20岁不到，小叔叔15不到。至于奶奶和爷爷感情如何，奶奶没跟我们说过，我也未曾问起。</p>
+<p>奶奶年轻时候生活的年代极其困难，这使得她养成了非常节约的习惯。小时候，家里面条件非常困难，我爸爸是木匠，每年都要外出务工，挣养家糊口的钱。每当我们想买些乱七八糟的的东西，奶奶都会告诫我们爸爸挣钱不容易，在外面打工很辛苦，不能乱花钱。奶奶会想办法帮我们家节约开支，隔断时间会让我和弟弟记日常支出的账，这个习惯我坚持到现在。</p>
+<p>上学时，奶奶每天早起，给我们做饭，让我们吃完去上学。奶奶做的菜，口味偏咸。我最爱吃她煮的鱼，和红薯粉条。冬天的周末，三个人围着煤炉，吃热气腾腾的鱼，这算是少年时最开心的光景。</p>
+<p>刚上大学的时候，爸爸打电话跟我说，你第一次一个人出远门，跟奶奶又生活了那么久，奶奶在家很想你，你要多打电话给她。这之后我养成了每个周末都会打电话给奶奶的习惯。电话内容大多数时候是我询问一下她的身体情况，奶奶跟我说一下她周遭发生的家长里短，让我在外头要注意安全之类的。有时候，我忘记打了，后来补打的时候，奶奶都会很担心的说：你怎么礼拜天没打电话。以为我出了什么事情。而我每次出门上学的时候，她都会包红包给我。这些红包，我没花，保留了下来留作纪念，弟弟也是如此。我们也是在最近才得知彼此做了相同的事情。</p>
+<p>工作之后，只能在逢年过节的时候回趟家，看望一下奶奶。在家里，我和弟弟最喜欢做的事情就是坐在奶奶房门前的走廊上，陪着奶奶一起晒太阳。大多时候，弟弟陪着奶奶聊天，我只是呆坐在旁边，默默的听着。</p>
+<p>近些年，奶奶一直说她自己身体不行了，估计时间不多了，还说假如真的走了，也不要回来，耽误了工作。每每听到她说这些，我们孙子辈都不太高兴，跟她说不要老是说死字。弟弟说，在今年春节的时候，他跟奶奶说，奶奶90岁的时候，他30岁，那时候，他也应该成家立业了。他说奶奶当时听到他这么说的时候很开心，还把这些话说给其他人听。而我也曾经幻想过能够带着自己建立的家庭回去探望她。</p>
+<p>她今年86岁，近些年的日子过的孤单且并不顺心，时常生病。我在外头时不时会担心她的健康，偶尔还会做噩梦，梦见她走了，每次都会半夜吓醒，然后庆幸还好这只是个梦。今年3月18号的午后，农历的正月二十八，奶奶终于还是离开了我们。奶奶走的时候，我在从上海回桐城的路上，得知消息后我抬头朝家的方向望了望。</p>
+<p>回家做丧事的时候，有段路，只有爸爸，弟弟，我三个人。爸爸说了句：奶奶走之后，整个人空空的，感觉生活没有意思。我“嗯”了一声。</p>
+<p>奶奶走了半个多月，我们都非常想念她。</p>
+<p>15年清明</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/05/nainai/" data-id="0s1556efwssvlpc7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-legend-of-a-suicide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/03/15/legend-of-a-suicide/">读书笔记：《一个自杀者的传说》</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-03-15T07:13:30.000Z" itemprop="datePublished">03-15-2015</time>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading-notes/">Reading notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://cp0000.github.io/assets/legend-of-a-suicide.jpg" alt="pic"></p>
+<p>某一个巧合我得知了这本美国的畅销书《Legend of a suicide》,中文译作《一个自杀者的传说》，不得不肯定这本书光书名就有着很大的吸引力，让人远远就觉得该书讲述的故事应该不会太烂。</p>
+<p>书中的前三个短片小说，基本上是在介绍他的父亲，母亲。从这些小故事我们大致知道，父亲是一名爱出海打鱼的牙医，经济状况应该很不错，有着自己的一家诊所。后来父亲出现婚外情，父母离婚，父亲重新结婚，后面却又再次离婚，导致精神状态非常的差。母亲这边虽然会和新的男人认识，却没有想再次步入婚姻的念头。书中所有的文字都很冷，没有哪怕一丝丝的温情在里头。</p>
+<p>全书最为精彩的故事是中篇小说《苏宽岛》。父亲由于不堪现实生活中的糟糕状况，买了阿拉斯加上一座无人居住的小岛，然后邀请12的儿子罗伊一起跟他去小岛上生活一段时间。然而在儿子眼里看起来很坚强的父亲，非常缺乏野外生存的经验，加上心理状况不稳定，导致他们的生活条件日益恶劣，父子间的交流也没有想象中变的通畅起来，反而是越来越疏远。</p>
+<p>从踏入岛上的第一天，他们把所有的精力都花在如何生存下去上，捕鱼，熏鱼，搭建木屋，以及筹备过冬的粮食，劳碌的日子可以避免沉默带来的尴尬。当中有一次父子两人远足，父亲直接踏进悬崖，试图自杀，罗伊费劲力气，以及极度的恐惧找到垂死的父亲，把他扛回小屋子中。事后，两人却没有对此事进行过真诚的交流。冬天来了之后，两人只能在屋子里吃着之前准备好的过冬的熏鱼，看书打发时间。但父亲此时却没法耐受住这种生活，三番四次的用无线电联系他的第二个前妻罗达，却听到罗达已经嫁人。崩溃的父亲把对着自己脑袋的枪丢给了从外面回来撞见这一幕的罗伊。然后独自一人跑了出去，却听到一声枪声从小屋传来，罗伊用枪打爆了自己的脑袋。这是全书最为令人震惊的转折，在我还在想象父亲最终会如何把自己作死，罗伊却用手枪打爆了自己的头颅。书名中的那个自杀者尽然是儿子，不是父亲。</p>
+<p>岛上的孤独加上父亲糟糕的精神状态摧毁了罗伊，超出一个12岁少年能够承受的阴郁。罗伊父亲最后的结局也很悲惨，父亲费劲力气，终于把罗伊的尸体带回罗伊妈妈的身边。却被警方怀疑是他杀死了自己的儿子。他最后决定逃出美国，如是搭上一只渔船逃路，在船上，他被船长和副手扔进了大海，在孤独，冰冷的海水中死去了。</p>
+<p>在想办法把儿子的尸体弄回母亲身边的路上，有一大段关于父亲内心世界的描写，作者直面人性内心，精彩异常。</p>
+<p>阴冷的天气，荒无人烟的孤岛，和每一个看起来都那么孤独的灵魂。或许是由于我们有互联网，手机，电子游戏，动漫；如此这些东西可以让我们一直沉浸在一种不知所谓的忙碌中，让我们没有机会去直面那样子的孤独。这或许会让我们生活的更容易些吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/03/15/legend-of-a-suicide/" data-id="3l16zl1zmfh5lkuf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -147,7 +848,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2015/">&laquo; Prev</a><a class="page-number" href="/archives/2015/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2015/page/3/">3</a><a class="page-number" href="/archives/2015/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2015/page/18/">18</a><a class="extend next" rel="next" href="/archives/2015/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/archives/2015/">&laquo; Prev</a><a class="page-number" href="/archives/2015/">1</a><span class="page-number current">2</span>
     </nav>
   
 </section>

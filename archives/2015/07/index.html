@@ -8,7 +8,7 @@
   <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CP WRITINGS">
-<meta property="og:url" content="http://cp0000.github.io/archives/2015/07/">
+<meta property="og:url" content="http://yoursite.com/archives/2015/07/">
 <meta property="og:site_name" content="CP WRITINGS">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -413,7 +413,7 @@ dispatch_barrier_async(queue, ^{
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2015/07/23/oc-checklist-answers/" data-id="dzx784q2zwez2f2c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/23/oc-checklist-answers/" data-id="axssyuliyzo8xv14" class="article-share-link">Share</a>
       
       
     </footer>
@@ -423,10 +423,223 @@ dispatch_barrier_async(queue, ^{
 
 
   
+    <article id="post-nsstring-property-copy-or-retain" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2015/07/page/2/">2</a><a class="page-number" href="/archives/2015/07/page/3/">3</a><a class="page-number" href="/archives/2015/07/page/4/">4</a><a class="extend next" rel="next" href="/archives/2015/07/page/2/">Next &raquo;</a>
-    </nav>
+    <a class="article-title" href="/2015/07/19/nsstring-property-copy-or-retain/">从 NSString Property:copy or retain 到 NSCopying</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-07-19T03:50:04.000Z" itemprop="datePublished">07-19-2015</time>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="NSString_Property:copy_or_retain">NSString Property:copy or retain</h4>
+<p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>strong</code>)。</p>
+<p><strong>为什么会有<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
+<p>回答这个问题之前，我们先看段代码：</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">Fruit</span> : <span class="title">NSObject</span></span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>)     <span class="built_in">NSString</span>  * fruitNameCopy;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>)   <span class="built_in">NSString</span>  * fruitNameStrong;
+<span class="keyword">@end</span>
+
+<span class="built_in">NSMutableString</span> * fruitName = [<span class="built_in">NSMutableString</span> stringWithString:<span class="string">@"apple"</span>];
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit<span class="variable">.fruitNameCopy</span>     = fruitName;
+fruit<span class="variable">.fruitNameStrong</span>   = fruitName;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName); <span class="comment">// 0x7fddabd0e250  apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>); <span class="comment">// 0xa0000656c7070615 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>); <span class="comment">// 0x7fddabd0e250  apple</span>
+
+<span class="comment">//fruitName =@"pear";</span>
+[fruitName setString: <span class="string">@"pear"</span>];
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName); <span class="comment">// 0x7fddabd0e250  pear</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>); <span class="comment">// 0xa0000656c7070615 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>); <span class="comment">// 0x7fddabd0e250  pear</span>
+</code></pre><p>该段程序运行到结尾时， fruitNameCopy 的值是 apple，fruitNameCopy 的值是 pear，且两者的内存地址也不一样。<br>程序中，当我们对一个mutable对象做<code>copy</code>操作的时候，objc runtime 会用一次<a href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy" target="_blank" rel="external">深拷贝</a>来处理， runtime 会重新分配一块内存地址空间，并把原mutable对象的值拷贝过来。所以打印出来的 fruitNameCopy 和 fruitNameStrong 的内存地址是不一样的。而这之后在对 fruitName 做任何的赋值操作都只能作用于 fruitNameStrong.</p>
+<p><strong>那如果我们把 fruitName 改成 immutable 的会是怎样的了？</strong></p>
+<pre><code><span class="built_in">NSString</span> * fruitName = <span class="string">@"apple"</span>;
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit<span class="variable">.fruitNameCopy</span>     = fruitName;
+fruit<span class="variable">.fruitNameStrong</span>   = fruitName;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>);<span class="comment">// 0x10e27b078 apple</span>
+
+fruitName =<span class="string">@"pear"</span>;
+
+<span class="built_in">NSLog</span>(<span class="string">@"fruitName: %p %@"</span>, fruitName, fruitName);<span class="comment">// 0x10e27b0f8 pear</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameCopy: %p %@"</span>, fruit<span class="variable">.fruitNameCopy</span>,  fruit<span class="variable">.fruitNameCopy</span>);<span class="comment">// 0x10e27b078 apple</span>
+<span class="built_in">NSLog</span>(<span class="string">@"fruitNameStrong:%p  %@"</span>, fruit<span class="variable">.fruitNameStrong</span>, fruit<span class="variable">.fruitNameStrong</span>);<span class="comment">// 0x10e27b078 apple</span>
+</code></pre><p>结果是 fruitName, fruitNameCopy, fruitNameStrong 三者的地址都是一样的。按理说<code>copy</code>动作是深拷贝，fruitNameCopy指向的地址 应该是新分配的内存地址才对。<br>那为什么打印出来的地址却是同一个地址了？答案是 runtime 在这里做一个性能优化，@”apple” 是一个immutable的值，没有必要做一次深拷贝，直接做一次 retain 就达到目的了。</p>
+<p><strong>试试看把<code>NSString</code>替换成<code>NSArray</code></strong></p>
+<p>对象 Fruit 中添加两个属性<br>    @property (nonatomic, copy)     NSArray  <em> placesCopy;<br>    @property (nonatomic, strong)   NSArray  </em> placesStrong;</p>
+<p>先用 mutable 的变量试试</p>
+<pre><code><span class="built_in">NSMutableArray</span> * places = [<span class="built_in">NSMutableArray</span> arrayWithArray:@[<span class="string">@"china"</span>, <span class="string">@"japan"</span>]];
+fruit<span class="variable">.placesCopy</span>    = places; <span class="comment">//placesCopy: 0x7f8f18d0c4f0 (china,japan)</span>
+fruit<span class="variable">.placesStrong</span>  = places; <span class="comment">//placesStrong: 0x7f8f18d51a80 (china,japan)</span>
+
+[places addObject:<span class="string">@"korea"</span>];
+<span class="comment">//placesCopy: 0x7f8f18d0c4f0 (china,japan)</span>
+<span class="comment">//placesStrong: 0x7f8f18d51a80 (china,japan, korea)</span>
+</code></pre><p>再用 immutable 的变量试试</p>
+<pre><code><span class="constant">NSArray * places</span> = @[@<span class="string">"china"</span>, @<span class="string">"japan"</span>];
+
+fruit.placesCopy    = places; <span class="comment">//placesCopy: 0x7fc4e8c6f2a0 (china,japan)</span>
+fruit.placesStrong  = places; <span class="comment">//placesStrong: 0x7fc4e8c6f2a0 (china,japan)</span>
+
+places = @[@<span class="string">"uk"</span>, @<span class="string">"us"</span>];
+<span class="comment">//placesCopy: 0x7fc4e8c6f2a0 (china,japan)</span>
+<span class="comment">//placesStrong: 0x7fc4e8c6f2a0 (china,japan)</span>
+</code></pre><p>实验结果和 <code>NSString</code> 是一致的。</p>
+<h4 id="NSCopying">NSCopying</h4>
+<p>如果你愿意，你可以试试看其他容器类 <code>NSDictionary</code>, <code>NSSet</code>,<code>NSIndexSet</code>， 会发现结果也保持一致。我们尝试解读这些类的头文件，作进一步的探索。以下是这些类头文件的节选：</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">NSString</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSArray</span>&lt;<span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSDictionary</span>&lt;<span class="title">__covariant</span> <span class="title">KeyType</span>, <span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSSet</span>&lt;<span class="title">__covariant</span> <span class="title">ObjectType</span>&gt; : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>, <span class="title">NSFastEnumeration</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSIndexSet</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSMutableCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NSIndexPath</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCopying</span>, <span class="title">NSSecureCoding</span>&gt;</span>
+</code></pre><p>会发现这些类都实现了<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>协议.在<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html" target="_blank" rel="external"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
+<pre><code>Implement NSCopying <span class="keyword">by</span> retaining <span class="operator">the</span> original instead <span class="operator">of</span> creating <span class="operator">a</span> <span class="built_in">new</span> copy when <span class="operator">the</span> class <span class="operator">and</span> its contents are immutable.
+</code></pre><p>这条准则很好的解释了上面的试验结果，让这些结果讲得通。</p>
+<h4 id="Summary">Summary</h4>
+<p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code>。</strong></p>
+<p><strong>如果在程序中我们自己定义的类也需要实现 <code>NSCopying</code> 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象</strong></p>
+<p><strong>如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 <code>copy</code></strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/19/nsstring-property-copy-or-retain/" data-id="0d684k0622gr4kym" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-movie-list-been-watched-2015-1st" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/07/13/movie-list-been-watched-2015-1st/">2015上半年看过的电影</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-07-13T14:40:09.000Z" itemprop="datePublished">07-13-2015</time>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Movie/">Movie</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>中国</strong></p>
+<ul>
+<li>一步之遥 </li>
+</ul>
+<p><strong>United States</strong></p>
+<ul>
+<li>Chirldhood</li>
+<li>Nebraska</li>
+<li>August Osage County</li>
+<li>American Sniper</li>
+<li>Birdman</li>
+<li>2001: A Space Odyssey</li>
+<li>Driving Miss Daisy</li>
+<li>The Maze Runner</li>
+<li>Big Hero 6</li>
+<li>Lost In Translation</li>
+<li>Fast &amp; Furious 7</li>
+</ul>
+<p><strong>Japan</strong></p>
+<ul>
+<li>Seven Samurai</li>
+<li>Little Forest Natsu Aki</li>
+<li>The Little House</li>
+<li>Our Mother</li>
+</ul>
+<p><strong>Korea</strong></p>
+<ul>
+<li>Snowpiercer</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/13/movie-list-been-watched-2015-1st/" data-id="mabi3dmp6lq8001g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-za-huo-che-de-ren" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+      <header class="article-header">
+        
+  
+    <a class="article-title" href="/2015/07/05/za-huo-che-de-ren/">砸火车的人</a>
+  
+
+      </header>
+    
+    <time class="article-date" datetime="2015-07-05T06:52:27.000Z" itemprop="datePublished">07-05-2015</time>
+    
+  </div>
+  <div class="article-inner">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://cp0000.github.io/assets/kite-runner.jpg" alt="kite-runner"></p>
+<p>罗素在《幸福之路》一书中有一节是讨论关于<code>厌烦与兴奋</code>的。里面说到现代人对比我们的祖先更少厌烦，但却更怕厌烦。我们进行听音乐，玩电子游戏，看电影，或许都是为了消除厌烦吧。甚至有时候，我觉得读书也是消除厌烦，而不是为了获取知识。</p>
+<p>我一直把自己当作一个喜欢读书的人来对待，但事实上我读过的书很少。</p>
+<p>当然需要说明的是，我这里指的书籍是剔除了上学时候的教科书，工作之后的专业书籍。对我而言，这些书大都有一些不得不去读的意味，为了升学，为了升职，为了生存。要从这类书籍中要获取到乐趣是不太容易的。所以我这里读的书指的是一些“闲书”，纯粹因个人喜好而去看的书。</p>
+<p>为了消除厌烦，我们总是希望能够从同样喜欢读书且品味没那么糟糕的人口中获得一些推荐的书籍，以备我们无聊的时候可以用来打发时间。记得上大学的时候，我总是喜欢推荐一本叫《追风筝的人》的书给其他人以换取其他人的推荐。书很薄，读起来很流畅，不会觉的累，故事精彩缺让人回味无穷。今天我抄袭此书的名字，取名这篇文章叫《砸火车的人》，来回忆一段同样是年少时发生的一件不光彩的事迹。</p>
+<p>我一直是一个本分，胆子不大的人。小时候，可能是由于年纪原因，我也算是村庄里面孩子的头头。我们几个人早上一起上学，放学一起玩弹珠，打打扑克。映像中聚众打架，偷庄稼这种事情可能也就干过一两次。我们阵容很小，稳定的阵容只有我，弟弟，黑皮，还有几个经常一起玩，但是不是固定阵容的。黑皮那个时候跟我们玩的最好，上小学的时候我们总是在一起玩，砸火车的事情也是我们一起干的。</p>
+<p>有段时间，黑皮说他跟其他人一起去村子旁边的火车道上砸过火车，很好玩。我当时一是好奇心作祟，二是自尊心要强，于是说我们也要去砸火车。<br>于是在某个无所事事的周末下午，我，弟弟，黑皮加上另外两三个人，不记得是谁了。一道去了村旁边的火车道上准备砸火车。来到火车道上，我们在旁边埋伏好，过了一伙儿，一列货车就缓缓驶了过来。等火车头经过我们的时候，黑皮立马从地上捡起石头砸向火车头，剩下的人看此情况，于是也都纷纷捡起石头砸向火车。不一会儿，火车就开走了，我们玩的很开心，有时候你很难搞清楚为啥我们对搞破坏是如此的感兴趣。然而出乎意料的事情发生了，火车在不远去停了下来，尽然倒退了。我们几个当时年纪都很小，我最大，也才上小学三年级，一下子就慌了。火车里面的人是要回来逮捕我们，怎么办。慌乱中，我们往旁边的山头上跑，在一个沟渠里面躲了起来。自然，9岁小孩的毛把戏，是逃不过这帮开火车大人的眼睛的。他们很快就把我们揪了出来。我记得当时自己全身都在发抖，很害怕。那帮家伙要把我们拎上火车，然后带走。至于去哪里，天知道。我只记得我拼命的说火车头不是我砸的，不是我砸的，我没有砸前面的火车头。事态发展的太快，然后矛头不知怎么着就指向了黑皮，我和其他几个人都说是他砸的，出卖了黑皮，为了保全自己；但那个时候火车里面的人搞错了，以为我们说的是我弟弟，便拉着我弟弟要上火车；我很害怕，不知该怎么办，但是我没敢上去阻止，只是在旁边大声说不是我弟弟，是黑皮，毫无保留的把黑皮卖掉了。然后黑皮被他们拖上了火车，就要被带走了。被火车带走，对于一个9岁的孩子来说，可能跟死亡也没啥区别吧。</p>
+<p>幸好这个时候在田里面干活的农人都赶了过来，大伙儿一起劝说火车上的那帮家伙，大概是些小孩子不懂事之类的，好说歹说黑皮终于没有被带走，算是幸免于难。不过火车上的那帮家伙还是把黑皮的名字，家庭地址，学校记了下来，后面还把这件事通报到学校，黑皮被批评了一番。</p>
+<p>每次回想起这件事情，我都为自己的不道义感到害臊。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/05/za-huo-che-de-ren/" data-id="p4j9kbew66h40wt4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
   
 </section>
         
