@@ -1,11 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <title>Archives: 2017 | CP WRITINGS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CP WRITINGS">
 <meta property="og:url" content="http://cp0000.github.io/archives/2017/">
@@ -15,858 +94,610 @@
 <meta name="twitter:title" content="CP WRITINGS">
 <meta name="twitter:description">
 
-  
-    <link rel="alternative" href="/atom.xml" title="CP WRITINGS" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
 
-  
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://cp0000.github.io/"/>
+
+
+
+
+
+  <title> Archive | CP WRITINGS </title>
 </head>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">CP WRITINGS</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="sub-nav">
-        
-          <a id="nav-home-icon" class="nav-icon" href="/"></a>
-        
-          <a id="nav-archives-icon" class="nav-icon" href="/archives"></a>
-        
-          <a id="nav-about-icon" class="nav-icon" href="/about/index.html"></a>
-        
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-      </nav>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-opengl-lighting" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/10/04/opengl-lighting/">Learning OpenGL：光照</a>
-  
 
-      </header>
-    
-    <time class="article-date" datetime="2017-10-04T09:39:47.000Z" itemprop="datePublished">10-04-2017</time>
-    
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="颜色">颜色</h2>
-<p>计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。</p>
-<p>颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：</p>
-<pre><code>vec3 lightColor(<span class="number">1</span>.<span class="number">0</span>,<span class="number">1</span>.<span class="number">0</span>,<span class="number">1</span>.<span class="number">0</span>);
-vec3 clothingColor(<span class="number">0</span>.<span class="number">0</span>,<span class="number">0</span>.<span class="number">5</span>,<span class="number">0</span>.<span class="number">0</span>);
-vec3 <span class="literal">result</span> =  lightColor * clothingColor; // (<span class="number">0</span>.<span class="number">0</span>, <span class="number">0</span>.<span class="number">5</span>, <span class="number">0</span>.<span class="number">0</span>);
-</code></pre><p>我们定义<strong>物体的颜色为物体从一个光源反射各个颜色分量的大小</strong>.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。</p>
-<h2 id="基础光照">基础光照</h2>
-<p>现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：</p>
-<p><img src="http://cp0000.github.io/assets/lighting/phong_reflection.jpg" alt=""></p>
-<ul>
-<li>环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。</li>
-<li>漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。</li>
-<li>镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。</li>
-</ul>
-<h3 id="环境光照">环境光照</h3>
-<p>我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。</p>
-<pre><code><span class="type">void</span> main()
-{
-    <span class="type">float</span> ambientStrength = <span class="number">0</span>.<span class="number">1</span>;
-    vec3 ambient = ambientStrength * lightColor;
-    vec3 <span class="literal">result</span> = ambient * objectColor;
-    gl_fragColor = vec4(<span class="literal">result</span>, <span class="number">1</span>.<span class="number">0</span>);
-}
-</code></pre><h3 id="漫反射光照">漫反射光照</h3>
-<p>漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。</p>
-<p>光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做<strong>法向量</strong>（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：</p>
-<ul>
-<li>法向量：一个垂直于顶点表面的向量</li>
-<li>定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。</li>
-</ul>
-<h3 id="法向量">法向量</h3>
-<p>法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。</p>
-<h3 id="漫反射光照-1">漫反射光照</h3>
-<p>每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：</p>
-<pre><code><span class="keyword">uniform</span> <span class="keyword">vec3</span> lightPos;
-</code></pre><p>渲染的时候，设置lightPos就可以了。<br>最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：</p>
-<pre><code><span class="keyword">varying</span> <span class="keyword">vec3</span> fragPos;
-<span class="keyword">varying</span> <span class="keyword">vec3</span> normal;
-
-<span class="keyword">void</span> main() {
-    <span class="built_in">gl_Position</span> = projection * view * model * <span class="keyword">vec4</span>(aPos, <span class="number">1.0</span>);
-    fragPos = <span class="keyword">vec3</span> (model * <span class="keyword">vec4</span>(aPos, <span class="number">1.0</span>));
-    normal = aNormal;
-}
-</code></pre><p>在片段着色器中，我们需要计算光源和片段位置之间的方向向量。通过让两个向量相减的方式计算向量差。</p>
-<pre><code><span class="keyword">vec3</span> norm = <span class="built_in">normalize</span> (normal);
-<span class="keyword">vec3</span> lightDir = <span class="built_in">normalize</span> (lightPos - fragPos);
-</code></pre><p>然后我们对 norm 和 lightDir 向量进行点乘，计算光源对当前片段实际的漫发射影响。结果值再乘以光的颜色，得到漫发射分量。两个向量之间的角度越大，漫反射分量就会越小：</p>
-<pre><code><span class="type">float</span> diff = max (dot(norm, lightDir), <span class="number">0</span>.<span class="number">0</span>); // 如果两个向量之间的角度大于<span class="number">90</span>度，点乘的结果就会变成负数，这样会导致漫反射分量变为负数，为此，我们使用max函数返回两个参数之间较大的参数，从而保证漫反射分量不会变成负数。
-vec3 diffuse = diff * lightColor;
-
-vec3 <span class="literal">result</span> = (ambient + diffuse) * objectColor;
-gl_FragColor =  vec4(<span class="literal">result</span>, <span class="number">1</span>.<span class="number">0</span>);
-</code></pre><h3 id="镜面光照（Specular_Hightlight）">镜面光照（Specular Hightlight）</h3>
-<p>和漫反射光照一样，镜面光照是依据光的方向向量和物体的法向量来决定的，但是它还依赖于观察方向。镜面光照是基于光的反射特性。如果我们想象物体表面像一面镜子一样，那么无论我们从哪里去看那个表面所反射的光，镜面光照都会达到最大化。如下图：</p>
-<p><img src="http://cp0000.github.io/assets/lighting/specularLight.jpg" alt=""></p>
-<p>我们通过反射法向量周围光的方向来计算反射向量。然后我们计算反射向量和视线方向的角度差，如果夹角越小，那么镜面光的影响就会越大。<br>观察向量是镜面光照附加的一个变量，我们可以使用观察者世界空间位置和片段的位置来计算它。之后，我们计算镜面光强度，用它乘以光源的颜色，再将它加上环境光和漫反射分量。</p>
-<pre><code>uniform vec3 viewPos;
-<span class="type">float</span> specularStrength = <span class="number">0</span>.<span class="number">5</span>;
-<span class="type">float</span> shininess  = <span class="number">32</span>; // 反光度，一个物体的反光度越高，反射光的能力越强，散射得越少，高光点就会越小
-vec3 viewDir = normalize(viewPos - fragPos);
-vec3 reflectDir = reflect(-lightDir, norm)
-<span class="type">float</span> spec = pow (max (dot (viewDir, reflectDir), <span class="number">0</span>.<span class="number">0</span>), shininess);
-vec3 specular = specularStrength * spec * lightColor;
-
-vec3 <span class="literal">result</span> = (ambient + diffuse + specular) * objectColor;
-gl_FragColor = vec4(<span class="literal">result</span>, <span class="number">1</span>.<span class="number">0</span>);
-</code></pre><p>以上就是基础光照的相关知识了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/10/04/opengl-lighting/" data-id="fic97g4wpuknbw8j" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
-    <article id="post-shoe-dog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/08/06/shoe-dog/">读书笔记：《鞋狗》</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2017-08-06T11:24:18.000Z" itemprop="datePublished">08-06-2017</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Reading-notes/">Reading notes</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>人生不一定会赢，而我就是不想输。 —菲尔·奈特</p>
-</blockquote>
-<p>11-12赛季的英超，阿森纳客场对阵切尔西。范佩西在比赛中上演帽子戏法，帮助阿森纳5-3赢得比赛。那是个阳光明媚的秋日午后，破门之后，范佩西在斯坦福球场上振臂高呼，一时间场外球迷高呼其名，为其呐喊助威，就像欢呼得胜回朝的将军一般。那一刻，我想这是足球这项运动带给职业球员最大的吸引力吧，或许也是竞技体育带给运动员们最大的吸引力。以前我觉得可能就是我一个人这么幻想过，成为一个杰出的运动员，在赢得比赛的那个刹那，场下的千万观众为你欢呼呐喊；直到最近看了NIKE的创始人菲尔·奈特的亲笔自传《Shoe Dog: A Memoir by the Creator of Nike》，在书中的前几章我找到了一直以来关于运动内涵的最好描述。</p>
-<p>以下是两段摘录：</p>
-<blockquote>
-<p>球在半空时，双方拳击手感觉到一个回合结束的铃声即将敲响时，或是跑者靠近终点，观众集体站起来时，那些事情就处于某个我们所不清楚的地方。在决定胜负前最激动人心的半秒内，显然会产生一种愉悦感。我想要的就是那个，无论到底是什么，我就想让那种感觉充实我的人生，填满我每天的生活。</p>
-<p>运动可以让人们感受不同的生活，参与到别人的胜利中去，甚至体验失败。运动达到高潮的时候，粉丝的精神与运动员的精神融合在一起，这种情感的集合和转移，神秘主义者称其为合一 </p>
-</blockquote>
-<p>对于体育的热爱是菲尔·奈特选择去销售运动鞋的初衷，自传中讲述了<code>NIKE</code>是如何一步一步从无到有，并最终上市的；从最开始代理日本鬼冢虎鞋子往美国销售，到研发NIKE鞋子，并打败当时的霸主Adidas。作者在书中没有对自己成功进行任何粉饰，而是把大量篇幅拿来讲述自己如何和银行家较量，和债主周旋，和供应商协调，以及和政府部门官僚的斗争。作者真实记录了一个企业的成长过程，像众人坦诚公司最初的发展是非常混乱，危险，没有章法的。每一天都挣扎在破产的边缘（现金流就是零售业的生死线）。作为公司的创始人，菲尔·奈特早期没有在商业上指导江山，没有各种方法论，他每天都在遇到各种各样的挑战，而他能做的就是坚持下去；当然光坚持也没用，作为创始人，奈特要做的且唯一能做的就是想尽一切办法去解决问题。过程你会发现，企业不是一个人能做起来的，奈特需要找来各种各样的人，组合起来一个战斗力十足的创始团队。团队中有人擅长开疆拓土，打开新的市场；有人擅长研发新的鞋子，树立技术堡垒；有人擅长和政府部门打交道，搞定华盛顿那帮家伙。总之一个好汉三个帮，要想做成一个企业，没有得力的帮手是不可能的。勇敢，敏锐，合作，极大的耐力，以及全身心的投入是我读完该书对菲尔·奈特的性格理解。</p>
-<p>书的最后一章，是奈特关于企业，以及自己生活的一些感性描写和反思。</p>
-<blockquote>
-<p>我想告诉大家要按下暂停键，花时间努力思考一下要如何度过一生，想要和谁一起度过剩余的40年。我会告诉20岁左右的青年不要为了一份工作，专业甚至职业而安定下来，一定要寻求内心的冲动。即使你不知道其中的含义，也要坚持追寻。如果你追随自己内心的冲动，将会更能忍受疲惫，每一次失望都会成为你的动力，需要攀登的高峰也会变得微不足道起来。</p>
-</blockquote>
-<p>你会发现这段话和乔布斯那段著名的斯坦福大学的毕业演讲和其相似：</p>
-<blockquote>
-<p>The only way to do great work is to love what you do. If you haven’t found it yet, keep looking. </p>
-</blockquote>
-<p>追随内心的冲动是两位伟大企业家的共性所在。</p>
-<p>以上！</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/08/06/shoe-dog/" data-id="9doas73f15nyzev0" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Kangrinboqe" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/07/02/Kangrinboqe/">冈仁波齐</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2017-07-02T07:08:30.000Z" itemprop="datePublished">07-02-2017</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Movie/">Movie</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>去看了电影《冈仁波齐》，一开始倒不是因为想了解这部电影所宣扬的藏族信仰是为何物，而是因为朴树的片尾曲《No Fear In My Heart》。想来从高一的时候接触到朴树，从听《Colorful Days》，《傲慢的上校》，《生如夏花》，到现在已然13年了。令人兴奋的是，朴树这两年回来了。</p>
-<p>很难讲《冈仁波齐》一部好看的电影，她是一部很特别的电影，看完电影我会觉得还是很值得一看。整个电影给我最大的冲击瞬间是他们从村里出发朝圣去冈仁波齐的时候。看到影片中出现了拖拉机，我以为他们会坐着拖拉机一路开过去。但又觉得坐拖拉机不能算朝圣吧，那怎不能走着过去吧，那么远，而且在高原上，得走多久才能到。所以当他们卧倒开始磕头前行的时候，我被震住了，说不出话来。是啊，在这个出行飞机高铁，挣钱越快越好，什么都讲究利益的年代，你看到一行人，一路从家乡磕头2000多里去圣地，很难不被这种行为所震动。</p>
-<p>大多数国人是无宗教信仰者，当然我也是。我不懂宗教，更不懂藏传佛教，可能我还是个没有信仰的人。电影中可以明显感受到宗教给藏民带来的影响，一个最直接的感受是，他们都好平静，好平静。朝圣路上，大家生活在一起，无论晴天雪天，每天磕头朝拜，孕妇生完小孩后，回到队伍继续朝圣之路；老人去世了，举行完葬礼，大家继续朝圣。好像没有什么事情能阻止他们，就好像没什么事情能打破他们的平静。孩子出生的喜悦，老人去世的悲伤，都很平静，没有我们红白喜事的那种热闹，嘈杂，笑声朗朗或哀嚎震天。</p>
-<p>坦率的说，我不觉得他们的生活方式就是好的，但我很羡慕他们表现出来的那种平静和笃定，那种生活在现代社会的人，很难拥有的不慌不忙。</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=484732973&auto=1&height=66"></iframe>
-
-
-
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/07/02/Kangrinboqe/" data-id="63gltlspxmx0k3qy" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-framebuffer-object-opengl" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/03/19/framebuffer-object-opengl/">Learning OpenGL：帧缓冲对象</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2017-03-19T06:20:09.000Z" itemprop="datePublished">03-19-2017</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="背景">背景</h2>
-<p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
-<h2 id="FBO">FBO</h2>
-<p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
-<p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。</p>
-<p>帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：</p>
-<pre><code>&gt;注：OpenGL <span class="literal">es</span> <span class="number">2.0</span> 也只有一个颜色附加点
-</code></pre><p><img src="http://www.songho.ca/opengl/files/gl_fbo01.png" alt="framebuffer object"></p>
-<p>从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。</p>
-<h3 id="创建_FBO">创建 FBO</h3>
-<p>创建和销毁FBO的步骤很简单：</p>
-<pre><code><span class="keyword">void</span> glGenFramebuffers(GLsizei n, GLuint * ids);
-<span class="keyword">void</span> glDeleteFramebuffers(GLsizei n, <span class="keyword">const</span> GLuint * ids);
-</code></pre><p>将FBO绑定到目标对象：</p>
-<pre><code><span class="keyword">void</span> glBindFramebuffer(GLenum target, GLuint <span class="keyword">id</span>)
-</code></pre><ul>
-<li>target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER—缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。</li>
-<li>id 即为创建出来的帧缓冲id</li>
-</ul>
-<p>通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。</p>
-<p>OpenGL要求，一个完整的FBO需要满足以下条件：</p>
-<ul>
-<li>至少附加一个缓冲区（颜色，深度或模版）</li>
-<li>至少有一个颜色附加</li>
-<li><p>所有的附加必须完整（预分配了内存）</p>
-<blockquote>
-<p>if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整</p>
-</blockquote>
-</li>
-<li><p>每个缓冲区的采样需要一致</p>
-</li>
-</ul>
-<p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
-<pre><code><span class="title">glBindFramebuffer</span> (GL_FRAMEBUFFER, <span class="number">0</span>);
-</code></pre><h3 id="创建纹理附加图像">创建纹理附加图像</h3>
-<p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
-<pre><code>glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint <span class="built_in">texture</span>,GLint level);
-</code></pre><ul>
-<li>target: 绑定目标，一般为 GL_FRAMEBUFFER</li>
-<li>attachment:附加点，可选为GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT,GL_STENCIK_ATTACHMENT</li>
-<li>textTarget: 纹理的绑定目标，一般为 GL_TEXTURE_2D</li>
-<li>texture：实际的纹理对象</li>
-<li>level：mipmap级别，一般为0</li>
-</ul>
-<pre><code>GLuint texture;
-<span class="function">glGenTextures</span>(1, &amp;texture);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, texture);
-<span class="function">glTexImage2D</span>(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); <span class="comment">//末尾的NULL表示我们只预分配空间，而不实际加载纹理</span>
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-</code></pre><p>上面创建的纹理图像，可以附加到FBO：</p>
-<pre><code>glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, <span class="built_in">texture</span>, <span class="number">0</span>);
-</code></pre><p>FBO创建和准备工作完成额，在利用FBO作图前，我们需要介绍另一个附加图像-RenderBuffer。</p>
-<h3 id="创建Renderbuffer附加图像">创建Renderbuffer附加图像</h3>
-<p>和纹理图像一样，一个renderbuffer对象也是一个缓冲，它可以是一堆字节，整数，像素等。renderbuffer的优点是：它以OpenGL原生渲染格式存储它的数据，因此在离屏渲染到帧缓冲的时候，这些数据相当于被优化过。</p>
-<p>renderbuffer对象将所有渲染数据直接储存在它们的缓冲里，而不会进行针对特定纹理格式的任何转换，这样它们就成了一种快速可写的存储介质了。然后，renderbuffer对象通常是只写的，不能修改它们。</p>
-<p>因为renderbuffer对象中的数据已经是原生格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。</p>
-<blockquote>
-<p>要了解为什么渲染的末尾需要交换帧缓冲数据，和谁交换帧缓冲数据，需要理解什么叫双缓存。所谓双缓存机制指的是显示系统通常会引入两个缓冲区，在这种情况下，GPU会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU会直接把视频控制器的指针指向第二个缓冲器。</p>
-</blockquote>
-<p>创建和销毁RenderBuffer也很简单：</p>
-<pre><code><span class="keyword">void</span> glGenRenderbuffers(GLsizei n, GLuint * ids);
-<span class="keyword">void</span> glDeleteRenderbuffers(GLsizei n, <span class="keyword">const</span> GLuint * ids);
-</code></pre><p>绑定到目标对象：</p>
-<pre><code><span class="title">glBindRenderbuffer</span> (GL_RENDERBUFFER,rbo);
-</code></pre><p>需为 RBO 预分配内存空间：</p>
-<pre><code>void glRenderbufferStorage (GLenum target, GLenum internalFormat, GLsizei <span class="attribute">width</span>, GLsizei <span class="attribute">height</span>);
-</code></pre><p>RBO绑定到FBO</p>
-<pre><code><span class="title">glFramebufferRenderbuffer</span> (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rboId);
-</code></pre><p>在帧缓冲项目中，renderbuffer可以优化渲染，但重要的是要懂得何时使用renderbuffer对象，何时使用纹理。通常规则是：如果你永远都不需要从特定的缓冲中进行采样，renderbuffer对特定缓冲是更明智的选择。如果需要从比如颜色或深度值这样的特定缓冲采样数据的话，最好使用纹理。</p>
-<h3 id="渲染到纹理">渲染到纹理</h3>
-<p>到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。</p>
-<p><strong>Step1: 创建并绑定帧缓冲</strong></p>
-<pre><code>GLuint framebuffer;
-<span class="function">glGenFramebuffers</span>(1, &amp;framebuffer);
-<span class="function">glBindFramebuffer</span>(GL_FRAMEBUFFER, framebuffer);
-</code></pre><p><strong>Step2: 创建一个纹理</strong></p>
-<pre><code><span class="comment">// Generate texture</span>
-GLuint texColorBuffer;
-<span class="function">glGenTextures</span>(1, &amp;texColorBuffer);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, texColorBuffer);
-<span class="function">glTexImage2D</span>(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, 0);
-
-<span class="comment">// Attach it to currently bound framebuffer object</span>
-<span class="function">glFramebufferTexture2D</span>(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
-</code></pre><p><strong>Step3 创建renderbuffer来进行深度测试</strong></p>
-<p>为了让OpenGL进行深度测试，我们必须要确保向帧缓冲中添加一个深度附件。由于我们只采样颜色缓冲，并不采样深度，模版缓冲，所以我们可以创建一个渲染缓冲对象来达到这个目的。</p>
-<pre><code>GLuint rbo;
-<span class="function">glGenRenderbuffers</span>(1, &amp;rbo);
-<span class="function">glBindRenderbuffer</span>(GL_RENDERBUFFER, rbo);
-<span class="function">glRenderbufferStorage</span>(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);  
-<span class="function">glBindRenderbuffer</span>(GL_RENDERBUFFER, 0);
-</code></pre><p>把renderbuffer对象附加到帧缓冲的深度和模版附件上：</p>
-<pre><code><span class="function">glFramebufferRenderbuffer</span>(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-</code></pre><p>所以，为了把场景绘制到一个单独的纹理，我们必须以下面步骤来做：</p>
-<ul>
-<li>创建并绑定一个新的帧缓冲，并在这个帧缓冲上做相关渲染操作</li>
-<li>绑定默认帧缓冲</li>
-<li>绘制一个铺满屏幕的四边形，并用新的帧缓冲的颜色缓冲作为输入的纹理</li>
-</ul>
-<p>以下是每一帧渲染的伪代码：</p>
-<pre><code><span class="comment">//First pass</span>
-glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-glClearColor(<span class="number">0.f</span>,<span class="number">0.f</span>,<span class="number">0.f</span>, <span class="number">1.0f</span>);
-glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-glEnable(GL_DEPTH_TEST);
-DrawScene();
-
-<span class="comment">// Second pass</span>
-glBindFramebuffer(GL_FRAMEBUFFER, <span class="number">0</span>); <span class="comment">// back to default</span>
-glClearColor(<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>);
-glClear(GL_COLOR_BUFFER_BIT);
-
-screenShader.Use();  
-glBindVertexArray(quadVAO);
-glDisable(GL_DEPTH_TEST);
-glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-glDrawArrays(GL_TRIANGLES, <span class="number">0</span>, <span class="number">6</span>);
-glBindVertexArray(<span class="number">0</span>);
-</code></pre><h3 id="后处理">后处理</h3>
-<pre><code>&gt;待续
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/03/19/framebuffer-object-opengl/" data-id="ldxllnoh9z4g42ss" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-GLSL-Dictionary" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/02/26/GLSL-Dictionary/">Learning OpenGL：GLSL Shader 手册</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2017-02-26T06:26:08.000Z" itemprop="datePublished">02-26-2017</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="基本类型">基本类型</h2>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>void</td>
-<td>空类型</td>
-</tr>
-<tr>
-<td>bool</td>
-<td>布尔类型</td>
-</tr>
-<tr>
-<td>int</td>
-<td>带符号的整数 signed integer</td>
-</tr>
-<tr>
-<td>float</td>
-<td>带符号的浮点数 floating scalar</td>
-</tr>
-<tr>
-<td>vec2,vec3,vec4</td>
-<td>n维浮点数向量 n-component floating point vector</td>
-</tr>
-<tr>
-<td>bvec2,bvec3,bvec4</td>
-<td>n维整数向量 singed integer vector</td>
-</tr>
-<tr>
-<td>bvec2,bvec3,bvec4</td>
-<td>n维布尔向量 boolean vector</td>
-</tr>
-<tr>
-<td>ivec2,ivec3,ivec4</td>
-<td>n维整数向量 singed integer vector</td>
-</tr>
-<tr>
-<td>mat2,mat3,mat4</td>
-<td>2X2,3X3,4X4 浮点数矩阵 float matrix</td>
-</tr>
-<tr>
-<td>sampler2D</td>
-<td>2D 纹理  a 2D texture</td>
-</tr>
-<tr>
-<td>samplerCube</td>
-<td>盒纹理  cube mapped texture</td>
-</tr>
-</tbody>
-</table>
-<h2 id="基本结构和数组">基本结构和数组</h2>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>结构</td>
-<td>struct type-name{} 类似c语言中的结构体</td>
-</tr>
-<tr>
-<td>数组</td>
-<td>float foo3[] glsl 只支持1维数组，数组可以是结构体的成员</td>
-</tr>
-</tbody>
-</table>
-<h2 id="内置的特殊变量">内置的特殊变量</h2>
-<p>glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成<code>input</code>,<code>output</code>两种类型，<code>input</code>类型，负责向硬件（渲染管线）发送数据，<code>output</code>类型负责向程序回传数据。</p>
-<ul>
-<li>在vertex shader中</li>
-</ul>
-<p>output 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>highp vec4 gl_Position;</td>
-<td>gl_Position 放置顶点坐标信息</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>mediump float gl_Pointsize;</td>
-<td>gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效）</td>
-<td>float</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>在fragment Shader中：</li>
-</ul>
-<p>input 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mediump vec4 gl_FragCoord;</td>
-<td>片元在fragmebuffer画面的相对位置</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>bool gl_FrontFacing</td>
-<td>标志当前图元是不是正面图元的一部分</td>
-<td>bool</td>
-</tr>
-<tr>
-<td>mediump vec2 gl_PointCoord;</td>
-<td>经过插值计算后的纹理坐标，点的范围是0.0到1.0</td>
-<td>vec2</td>
-</tr>
-</tbody>
-</table>
-<p>output 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mediump vec4 gl_FragColor;</td>
-<td>设置当前片点的颜色</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>mediump vec4 gl_FragData[n];</td>
-<td>设置当前片点的颜色,使用glDrawBuffers数据数组</td>
-<td>vec4</td>
-</tr>
-</tbody>
-</table>
-<h2 id="内置函数库">内置函数库</h2>
-<h3 id="通用函数">通用函数</h3>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T abs(T x)</td>
-<td>返回x的绝对值</td>
-</tr>
-<tr>
-<td>T sign(T x)</td>
-<td>比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0</td>
-</tr>
-<tr>
-<td>T floor(T x)</td>
-<td>返回 &lt;= x 的最大整数</td>
-</tr>
-<tr>
-<td>T ceil(T x)</td>
-<td>返回 &gt;= x 的最小整数</td>
-</tr>
-<tr>
-<td>T fract(T x)</td>
-<td>返回 x 的小数部分</td>
-</tr>
-<tr>
-<td>T mod(T x,T y) T mod(T x,float y)</td>
-<td>取 x,y 的余数</td>
-</tr>
-<tr>
-<td>T min(T x,T y) T min(T x,float y)</td>
-<td>取 x,y 的最小值</td>
-</tr>
-<tr>
-<td>T max(T x,T y) T max(T x,float y)</td>
-<td>取 x,y 的最大值</td>
-</tr>
-<tr>
-<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal)</td>
-<td>min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间</td>
-</tr>
-<tr>
-<td>T mix(T x,T y, T a) T mix(T x,T y, float a)</td>
-<td>取 x,y 的线性混合，x(1-a)+ya</td>
-</tr>
-<tr>
-<td>T step(T edge,T x) T step(float edge,T x)</td>
-<td>if x &lt; edge返回0.0， 否则返回1.0</td>
-</tr>
-<tr>
-<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x)</td>
-<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0， 否则返回Hermite插值</td>
-</tr>
-</tbody>
-</table>
-<h3 id="角度&amp;三角函数">角度&amp;三角函数</h3>
-<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T radinans(T degrees)</td>
-<td>角度转弧度</td>
-</tr>
-<tr>
-<td>T degrees(T radians)</td>
-<td>弧度转角度</td>
-</tr>
-<tr>
-<td>T sin(T angle)</td>
-<td>正弦函数</td>
-</tr>
-<tr>
-<td>T cos(T angle)</td>
-<td>余弦函数</td>
-</tr>
-<tr>
-<td>T tan(T angle)</td>
-<td>正切函数</td>
-</tr>
-<tr>
-<td>T asin(T angle)</td>
-<td>反正弦函数</td>
-</tr>
-<tr>
-<td>T acos(T angle)</td>
-<td>反余弦函数</td>
-</tr>
-<tr>
-<td>T atan(T y, T x) T atan(T y_over_x)</td>
-<td>反正切函数</td>
-</tr>
-</tbody>
-</table>
-<h3 id="指数函数">指数函数</h3>
-<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T pow(T x, T y)</td>
-<td>返回x的y次幂 </td>
-</tr>
-<tr>
-<td>T exp(T x)</td>
-<td>返回x的自然指数幂 </td>
-</tr>
-<tr>
-<td>T log(T x)</td>
-<td>返回x的自然对数 ln</td>
-</tr>
-<tr>
-<td>T exp2(T x)</td>
-<td>返回2的x次幂</td>
-</tr>
-<tr>
-<td>T log2(T x)</td>
-<td>返回2位低的对数 log2</td>
-</tr>
-<tr>
-<td>T sqrt(T x)</td>
-<td>开根号 √x</td>
-</tr>
-<tr>
-<td>T inversesqrt(T x)</td>
-<td>先开根号，在取倒数，</td>
-</tr>
-</tbody>
-</table>
-<h3 id="几何函数">几何函数</h3>
-<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>float length(T x)</td>
-<td>返回矢量x的长度</td>
-</tr>
-<tr>
-<td>float distance(T p0,T p1)</td>
-<td>返回p0, p1两点的距离</td>
-</tr>
-<tr>
-<td>float dot(T x,T y)</td>
-<td>返回x y 的点积</td>
-</tr>
-<tr>
-<td>vec3 cross(vec3 x,vec3 y)</td>
-<td>返回x y 的叉积</td>
-</tr>
-<tr>
-<td>vec3 normalize(T y)</td>
-<td>对x进行归一化，保持向量方向不变但长度变为1</td>
-</tr>
-<tr>
-<td>vec3 faceforward(T N, T I, T Nref)</td>
-<td>根据 矢量 N 与Nref 调整法向量</td>
-</tr>
-<tr>
-<td>vec3 reflect(T I, T N)</td>
-<td>返回 I - 2 <em> dot(N,I) </em> N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量</td>
-</tr>
-<tr>
-<td>vec3 normalize(T I, T N, float eta)</td>
-<td>返回入射矢量I关于法向量N的折射矢量,折射率为eta</td>
-</tr>
-</tbody>
-</table>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/02/26/GLSL-Dictionary/" data-id="9s4dk2artj7o07vm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-becoming-steve-jobs" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/01/29/becoming-steve-jobs/">读书笔记《成为乔布斯》</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2017-01-29T07:54:14.000Z" itemprop="datePublished">01-29-2017</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Reading-notes/">Reading notes</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在接触《成为乔布斯》这本乔布斯人生旅程传记之前，我试过两三次去读官方那本《乔布斯传》，结果都以失败告终；因为《乔布斯传》这本书的内容太过干巴巴，读起来很容易走神。而《成为乔布斯》则不一样，这书是以故事的方式讲述了乔布斯的生平事迹，读起来有趣的多。</p>
-<p>其中该书最让我喜欢的地方是，书中讲述了很多我们以前不知道的小细节，小故事。如iTunes是先于iPod就出现的；在2007年第一代iPhone发布之前，乔布斯已经得知自己的癌细胞扩散了，留给他的时间只有五年左右（但我们回头看他在发布会上面的表现，不像是一个知道自己只剩四五年时间的人）。例如iPad这个产品是先于iPhone就出现在了苹果公司中，只不过那时候的iPad和最后上市的iPad是不一样的。还比如库克在乔布斯病危的时候想捐献肝脏给他这一让人感动的场景。</p>
-<p>全书主要讲述的是乔布斯从早期和沃滋一起创业，研发个人电脑，到苹果电脑大卖，公司上市；从和沃滋的关系决裂，到Lisa等一系列产品的失败，再到被苹果公司驱逐。从受到Next，打算凭借Next击败评估，到收购皮克斯，并见证了皮克斯生产了动画电影史上重要篇章《玩具总动员》。后来Next被苹果收购，乔布斯回归苹果，收拾其他人留下来的烂摊子。上面的故事离我们比较远，但乔布斯回归苹果之后，也不是立马就做出了具有历史意义的iPhone。回归苹果之后的乔布斯，可以从书中得知，主要的业务还是个人电脑。但乔布斯对事物的敏感度，让他在2000年的时候觉得消费电子领域是一个很有市场的领域。随后苹果公司发布了iTunes，让用户在iTunes上面购买正版音乐。也标志着苹果公司正式进入了个人电子消费市场。后面的故事就是你我比较熟悉的了，iPod让苹果公司great again，苹果公司又成了大众喜欢并愿意花钱消费其产品的公司。然后就是2007年的iPhone一代的发布，真正一款划时代的产品。书中说到这是让乔布斯理想实现的一款产品，因为iPod，iPhone让苹果公司生产的产品不再是一小撮人玩弄的小众产品，而是被大众接受，喜爱，并购买的消费电子产品。而iPhone整个设计上面的美学，在我看来也让整个大众的审美得到了提升。回头看看在iPhone普及之后，我们的电子产品，网站界面，甚至包括家具，汽车等产品的工业设计都受到了苹果产品传达出来的美学影响。苹果的产品真的让生活变得美好了起来。</p>
-<p>最后，书名叫《成为乔布斯》，意思不是教大家如何变成乔布斯，而是讲述了乔布斯是如何一步一步成长成为那个被世人奉若神明的史蒂芬。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/01/29/becoming-steve-jobs/" data-id="zw23bj559hkzuo2s" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
-</section>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2017 Pei Cheng<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-
-
-
-<script src="/js/script.js" type="text/javascript"></script>
 
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
   ga('create', 'UA-63703524-1', 'auto');
   ga('send', 'pageview');
-
 </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  page-archive  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CP WRITINGS</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <section id="posts" class="posts-collapse">
+    <span class="archive-move-on"></span>
+
+    <span class="archive-page-counter">
+      
+      
+       
+      
+      OK! 37 posts in total. Keep on posting.
+    </span>
+
+    
+
+      
+      
+      
+
+      
+        
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+        </div>
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/10/04/opengl-lighting/" itemprop="url">
+              
+                <span itemprop="name">Learning OpenGL：光照</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-10-04T17:39:47+08:00"
+              content="Oct 4 2017" >
+          10-04
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/08/06/shoe-dog/" itemprop="url">
+              
+                <span itemprop="name">读书笔记：《鞋狗》</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-08-06T19:24:18+08:00"
+              content="Aug 6 2017" >
+          08-06
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/07/02/Kangrinboqe/" itemprop="url">
+              
+                <span itemprop="name">冈仁波齐</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-07-02T15:08:30+08:00"
+              content="Jul 2 2017" >
+          07-02
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/03/19/framebuffer-object-opengl/" itemprop="url">
+              
+                <span itemprop="name">Learning OpenGL：帧缓冲对象</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-03-19T14:20:09+08:00"
+              content="Mar 19 2017" >
+          03-19
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/02/26/GLSL-Dictionary/" itemprop="url">
+              
+                <span itemprop="name">Learning OpenGL：GLSL Shader 手册</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-02-26T14:26:08+08:00"
+              content="Feb 26 2017" >
+          02-26
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/01/29/becoming-steve-jobs/" itemprop="url">
+              
+                <span itemprop="name">读书笔记《成为乔布斯》</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-01-29T15:54:14+08:00"
+              content="Jan 29 2017" >
+          01-29
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+  </section>
+
+  
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://40.media.tumblr.com/44c4a707d0f0b37f7a2f1bf12ed145c2/tumblr_nn1oqi2p8q1t1nt9vo1_250.jpg"
+               alt="Pei Cheng" />
+          <p class="site-author-name" itemprop="name">Pei Cheng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
 </body>
 </html>

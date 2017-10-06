@@ -1,11 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <title>Category: Tech | CP WRITINGS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CP WRITINGS">
 <meta property="og:url" content="http://cp0000.github.io/categories/Tech/">
@@ -15,1723 +94,657 @@
 <meta name="twitter:title" content="CP WRITINGS">
 <meta name="twitter:description">
 
-  
-    <link rel="alternative" href="/atom.xml" title="CP WRITINGS" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
 
-  
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://cp0000.github.io/"/>
+
+
+
+
+
+  <title> Category: Tech | CP WRITINGS </title>
 </head>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">CP WRITINGS</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="sub-nav">
-        
-          <a id="nav-home-icon" class="nav-icon" href="/"></a>
-        
-          <a id="nav-archives-icon" class="nav-icon" href="/archives"></a>
-        
-          <a id="nav-about-icon" class="nav-icon" href="/about/index.html"></a>
-        
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-      </nav>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-framebuffer-object-opengl" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/03/19/framebuffer-object-opengl/">Learning OpenGL：帧缓冲对象</a>
-  
 
-      </header>
-    
-    <time class="article-date" datetime="2017-03-19T06:20:09.000Z" itemprop="datePublished">03-19-2017</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="背景">背景</h2>
-<p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
-<h2 id="FBO">FBO</h2>
-<p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
-<p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。</p>
-<p>帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：</p>
-<pre><code>&gt;注：OpenGL <span class="literal">es</span> <span class="number">2.0</span> 也只有一个颜色附加点
-</code></pre><p><img src="http://www.songho.ca/opengl/files/gl_fbo01.png" alt="framebuffer object"></p>
-<p>从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。</p>
-<h3 id="创建_FBO">创建 FBO</h3>
-<p>创建和销毁FBO的步骤很简单：</p>
-<pre><code><span class="keyword">void</span> glGenFramebuffers(GLsizei n, GLuint * ids);
-<span class="keyword">void</span> glDeleteFramebuffers(GLsizei n, <span class="keyword">const</span> GLuint * ids);
-</code></pre><p>将FBO绑定到目标对象：</p>
-<pre><code><span class="keyword">void</span> glBindFramebuffer(GLenum target, GLuint <span class="keyword">id</span>)
-</code></pre><ul>
-<li>target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER—缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。</li>
-<li>id 即为创建出来的帧缓冲id</li>
-</ul>
-<p>通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。</p>
-<p>OpenGL要求，一个完整的FBO需要满足以下条件：</p>
-<ul>
-<li>至少附加一个缓冲区（颜色，深度或模版）</li>
-<li>至少有一个颜色附加</li>
-<li><p>所有的附加必须完整（预分配了内存）</p>
-<blockquote>
-<p>if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整</p>
-</blockquote>
-</li>
-<li><p>每个缓冲区的采样需要一致</p>
-</li>
-</ul>
-<p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
-<pre><code><span class="title">glBindFramebuffer</span> (GL_FRAMEBUFFER, <span class="number">0</span>);
-</code></pre><h3 id="创建纹理附加图像">创建纹理附加图像</h3>
-<p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
-<pre><code>glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint <span class="built_in">texture</span>,GLint level);
-</code></pre><ul>
-<li>target: 绑定目标，一般为 GL_FRAMEBUFFER</li>
-<li>attachment:附加点，可选为GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT,GL_STENCIK_ATTACHMENT</li>
-<li>textTarget: 纹理的绑定目标，一般为 GL_TEXTURE_2D</li>
-<li>texture：实际的纹理对象</li>
-<li>level：mipmap级别，一般为0</li>
-</ul>
-<pre><code>GLuint texture;
-<span class="function">glGenTextures</span>(1, &amp;texture);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, texture);
-<span class="function">glTexImage2D</span>(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); <span class="comment">//末尾的NULL表示我们只预分配空间，而不实际加载纹理</span>
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-</code></pre><p>上面创建的纹理图像，可以附加到FBO：</p>
-<pre><code>glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, <span class="built_in">texture</span>, <span class="number">0</span>);
-</code></pre><p>FBO创建和准备工作完成额，在利用FBO作图前，我们需要介绍另一个附加图像-RenderBuffer。</p>
-<h3 id="创建Renderbuffer附加图像">创建Renderbuffer附加图像</h3>
-<p>和纹理图像一样，一个renderbuffer对象也是一个缓冲，它可以是一堆字节，整数，像素等。renderbuffer的优点是：它以OpenGL原生渲染格式存储它的数据，因此在离屏渲染到帧缓冲的时候，这些数据相当于被优化过。</p>
-<p>renderbuffer对象将所有渲染数据直接储存在它们的缓冲里，而不会进行针对特定纹理格式的任何转换，这样它们就成了一种快速可写的存储介质了。然后，renderbuffer对象通常是只写的，不能修改它们。</p>
-<p>因为renderbuffer对象中的数据已经是原生格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。</p>
-<blockquote>
-<p>要了解为什么渲染的末尾需要交换帧缓冲数据，和谁交换帧缓冲数据，需要理解什么叫双缓存。所谓双缓存机制指的是显示系统通常会引入两个缓冲区，在这种情况下，GPU会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU会直接把视频控制器的指针指向第二个缓冲器。</p>
-</blockquote>
-<p>创建和销毁RenderBuffer也很简单：</p>
-<pre><code><span class="keyword">void</span> glGenRenderbuffers(GLsizei n, GLuint * ids);
-<span class="keyword">void</span> glDeleteRenderbuffers(GLsizei n, <span class="keyword">const</span> GLuint * ids);
-</code></pre><p>绑定到目标对象：</p>
-<pre><code><span class="title">glBindRenderbuffer</span> (GL_RENDERBUFFER,rbo);
-</code></pre><p>需为 RBO 预分配内存空间：</p>
-<pre><code>void glRenderbufferStorage (GLenum target, GLenum internalFormat, GLsizei <span class="attribute">width</span>, GLsizei <span class="attribute">height</span>);
-</code></pre><p>RBO绑定到FBO</p>
-<pre><code><span class="title">glFramebufferRenderbuffer</span> (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rboId);
-</code></pre><p>在帧缓冲项目中，renderbuffer可以优化渲染，但重要的是要懂得何时使用renderbuffer对象，何时使用纹理。通常规则是：如果你永远都不需要从特定的缓冲中进行采样，renderbuffer对特定缓冲是更明智的选择。如果需要从比如颜色或深度值这样的特定缓冲采样数据的话，最好使用纹理。</p>
-<h3 id="渲染到纹理">渲染到纹理</h3>
-<p>到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。</p>
-<p><strong>Step1: 创建并绑定帧缓冲</strong></p>
-<pre><code>GLuint framebuffer;
-<span class="function">glGenFramebuffers</span>(1, &amp;framebuffer);
-<span class="function">glBindFramebuffer</span>(GL_FRAMEBUFFER, framebuffer);
-</code></pre><p><strong>Step2: 创建一个纹理</strong></p>
-<pre><code><span class="comment">// Generate texture</span>
-GLuint texColorBuffer;
-<span class="function">glGenTextures</span>(1, &amp;texColorBuffer);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, texColorBuffer);
-<span class="function">glTexImage2D</span>(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-<span class="function">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-<span class="function">glBindTexture</span>(GL_TEXTURE_2D, 0);
-
-<span class="comment">// Attach it to currently bound framebuffer object</span>
-<span class="function">glFramebufferTexture2D</span>(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
-</code></pre><p><strong>Step3 创建renderbuffer来进行深度测试</strong></p>
-<p>为了让OpenGL进行深度测试，我们必须要确保向帧缓冲中添加一个深度附件。由于我们只采样颜色缓冲，并不采样深度，模版缓冲，所以我们可以创建一个渲染缓冲对象来达到这个目的。</p>
-<pre><code>GLuint rbo;
-<span class="function">glGenRenderbuffers</span>(1, &amp;rbo);
-<span class="function">glBindRenderbuffer</span>(GL_RENDERBUFFER, rbo);
-<span class="function">glRenderbufferStorage</span>(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);  
-<span class="function">glBindRenderbuffer</span>(GL_RENDERBUFFER, 0);
-</code></pre><p>把renderbuffer对象附加到帧缓冲的深度和模版附件上：</p>
-<pre><code><span class="function">glFramebufferRenderbuffer</span>(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-</code></pre><p>所以，为了把场景绘制到一个单独的纹理，我们必须以下面步骤来做：</p>
-<ul>
-<li>创建并绑定一个新的帧缓冲，并在这个帧缓冲上做相关渲染操作</li>
-<li>绑定默认帧缓冲</li>
-<li>绘制一个铺满屏幕的四边形，并用新的帧缓冲的颜色缓冲作为输入的纹理</li>
-</ul>
-<p>以下是每一帧渲染的伪代码：</p>
-<pre><code><span class="comment">//First pass</span>
-glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-glClearColor(<span class="number">0.f</span>,<span class="number">0.f</span>,<span class="number">0.f</span>, <span class="number">1.0f</span>);
-glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-glEnable(GL_DEPTH_TEST);
-DrawScene();
-
-<span class="comment">// Second pass</span>
-glBindFramebuffer(GL_FRAMEBUFFER, <span class="number">0</span>); <span class="comment">// back to default</span>
-glClearColor(<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>);
-glClear(GL_COLOR_BUFFER_BIT);
-
-screenShader.Use();  
-glBindVertexArray(quadVAO);
-glDisable(GL_DEPTH_TEST);
-glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-glDrawArrays(GL_TRIANGLES, <span class="number">0</span>, <span class="number">6</span>);
-glBindVertexArray(<span class="number">0</span>);
-</code></pre><h3 id="后处理">后处理</h3>
-<pre><code>&gt;待续
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/03/19/framebuffer-object-opengl/" data-id="ldxllnoh9z4g42ss" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
-    <article id="post-GLSL-Dictionary" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/02/26/GLSL-Dictionary/">Learning OpenGL：GLSL Shader 手册</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2017-02-26T06:26:08.000Z" itemprop="datePublished">02-26-2017</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="基本类型">基本类型</h2>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>void</td>
-<td>空类型</td>
-</tr>
-<tr>
-<td>bool</td>
-<td>布尔类型</td>
-</tr>
-<tr>
-<td>int</td>
-<td>带符号的整数 signed integer</td>
-</tr>
-<tr>
-<td>float</td>
-<td>带符号的浮点数 floating scalar</td>
-</tr>
-<tr>
-<td>vec2,vec3,vec4</td>
-<td>n维浮点数向量 n-component floating point vector</td>
-</tr>
-<tr>
-<td>bvec2,bvec3,bvec4</td>
-<td>n维整数向量 singed integer vector</td>
-</tr>
-<tr>
-<td>bvec2,bvec3,bvec4</td>
-<td>n维布尔向量 boolean vector</td>
-</tr>
-<tr>
-<td>ivec2,ivec3,ivec4</td>
-<td>n维整数向量 singed integer vector</td>
-</tr>
-<tr>
-<td>mat2,mat3,mat4</td>
-<td>2X2,3X3,4X4 浮点数矩阵 float matrix</td>
-</tr>
-<tr>
-<td>sampler2D</td>
-<td>2D 纹理  a 2D texture</td>
-</tr>
-<tr>
-<td>samplerCube</td>
-<td>盒纹理  cube mapped texture</td>
-</tr>
-</tbody>
-</table>
-<h2 id="基本结构和数组">基本结构和数组</h2>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>结构</td>
-<td>struct type-name{} 类似c语言中的结构体</td>
-</tr>
-<tr>
-<td>数组</td>
-<td>float foo3[] glsl 只支持1维数组，数组可以是结构体的成员</td>
-</tr>
-</tbody>
-</table>
-<h2 id="内置的特殊变量">内置的特殊变量</h2>
-<p>glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成<code>input</code>,<code>output</code>两种类型，<code>input</code>类型，负责向硬件（渲染管线）发送数据，<code>output</code>类型负责向程序回传数据。</p>
-<ul>
-<li>在vertex shader中</li>
-</ul>
-<p>output 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>highp vec4 gl_Position;</td>
-<td>gl_Position 放置顶点坐标信息</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>mediump float gl_Pointsize;</td>
-<td>gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效）</td>
-<td>float</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>在fragment Shader中：</li>
-</ul>
-<p>input 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mediump vec4 gl_FragCoord;</td>
-<td>片元在fragmebuffer画面的相对位置</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>bool gl_FrontFacing</td>
-<td>标志当前图元是不是正面图元的一部分</td>
-<td>bool</td>
-</tr>
-<tr>
-<td>mediump vec2 gl_PointCoord;</td>
-<td>经过插值计算后的纹理坐标，点的范围是0.0到1.0</td>
-<td>vec2</td>
-</tr>
-</tbody>
-</table>
-<p>output 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mediump vec4 gl_FragColor;</td>
-<td>设置当前片点的颜色</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>mediump vec4 gl_FragData[n];</td>
-<td>设置当前片点的颜色,使用glDrawBuffers数据数组</td>
-<td>vec4</td>
-</tr>
-</tbody>
-</table>
-<h2 id="内置函数库">内置函数库</h2>
-<h3 id="通用函数">通用函数</h3>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T abs(T x)</td>
-<td>返回x的绝对值</td>
-</tr>
-<tr>
-<td>T sign(T x)</td>
-<td>比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0</td>
-</tr>
-<tr>
-<td>T floor(T x)</td>
-<td>返回 &lt;= x 的最大整数</td>
-</tr>
-<tr>
-<td>T ceil(T x)</td>
-<td>返回 &gt;= x 的最小整数</td>
-</tr>
-<tr>
-<td>T fract(T x)</td>
-<td>返回 x 的小数部分</td>
-</tr>
-<tr>
-<td>T mod(T x,T y) T mod(T x,float y)</td>
-<td>取 x,y 的余数</td>
-</tr>
-<tr>
-<td>T min(T x,T y) T min(T x,float y)</td>
-<td>取 x,y 的最小值</td>
-</tr>
-<tr>
-<td>T max(T x,T y) T max(T x,float y)</td>
-<td>取 x,y 的最大值</td>
-</tr>
-<tr>
-<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal)</td>
-<td>min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间</td>
-</tr>
-<tr>
-<td>T mix(T x,T y, T a) T mix(T x,T y, float a)</td>
-<td>取 x,y 的线性混合，x(1-a)+ya</td>
-</tr>
-<tr>
-<td>T step(T edge,T x) T step(float edge,T x)</td>
-<td>if x &lt; edge返回0.0， 否则返回1.0</td>
-</tr>
-<tr>
-<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x)</td>
-<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0， 否则返回Hermite插值</td>
-</tr>
-</tbody>
-</table>
-<h3 id="角度&amp;三角函数">角度&amp;三角函数</h3>
-<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T radinans(T degrees)</td>
-<td>角度转弧度</td>
-</tr>
-<tr>
-<td>T degrees(T radians)</td>
-<td>弧度转角度</td>
-</tr>
-<tr>
-<td>T sin(T angle)</td>
-<td>正弦函数</td>
-</tr>
-<tr>
-<td>T cos(T angle)</td>
-<td>余弦函数</td>
-</tr>
-<tr>
-<td>T tan(T angle)</td>
-<td>正切函数</td>
-</tr>
-<tr>
-<td>T asin(T angle)</td>
-<td>反正弦函数</td>
-</tr>
-<tr>
-<td>T acos(T angle)</td>
-<td>反余弦函数</td>
-</tr>
-<tr>
-<td>T atan(T y, T x) T atan(T y_over_x)</td>
-<td>反正切函数</td>
-</tr>
-</tbody>
-</table>
-<h3 id="指数函数">指数函数</h3>
-<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T pow(T x, T y)</td>
-<td>返回x的y次幂 </td>
-</tr>
-<tr>
-<td>T exp(T x)</td>
-<td>返回x的自然指数幂 </td>
-</tr>
-<tr>
-<td>T log(T x)</td>
-<td>返回x的自然对数 ln</td>
-</tr>
-<tr>
-<td>T exp2(T x)</td>
-<td>返回2的x次幂</td>
-</tr>
-<tr>
-<td>T log2(T x)</td>
-<td>返回2位低的对数 log2</td>
-</tr>
-<tr>
-<td>T sqrt(T x)</td>
-<td>开根号 √x</td>
-</tr>
-<tr>
-<td>T inversesqrt(T x)</td>
-<td>先开根号，在取倒数，</td>
-</tr>
-</tbody>
-</table>
-<h3 id="几何函数">几何函数</h3>
-<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>float length(T x)</td>
-<td>返回矢量x的长度</td>
-</tr>
-<tr>
-<td>float distance(T p0,T p1)</td>
-<td>返回p0, p1两点的距离</td>
-</tr>
-<tr>
-<td>float dot(T x,T y)</td>
-<td>返回x y 的点积</td>
-</tr>
-<tr>
-<td>vec3 cross(vec3 x,vec3 y)</td>
-<td>返回x y 的叉积</td>
-</tr>
-<tr>
-<td>vec3 normalize(T y)</td>
-<td>对x进行归一化，保持向量方向不变但长度变为1</td>
-</tr>
-<tr>
-<td>vec3 faceforward(T N, T I, T Nref)</td>
-<td>根据 矢量 N 与Nref 调整法向量</td>
-</tr>
-<tr>
-<td>vec3 reflect(T I, T N)</td>
-<td>返回 I - 2 <em> dot(N,I) </em> N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量</td>
-</tr>
-<tr>
-<td>vec3 normalize(T I, T N, float eta)</td>
-<td>返回入射矢量I关于法向量N的折射矢量,折射率为eta</td>
-</tr>
-</tbody>
-</table>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/02/26/GLSL-Dictionary/" data-id="9s4dk2artj7o07vm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-opengl-3d-matrix" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2016/12/18/opengl-3d-matrix/">OpenGL ES 2.0 3D基础（1）－矩阵</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2016-12-18T06:37:53.000Z" itemprop="datePublished">12-18-2016</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Overview">Overview</h2>
-<p>移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。</p>
-<h2 id="线性代数">线性代数</h2>
-<p>学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。</p>
-<h3 id="向量运算">向量运算</h3>
-<p><a href="https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F" target="_blank" rel="external">向量</a>: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。</p>
-<h4 id="向量加减">向量加减</h4>
-<p>向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_01.png" alt=""></p>
-<h4 id="向量相乘">向量相乘</h4>
-<h5 id="点乘">点乘</h5>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_02.png" alt=""></p>
-<h4 id="叉乘">叉乘</h4>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_03.png" alt=""></p>
-<h3 id="矩阵运算">矩阵运算</h3>
-<h4 id="矩阵简介">矩阵简介</h4>
-<p>数学上，一个  m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_04.png" alt=""></p>
-<h4 id="矩阵运算规则">矩阵运算规则</h4>
-<h5 id="矩阵的加减">矩阵的加减</h5>
-<p>矩阵与标量之间的加减：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_05.png" alt=""></p>
-<p>矩阵与矩阵之间的加减：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_06.png" alt=""></p>
-<h5 id="矩阵乘法">矩阵乘法</h5>
-<ul>
-<li><p>矩阵数乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_07.png" alt=""></p>
-</li>
-<li><p>矩阵相乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_08.png" alt=""></p>
-</li>
-</ul>
-<h4 id="单位矩阵">单位矩阵</h4>
-<p>在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_09.png" alt=""></p>
-<p>单位矩阵通常是生成其他变换矩阵的起点。</p>
-<h4 id="缩放矩阵">缩放矩阵</h4>
-<p>对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_11.png" alt=""></p>
-<h4 id="位移矩阵">位移矩阵</h4>
-<p>位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_12.png" alt=""></p>
-<h4 id="旋转矩阵">旋转矩阵</h4>
-<p>（Rx,Ry,Rz）代表任意旋转轴，θ是角度：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_16.png" alt=""></p>
-<h5 id="累积变换">累积变换</h5>
-<p>上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：</p>
-<pre><code>TransformedVector = TranslationMatrix <span class="keyword">*</span> RotationMatrix <span class="keyword">*</span> ScaleMatrix <span class="keyword">*</span> OriginalVector;
-</code></pre><p>这行代码首先执行缩放，接着旋转，最后才是平移</p>
-<h2 id="坐标系统">坐标系统</h2>
-<p>OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：</p>
-<ul>
-<li>局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。</li>
-<li><p>世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。</p>
-<blockquote>
-<p>模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。</p>
-</blockquote>
-</li>
-<li><p>观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。</p>
-</li>
-<li><p>裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。</p>
-</li>
-</ul>
-<p>将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。</p>
-<ul>
-<li>屏幕空间（Screen Space）</li>
-</ul>
-<h3 id="正交投影（Orthographic_Projection）">正交投影（Orthographic Projection）</h3>
-<p>正交投影矩阵定义一个立方体的平截头箱，在这个立方体之外的顶点都会被裁剪掉。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_18.png" alt=""></p>
-<p>正交投影矩阵直接将坐标映射到2D平面上。不过正交投影没有透视效果，远处箱子和近处箱子投射到平面上是一样大的，这和我们日常生活中看东西时近大远小的视觉效果是不符的。要解决这个问题，我们需要用到透视投影。</p>
-<h3 id="透视投影（Perspective_Projection）">透视投影（Perspective Projection）</h3>
-<p>透视投影定义一个大平截头体。透视投影有两种表述方式：</p>
-<ul>
-<li>视锥体：</li>
-</ul>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_19.png" alt=""></p>
-<p>glFrustum (left, right, bottom, top, zNear, zFar);</p>
-<p>left,right,bottom,top定义near裁剪面大小，zNear和zFar定义从观察点到远近两个裁剪面的距离。这六个参数定义出六个裁剪面构成的视锥体。</p>
-<ul>
-<li>透视图：</li>
-</ul>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_20.png" alt=""></p>
-<p>gluPerspective(fovy, aspect, zNear, zFar);</p>
-<ul>
-<li>fovy: camera 在 y 方向上的视线角度（0~180)</li>
-<li>aspect定义近截面的宽高比 aspect=w/h</li>
-<li><p>zNear, zFar: 观察点到远近两个裁剪面的距离</p>
-<p>透视体参数转换车过视锥体参数：</p>
-<pre><code>  tan(fovy<span class="regexp">/2) = (h /</span> <span class="number">2</span>)/zNear<span class="function"> -&gt;</span> h; 
-  w =  h * aspect<span class="function"> -&gt;</span> w;
-</code></pre></li>
-</ul>
-<h3 id="矩阵组合">矩阵组合</h3>
-<p>基于前面介绍的4个变换矩阵：模型矩阵，世界矩阵，观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程变换到裁剪坐标：</p>
-<pre><code><span class="attribute">Vclip</span>=<span class="string">Mprojection⋅Mview⋅Mmodel⋅Vlocal</span>
-</code></pre><blockquote>
-<p>注意矩阵运算的顺序是从右往左阅读，最终计算出来的顶点赋值给<code>gl_Position</code></p>
-</blockquote>
-<h2 id="3D_Demo">3D Demo</h2>
-<p>至此我们了解了OpenGL 3D渲染中需要知道的矩阵知识，运用这些知识，便可进行开发OpenGL3D程序了；苹果官方提供一个很好的GL demo <a href="https://developer.apple.com/library/content/samplecode/GLEssentials/Introduction/Intro.html" target="_blank" rel="external">GLEssentials</a></p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_21.png" alt=""></p>
-<h2 id="结束">结束</h2>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2016/12/18/opengl-3d-matrix/" data-id="t0pniynmok6t370z" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ffmpeg-command-example" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2016/11/07/ffmpeg-command-example/">ffmpeg 使用例程</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2016-11-07T13:03:47.000Z" itemprop="datePublished">11-07-2016</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文介绍<a href="https://en.wikipedia.org/wiki/FFmpeg" target="_blank" rel="external">ffmpeg</a>命令行的一些使用方法；</p>
-<h2 id="参数">参数</h2>
-<h3 id="主要参数">主要参数</h3>
-<ul>
-<li>-i——设置输入档名。</li>
-<li>-f——设置输出格式。</li>
-<li>-y——若输出文件已存在时则覆盖文件。</li>
-<li>-fs——超过指定的文件大小时则结束转换。</li>
-<li>-ss——从指定时间开始转换。</li>
-<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
-<li>-title——设置标题。</li>
-<li>-timestamp——设置时间戳。</li>
-<li>-vsync——增减Frame使影音同步。<h3 id="视频参数">视频参数</h3>
-</li>
-<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
-<li>-r——设置帧率值，默认为25。</li>
-<li>-s——设置画面的宽与高。</li>
-<li>-aspect——设置画面的比例。</li>
-<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
-<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数">声音参数</h3>
-</li>
-<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
-<li>-ar——设置采样率。</li>
-<li>-ac——设置声音的Channel数。</li>
-<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
-<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
-<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
-</ul>
-<h2 id="例子">例子</h2>
-<p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
-<h3 id="裁剪视频">裁剪视频</h3>
-<p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
-<pre><code><span class="attribute">ffmpeg -i input.mp4  -strict -2 -vf crop</span>=<span class="string">405:720:420:0  video_out.mp4</span>
-</code></pre><p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
-<h3 id="视频转换成图片">视频转换成图片</h3>
-<pre><code> ffmpeg -i input.mp4 <span class="keyword">image</span><span class="variable">%3d</span>.png
-</code></pre><p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
-<pre><code> ffmpeg -i input.mp4 -r <span class="number">30</span>  <span class="variable">$filename</span><span class="variable">%3d</span>.png  
-</code></pre><p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
-<pre><code>ffprobe <span class="string">"input.mp4"</span> -v <span class="number">0</span> -select_streams v  -print_format flat -show_entries <span class="variable">stream=</span>r_frame_rate 
-</code></pre><h3 id="剪辑视频">剪辑视频</h3>
-<p>一段长视频只需要保留其中一段，可用如下命令：</p>
-<pre><code><span class="tag">ffmpeg</span> <span class="tag">-i</span> <span class="tag">input</span><span class="class">.mp4</span> <span class="tag">-ss</span> 00<span class="pseudo">:00</span><span class="pseudo">:21</span> <span class="tag">-t</span> 00<span class="pseudo">:00</span><span class="pseudo">:10</span> <span class="tag">-acodec</span> <span class="tag">aac</span> <span class="tag">-vcodec</span> <span class="tag">h264</span> <span class="tag">-strict</span> <span class="tag">-2</span> <span class="tag">out</span><span class="class">.mp4</span>
-</code></pre><p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
-<h3 id="调整视频分辨率大小">调整视频分辨率大小</h3>
-<p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
-<pre><code><span class="attribute">ffmpeg -i input.mp4 -vf scale</span>=<span class="string">853:480 -acodec aac -vcodec h264 out.mp4</span>
-</code></pre><ul>
-<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
-<li><code>-vcodec h264</code> 指定视频使用 h264 编码。<blockquote>
-<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
-</blockquote>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2016/11/07/ffmpeg-command-example/" data-id="alji2tqv04p21cz4" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-install-caffe-on-macosx" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2016/10/22/install-caffe-on-macosx/">如何在Macosx上安装caffe</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2016-10-22T04:55:05.000Z" itemprop="datePublished">10-22-2016</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在macosx上面安装深度学习框架<a href="http://caffe.berkeleyvision.org/" target="_blank" rel="external">caffe</a>是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。</p>
-<p><strong>硬软件环境</strong><br>&gt;<br>    电脑：iMac<br>    系统：OX EI Caption 版本10.11.4</p>
-<h2 id="Homebrew">Homebrew</h2>
-<p>官方推荐使用<a href="http://brew.sh" target="_blank" rel="external">Homebrew</a>来管理依赖项的下载，安装。</p>
-<h2 id="Anaconda_Python">Anaconda Python</h2>
-<p>Anaconda是python的一个常用的科学计算发行版，自带包管理器conda。从 <a href="https://store.continuum.io/cshop/anaconda/" target="_blank" rel="external">https://store.continuum.io/cshop/anaconda/</a> 下载并安装Anaconda Python。安装成功之后,记得在PATH添加ananconda执行文件的路径：</p>
-<pre><code><span class="keyword">export</span> PATH=~/anaconda/bin:<span class="variable">$PATH</span>
-</code></pre><h2 id="CUDA">CUDA</h2>
-<p>从 <a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="external">https://developer.nvidia.com/cuda-downloads</a> 下载并安装CUDA 8.0 (for OSX)<br>从 <a href="http://www.nvidia.com/object/mac-driver-archive.html" target="_blank" rel="external">http://www.nvidia.com/object/mac-driver-archive.html</a> 下载并安装最新的CUDA独立驱动。<br>同样我们把驱动的可执行文件路径添加到PATH环境变量中(注意下载安装的CUDA的版本号)：</p>
-<pre><code><span class="keyword">export</span> PATH=/Developer/NVIDIA/CUDA-<span class="number">8.0</span>/bin/<span class="variable">$PATH</span>
-<span class="keyword">export</span> DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-<span class="number">8.0</span>/lib:<span class="variable">$DYLD_LIBRARY_PATH</span>
-</code></pre><h2 id="BLAS">BLAS</h2>
-<p>网上搜索到的教程中都是使用<a href="https://software.intel.com/en-us/intel-mkl" target="_blank" rel="external">Intel MKL</a>，查看网站会发现intel-mkl收费很贵，所以我安装的时候选择了<a href="www.openblas.net/">OpenBLAS</a></p>
-<pre><code>brew <span class="operator"><span class="keyword">install</span> openblas</span>
-</code></pre><blockquote>
-<p>关于 intel-mkl 和 openblas 的优劣，没有做过比较。在校大学生可通过学校邮箱在页面 <a href="https://software.intel.com/en-us/qualify-for-free-software/student" target="_blank" rel="external">https://software.intel.com/en-us/qualify-for-free-software/student</a> 申请安装包。</p>
-</blockquote>
-<h2 id="cuDNN">cuDNN</h2>
-<p>从 <a href="https://developer.nvidia.com/cudnn" target="_blank" rel="external">https://developer.nvidia.com/cudnn</a> 页面下载并安装cuDNN库,安装过程如下：</p>
-<pre><code>tar -xzvf cudnn-<span class="number">8.0</span>-osx-x64-v5.<span class="number">1</span>.tgz
-cd cuda
-sudo cp lib/* <span class="regexp">/usr/local</span><span class="regexp">/cuda/lib</span>
-sudo cp <span class="keyword">include</span>/cudnn.h /usr/local/cuda/<span class="keyword">include</span>/
-</code></pre><h2 id="安装依赖项_via_Homebrew">安装依赖项 via Homebrew</h2>
-<p>首先我们需要修改下homebrew安装 opencv 时需要用到的opencv.rb文件</p>
-<pre><code>brew <span class="keyword">edit</span> opencv
-</code></pre><p>将下面两行：</p>
-<pre><code>args &lt;&lt; "-DPYTHON_LIBRARY=#{<span class="ruby">py_lib}</span>/libpython2.7.#{<span class="ruby">dylib}</span>"
-args &lt;&lt; "-DPYTHON_INCLUDE_DIR=#{<span class="ruby">py_prefix}</span>/include/python2.7"
-</code></pre><p>替换为：</p>
-<pre><code><span class="keyword">args</span> &lt;&lt; <span class="string">"-DPYTHON_LIBRARY=#{py_prefix}/lib/libpython2.7.dylib"</span>
-<span class="keyword">args</span> &lt;&lt; <span class="string">"-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7"</span>
-</code></pre><p>然后开始安装依赖项：</p>
-<pre><code>brew <span class="operator"><span class="keyword">install</span> <span class="comment">--fresh -vd snappy leveldb gflags glog szip lmdb homebrew/science/opencv</span>
-brew <span class="keyword">install</span> <span class="comment">--build-from-source --with-python --fresh -vd protobuf</span>
-brew <span class="keyword">install</span> <span class="comment">--build-from-source --fresh -vd boost boost-python</span>
-brew <span class="keyword">install</span> hdf5</span>
-</code></pre><blockquote>
-<p>安装过程有点漫长，可能会出现一些错误，需要耐心的修复掉。<br>如果你把电脑升级到最新的 macOS Sierra 10.12，会由于新系统不内置QTKit导致opencv编译失败。</p>
-</blockquote>
-<h2 id="下载Caffe代码">下载Caffe代码</h2>
-<pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/BVLC/caff.git
-<span class="keyword">cd</span> caffe
-<span class="keyword">cp</span> Makefile.config.example Makefile.config
-</code></pre><h2 id="Makefile-config">Makefile.config</h2>
-<p>修改Makefile.config</p>
-<pre><code>BLAS:=<span class="built_in">open</span>
-BLAS_INCLUDE := $(<span class="built_in">shell</span> brew <span class="comment">--prefix openblas)/include</span>
-BLAS_LIB := $(<span class="built_in">shell</span> brew <span class="comment">--prefix openblas)/lib</span>
-</code></pre><p>取消CUDDNN的注释</p>
-<pre><code><span class="attribute">USE_CUDNN :</span>=<span class="string"> 1</span>
-</code></pre><p>检查设置Python路径</p>
-<pre><code><span class="comment"># NOTE: this is required only if you will compile the python interface.</span>
-<span class="comment"># We need to be able to find Python.h and numpy/arrayobject.h.</span>
-<span class="comment"># PYTHON_INCLUDE := /usr/include/python2.7 \</span>
-<span class="comment">#         /usr/lib/python2.7/dist-packages/numpy/core/include</span>
-<span class="comment"># Anaconda Python distribution is quite popular. Include path:</span>
-<span class="comment"># Verify anaconda location, sometimes it's in root.</span>
-<span class="comment"># ANACONDA_HOME := $(HOME)/anaconda</span>
-<span class="comment"># PYTHON_INCLUDE := $(ANACONDA_HOME)/include \</span>
-        <span class="comment"># $(ANACONDA_HOME)/include/python2.7 \</span>
-        <span class="comment"># $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \</span>
-
-<span class="constant">ANACONDA_HOME </span><span class="symbol">:</span>= <span class="variable">$(</span><span class="constant">HOME)</span>/anaconda
-<span class="constant">PYTHON_INCLUDE </span><span class="symbol">:</span>= <span class="variable">$(</span><span class="constant">ANACONDA_HOME)</span>/<span class="keyword">include</span> \
-<span class="variable">$(</span><span class="constant">ANACONDA_HOME)</span>/<span class="keyword">include</span>/python2.<span class="number">7</span> \
-<span class="variable">$(</span><span class="constant">ANACONDA_HOME)</span>/lib/python2.<span class="number">7</span>/site-packages/numpy/core/<span class="keyword">include</span> \
-
-
-<span class="comment"># Uncomment to use Python 3 (default is Python 2)</span>
-<span class="comment"># PYTHON_LIBRARIES := boost_python3 python3.5m</span>
-<span class="comment"># PYTHON_INCLUDE := /usr/include/python3.5m \</span>
-<span class="comment">#                 /usr/lib/python3.5/dist-packages/numpy/core/include</span>
-
-<span class="comment"># We need to be able to find libpythonX.X.so or .dylib.</span>
-<span class="comment"># PYTHON_LIB := /usr/lib</span>
-<span class="constant">PYTHON_LIB </span><span class="symbol">:</span>= <span class="variable">$(</span><span class="constant">ANACONDA_HOME)</span>/lib
-
-<span class="comment"># Homebrew installs numpy in a non standard path (keg only)</span>
-<span class="constant">PYTHON_INCLUDE </span>+= <span class="variable">$(</span>dir <span class="variable">$(</span>shell python -c <span class="string">'import numpy.core; print(numpy.core.__file__)'</span>))/<span class="keyword">include</span>
-<span class="constant">PYTHON_LIB </span>+= <span class="variable">$(</span>shell brew --prefix numpy)/lib
-</code></pre><h2 id="环境变量">环境变量</h2>
-<pre><code>export <span class="constant">DYLD_FALLBACK_LIBRARY_PATH</span>=<span class="regexp">/usr/local</span><span class="regexp">/cuda/lib</span><span class="symbol">:/Users/cp/anaconda/lib</span><span class="symbol">:/usr/local/lib</span><span class="symbol">:/usr/local/Cellar/</span><span class="symbol">:/usr/local/cuda/lib</span><span class="symbol">:~/anaconda/lib</span><span class="symbol">:/usr/local/lib</span><span class="symbol">:/usr/lib</span><span class="symbol">:</span><span class="variable">$DYLD_FALLBACK_LIBRARY_PATH</span>
-</code></pre><h2 id="编译caffe">编译caffe</h2>
-<pre><code><span class="keyword">make</span> clean
-<span class="keyword">make</span> <span class="keyword">all</span> -j8
-<span class="keyword">make</span> runtest
-</code></pre><p>runtest 相对会花些时间</p>
-<pre><code><span class="keyword">make</span> pycaffe
-<span class="keyword">make</span> distribute
-</code></pre><p>就大功告成了</p>
-<h2 id="References:">References:</h2>
-<ul>
-<li><a href="http://caffe.berkeleyvision.org/installation.html" target="_blank" rel="external">http://caffe.berkeleyvision.org/installation.html</a></li>
-<li><a href="https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29" target="_blank" rel="external">https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29</a></li>
-<li><a href="http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/" target="_blank" rel="external">http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2016/10/22/install-caffe-on-macosx/" data-id="8leqzyo0mnxfx3nt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS-reverse-engineering-03" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2016/03/06/iOS-reverse-engineering-03/">iOS逆向工程-0x02－Hacking on B612</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2016-03-06T03:32:44.000Z" itemprop="datePublished">03-06-2016</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前面两篇iOS逆向的文章（<a href="http://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/" target="_blank" rel="external">iOS逆向工程-0x00－用途以及准备工作</a>,<a href="http://cp0000.github.io/2015/11/30/iOS-reverse-engineering-02/" target="_blank" rel="external">iOS逆向工程-0x01－工具篇-Cycript</a>）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。</p>
-<p><a href="https://itunes.apple.com/us/app/b612-selfie-from-the-heart/id904209370?mt=8" target="_blank" rel="external">B612</a>是Line公司出品的一款非常棒的拍照软件。它的界面，交互，用起来非常顺手。app中的滤镜效果很赞，用户简单几步操作就可以生成一张很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。</p>
-<p>从AppStore上面下载B612的IPA文件，把文件的后缀名从 .IPA 修改成 .zip。解压zip文件之后，在Payload中有一个b612.app的文件，这里我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。经过以上几步操作我们就拿到了 B612 app的 bundle 文件信息。</p>
-<p>在使用B612的过程中，app会展列一个滤镜列表给用户进行选择（如下图）：</p>
-<p><img src="http://cp0000.github.io/assets/b612_filter_list.png" alt="B612_filter_list" style="width: 400px;"></p>
-<p>使用的过程发现一个叫 China 的滤镜，China，中国？还是瓷器？叫China的滤镜会呈现出什么样子的效果，根据效果我们是否能推测出这里的China是要翻译成中国，还是瓷器咧？很有意思的样子。我们就拿这个滤镜当做目标吧。</p>
-<p>一般情况下，我的常用做法是在先前解压的文件夹中搜索一下相关的信息，碰碰运气。</p>
-<pre><code><span class="keyword">find</span> . -name <span class="string">"*china*"</span>                 
-.<span class="regexp">/FilterThumb.bundle/</span>filterthumb_china.jpg
-.<span class="regexp">/ObfuscateImages.bundle/</span>lut<span class="regexp">/china.dat</span>
-</code></pre><p>运气不错。在ObfuscateImages.bundle发现了一个叫china.dat的文件。不过尝试用各种编辑器都没法打开，使用修改后缀名等之类的方法也没能成功打开。看来要获取这个文件的内容没有那么简单，开发者对这个文件做了相关加密工作。要想解密该文件，我们可能需要到汇编代码中寻找答案了。</p>
-<blockquote>
-<p>这里考虑到程序在使用这个滤镜的时候，会加载该文件，并进行相关解密工作。所以下一步是要找到解密dat文件的地方，不过在此之前，我们还有一些工作要做。</p>
-</blockquote>
-<h2 id="解密可执行文件_-_clutch_演示">解密可执行文件 - clutch 演示</h2>
-<p>接下来我们要去可执行文件中查询相关信息了。但是从苹果商店上面下载下来的IPA里面的可执行文件是被苹果加密过的,我们解谜它。我常用的工具是 <a href="https://github.com/KJCracks/Clutch" target="_blank" rel="external">clutch</a>,你可以clone一份repo到本地，然后编译得到一个clutch的程序，也可以直接下载release版本。然后把Clutch scp 到你的越狱机器上面就可以使用了。</p>
-<ul>
-<li><p>首先我们查找一下b612的bundle</p>
-<p>  iPhone:/usr root# ./Clutch -i|grep b612<br>  28)<b612 bundleid:="" com.linecorp.b612=""></b612></p>
-</li>
-<li><p>然后进行dump工作</p>
-<p>  iPhone:/usr root# ./Clutch -d com.linecorp.b612<br>  ….<br>  //程序输出相关log<br>  ….<br>  DONE: /private/var/mobile/Documents/Dumped/com.linecorp.b612-iOS7.0-(Clutch-2.0 RC2).ipa</p>
-</li>
-</ul>
-<p>最后会生成一个解密了的ipa文件，我们把它scp到电脑上来，进行分析。</p>
-<blockquote>
-<p>还有另外一个解密苹果商店加密IPA的工具叫<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。由于在使用Clutch解密app的时候，消耗内存比较大，导致运行时会出现解密失败的情况，这个时候可以尝试使用<a href="https://github.com/conradev/dumpdecrypted" target="_blank" rel="external">dumpdecrypted</a>。</p>
-</blockquote>
-<h2 id="分析可执行文件_-_class-dump_以及_IDA">分析可执行文件 - class-dump 以及 IDA</h2>
-<p>要分析解密之后的文件，我们可以使用<a href="https://github.com/nygard/class-dump" target="_blank" rel="external">class-dump</a>来导出程序的头文件。有了头文件列表之后，我们可以利用它来了解app的架构，使用的类库，以及探索需要逆向的那一块功能所属的类名。</p>
-<pre><code><span class="comment">class</span><span class="literal">-</span><span class="comment">dump</span><span class="literal">-</span><span class="comment">z/mac_x86/class</span><span class="literal">-</span><span class="comment">dump</span><span class="literal">-</span><span class="comment">z</span> <span class="comment">b612</span> <span class="literal">-</span><span class="comment">H</span> <span class="literal">-</span><span class="comment">o</span> <span class="comment">headers</span>
-<span class="comment">cd</span> <span class="comment">headers</span>
-<span class="comment">total</span> <span class="comment">10728</span>
-<span class="comment">drwxr</span><span class="literal">-</span><span class="comment">xr</span><span class="literal">-</span><span class="comment">x</span>  <span class="comment">1295</span> <span class="comment">cp</span>  <span class="comment">wheel</span>  <span class="comment">44030</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="string">.</span>
-<span class="comment">drwxr</span><span class="literal">-</span><span class="comment">xr</span><span class="literal">-</span><span class="comment">x</span>   <span class="comment">455</span> <span class="comment">cp</span>  <span class="comment">wheel</span>  <span class="comment">15470</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="string">.</span><span class="string">.</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">785</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTApplication</span><span class="string">.</span><span class="comment">h</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">370</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporter</span><span class="string">.</span><span class="comment">h</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">391</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporterPrivate</span><span class="string">.</span><span class="comment">h</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>    <span class="comment">264</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageReporting</span><span class="string">.</span><span class="comment">h</span>
-<span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>     <span class="comment">1</span> <span class="comment">cp</span>  <span class="comment">wheel</span>   <span class="comment">1830</span> <span class="comment">Apr</span>  <span class="comment">4</span> <span class="comment">12:46</span> <span class="comment">ACTAutomatedUsageTracker</span><span class="string">.</span><span class="comment">h</span>
-</code></pre><p>要找到加密 .dat 文件的相关代码，我们需要使用另外一个非常强大的工具<a href="https://www.hex-rays.com/products/ida/index.shtml" target="_blank" rel="external">IDA</a>。IDA可以非常整洁的输出可执行文件的汇编代码，并且相互连接起来。不过这个软件非常之贵，但是它的免费版本已经够用了。</p>
-<p>把B612的可执行文件加载到IDA之后，我们在IDA中执行一个搜索，关键字是dat;幸运的是，搜索结果指向了一下的代码。虽然是汇编代码，但是不难看出两点信息，（1）dat后缀的文件是一张Image （2）程序中需要把文件的数据字节进行反向操作，达到混淆的目的。</p>
-<p><img src="http://cp0000.github.io/assets/b612-reversebyte.png" alt="reversebyte" style="width: 500px;"></p>
-<p>接下来验证一下线索结果：</p>
-<pre><code>- (<span class="keyword">void</span>)viewDidLoad {
-    [<span class="keyword">super</span> viewDidLoad];
-    NSData * data = [[NSData alloc] initWithContentsOfFile: [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"china"</span> ofType:<span class="string">@"dat"</span>]];
-    data = [<span class="keyword">self</span> reverseData: data];
-    <span class="built_in">UIImage</span> * image  = [<span class="built_in">UIImage</span> imageWithData: data];
-    <span class="built_in">UIImageView</span> * imageView = [[<span class="built_in">UIImageView</span> alloc] initWithImage: image];
-    imageView<span class="variable">.frame</span> = <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.bounds</span>;
-    [<span class="keyword">self</span><span class="variable">.view</span> addSubview: imageView];
-}
-- (NSData *)reverseData:(NSData *)data {
-    <span class="keyword">const</span> <span class="keyword">char</span> *bytes = [data bytes];
-    <span class="keyword">int</span> idx = [data length] - <span class="number">1</span>;
-    <span class="keyword">char</span> *reversedBytes = calloc(<span class="keyword">sizeof</span>(<span class="keyword">char</span>),[data length]);
-    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; [data length]; i++) {
-        reversedBytes[idx--] = bytes[i];
-    }
-    NSData *reversedData = [NSData dataWithBytes:reversedBytes length:[data length]];
-    free(reversedBytes);
-    <span class="keyword">return</span> reversedData;
-}
-</code></pre><p>上述代码让我们获得一张china的图片：</p>
-<p><img src="http://cp0000.github.io/assets/china.png" alt="china" style="width: 300px;"></p>
-<p>上述代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612Image</a></p>
-<p>OK，到此为止，我们解密了china.dat 这种类型的文件，它跟我们最终要挖掘的china滤镜是如何实现的之间肯定有着联系，但我们现在还不得知。</p>
-<h2 id="关于滤镜">关于滤镜</h2>
-<p>在iOS app 中给图片加滤镜是要通过OpenGL ES 去实现的，而现在app中普遍使用的是<a href="https://www.khronos.org/opengles/2_X/" target="_blank" rel="external">OpenGL ES 2.0</a>。这种情况下，滤镜一般都是通过OpenGL的shader来实现的。此时，前面dump出来的header就有用了，分析headers之后，我们发现了两个相关类 GPUImageFilter以及GLProgram。又由于shader在使用之前一定要进行link，compile操作。所以我们可以通过尝试hook这两个类的相关函数，来获得滤镜的shader。</p>
-<blockquote>
-<p>根据头文件我们能发现B612是通过使用<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>框架来实现滤镜功能的。</p>
-</blockquote>
-<h2 id="Theos">Theos</h2>
-<p>关于如何hook app 在运行时的函数，我们需要使用工具<a href="http://iphonedevwiki.net/index.php/Theos" target="_blank" rel="external">Theos</a>.</p>
-<ul>
-<li>关于如何安装Theos，请阅读<a href="http://iphonedevwiki.net/index.php/Theos/Setup" target="_blank" rel="external">Theos Setup</a>。</li>
-<li>Logos相关语法，请参考<a href="http://iphonedevwiki.net/index.php/Logos" target="_blank" rel="external">Theos Logos</a></li>
-</ul>
-<p>安装好Theos之后，我们为B612创建一个tweak;</p>
-<pre><code>$THEOS/bin/nic.pl 
-NIC <span class="number">2.0</span> - New Instance Creator
-------------------------------
-  [<span class="number">1.</span>] iphone/application
-  [<span class="number">2.</span>] iphone/<span class="keyword">library</span>
-  [<span class="number">3.</span>] iphone/preference_bundle
-  [<span class="number">4.</span>] iphone/tool
-  [<span class="number">5.</span>] iphone/tweak
-Choose a Template (required): <span class="number">5</span>
-Project Name (required): bsix
-Package Name [com.yourcompany.bsix]: com.cp.bsix
-Author/Maintainer Name [cp]: 
-[iphone/tweak] MobileSubstrate Bundle filter [com.apple.springboard]: com.linecorp.b612            
-[iphone/tweak] List of applications to terminate upon installation (space-separated, <span class="string">'-'</span> <span class="keyword">for</span> none) [SpringBoard]: b612
-Instantiating iphone/tweak <span class="keyword">in</span> bsix/<span class="keyword">...</span>
-Done.
-</code></pre><p>然后在Tweak.xm文件中编辑需要hook的函数：</p>
-<pre><code>%hook GLProgram
--(<span class="property">id</span>)initWithVertexShaderString:(<span class="property">id</span>)vertexShaderString fragmentShaderString:(<span class="property">id</span>)<span class="type">string</span>
-{
-    [Logger <span class="command">log</span>: [NSString stringWithFormat:@<span class="string">"%@ %@"</span>, NSStringFromClass([self <span class="type">class</span>]), NSStringFromSelector(_cmd)]];
-    NSString * msg = [NSString stringWithFormat: @<span class="string">"vertexShaderString: %@ fragmentShaderString: %@ "</span>, vertexShaderString, <span class="type">string</span>];
-    [Logger <span class="command">log</span>: msg];
-<span class="command">    return</span> %orig;
-}
-%<span class="keyword">end</span>
-</code></pre><p>B612 tweak 的项目地址<a href="https://github.com/cp0000/B612Tweak" target="_blank" rel="external">B612Tweak</a>.成功编译之后，把生成的.deb文件scp到越狱机器上，利用dpkg安装tweak；杀掉B612进程重启app之后，tweak就可以hook相关函数了。以下在点击China滤镜的时候，tweak打印出来的log信息：</p>
-<pre><code>GLProgram initWithVertexShaderString:fragmentShaderString:
-vertexShaderString: 
-<span class="keyword">attribute</span> <span class="keyword">vec4</span> position; 
-<span class="keyword">attribute</span> <span class="keyword">vec4</span> inputTextureCoordinate; 
-<span class="keyword">attribute</span> <span class="keyword">vec4</span> inputTextureCoordinate2; 
-<span class="keyword">varying</span> <span class="keyword">vec2</span> textureCoordinate; 
-<span class="keyword">varying</span> <span class="keyword">vec2</span> textureCoordinate2; 
-<span class="keyword">void</span> main() { 
-    <span class="built_in">gl_Position</span> = position; 
-    textureCoordinate = inputTextureCoordinate.xy; 
-    textureCoordinate2 = inputTextureCoordinate2.xy; 
-} 
-fragmentShaderString: 
-<span class="keyword">varying</span> <span class="keyword">highp</span> <span class="keyword">vec2</span> textureCoordinate; 
-<span class="keyword">varying</span> <span class="keyword">highp</span> <span class="keyword">vec2</span> textureCoordinate2; 
-<span class="keyword">uniform</span> <span class="keyword">sampler2D</span> inputImageTexture; 
-<span class="keyword">uniform</span> <span class="keyword">sampler2D</span> inputImageTexture2; 
-<span class="keyword">void</span> main() { 
-    <span class="keyword">highp</span> <span class="keyword">vec4</span> textureColor = <span class="built_in">texture2D</span>(inputImageTexture, textureCoordinate); 
-    <span class="keyword">highp</span> <span class="keyword">float</span> blueColor = textureColor.b * <span class="number">63.0</span>; 
-    <span class="keyword">highp</span> <span class="keyword">vec2</span> quad1; 
-    quad1.y = <span class="built_in">floor</span>(<span class="built_in">floor</span>(blueColor) / <span class="number">8.0</span>); 
-    quad1.x = <span class="built_in">floor</span>(blueColor) - (quad1.y * <span class="number">8.0</span>); 
-    <span class="keyword">highp</span> <span class="keyword">vec2</span> quad2; 
-    quad2.y = <span class="built_in">floor</span>(<span class="built_in">ceil</span>(blueColor) / <span class="number">8.0</span>); 
-    quad2.x = <span class="built_in">ceil</span>(blueColor) - (quad2.y * <span class="number">8.0</span>); 
-    <span class="keyword">highp</span> <span class="keyword">vec2</span> texPos1; 
-    texPos1.x = (quad1.x * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.r); 
-    texPos1.y = (quad1.y * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.g); 
-    <span class="keyword">highp</span> <span class="keyword">vec2</span> texPos2; 
-    texPos2.x = (quad2.x * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.r); 
-    texPos2.y = (quad2.y * <span class="number">0.125</span>) + <span class="number">0.5</span>/<span class="number">512.0</span> + ((<span class="number">0.125</span> - <span class="number">1.0</span>/<span class="number">512.0</span>) * textureColor.g); 
-    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor1 = <span class="built_in">texture2D</span>(inputImageTexture2, texPos1); 
-    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor2 = <span class="built_in">texture2D</span>(inputImageTexture2, texPos2); 
-    <span class="keyword">lowp</span> <span class="keyword">vec4</span> newColor = <span class="built_in">mix</span>(newColor1, newColor2, <span class="built_in">fract</span>(blueColor)); 
-    <span class="built_in">gl_FragColor</span> = <span class="keyword">vec4</span>(newColor.rgb, textureColor.w); 
-}
-</code></pre><h2 id="关于使用OpenGL实现滤镜">关于使用OpenGL实现滤镜</h2>
-<p>前文提到过，根据class-dump出来的头文件，得知B612使用了<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="external">GPUImage</a>。理论上我们下一步研究下GPUImage项目，应该就可以实现china滤镜的效果了，但GPUImage项目还是挺庞大，挺复杂的。</p>
-<blockquote>
-<p>GPUImage 提供了<code>GPUImageLookupFilter</code>类来实现颜色查找类的滤镜</p>
-</blockquote>
-<p>这里我们直接使用OpenGL来实现China滤镜。阅读前面的shader代码，得知需要传递给shader两个texture，可以想象出一个是需要原图片，一个是china.dat转换出来的图片，经过顶点着色器和片段着色器，最终给目标图片加上滤镜。下面第一张图是原图，第二张是我用OpenGL实现的Demo效果图片，第三张是B612加china滤镜出来的结果。对比第二张和第三章，效果非常相似。利用OpenGL实现滤镜的代码，请查阅<a href="https://github.com/cp0000/HackB612" target="_blank" rel="external">HackB612</a></p>
-<p><img src="http://cp0000.github.io/assets/photo.jpg" alt="原图" style="width: 250px;"></p>
-<p><img src="http://cp0000.github.io/assets/jingse.jpg" alt="Demo效果图" style="width: 250px;"><img src="http://cp0000.github.io/assets/jingse_b612.jpg" alt="B612效果图" style="width: 250px;"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2016/03/06/iOS-reverse-engineering-03/" data-id="92rsjdf56ircwclh" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-Reverse-Engineering/">iOS Reverse Engineering</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS-reverse-engineering-02" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2015/11/30/iOS-reverse-engineering-02/">iOS逆向工程-0x01－工具篇-Cycript</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2015-11-30T14:00:07.000Z" itemprop="datePublished">11-30-2015</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>对于初开始学习iOS逆向工程的人来说，实现一个<code>tweak</code>可以算是入门逆向工程了。</p>
-<p>当然了，可能你现在还不知道<code>tweak</code>是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。</p>
-<blockquote>
-<p>比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码</p>
-</blockquote>
-<p>那问题来了，我们要如何知道哪个函数是账号登录函数咧？<strong>这就涉及到我们如何去分析一个iOS app</strong></p>
-<h2 id="分析_iOS_app_的两种方法">分析 iOS app 的两种方法</h2>
-<ul>
-<li><p>运行时分析</p>
-<ul>
-<li>GDB/LLDB</li>
-<li>Cycript</li>
-<li>Logify</li>
-<li>weak_classdump</li>
-<li>InspectiveC</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>可执行代码分析</p>
-<ul>
-<li>dumpdecrpted</li>
-<li>class_dump,class_dump_z,classdump_dyld</li>
-<li>Disassemblers<ul>
-<li>IDA</li>
-<li>Hopper</li>
-<li>otool</li>
-</ul>
-</li>
-<li>strings</li>
-<li>nm</li>
-</ul>
-</li>
-</ul>
-<p>先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。</p>
-<h3 id="Cycript">Cycript</h3>
-<p><a href="http://www.cycript.org/" target="_blank" rel="external">Cycript</a>最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。</p>
-<p>以下是 Cycript 的用途：</p>
-<ul>
-<li>能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController</li>
-<li>对程序中的类，可以获取到它用过的方法名称</li>
-<li>可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值</li>
-<li>能够执行 method swizzling， 替换某个指定的函数</li>
-<li>可以在运行时调用其他方法</li>
-</ul>
-<h4 id="安装_cycript">安装 cycript</h4>
-<p>首先利用 Cydia 下载 <code>mobilesubstrate</code> <code>adv-mds</code>;从<a href="www.cycript.org/debs/">官网</a>上面下载最新的包，并通过 <code>scp</code> 把文件拷贝到 iOS 设备上去，利用 <code>dpkg</code> 进行安装：</p>
-<pre><code>dpkg -<span class="keyword">i</span> cycript cycript_0.<span class="number">9.102</span>-<span class="number">1</span>_iphoneos-arm.<span class="keyword">deb</span>
-</code></pre><p>安装完成之后，执行 cycript 看是否工作：</p>
-<h4 id="用Cycript进行实时修改">用Cycript进行实时修改</h4>
-<p>本文将使用支付宝来进行测试。</p>
-<ul>
-<li>让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程</li>
-</ul>
-<pre><code>    chengpeide-iPhone:~ root<span class="preprocessor"># ps aux | grep AlipayWallet</span>
-    mobile     <span class="number">629</span>   <span class="number">0.0</span>  <span class="number">9.3</span>   <span class="number">815836</span>  <span class="number">47792</span>   ??  Ss    <span class="number">9</span>:<span class="number">45</span>PM   <span class="number">0</span>:<span class="number">34.79</span> /var/mobile/Containers/Bundle/Application/FB2E1466-<span class="number">0</span>D87-<span class="number">4</span>FF9-<span class="number">9616</span>-BD4269D61BCF/AlipayWallet<span class="variable">.app</span>/AlipayWallet
-    root       <span class="number">678</span>   <span class="number">0.0</span>  <span class="number">0.1</span>   <span class="number">536256</span>    <span class="number">412</span> s000  U+    <span class="number">9</span>:<span class="number">49</span>PM   <span class="number">0</span>:<span class="number">00.01</span> grep AlipayWallet
-
-    -rwxr-xr-x <span class="number">1</span> root admin <span class="number">906</span> Jan <span class="number">12</span>  <span class="number">2015</span> cycript
-    chengpeide-iPhone:/cp/Cycript_0<span class="number">.9</span><span class="number">.502</span> root<span class="preprocessor"># cycript -p 629</span>
-
-    cy<span class="preprocessor"># var app = [UIApplication sharedApplication]</span>
-    <span class="preprocessor">#<span class="title">"&lt;DFApplication: 0x14df44d0&gt;"</span></span>
-    cy<span class="preprocessor"># app.delegate</span>
-    <span class="preprocessor">#<span class="title">"&lt;DFClientDelegate: 0x14ed2d40&gt;"</span></span>
-    cy<span class="preprocessor"># app.keyWindow.rootViewController</span>
-    <span class="preprocessor">#<span class="title">"&lt;DFNavigationController: 0x15ac9a00&gt;"</span></span>
-    cy<span class="preprocessor"># var nav = new Instance(0x15ac9a00)</span>
-    <span class="preprocessor">#<span class="title">"&lt;DFNavigationController: 0x15ac9a00&gt;"</span></span>
-    cy<span class="preprocessor"># nav.topViewController.childViewControllers</span>
-    @[<span class="preprocessor">#<span class="title">"&lt;HPHomeWidgetGroup: 0x160a03d0&gt;"</span>,#<span class="title">"&lt;O2OIndexViewController: 0x15ad6600&gt;"</span>,#<span class="title">"&lt;APContactRecentViewController: 0x15afb600&gt;"</span>,#<span class="title">"&lt;WWAssetsViewController: 0x160a9da0&gt;"</span>]</span>
-    cy<span class="preprocessor"># var assetsViewController = new Instance(0x160a9da0)</span>
-    <span class="preprocessor">#<span class="title">"&lt;WWAssetsViewController: 0x160a9da0&gt;"</span></span>
-    cy<span class="preprocessor"># [assetsViewController.view subviews]</span>
-    @[<span class="preprocessor">#<span class="title">"&lt;UIView: 0x162d8000; frame = (0 0; 0 0); layer = &lt;CALayer: 0x162c85d0&gt;&gt;"</span>,#<span class="title">"&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: {0, -64}; contentSize: {320, 800}&gt;"</span>]</span>
-    cy<span class="preprocessor"># var tableView = new Instance (0x15433800)</span>
-    <span class="preprocessor">#<span class="title">"&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: {0, -42}; contentSize: {320, 800}&gt;"</span></span>
-    cy<span class="preprocessor"># tableView.backgroundColor = [UIColor redColor]</span>
-    <span class="preprocessor">#<span class="title">"UIDeviceRGBColorSpace 1 0 0 1"</span></span>
-
-    [tableView visibleCells]
-    @[<span class="preprocessor">#<span class="title">"&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;"</span>,#<span class="title">"&lt;DoubleInfoCell: 0x1569e800; baseClass = UITableViewCell; frame = (0 300; 320 80); autoresize = W; layer = &lt;CALayer: 0x16486e80&gt;&gt;"</span>,#<span class="title">"&lt;DoubleInfoCell: 0x15452e00; baseClass = UITableViewCell; frame = (0 380; 320 80); autoresize = W; layer = &lt;CALayer: 0x16491a50&gt;&gt;"</span>]</span>
-    cy<span class="preprocessor"># var headCell = new Instance (0x16160a40)</span>
-    <span class="preprocessor">#<span class="title">"&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;"</span></span>
-    cy<span class="preprocessor"># headCell.backgroundColor = [UIColor redColor]</span>
-    <span class="preprocessor">#<span class="title">"UIDeviceRGBColorSpace 1 0 0 1"</span></span>
-    cy<span class="preprocessor"># headCell.contentView.backgroundColor = [UIColor redColor]</span>
-    <span class="preprocessor">#<span class="title">"UIDeviceRGBColorSpace 1 0 0 1"</span></span>
-</code></pre><p>我们可以看到，界面上 tableViewCell 的背景颜色变成了红色。</p>
-<p><img src="http://cp0000.github.io/assets/blue.PNG" alt="shortcut2"></p>
-<p>以上操作的思路大致就是， appdelegate =&gt; keyWindow =&gt; rootViewController =&gt; viewControllers =&gt; view </p>
-<p>当然你也可以骗骗自己，把余额这个label的text改成巨款，过过眼瘾</p>
-<pre><code>    cy<span class="special">#</span> <span class="special">[</span>tableView subviews<span class="special">]</span>
-    @<span class="special">[</span><span class="special">#</span>"&lt;UIRefreshControl: 0x16482c90; frame = (0 0; 320 60); hidden = YES; autoresize = W; layer = &lt;CALayer: 0x16256370&gt;&gt;",<span class="special">#</span>"&lt;UITableViewWrapperView: 0x1624cce0; frame = (0 0; 320 519); gestureRecognizers = &lt;NSArray: 0x16098960&gt;; layer = &lt;CALayer: 0x14e12cf0&gt;; contentOffset: <span class="special">{</span>0, 0<span class="special">}</span>; contentSize: <span class="special">{</span>320, 519<span class="special">}</span>&gt;",<span class="special">#</span>"&lt;UIView: 0x16216d10; frame = (0 780; 320 20); layer = &lt;CALayer: 0x162562c0&gt;&gt;",<span class="special">#</span>"&lt;WHAccountHeaderView: 0x16217c10; frame = (0 0; 320 180); layer = &lt;CALayer: 0x1637edd0&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x17635b80; frame = (0 180; 320 40); autoresize = W; layer = &lt;CALayer: 0x1620d670&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x161f4740; frame = (0 452.5; 320 2.5); alpha = 0; opaque = NO; autoresize = TM; userInteractionEnabled = NO; layer = &lt;CALayer: 0x161f47c0&gt;&gt;"<span class="special">]</span>
-    cy<span class="special">#</span> var header = new Instance(0x16217c10)
-    <span class="special">#</span>"&lt;WHAccountHeaderView: 0x16217c10; frame = (0 0; 320 180); layer = &lt;CALayer: 0x1637edd0&gt;&gt;"
-    cy<span class="special">#</span> <span class="special">[</span>header subviews<span class="special">]</span>
-    @<span class="special">[</span><span class="special">#</span>"&lt;UIView: 0x161c6530; frame = (0 0; 320 117); layer = &lt;CALayer: 0x1638a780&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x16142d70; frame = (0 117.5; 106.667 62.5); layer = &lt;CALayer: 0x161f6350&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x16142de0; frame = (106.667 117.5; 106.667 62.5); layer = &lt;CALayer: 0x16109ed0&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x1610a4b0; frame = (213.333 117.5; 106.667 62.5); layer = &lt;CALayer: 0x163771b0&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x161082c0; frame = (122 28; 76 41); text = '0.00'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x14f73520&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x1610a520; frame = (246 42; 9 13); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x161025c0&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x161692b0; frame = (56.5 83; 13 13); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x16169330&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16169380; frame = (74.5 83; 189 13); text = '<span class="command">\xe</span>7<span class="command">\x</span>82<span class="command">\xb</span>9<span class="command">\xe</span>6<span class="command">\xad</span><span class="command">\xa</span>4<span class="command">\xe</span>5<span class="command">\xbc</span><span class="command">\x</span>80<span class="command">\xe</span>5<span class="command">\x</span>90<span class="command">\xaf</span><span class="command">\xe</span>8<span class="command">\xb</span>4<span class="command">\xa</span>6<span class="command">\xe</span>6<span class="command">\x</span>88<span class="command">\xb</span>7<span class="command">\xe</span>5<span class="command">\xae</span><span class="command">\x</span>89<span class="command">\xe</span>5<span class="command">\x</span>85<span class="command">\xa</span>8<span class="command">\xe</span>9<span class="command">\x</span>99<span class="command">\xa</span>9<span class="command">\xef</span><span class="command">\xbc</span><span class="command">\x</span>8c<span class="command">\xe</span>4<span class="command">\xba</span><span class="command">\xab</span>100<span class="command">\xe</span>4<span class="command">\xb</span>8<span class="command">\x</span>87<span class="command">\xe</span>4<span class="command">\xbf</span><span class="command">\x</span>9d<span class="command">\xe</span>9<span class="command">\x</span>9a<span class="command">\x</span>9c'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16169230&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16169570; frame = (36.8333 154.25; 33 12); text = '<span class="command">\xe</span>9<span class="command">\x</span>93<span class="command">\xb</span>6<span class="command">\xe</span>8<span class="command">\xa</span>1<span class="command">\x</span>8c<span class="command">\xe</span>5<span class="command">\x</span>8d<span class="command">\xa</span>1'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16169630&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16169810; frame = (48.3333 131.25; 10 17); text = '2'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x161698d0&gt;&gt;",<span class="special">#</span>"&lt;UIImageView: 0x16169ab0; frame = (42.3333 127.25; 22 22); hidden = YES; opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x16169b30&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16381200; frame = (149 154.25; 22 12); text = '<span class="command">\xe</span>4<span class="command">\xbd</span><span class="command">\x</span>99<span class="command">\xe</span>9<span class="command">\xa</span>2<span class="command">\x</span>9d'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16381160&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16380280; frame = (144 131.25; 32 17); text = '0.00'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16380340&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x16380520; frame = (255.667 154.25; 22 12); text = '<span class="command">\xe</span>5<span class="command">\x</span>8d<span class="command">\xa</span>1<span class="command">\xe</span>5<span class="command">\x</span>8c<span class="command">\x</span>85'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x163805e0&gt;&gt;",<span class="special">#</span>"&lt;UILabel: 0x1638d640; frame = (261.667 131.25; 10 17); text = '0'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x1638d700&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x16151570; frame = (0 117; 320 0.5); layer = &lt;CALayer: 0x161515e0&gt;&gt;",<span class="special">#</span>"&lt;UIView: 0x16151670; frame = (0 179.5; 320 0.5); layer = &lt;CALayer: 0x161516e0&gt;&gt;"<span class="special">]</span>
-    cy<span class="special">#</span> var label2= new Instance(0x161082c0)
-    <span class="special">#</span>"&lt;UILabel: 0x161082c0; frame = (122 28; 76 41); text = '0.00'; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x14f73520&gt;&gt;"
-    cy<span class="special">#</span> label2.text=@"10000000000000"
-    @"10000000000000"
-</code></pre><p><img src="http://cp0000.github.io/assets/rich.PNG" alt="shortcut2"></p>
-<p>很好玩，也很有用的工具，cycript。当然cycript还有一些高级用法，后面会介绍。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2015/11/30/iOS-reverse-engineering-02/" data-id="mfk34w0p2zmqbm9z" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-Reverse-Engineering/">iOS Reverse Engineering</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS-reverse-engineering-01" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2015/11/21/iOS-reverse-engineering-01/">iOS逆向工程-0x00－用途以及准备工作</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2015-11-21T02:46:07.000Z" itemprop="datePublished">11-21-2015</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言">前言</h2>
-<p>好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。</p>
-<p>作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。</p>
-<p>当然了，逆向工程还有其他更重要的用途，如下：</p>
-<ul>
-<li>分析恶意软件</li>
-<li>安全研究</li>
-<li>借鉴别人的软件</li>
-<li>破解使用限制</li>
-</ul>
-<h2 id="准备工作">准备工作</h2>
-<p>在开始 iOS 逆向工作之前，得准备一下相关设备</p>
-<h3 id="硬件">硬件</h3>
-<ul>
-<li>Mac 电脑</li>
-<li>一台越狱机器 (如何越狱，请访问 <strong><a href="http://pangu.io/" target="_blank" rel="external">pangu</a></strong>)</li>
-</ul>
-<h3 id="设置环境">设置环境</h3>
-<h4 id="利用Cydia安装相关开发工具，建议安装下表中的全部软件">利用<code>Cydia</code>安装相关开发工具，建议安装下表中的全部软件</h4>
-<table>
-<thead>
-<tr>
-<th>tool</th>
-<th>description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ps</td>
-<td>process status, cpu usage, memory usage</td>
-</tr>
-<tr>
-<td>sysctl</td>
-<td>get or set kernal state</td>
-</tr>
-<tr>
-<td>netstat</td>
-<td>show network status</td>
-</tr>
-<tr>
-<td>route</td>
-<td>manually manipulate the routing tables</td>
-</tr>
-<tr>
-<td>renice</td>
-<td>alter priority of running processes</td>
-</tr>
-<tr>
-<td>ifconfig</td>
-<td>configure network interface parameters</td>
-</tr>
-<tr>
-<td>tcpdump</td>
-<td>dump traffic on a network</td>
-</tr>
-<tr>
-<td>lsof</td>
-<td>list open files</td>
-</tr>
-<tr>
-<td>otool</td>
-<td>displays specified parts of object files or libraries.</td>
-</tr>
-<tr>
-<td>nm</td>
-<td>displays the name list (symbol table) of each object file in the argument list.</td>
-</tr>
-<tr>
-<td>ldid</td>
-<td>signature tool</td>
-</tr>
-<tr>
-<td>gdb</td>
-<td>debug tool</td>
-</tr>
-<tr>
-<td>lldb</td>
-<td>debug tool</td>
-</tr>
-<tr>
-<td>patch</td>
-<td>patch tool</td>
-</tr>
-<tr>
-<td>SSH</td>
-<td>is a program for logging into a remote machine and for executing commands on a remote machine.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="SSH_to_iPhone">SSH to iPhone</h4>
-<h5 id="通过_wifi">通过 wifi</h5>
-<pre><code><span class="title">ssh</span> root<span class="variable">@your</span>.iphone.ip
-</code></pre><p>iOS 系统中的<code>root</code>用户的默认密码是 <code>Alipne</code>.第一次登录的时候请使用这个密码。不过请记得修改<code>root</code>用户的密码，不然这台越狱机器就很不安全了。</p>
-<p><strong>修改用户密码</strong></p>
-<pre><code>iPhone:~ root<span class="comment"># passwd</span>
-Changing password <span class="keyword">for</span> root
-<span class="keyword">New</span> password:
-Retype <span class="keyword">new</span> password:
-iPhone:~ root<span class="comment">#</span>
-</code></pre><h5 id="通过_usb">通过 usb</h5>
-<p>在wifi不稳定的场景下，建议使用usb来ssh到iPhone上。（我自己也是主要适用usb来进行ssh）</p>
-<ul>
-<li><p>关于如何使用 usb ssh 到 iPhone上，详情请访问网页 <a href="http://iphonedevwiki.net/index.php/SSH_Over_USB" target="_blank" rel="external">SSH over USB</a>。根据网页上面的guide，需要下载：<a href="https://code.google.com/p/iphonetunnel-usbmuxconnectbyport/downloads/detail?name=itnl_rev8.zip" target="_blank" rel="external">itnl_rev8.zip</a></p>
-</li>
-<li><p>解压zip包之后，做如下操作：</p>
-<ul>
-<li><p>OS X terminal:</p>
-<pre><code>  <span class="comment">sudo</span> <span class="comment">path/to/itnl</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">iport</span> <span class="comment">22</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">lport</span> <span class="comment">2222</span>
-</code></pre></li>
-<li><p>iPhone terminal:</p>
-<pre><code>  <span class="title">ssh</span> -p <span class="number">2222</span> root<span class="variable">@localhost</span>
-</code></pre></li>
-</ul>
-</li>
-</ul>
-<p>然后，就成功 ssh 到 iPhone 上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS app了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/" data-id="fig6peyi8ubm4z8n" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-Reverse-Engineering/">iOS Reverse Engineering</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Peek-and-pop" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2015/10/25/Peek-and-pop/">3D-Touch(2) PEEK And POP</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2015-10-25T02:36:21.000Z" itemprop="datePublished">10-25-2015</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp; Pop 的相关知识点。</p>
-<p>在给你的app接入peeking and poping 的功能之前，需要先了解该操作的三个属性， peeking, preview actions, poping。如下图所示：</p>
-<p><img src="http://cp0000.github.io/assets/peekandpop.gif" alt="peek_and_pop"></p>
-<p>用户在 Peeking 图片，视频，网页等内容的时候，能够在不去加载全部内容的情况下获取到更多详细的内容。</p>
-<h2 id="PEEKING">PEEKING</h2>
-<p>当用户对某个view做peeking操作时，程序会展现给用户相对应内容的快照。Peek 操作是 3DTouch 中实现起来相对比较复杂的模块。Peek and Pop API 中有一个 <code>UIViewControllerPreviewingDelegate</code>,给指定的view需要注册这个delegate，就可以接收到系统回调过来的3D Touch事件。</p>
-<pre><code>override func viewDidLoad() {
-    <span class="keyword">super</span>.viewDidLoad()
-
-    /*  
-        Register <span class="keyword">for</span> `<span class="javascript">UIViewControllerPreviewingDelegate</span>` to enable
-        <span class="string">"Peek"</span> <span class="keyword">and</span> <span class="string">"Pop"</span>.
-        The view controller will be automatically unregistered <span class="keyword">when</span> it <span class="keyword">is</span>
-        deallocated.
-    */
-    registerForPreviewingWithDelegate(self, <span class="attribute">sourceView</span>: view)
-}
-</code></pre><p>这里有一点需要注意，我们可以在一个 view Controller 中，给多个view注册 Previewing Delegate ，但是我们不能反复去注册同一个view。</p>
-<blockquote>
-<p>“You can designate more than one source view for a single registered view controller, but you cannot designate a single view as a source view more than once.”</p>
-</blockquote>
-<p>Peek的操作过程可以分解成下面三个步骤：</p>
-<p><img src="http://cp0000.github.io/assets/peek_and_pop2.png" alt="peek_and_pop_2"></p>
-<p>Peek的系统回调函数会提供一个关于 source view的context，以及 touch事件的point。以sourceView为 collectionView为例，回调函数中我们需要处理以下三件事情：</p>
-<ul>
-<li>(1) 根据 location 找到被 peeked 的 cell，以及cell的 NSIndexPath</li>
-<li>(2) 设置 previewingContext 的 sourceRect 大小</li>
-<li>(3) alloc 一个 PreViewController，并设置背景图片，title之类的， 然后返回这个 PreviewController</li>
-</ul>
-<p><strong>UICOLLECTIONVIEW 代码片段</strong></p>
-<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span></span> viewDidLoad() {
-    <span class="keyword">super</span>.viewDidLoad()
-
-    registerForPreviewingWithDelegate(<span class="keyword">self</span>, sourceView: tableView)
-}
-
-<span class="func"><span class="keyword">func</span></span> previewingContext(previewingContext: <span class="type">UIViewControllerPreviewing</span>, viewControllerForLocation location: <span class="type">CGPoint</span>) -&gt; <span class="type">UIViewController</span>? {
-    guard <span class="keyword">let</span> indexPath = collectionView?.indexPathForItemAtPoint(location) <span class="keyword">else</span> { <span class="keyword">return</span> <span class="built_in">nil</span> }
-
-    guard <span class="keyword">let</span> cell = collectionView?.cellForItemAtIndexPath(indexPath) <span class="keyword">else</span> { <span class="keyword">return</span> <span class="built_in">nil</span> }
-
-    guard <span class="keyword">let</span> detailVC = storyboard?.instantiateViewControllerWithIdentifier(<span class="string">"DetailViewController"</span>) <span class="keyword">as</span>? <span class="type">DetailViewController</span> <span class="keyword">else</span> { <span class="keyword">return</span> <span class="built_in">nil</span> }
-
-    <span class="keyword">let</span> photo = photos[indexPath.row]
-    detailVC.photo = photo
-
-    detailVC.preferredContentSize = <span class="type">CGSize</span>(width: <span class="number">0.0</span>, height: <span class="number">300</span>)
-
-    previewingContext.sourceRect = cell.frame
-
-    <span class="keyword">return</span> detailVC
-}
-</code></pre><h2 id="UIPREVIEWACTIONITEMS">UIPREVIEWACTIONITEMS</h2>
-<p>当用户在 PreViewing Controller 的界面，手指往上推，会从屏幕底部弹出一个类似 actionsheet 的界面，这个是 <code>UIPreviewActions</code>。那如何给指定的 preViewController 自定义这些 <code>UIPreviewActions</code>？ 方法很简单，override UIViewController 中的 preViewActionItems() 方法，在该方法中定义好 actionItems 的数组就好了：</p>
-<pre><code>override func previewActionItems<span class="function"><span class="params">()</span> -&gt;</span> [UIPreviewActionItem] {
-
-    <span class="reserved">let</span> likeAction = UIPreviewAction<span class="function"><span class="params">(title: <span class="string">"Like"</span>, style: .Default)</span> { <span class="params">(action, viewController)</span> -&gt;</span> Void <span class="keyword">in</span>
-        <span class="built_in">print</span>(<span class="string">"You liked the photo"</span>)
-    }
-
-    <span class="reserved">let</span> deleteAction = UIPreviewAction<span class="function"><span class="params">(title: <span class="string">"Delete"</span>, style: .Destructive)</span> { <span class="params">(action, viewController)</span> -&gt;</span> Void <span class="keyword">in</span>
-        <span class="built_in">print</span>(<span class="string">"You deleted the photo"</span>)
-    }
-
-    <span class="reserved">let</span> groupAction = UIPreviewActionGroup (<span class="attribute">title</span>: <span class="string">"Group"</span>, <span class="attribute">style</span>: .Default, <span class="attribute">actions</span>: [likeAction, deleteAction])
-    <span class="keyword">return</span> [likeAction, deleteAction, groupAction]
-
-}
-</code></pre><p>另外苹果还提供了 <code>UIPreviewActionGroup</code>，顾名思义就是把几个UIPreviewActionItem操作放到一起，组成一个组。</p>
-<h2 id="POPPING">POPPING</h2>
-<p>poping 操作处理起来相对简单。在回调函数中</p>
-<pre><code><span class="func"><span class="keyword">func</span></span> previewingContext(previewingContext: <span class="type">UIViewControllerPreviewing</span>, commitViewController viewControllerToCommit: <span class="type">UIViewController</span>) {
-    <span class="comment">//Here's where you commit (pop)</span>
-}
-</code></pre><p>我们需要根据preViewingContext来确定poping的时候需要commit的ViewController就好了。</p>
-<h2 id="WEBVIEW_PEEK_AND_POP">WEBVIEW PEEK AND POP</h2>
-<p>让 <code>UIWebView</code> 和 <code>WKWebview</code> 支持 Peek&amp;Pop就很简单了：</p>
-<pre><code>webView.<span class="variable">allowsLinkPreview =</span> <span class="constant">true</span>
-</code></pre><h2 id="结语">结语</h2>
-<p>以上。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2015/10/25/Peek-and-pop/" data-id="0p4hjl0ad9b8ktle" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS9-Quick-Actions-shortcut" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2015/09/30/iOS9-Quick-Actions-shortcut/">3D-Touch(1) iOS9 Quick Actions Shortcut</a>
-  
-
-      </header>
-    
-    <time class="article-date" datetime="2015-09-30T11:24:13.000Z" itemprop="datePublished">09-30-2015</time>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tech/">Tech</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。</p>
-<h2 id="Home_Screen_Quick_Actions">Home Screen Quick Actions</h2>
-<p>通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。</p>
-<h3 id="静态快捷键的添加">静态快捷键的添加</h3>
-<p>打开 Info.plist, 在该文件中添加如下键值：</p>
-<p><img src="http://cp0000.github.io/assets/static_shortcut.jpg" alt="static_shortcut"></p>
-<p>添加一个key为<code>UIApplicationShortcutItems</code>的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：</p>
-<ul>
-<li>UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示</li>
-<li>UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上</li>
-<li>UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上</li>
-<li>UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 <a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/index.html#//apple_ref/c/tdef/UIApplicationShortcutIconType" target="_blank" rel="external">UIApplicationShortcutIcon_Class</a></li>
-<li>UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，35<em>35的倍数（试过100</em>100也是Ok的），并且单色。</li>
-<li>UIApplicationShortcutItemUserInfo (optional): 传值用</li>
-</ul>
-<p>详情请<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36" target="_blank" rel="external">看这里</a></p>
-<p>当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：</p>
-<p><img src="http://cp0000.github.io/assets/shortcut2.jpg" alt="shortcut2"></p>
-<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节<a href="#jump">模拟器上测试Shortcut</a>。</p>
-<h3 id="动态标签的添加">动态标签的添加</h3>
-<p>所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：</p>
-<ul>
-<li>UIApplicationShortcutItem 3DTouch标签的类</li>
-<li>UIApplicationShortcutIcon 标签中图片Icon的类</li>
-</ul>
-<h3 id="响应标签的行为">响应标签的行为</h3>
-<p>当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：</p>
-<pre><code><span class="pp">- <span class="params">(void)</span> application:<span class="params">(<span class="variable">UIApplication</span> *)</span>application performActionForShortcutItem:<span class="params">(<span class="variable">UIApplicationShortcutItem</span> *)</span>shortcutItem completionHandler:<span class="params">(void (^)</span><span class="params">(<span class="variable">BOOL</span>)</span>)completionHandler</span>
-</code></pre><p>当通过标签进入APP时，appdelegate中会回调到这个函数。当你处理完了标签需要做的工作之后，需要执行 <code>completionHandler</code>。</p>
-<p>这里有一个地方需要特别注意一下，用户按下标签进入应用要分成两种状况：启动APP，APP从后台回到前台。你需要在 <code>application:didFinishLaunchingWithOptions:</code> 或 <code>application:willFinishLaunchingWithOptions:</code> 中的一个去检查字典 <code>launchOptions</code> 中是否包含了<code>UIApplicationLaunchOptionsShortcutItemKey</code>。如果有这个key，则表示是启动app。你需要在此时设置好APP的view层级，并且为 application:willFinishLaunchingWithOptions: 返回 false。这样就可以阻止 <code>application(_:performActionForShortcutItem:completionHandler:)</code> 被调用，避免标签处理逻辑被处理两次。</p>
-<p>以下是 sample code (Objective_c)，demo 放在github上面<a href="https://github.com/cp0000/shortcutDemo" target="_blank" rel="external">shortcutDemo</a></p>
-<p>另外苹果官方提供了 swift 的<a href="https://developer.apple.com/library/prerelease/ios/samplecode/ApplicationShortcuts/Introduction/Intro.html" target="_blank" rel="external">sample code</a></p>
-<pre><code><span class="preprocessor">#import <span class="title">"AppDelegate.h"</span></span>
-
-<span class="class"><span class="keyword">@interface</span> <span class="title">AppDelegate</span> ()</span>
-<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, retain) UIApplicationShortcutItem * launchedShortcutItem;
-
-<span class="keyword">@end</span>
-
-<span class="class"><span class="keyword">@implementation</span> <span class="title">AppDelegate</span></span>
-
-- (<span class="built_in">BOOL</span>) handledShortCutItem: (UIApplicationShortcutItem *) shortcutItem
-{
-    <span class="built_in">BOOL</span> handled = <span class="literal">NO</span>;
-    <span class="keyword">if</span> (!shortcutItem<span class="variable">.type</span>) <span class="keyword">return</span> <span class="literal">NO</span>;
-    <span class="keyword">if</span> (![shortcutItem<span class="variable">.type</span> isKindOfClass:[<span class="built_in">NSString</span> class]]) <span class="keyword">return</span> <span class="literal">NO</span>;
-
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:<span class="string">@"Shortcut Handled"</span> message:shortcutItem<span class="variable">.localizedTitle</span> preferredStyle: UIAlertControllerStyleAlert];
-    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:<span class="string">@"OK"</span> style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    }];
-    [alertController addAction: alertAction];
-
-    [<span class="keyword">self</span><span class="variable">.window</span><span class="variable">.rootViewController</span> presentViewController: alertController animated: <span class="literal">YES</span> completion:<span class="literal">nil</span>];
-
-    <span class="keyword">return</span> handled;
-}
-
-- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions {
-    <span class="comment">// Override point for customization after application launch.</span>
-<span class="comment">//    Dynamic Shortcuts</span>
-    UIApplicationShortcutIcon * addIcon = [UIApplicationShortcutIcon iconWithType: UIApplicationShortcutIconTypeAdd];<span class="comment">//Icons should be square, single color,</span>
-
-    UIApplicationShortcutItem * addItem = [[UIApplicationShortcutItem alloc]initWithType: <span class="string">@"add"</span> localizedTitle: <span class="string">@"Add"</span> localizedSubtitle: <span class="literal">nil</span> icon: addIcon userInfo: <span class="literal">nil</span>];
-
-    [<span class="built_in">UIApplication</span> sharedApplication]<span class="variable">.shortcutItems</span> = @[addItem];
-
-    <span class="built_in">BOOL</span> shouldPerformAdditionalDelegateHandling    = <span class="literal">YES</span>;
-    <span class="keyword">if</span> (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) {
-        UIApplicationShortcutItem * shortcutItem = launchOptions[UIApplicationLaunchOptionsShortcutItemKey];
-        <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>   = shortcutItem;
-        <span class="comment">// This will block "performActionForShortcutItem:completionHandler" from being called.</span>
-        shouldPerformAdditionalDelegateHandling     = <span class="literal">NO</span>;
-    }
-    <span class="keyword">return</span> shouldPerformAdditionalDelegateHandling;
-}
-
-- (<span class="keyword">void</span>)applicationWillEnterForeground:(<span class="built_in">UIApplication</span> *)application {
-}
-
-- (<span class="keyword">void</span>)applicationDidBecomeActive:(<span class="built_in">UIApplication</span> *)application {
-    <span class="keyword">if</span>(!<span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>) {
-        <span class="keyword">return</span>;
-    }
-    [<span class="keyword">self</span> handledShortCutItem: <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>];
-
-    <span class="keyword">self</span><span class="variable">.launchedShortcutItem</span>   = <span class="literal">nil</span>;
-}
-
-- (<span class="keyword">void</span>) application:(<span class="built_in">UIApplication</span> *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">BOOL</span>))completionHandler
-{
-    <span class="built_in">BOOL</span> result = [<span class="keyword">self</span> handledShortCutItem: shortcutItem];
-    completionHandler(result);
-}
-
-<span class="keyword">@end</span>
-</code></pre><p><span id="simulator_shortcuts"></span></p>
-<h3 id="模拟器上测试Shortcuts">模拟器上测试Shortcuts</h3>
-<p>Xcode7.0 的模拟器是没办法之间触发出 3D Touch 事件的，好在有人开发出了插件<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator" target="_blank" rel="external">SBShortcutMenuSimulator</a>.实用也很简单，只需要follow readme 中的 usage 便可。以下摘录</p>
-<pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/DeskConnect/SBShortcutMenuSimulator.git
-<span class="keyword">cd</span> SBShortcutMenuSimulator
-<span class="keyword">make</span>
-
-xcrun simctl spawn booted launchctl <span class="keyword">debug</span> <span class="built_in">system</span>/<span class="keyword">com</span>.apple.SpringBoard --environment DYLD_INSERT_LIBRARIES=$PWD/SBShortcutMenuSimulator.dylib
-xcrun simctl spawn booted launchctl <span class="keyword">stop</span> <span class="keyword">com</span>.apple.SpringBoard
-
-<span class="keyword">echo</span> <span class="string">'com.apple.mobilecal'</span> | nc <span class="number">127.0</span>.<span class="number">0.1</span> <span class="number">8000</span>
-</code></pre><p>‘com.apple.mobilecal’ 替换成你需要测试的app的bundle就可以了，例如我的是 <code>chengpei.shortcutDemo</code></p>
-<pre><code><span class="title">echo</span> <span class="string">'chengpei.shortcutDemo'</span> | nc <span class="number">127.0.0.1</span> <span class="number">8000</span>
-</code></pre><p>上面的命令全都在clone的SBShortcutMenuSimulator目录下执行。</p>
-<h3 id="结语">结语</h3>
-<p>以上。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2015/09/30/iOS9-Quick-Actions-shortcut/" data-id="8yql702iejce3h7i" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/categories/Tech/page/2/">2</a><a class="extend next" rel="next" href="/categories/Tech/page/2/">Next &raquo;</a>
-    </nav>
-  
-</section>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2017 Pei Cheng<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-
-
-
-<script src="/js/script.js" type="text/javascript"></script>
 
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
   ga('create', 'UA-63703524-1', 'auto');
   ga('send', 'pageview');
-
 </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CP WRITINGS</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <section id="posts" class="posts-collapse">
+    <div class="collection-title">
+      <h2 >
+        Tech
+        <small>Category</small>
+      </h2>
+    </div>
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/03/19/framebuffer-object-opengl/" itemprop="url">
+              
+                <span itemprop="name">Learning OpenGL：帧缓冲对象</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-03-19T14:20:09+08:00"
+              content="Mar 19 2017" >
+          03-19
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/02/26/GLSL-Dictionary/" itemprop="url">
+              
+                <span itemprop="name">Learning OpenGL：GLSL Shader 手册</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-02-26T14:26:08+08:00"
+              content="Feb 26 2017" >
+          02-26
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2016/12/18/opengl-3d-matrix/" itemprop="url">
+              
+                <span itemprop="name">OpenGL ES 2.0 3D基础（1）－矩阵</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2016-12-18T14:37:53+08:00"
+              content="Dec 18 2016" >
+          12-18
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2016/11/07/ffmpeg-command-example/" itemprop="url">
+              
+                <span itemprop="name">ffmpeg 使用例程</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2016-11-07T21:03:47+08:00"
+              content="Nov 7 2016" >
+          11-07
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2016/10/22/install-caffe-on-macosx/" itemprop="url">
+              
+                <span itemprop="name">如何在Macosx上安装caffe</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2016-10-22T12:55:05+08:00"
+              content="Oct 22 2016" >
+          10-22
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2016/03/06/iOS-reverse-engineering-03/" itemprop="url">
+              
+                <span itemprop="name">iOS逆向工程-0x02－Hacking on B612</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2016-03-06T11:32:44+08:00"
+              content="Mar 6 2016" >
+          03-06
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2015/11/30/iOS-reverse-engineering-02/" itemprop="url">
+              
+                <span itemprop="name">iOS逆向工程-0x01－工具篇-Cycript</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2015-11-30T22:00:07+08:00"
+              content="Nov 30 2015" >
+          11-30
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2015/11/21/iOS-reverse-engineering-01/" itemprop="url">
+              
+                <span itemprop="name">iOS逆向工程-0x00－用途以及准备工作</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2015-11-21T10:46:07+08:00"
+              content="Nov 21 2015" >
+          11-21
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2015/10/25/Peek-and-pop/" itemprop="url">
+              
+                <span itemprop="name">3D-Touch(2) PEEK And POP</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2015-10-25T10:36:21+08:00"
+              content="Oct 25 2015" >
+          10-25
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2015/09/30/iOS9-Quick-Actions-shortcut/" itemprop="url">
+              
+                <span itemprop="name">3D-Touch(1) iOS9 Quick Actions Shortcut</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2015-09-30T19:24:13+08:00"
+              content="Sep 30 2015" >
+          09-30
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/categories/Tech/page/2/">2</a><a class="extend next" rel="next" href="/categories/Tech/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://40.media.tumblr.com/44c4a707d0f0b37f7a2f1bf12ed145c2/tumblr_nn1oqi2p8q1t1nt9vo1_250.jpg"
+               alt="Pei Cheng" />
+          <p class="site-author-name" itemprop="name">Pei Cheng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
 </body>
 </html>

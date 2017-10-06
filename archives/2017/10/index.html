@@ -1,11 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <title>Archives: 2017/10 | CP WRITINGS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CP WRITINGS">
 <meta property="og:url" content="http://cp0000.github.io/archives/2017/10/">
@@ -15,185 +94,425 @@
 <meta name="twitter:title" content="CP WRITINGS">
 <meta name="twitter:description">
 
-  
-    <link rel="alternative" href="/atom.xml" title="CP WRITINGS" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
 
-  
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://cp0000.github.io/"/>
+
+
+
+
+
+  <title> Archive | CP WRITINGS </title>
 </head>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">CP WRITINGS</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="sub-nav">
-        
-          <a id="nav-home-icon" class="nav-icon" href="/"></a>
-        
-          <a id="nav-archives-icon" class="nav-icon" href="/archives"></a>
-        
-          <a id="nav-about-icon" class="nav-icon" href="/about/index.html"></a>
-        
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-      </nav>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-opengl-lighting" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-      <header class="article-header">
-        
-  
-    <a class="article-title" href="/2017/10/04/opengl-lighting/">Learning OpenGL：光照</a>
-  
 
-      </header>
-    
-    <time class="article-date" datetime="2017-10-04T09:39:47.000Z" itemprop="datePublished">10-04-2017</time>
-    
-  </div>
-  <div class="article-inner">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="颜色">颜色</h2>
-<p>计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。</p>
-<p>颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：</p>
-<pre><code>vec3 lightColor(<span class="number">1</span>.<span class="number">0</span>,<span class="number">1</span>.<span class="number">0</span>,<span class="number">1</span>.<span class="number">0</span>);
-vec3 clothingColor(<span class="number">0</span>.<span class="number">0</span>,<span class="number">0</span>.<span class="number">5</span>,<span class="number">0</span>.<span class="number">0</span>);
-vec3 <span class="literal">result</span> =  lightColor * clothingColor; // (<span class="number">0</span>.<span class="number">0</span>, <span class="number">0</span>.<span class="number">5</span>, <span class="number">0</span>.<span class="number">0</span>);
-</code></pre><p>我们定义<strong>物体的颜色为物体从一个光源反射各个颜色分量的大小</strong>.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。</p>
-<h2 id="基础光照">基础光照</h2>
-<p>现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：</p>
-<p><img src="http://cp0000.github.io/assets/lighting/phong_reflection.jpg" alt=""></p>
-<ul>
-<li>环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。</li>
-<li>漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。</li>
-<li>镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。</li>
-</ul>
-<h3 id="环境光照">环境光照</h3>
-<p>我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。</p>
-<pre><code><span class="type">void</span> main()
-{
-    <span class="type">float</span> ambientStrength = <span class="number">0</span>.<span class="number">1</span>;
-    vec3 ambient = ambientStrength * lightColor;
-    vec3 <span class="literal">result</span> = ambient * objectColor;
-    gl_fragColor = vec4(<span class="literal">result</span>, <span class="number">1</span>.<span class="number">0</span>);
-}
-</code></pre><h3 id="漫反射光照">漫反射光照</h3>
-<p>漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。</p>
-<p>光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做<strong>法向量</strong>（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：</p>
-<ul>
-<li>法向量：一个垂直于顶点表面的向量</li>
-<li>定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。</li>
-</ul>
-<h3 id="法向量">法向量</h3>
-<p>法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。</p>
-<h3 id="漫反射光照-1">漫反射光照</h3>
-<p>每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：</p>
-<pre><code><span class="keyword">uniform</span> <span class="keyword">vec3</span> lightPos;
-</code></pre><p>渲染的时候，设置lightPos就可以了。<br>最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：</p>
-<pre><code><span class="keyword">varying</span> <span class="keyword">vec3</span> fragPos;
-<span class="keyword">varying</span> <span class="keyword">vec3</span> normal;
-
-<span class="keyword">void</span> main() {
-    <span class="built_in">gl_Position</span> = projection * view * model * <span class="keyword">vec4</span>(aPos, <span class="number">1.0</span>);
-    fragPos = <span class="keyword">vec3</span> (model * <span class="keyword">vec4</span>(aPos, <span class="number">1.0</span>));
-    normal = aNormal;
-}
-</code></pre><p>在片段着色器中，我们需要计算光源和片段位置之间的方向向量。通过让两个向量相减的方式计算向量差。</p>
-<pre><code><span class="keyword">vec3</span> norm = <span class="built_in">normalize</span> (normal);
-<span class="keyword">vec3</span> lightDir = <span class="built_in">normalize</span> (lightPos - fragPos);
-</code></pre><p>然后我们对 norm 和 lightDir 向量进行点乘，计算光源对当前片段实际的漫发射影响。结果值再乘以光的颜色，得到漫发射分量。两个向量之间的角度越大，漫反射分量就会越小：</p>
-<pre><code><span class="type">float</span> diff = max (dot(norm, lightDir), <span class="number">0</span>.<span class="number">0</span>); // 如果两个向量之间的角度大于<span class="number">90</span>度，点乘的结果就会变成负数，这样会导致漫反射分量变为负数，为此，我们使用max函数返回两个参数之间较大的参数，从而保证漫反射分量不会变成负数。
-vec3 diffuse = diff * lightColor;
-
-vec3 <span class="literal">result</span> = (ambient + diffuse) * objectColor;
-gl_FragColor =  vec4(<span class="literal">result</span>, <span class="number">1</span>.<span class="number">0</span>);
-</code></pre><h3 id="镜面光照（Specular_Hightlight）">镜面光照（Specular Hightlight）</h3>
-<p>和漫反射光照一样，镜面光照是依据光的方向向量和物体的法向量来决定的，但是它还依赖于观察方向。镜面光照是基于光的反射特性。如果我们想象物体表面像一面镜子一样，那么无论我们从哪里去看那个表面所反射的光，镜面光照都会达到最大化。如下图：</p>
-<p><img src="http://cp0000.github.io/assets/lighting/specularLight.jpg" alt=""></p>
-<p>我们通过反射法向量周围光的方向来计算反射向量。然后我们计算反射向量和视线方向的角度差，如果夹角越小，那么镜面光的影响就会越大。<br>观察向量是镜面光照附加的一个变量，我们可以使用观察者世界空间位置和片段的位置来计算它。之后，我们计算镜面光强度，用它乘以光源的颜色，再将它加上环境光和漫反射分量。</p>
-<pre><code>uniform vec3 viewPos;
-<span class="type">float</span> specularStrength = <span class="number">0</span>.<span class="number">5</span>;
-<span class="type">float</span> shininess  = <span class="number">32</span>; // 反光度，一个物体的反光度越高，反射光的能力越强，散射得越少，高光点就会越小
-vec3 viewDir = normalize(viewPos - fragPos);
-vec3 reflectDir = reflect(-lightDir, norm)
-<span class="type">float</span> spec = pow (max (dot (viewDir, reflectDir), <span class="number">0</span>.<span class="number">0</span>), shininess);
-vec3 specular = specularStrength * spec * lightColor;
-
-vec3 <span class="literal">result</span> = (ambient + diffuse + specular) * objectColor;
-gl_FragColor = vec4(<span class="literal">result</span>, <span class="number">1</span>.<span class="number">0</span>);
-</code></pre><p>以上就是基础光照的相关知识了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cp0000.github.io/2017/10/04/opengl-lighting/" data-id="fic97g4wpuknbw8j" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
-  
-</section>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2017 Pei Cheng<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-
-
-
-<script src="/js/script.js" type="text/javascript"></script>
 
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
   ga('create', 'UA-63703524-1', 'auto');
   ga('send', 'pageview');
-
 </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left  page-archive  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CP WRITINGS</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <section id="posts" class="posts-collapse">
+    <span class="archive-move-on"></span>
+
+    <span class="archive-page-counter">
+      
+      
+       
+      
+      OK! 37 posts in total. Keep on posting.
+    </span>
+
+    
+
+      
+      
+      
+
+      
+        
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+        </div>
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/10/04/opengl-lighting/" itemprop="url">
+              
+                <span itemprop="name">Learning OpenGL：光照</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-10-04T17:39:47+08:00"
+              content="Oct 4 2017" >
+          10-04
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+  </section>
+
+  
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://40.media.tumblr.com/44c4a707d0f0b37f7a2f1bf12ed145c2/tumblr_nn1oqi2p8q1t1nt9vo1_250.jpg"
+               alt="Pei Cheng" />
+          <p class="site-author-name" itemprop="name">Pei Cheng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
 </body>
 </html>
