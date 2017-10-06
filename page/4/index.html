@@ -331,10 +331,8 @@
       
         
           
-            <p>##背景</p>
-<p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
-<p>##FBO</p>
-<p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
+<h2 id="FBO"><a href="#FBO" class="headerlink" title="FBO"></a>FBO</h2><p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
 <p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。</p>
 <p>帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：</p>
 <pre><code>&gt;注：OpenGL es 2.0 也只有一个颜色附加点
@@ -364,8 +362,7 @@ void glDeleteFramebuffers(GLsizei n, const GLuint * ids);
 </ul>
 <p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
 <pre><code>glBindFramebuffer (GL_FRAMEBUFFER, 0);
-</code></pre><p>###创建纹理附加图像</p>
-<p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
+</code></pre><h3 id="创建纹理附加图像"><a href="#创建纹理附加图像" class="headerlink" title="创建纹理附加图像"></a>创建纹理附加图像</h3><p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
 <pre><code>glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level);
 </code></pre><ul>
 <li>target: 绑定目标，一般为 GL_FRAMEBUFFER</li>
@@ -399,8 +396,7 @@ void glDeleteRenderbuffers(GLsizei n, const GLuint * ids);
 </code></pre><p>RBO绑定到FBO</p>
 <pre><code>glFramebufferRenderbuffer (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rboId);
 </code></pre><p>在帧缓冲项目中，renderbuffer可以优化渲染，但重要的是要懂得何时使用renderbuffer对象，何时使用纹理。通常规则是：如果你永远都不需要从特定的缓冲中进行采样，renderbuffer对特定缓冲是更明智的选择。如果需要从比如颜色或深度值这样的特定缓冲采样数据的话，最好使用纹理。</p>
-<p>###渲染到纹理</p>
-<p>到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。</p>
+<h3 id="渲染到纹理"><a href="#渲染到纹理" class="headerlink" title="渲染到纹理"></a>渲染到纹理</h3><p>到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。</p>
 <p><strong>Step1: 创建并绑定帧缓冲</strong></p>
 <pre><code>GLuint framebuffer;
 glGenFramebuffers(1, &amp;framebuffer);
@@ -451,8 +447,7 @@ glDisable(GL_DEPTH_TEST);
 glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
 glDrawArrays(GL_TRIANGLES, 0, 6);
 glBindVertexArray(0);
-</code></pre><p>###后处理</p>
-<pre><code>&gt;待续
+</code></pre><h3 id="后处理"><a href="#后处理" class="headerlink" title="后处理"></a>后处理</h3><pre><code>&gt;待续
 </code></pre>
           
         

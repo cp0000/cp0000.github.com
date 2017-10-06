@@ -332,9 +332,7 @@
         
           
             <p>本文介绍<a href="https://en.wikipedia.org/wiki/FFmpeg" target="_blank" rel="external">ffmpeg</a>命令行的一些使用方法；</p>
-<p>##参数</p>
-<p>###主要参数</p>
-<ul>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><h3 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h3><ul>
 <li>-i——设置输入档名。</li>
 <li>-f——设置输出格式。</li>
 <li>-y——若输出文件已存在时则覆盖文件。</li>
@@ -343,13 +341,13 @@
 <li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
 <li>-title——设置标题。</li>
 <li>-timestamp——设置时间戳。</li>
-<li>-vsync——增减Frame使影音同步。<br>###视频参数</li>
+<li>-vsync——增减Frame使影音同步。<h3 id="视频参数"><a href="#视频参数" class="headerlink" title="视频参数"></a>视频参数</h3></li>
 <li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
 <li>-r——设置帧率值，默认为25。</li>
 <li>-s——设置画面的宽与高。</li>
 <li>-aspect——设置画面的比例。</li>
 <li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
-<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<br>###声音参数</li>
+<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数"><a href="#声音参数" class="headerlink" title="声音参数"></a>声音参数</h3></li>
 <li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
 <li>-ar——设置采样率。</li>
 <li>-ac——设置声音的Channel数。</li>
@@ -359,12 +357,10 @@
 </ul>
 <p>##例子</p>
 <p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
-<p>###裁剪视频</p>
-<p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
+<h3 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h3><p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
 <pre><code>ffmpeg -i input.mp4  -strict -2 -vf crop=405:720:420:0  video_out.mp4
 </code></pre><p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
-<p>###视频转换成图片</p>
-<pre><code>ffmpeg -i input.mp4 image%3d.png
+<h3 id="视频转换成图片"><a href="#视频转换成图片" class="headerlink" title="视频转换成图片"></a>视频转换成图片</h3><pre><code>ffmpeg -i input.mp4 image%3d.png
 </code></pre><p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
 <pre><code>ffmpeg -i input.mp4 -r 30  $filename%3d.png  
 </code></pre><p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>

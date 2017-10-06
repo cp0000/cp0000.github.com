@@ -331,8 +331,7 @@
       
         
           
-            <p>####名词解释</p>
-<ul>
+            <h4 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h4><ul>
 <li>java: android app 编程语言</li>
 <li>class: 由 java文件通过 Sun JDK 编译而成</li>
 <li><p>dex:  Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。</p>
@@ -346,8 +345,7 @@
 <li><p>Andoid App 的运行策略：解压apk后运行class.dex</p>
 </li>
 </ul>
-<p>####工具介绍</p>
-<ul>
+<h4 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h4><ul>
 <li>ant: 编译，生成android 项目的工具；</li>
 <li>apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml</li>
 <li>smali-2.0.3.jar: 把smali 文件转换成 dex文件</li>
@@ -358,8 +356,7 @@
 <li>adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件；</li>
 <li>JD-GUi:图形界面的Java源代码”.class”文件反编译工具</li>
 </ul>
-<p>####DEMO演示</p>
-<ul>
+<h4 id="DEMO演示"><a href="#DEMO演示" class="headerlink" title="DEMO演示"></a>DEMO演示</h4><ul>
 <li>首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；</li>
 <li>使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；</li>
 <li><p>然后开始对这个apk动手脚；</p>
@@ -412,8 +409,7 @@ E/c       (17822): 写入行为统计:{&quot;011918&quot;:[&quot;&quot;]}
 E/c       (17822): 写入widget用户行为统计：{&quot;011918&quot;:[&quot;&quot;]}
 </code></pre><p>如果一切正常的话，会发现类似如上的log，当然你仔细看的话，还有更详细且重要的信息，各种的小隐私都被监视…</p>
 <p>Android 项目的逆向工程的文章就到这里；<br>Enjoy it!</p>
-<p>####相关参考：</p>
-<ul>
+<h4 id="相关参考："><a href="#相关参考：" class="headerlink" title="相关参考："></a>相关参考：</h4><ul>
 <li><a href="http://stackoverflow.com/questions/12732882/reverse-engineering-from-an-apk-file-to-a-project" target="_blank" rel="external">http://stackoverflow.com/questions/12732882/reverse-engineering-from-an-apk-file-to-a-project</a></li>
 <li><a href="http://stackoverflow.com/questions/13854425/how-to-avoid-reverse-engineering-of-an-apk-file" target="_blank" rel="external">http://stackoverflow.com/questions/13854425/how-to-avoid-reverse-engineering-of-an-apk-file</a></li>
 </ul>
