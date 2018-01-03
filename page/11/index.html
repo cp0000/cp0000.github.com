@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2016/11/07/ffmpeg-command-example/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2016/12/11/2016-summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/11/07/ffmpeg-command-example/" itemprop="url">ffmpeg 使用例程</a></h1>
+                <a class="post-title-link" href="/2016/12/11/2016-summary/" itemprop="url">2016年度总结</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-07T21:03:47+08:00">
-                2016-11-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-11T14:56:52+08:00">
+                2016-12-11
               </time>
             
 
@@ -279,28 +279,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index">
-                    <span itemprop="name">Tech</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -331,52 +309,41 @@
       
         
           
-            <p>本文介绍<a href="https://en.wikipedia.org/wiki/FFmpeg" target="_blank" rel="external">ffmpeg</a>命令行的一些使用方法；</p>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><h3 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h3><ul>
-<li>-i——设置输入档名。</li>
-<li>-f——设置输出格式。</li>
-<li>-y——若输出文件已存在时则覆盖文件。</li>
-<li>-fs——超过指定的文件大小时则结束转换。</li>
-<li>-ss——从指定时间开始转换。</li>
-<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
-<li>-title——设置标题。</li>
-<li>-timestamp——设置时间戳。</li>
-<li>-vsync——增减Frame使影音同步。<h3 id="视频参数"><a href="#视频参数" class="headerlink" title="视频参数"></a>视频参数</h3></li>
-<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
-<li>-r——设置帧率值，默认为25。</li>
-<li>-s——设置画面的宽与高。</li>
-<li>-aspect——设置画面的比例。</li>
-<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
-<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数"><a href="#声音参数" class="headerlink" title="声音参数"></a>声音参数</h3></li>
-<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
-<li>-ar——设置采样率。</li>
-<li>-ac——设置声音的Channel数。</li>
-<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
-<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
-<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
-</ul>
-<p>##例子</p>
-<p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
-<h3 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h3><p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
-<pre><code>ffmpeg -i input.mp4  -strict -2 -vf crop=405:720:420:0  video_out.mp4
-</code></pre><p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
-<h3 id="视频转换成图片"><a href="#视频转换成图片" class="headerlink" title="视频转换成图片"></a>视频转换成图片</h3><pre><code>ffmpeg -i input.mp4 image%3d.png
-</code></pre><p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
-<pre><code>ffmpeg -i input.mp4 -r 30  $filename%3d.png  
-</code></pre><p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
-<pre><code>ffprobe &quot;input.mp4&quot; -v 0 -select_streams v  -print_format flat -show_entries stream=r_frame_rate 
-</code></pre><h3 id="剪辑视频"><a href="#剪辑视频" class="headerlink" title="剪辑视频"></a>剪辑视频</h3><p>一段长视频只需要保留其中一段，可用如下命令：</p>
-<pre><code>ffmpeg -i input.mp4 -ss 00:00:21 -t 00:00:10 -acodec aac -vcodec h264 -strict -2 out.mp4
-</code></pre><p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
-<h3 id="调整视频分辨率大小"><a href="#调整视频分辨率大小" class="headerlink" title="调整视频分辨率大小"></a>调整视频分辨率大小</h3><p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
-<pre><code>ffmpeg -i input.mp4 -vf scale=853:480 -acodec aac -vcodec h264 out.mp4
-</code></pre><ul>
-<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
-<li><code>-vcodec h264</code> 指定视频使用 h264 编码。<blockquote>
-<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
-</blockquote>
-</li>
-</ul>
+            <h3 id="娱乐"><a href="#娱乐" class="headerlink" title="娱乐"></a>娱乐</h3><p><strong>年度电影</strong></p>
+<p><a href="https://movie.douban.com/subject/25895901/" target="_blank" rel="external">海街日记</a><img src="https://img3.doubanio.com/view/photo/photo/public/p2283110641.jpg" style="width: 120px;"></p>
+<p><strong>年度歌曲</strong> </p>
+<p><a href="http://music.163.com/#/song?id=29724295" target="_blank" rel="external">热河</a></p>
+<p><img src="
+http://img.xiami.net/images/album/img94/7194/14157293421415729342_2.jpg" style="width: 120px;"></p>
+<p><strong>年度美剧</strong></p>
+<p><a href="https://movie.douban.com/subject/3016187/" target="_blank" rel="external">Game of Thrones</a></p>
+<p><img src="https://img1.doubanio.com/view/movie_poster_cover/lpst/public/p896064368.jpg" style="width: 120px;"></p>
+<p><strong>年度书籍</strong></p>
+<p><a href="https://book.douban.com/subject/26576861/" target="_blank" rel="external">最好的告别</a></p>
+<p><img src="https://img3.doubanio.com/lpic/s28355811.jpg" style="width: 120px;"></p>
+<p><strong>年度Podcast</strong></p>
+<p><a href="https://ipn.li/taiyilaile/" target="_blank" rel="external">太医来了</a></p>
+<p><img src="https://pic4.zhimg.com/8746e3b32e6afbf06eda1a4d69d2bb5b_xl.jpg" style="width: 80px;"></p>
+<p><strong>年度电视节目</strong></p>
+<p><a href="http://www.iqiyi.com/a_19rrgifngp.html" target="_blank" rel="external">晓松奇谈</a></p>
+<p><img src="http://pic0.qiyipic.com/common/lego/20160104/f6e30204caa345508edd843c182ad7c6.jpg" style="width: 240px;"></p>
+<h3 id="体育"><a href="#体育" class="headerlink" title="体育"></a>体育</h3><p><strong>年度NBA比赛</strong></p>
+<p>15-16赛季，西部决赛第七场</p>
+<p>金州勇士-俄克拉何马城雷霆</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/zh/0/0f/Golden_State_Warriors_logo.png" style="width: 120px;"> <img src="https://upload.wikimedia.org/wikipedia/zh/f/f6/OKC_Thunder.png" style="width: 120px;"></p>
+<p><strong>年度足球比赛</strong></p>
+<p>15欧锦赛 1/4 决赛：德国-意大利</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/zh/thumb/e/e3/DFBEagle.svg/400px-DFBEagle.svg.png" style="width: 120px;">  <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/9/97/FIGC_logo.svg/207px-FIGC_logo.svg.png" style="width: 120px;"></p>
+<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p><strong>年度编程语言</strong></p>
+<p><a href="https://zh.wikipedia.org/wiki/OpenGL" target="_blank" rel="external">OpenGL</a></p>
+<p><img src="https://www.opengl.org/img/opengl_logo.png" style="width: 180px;"></p>
+<p><strong>年度App</strong></p>
+<p><a href="https://itunes.apple.com/us/app/msqrd-live-filters-face-swap/id1065249424?mt=8" target="_blank" rel="external">MSQRD</a></p>
+<p><img src="http://is5.mzstatic.com/image/thumb/Purple71/v4/78/76/b3/7876b386-4821-5fb0-8e98-a524bd3dec14/source/630x630bf.jpg" style="width: 120px;"></p>
+<p><strong>年度开源项目</strong></p>
+<p><a href="https://github.com/BradLarson/GPUImage.git" target="_blank" rel="external">GPUImage</a></p>
+<p><strong>年度工具</strong></p>
+<p>macOS / iOS 备忘录</p>
 
           
         
@@ -416,7 +383,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -466,7 +433,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
