@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 [直方图] (https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE) 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，声音的原理。 声音声音的原理根据维基百">
+<meta name="description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，声音的原理。 声音声音的原理根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="音频的编解码以及相关应用">
 <meta property="og:url" content="cp0000.github.io/2018/06/16/audio/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 [直方图] (https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE) 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，声音的原理。 声音声音的原理根据维基百">
+<meta property="og:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，声音的原理。 声音声音的原理根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://cp0000.github.io/assets/digital_audio_simpli.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/wave.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/fft2.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/visualization.png">
-<meta property="og:updated_time" content="2018-06-18T05:27:15.000Z">
+<meta property="og:updated_time" content="2018-06-18T05:28:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="音频的编解码以及相关应用">
-<meta name="twitter:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 [直方图] (https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE) 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，声音的原理。 声音声音的原理根据维基百">
+<meta name="twitter:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，声音的原理。 声音声音的原理根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
 <meta name="twitter:image" content="http://cp0000.github.io/assets/digital_audio_simpli.png">
 
 
@@ -313,7 +313,7 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在一些音乐播放器上（如上学时候用的播放器<code>千千静听</code>）会有一排 [直方图] (<a href="https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE" target="_blank" rel="external">https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE</a>) 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，声音的原理。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在一些音乐播放器上（如上学时候用的播放器<code>千千静听</code>）会有一排 <a href="https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE" target="_blank" rel="external">直方图</a> 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，声音的原理。</p>
 <h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><h3 id="声音的原理"><a href="#声音的原理" class="headerlink" title="声音的原理"></a>声音的原理</h3><p>根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化，形成疏密相间的纵波，这就产生了声波，这种现象会一直延续到振动消失为止。</p>
 <p>声音作为波的一种，频率和振幅就成了描述波的重要属性，频率的大小与我们通常所说的音高对应，而振幅影响声音的大小。声音可以被分解为不同频率不同强度正弦波的叠加。这种变换（或分解）的过程，称为傅立叶变换(Fourier Transform)。</p>
 <blockquote>
