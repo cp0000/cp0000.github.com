@@ -432,10 +432,8 @@ class func load(data: [Float], width: Int, height: Int, slot: GLenum) {
     glTexImage2D(GLenum(GL_TEXTURE_2D), 0, GL_RGBA, GLsizei(width), GLsizei(height), 0, GLenum(GL_RGBA), GLenum(GL_UNSIGNED_BYTE), raw);
 
 }
-</code></pre><h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后利用shader做一些比较fancy的效果：</p>
-<p><video controls preload="metadata"></video></p>
-<source type="video/webm" src="http://cp0000.github.io/assets/audio/capture.webm">
-
+</code></pre><h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后利用shader就可以做出音乐播放器上的直方图效果啦</p>
+<p><img src="http://cp0000.github.io/assets/audio/spectrum.gif" alt="pic"></p>
 <p>以上。</p>
 
           
