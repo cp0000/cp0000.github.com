@@ -342,7 +342,7 @@
 <p><img src="http://cp0000.github.io/assets/audio/fft2.png" alt="pic"></p>
 <p>如上图，对红色的音频时域声波进行 fft 之后，可以分解成三组正弦波。蓝色的频率统计图，横轴是频率，纵轴是振幅。有了这张频谱图，要实现一个音乐播放器的直方图效果是不是就很简单啦。</p>
 <h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>有了上面关于声音和音频的基础知识之后，我们就可以去实现一个音乐可视化Demo了。考虑到性能，以及跨平台，我们利用GPU搭配OpenGL编程去实现音乐可视化效果。实现步骤如下图所示：</p>
-<p><img src="/Users/cp/work/hexo_blog/assets/audio/visualization.png" alt="pic"></p>
+<p><img src="http://cp0000.github.io/assets/audio/visualization.png" alt="pic"></p>
 <h3 id="获取PCM数据"><a href="#获取PCM数据" class="headerlink" title="获取PCM数据"></a>获取PCM数据</h3><p>在iOS上，利用 <code>AVFoundation</code>中的 <code>AVAudioEngine</code> 获取音乐的 pcmBuffer，然后利用 <code>Accelerate framework</code> 中提供的DSP信号处理api，对 PCMBuffer 进行 FFT 操作。</p>
 <h4 id="加载音乐"><a href="#加载音乐" class="headerlink" title="加载音乐"></a>加载音乐</h4><pre><code>let audioEngine = AVAudioEngine()
 let audioNode = AVAudioPlayerNode()
