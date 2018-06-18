@@ -309,7 +309,7 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在一些音乐播放器上（如上学时候用的播放器<code>千千静听</code>）会有一排 <a href="https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE" target="_blank" rel="external">直方图</a> 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先我们得了解什么声音，以及声音的原理。</p>
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在一些音乐播放器上（如上学时候用的播放器<code>千千静听</code>）会有一排 <a href="https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE" target="_blank" rel="external">直方图</a> 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。</p>
 <h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><h3 id="声音的原理"><a href="#声音的原理" class="headerlink" title="声音的原理"></a>声音的原理</h3><p>根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化，形成疏密相间的纵波，这就产生了声波，这种现象会一直延续到振动消失为止。</p>
 <p>声音作为波的一种，频率和振幅就成了描述波的重要属性，频率的大小与我们通常所说的音高对应，而振幅影响声音的大小。声音可以被分解为不同频率不同强度正弦波的叠加。这种变换（或分解）的过程，称为傅立叶变换(Fourier Transform)。</p>
 <blockquote>
@@ -334,16 +334,18 @@
 <li>采样率值 × 采样大小值 × 声道数 bps = 码率</li>
 <li>例如: 一个采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的WAV文件，它的数据速率则为 44.1K×16×2 =1411.2 Kbps。这表示存储一秒钟采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的音频信号，需要176.4KB的空间，1分钟则约为10.34M</li>
 </ul>
-<h3 id="MP3"><a href="#MP3" class="headerlink" title="MP3"></a>MP3</h3><p>MP3 全称是 MPEG-1 or MPEG-2 Audio Layer III，它被设计来大幅降低音频数据量，它舍弃PCM音讯资料中，对人类听觉不重要的资料，从而达到了压缩成较小的档案。而对于大多数用户的听觉感受来说，MP3的音质与最初的不压缩音频相比没有明显的下降。</p>
-<h2 id="音频处理"><a href="#音频处理" class="headerlink" title="音频处理"></a>音频处理</h2><h3 id="音频傅立叶变换"><a href="#音频傅立叶变换" class="headerlink" title="音频傅立叶变换"></a>音频傅立叶变换</h3><p>了解了这么多基础知识之后，我们可以开始对音频进行相关应用处理了。下图是用Audacity软件打开一段音频的波形图。你会想，这乱糟糟的我该如何处理。</p>
+<h3 id="MP3"><a href="#MP3" class="headerlink" title="MP3"></a>MP3</h3><p><code>MP3</code>全称是<code>MPEG-1</code>or<code>MPEG-2 Audio Layer III</code>，它被设计来大幅降低音频数据量，它舍弃PCM音讯资料中，对人类听觉不重要的资料，从而达到了压缩成较小的档案。而对于大多数用户的听觉感受来说，MP3的音质与最初的不压缩音频相比没有明显的下降。</p>
+<h2 id="音频处理"><a href="#音频处理" class="headerlink" title="音频处理"></a>音频处理</h2><h3 id="音频傅立叶变换"><a href="#音频傅立叶变换" class="headerlink" title="音频傅立叶变换"></a>音频傅立叶变换</h3><p>了解了声音和音频编解码的基础知识之后，我们可以开始对音频进行相关应用处理了。那如何处理音频呢？首先用Audacity软件打开一段音频，会看到如下图所示的波形图。你会想，这乱糟糟，看起来没啥规律可循的波形的我该如何处理。</p>
 <p><img src="http://cp0000.github.io/assets/audio/wave.png" alt="pic"></p>
-<p>就像我们处理图片的时候，会把像素点分解成RGB（或者YCbCr,Lab 等其他颜色空间）进行处理一样，在处理音频的时候，需要把音频从时域转换到频域，然后对分解出来的各个频率进行操作。借助<a href="https://zh.wikipedia.org/zh-hans/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2" target="_blank" rel="external">傅立叶变换</a>，可以把音频从时域转换到频域。</p>
+<p>就像我们处理图片的时候，会把像素点颜色分解成<code>RGB</code>（或者YCbCr,Lab 等其他颜色空间）进行处理一样，在处理音频的时候，我们需要对音频的波形进行分解。根据声音的特性，不同物体发出的声音的频率范围是不一样的，如下图是不同乐器的频率范围：</p>
+<p><img src="http://cp0000.github.io/assets/audio/imgext.jpeg" alt="pic"></p>
+<p>所以我们需要把音频从时域转换到频域，然后对分解出来的各个频率进行操作。借助<a href="https://zh.wikipedia.org/zh-hans/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2" target="_blank" rel="external">傅立叶变换</a>，可以完成音频从时域到频域的转换。</p>
 <p>看不懂傅立叶变换的数学公式也没有关系，只要记住下面这张图就好。</p>
 <p><img src="http://cp0000.github.io/assets/audio/fft2.png" alt="pic"></p>
-<p>如上图，对红色的音频时域声波进行 fft 之后，可以分解成三组正弦波。蓝色的频率统计图，横轴是频率，纵轴是振幅。有了这张频谱图，要实现一个音乐播放器的直方图效果是不是就很简单啦。</p>
-<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>有了上面关于声音和音频的基础知识之后，我们就可以去实现一个音乐可视化Demo了。考虑到性能，以及跨平台，我们利用GPU搭配OpenGL编程去实现音乐可视化效果。实现步骤如下图所示：</p>
+<p>如上图，对红色的音频时域声波进行<code>fft</code>之后，分解成了一系列正弦波。而右边蓝色的频率是针对分解的一些正弦波的统计图，其中横轴是频率，纵轴是振幅。有了这张频谱图，我们可以很方便的处理音频了，（如消除某一段频率等等）。。</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>有了上面对音频做傅立叶变换的结果数组，我们可以开始去实现一个音乐实时可视化Demo了。考虑到性能，以及跨平台，我们利用GPU搭配OpenGL编程去实现Demo。实现步骤如下图所示：</p>
 <p><img src="http://cp0000.github.io/assets/audio/visualization.png" alt="pic"></p>
-<h3 id="获取PCM数据"><a href="#获取PCM数据" class="headerlink" title="获取PCM数据"></a>获取PCM数据</h3><p>在iOS上，利用 <code>AVFoundation</code>中的 <code>AVAudioEngine</code> 获取音乐的 pcmBuffer，然后利用 <code>Accelerate framework</code> 中提供的DSP信号处理api，对 PCMBuffer 进行 FFT 操作。</p>
+<h3 id="获取PCM数据"><a href="#获取PCM数据" class="headerlink" title="获取PCM数据"></a>获取PCM数据</h3><p>在iOS上，利用 <code>AVFoundation</code>中的 <code>AVAudioEngine</code> 获取音乐的<code>pcmbuffer</code>，然后利用 <code>Accelerate framework</code> 中提供的DSP信号处理api，对<code>pcmbuffer</code>进行 FFT 操作。</p>
 <h4 id="加载音乐"><a href="#加载音乐" class="headerlink" title="加载音乐"></a>加载音乐</h4><pre><code>let audioEngine = AVAudioEngine()
 let audioNode = AVAudioPlayerNode()
 audioEngine.attach(audioNode)
@@ -405,7 +407,7 @@ vDSP_vsmul(sqrtq(magnitudes), 1, [2.0 / Float(inputCount)],
 self.magnitudes = magnitudes
 vDSP_destroy_fftsetup(fftSetup)
 </code></pre><p>}</p>
-<h4 id="上传-FFT-数据到-GPU"><a href="#上传-FFT-数据到-GPU" class="headerlink" title="上传 FFT 数据到 GPU"></a>上传 FFT 数据到 GPU</h4><p>拿到 fft 数据之后，我们需要利用shader来实现音乐可视化的效果，当中如何把fft数据上传到GPU是一个问题，因为fft数据一个长达1k的数组，直接用uniform float[]来上传，性能很差。这里有一个比较tricky的做法是把fft数据写到一张图片上，然后把图片转换成texture，这样就可以优化上传fft数据性能差的问题。</p>
+<h4 id="上传FFT数据到GPU"><a href="#上传FFT数据到GPU" class="headerlink" title="上传FFT数据到GPU"></a>上传<code>FFT</code>数据到<code>GPU</code></h4><p>拿到<code>fft</code>数据之后，需要利用<code>shader</code>来实现音乐可视化的效果。当中如何把<code>fft</code>数据上传到<code>GPU</code>是一个问题，因为<code>fft</code>数据一个长达1k的数组，直接用<code>uniform float[]</code>来上传，性能很差。这里有一个比较tricky的做法是把<code>fft</code>数据存储到一张空白图片上，然后把图片转换成<code>texture</code>，再把<code>texture</code>上传到<code>GPU</code>，这样就可以优化上传<code>fft</code>数据性能差的问题。</p>
 <pre><code>// Passing the data to the GPU
 class func load(data: [Float], width: Int, height: Int, slot: GLenum) {
     var texture: GLuint = 0
@@ -432,7 +434,7 @@ class func load(data: [Float], width: Int, height: Int, slot: GLenum) {
     glTexImage2D(GLenum(GL_TEXTURE_2D), 0, GL_RGBA, GLsizei(width), GLsizei(height), 0, GLenum(GL_RGBA), GLenum(GL_UNSIGNED_BYTE), raw);
 
 }
-</code></pre><h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后编写shader就可以做出音乐播放器上的直方图效果啦，如下图：</p>
+</code></pre><h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后在<code>shader</code>中解析texture，得到<code>fft</code>数据，并绘制直方图，就可以做出音乐播放器上的直方图效果啦，如下图：</p>
 <p><img src="http://cp0000.github.io/assets/audio/spectrum.gif" alt="pic"></p>
 <p>以上。</p>
 
