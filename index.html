@@ -323,7 +323,7 @@
 </ul>
 <h2 id="音频编解码"><a href="#音频编解码" class="headerlink" title="音频编解码"></a>音频编解码</h2><p>音频的编解码器需要分成硬件，软件两个部分讨论。硬件部分，音频编码器芯片（ADC）会把接收到的声波转换成PCM数据, 由于PCM占用存储资源太大，不利于传输和存储，所以需要利用音频编解码器软件对PCM数据进行压缩，得到如 FLAC/MP3/OGG 的音频文件。当我们播放一段数字音频文件的时候，则需要先进行软解码，也就是对压缩过的音频文件（FLAC/MP3/OGG）先解码成PCM，然后传送解码后的PCM给音频解码器（DAC），解码器将数字信号转换为模拟信号。</p>
 <h3 id="音频硬编码过程"><a href="#音频硬编码过程" class="headerlink" title="音频硬编码过程"></a>音频硬编码过程</h3><p>信号的数字化就是将连续的模拟信号转换成离散的数字信号， 一般需要完成采样、量化和编码三个步骤,如下图所示。</p>
-<p><img src="http://cp0000.github.io/assets/audio/digital_audio_simpli.png" alt="pic"></p>
+<p><img src="http://cp0000.github.io/assets/audio/digital_audio_simpli.png" alt="A/D"></p>
 <ul>
 <li>采样是指用每隔一定时间间隔的信号样本值序列来代替原来在时间上连续的信号。</li>
 <li>量化是用有限个幅度近似表示原来在时间上连续变化的幅度值，把模拟信号的连续幅度变为有限数量，有一定时间间隔的离散值。</li>
@@ -336,15 +336,15 @@
 </ul>
 <h3 id="MP3"><a href="#MP3" class="headerlink" title="MP3"></a>MP3</h3><p><code>MP3</code>全称是<code>MPEG-1</code>or<code>MPEG-2 Audio Layer III</code>，它被设计来大幅降低音频数据量，它舍弃PCM音讯资料中，对人类听觉不重要的资料，从而达到了压缩成较小的档案。而对于大多数用户的听觉感受来说，MP3的音质与最初的不压缩音频相比没有明显的下降。</p>
 <h2 id="音频处理"><a href="#音频处理" class="headerlink" title="音频处理"></a>音频处理</h2><h3 id="音频傅立叶变换"><a href="#音频傅立叶变换" class="headerlink" title="音频傅立叶变换"></a>音频傅立叶变换</h3><p>了解了声音和音频编解码的基础知识之后，我们可以开始对音频进行相关应用处理了。那如何处理音频呢？首先用<a href="https://www.audacityteam.org/" target="_blank" rel="external">Audacity</a>软件打开一段音频，会看到如下图所示的波形图。你会想，这乱糟糟，看起来没啥规律可循的波形的该如何处理。</p>
-<p><img src="http://cp0000.github.io/assets/audio/wave.png" alt="pic"></p>
+<p><img src="http://cp0000.github.io/assets/audio/wave.png" alt="wave"></p>
 <p>就像我们处理图片的时候，会把像素点颜色分解成<code>RGB</code>三个通道（或者YCbCr,Lab 等其他颜色空间）进行处理一样，在处理音频的时候，我们需要对音频的波形进行分解。根据声音的特性，不同物体发出的声音频率范围是不一样的，如下图是不同乐器的频率范围：</p>
-<p><img src="http://cp0000.github.io/assets/audio/imgext.jpeg" alt="pic"></p>
+<p><img src="http://cp0000.github.io/assets/audio/imgext.jpeg" alt="frequency"></p>
 <p>所以我们可以把音频从时域转换到频域，然后对分解出来的各个频率进行操作。这里需要借助<a href="https://zh.wikipedia.org/zh-hans/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2" target="_blank" rel="external">傅立叶变换</a>完成音频从时域到频域的转换。</p>
 <p>看不懂傅立叶变换的数学公式也没有关系，只要记住下面这张图就好。</p>
-<p><img src="http://cp0000.github.io/assets/audio/fft2.png" alt="pic"></p>
+<p><img src="http://cp0000.github.io/assets/audio/fft2.png" alt="fft"></p>
 <p>如上图，对左边红色的音频时域声波进行傅立叶变换之后，分解成了一系列正弦波。而右边蓝色部分是针对分解的一系列正弦波的统计图，其中横轴是频率，纵轴是振幅。有了这张频谱图，我们可以很方便的处理音频了（如消除某一段频率等等）。</p>
 <h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>有了上面对音频做傅立叶变换后的频率数组，我们可以开始去实现一个音乐实时可视化Demo了。考虑到性能，以及跨平台，我们利用GPU搭配OpenGL编程去实现Demo。实现步骤如下图所示：</p>
-<p><img src="http://cp0000.github.io/assets/audio/visualization.png" alt="pic"></p>
+<p><img src="http://cp0000.github.io/assets/audio/visualization.png" alt="visualization"></p>
 <h3 id="获取PCM数据"><a href="#获取PCM数据" class="headerlink" title="获取PCM数据"></a>获取PCM数据</h3><p>在iOS上，利用<code>AVFoundation</code>中的<code>AVAudioEngine</code>获取音乐的<code>pcmbuffer</code>，然后利用<code>Accelerate framework</code>中提供的DSP信号处理api，对<code>pcmbuffer</code>进行傅立叶变换。</p>
 <h4 id="加载音乐"><a href="#加载音乐" class="headerlink" title="加载音乐"></a>加载音乐</h4><pre><code>NSString          * audioPath   = [[NSBundle mainBundle] pathForResource: @&quot;bgm&quot; ofType: @&quot;.mp3&quot;];
 AVAudioEngine     * engine      = [AVAudioEngine new];
@@ -442,7 +442,7 @@ glTexImage2D (GLenum (GL_TEXTURE_2D), 0, GL_RGBA, GLsizei (width), GLsizei (heig
 free (raw); raw = NULL;
 </code></pre><p>}</p>
 <h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后在<code>shader</code>中解析texture，得到频谱数据，并绘制直方图，就可以做出音乐播放器上的直方图效果啦，如下图：</p>
-<p><img src="http://cp0000.github.io/assets/audio/spectrum.gif" alt="pic"></p>
+<p><img src="http://cp0000.github.io/assets/audio/spectrum2.gif" alt="spectrum"></p>
 <p>以上。</p>
 
           
