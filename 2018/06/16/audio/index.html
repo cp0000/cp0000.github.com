@@ -92,7 +92,8 @@
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/fft2.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/visualization.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/spectrum2.gif">
-<meta property="og:updated_time" content="2018-06-19T14:29:49.000Z">
+<meta property="og:image" content="http://cp0000.github.io/assets/audio/spectrum.gif">
+<meta property="og:updated_time" content="2018-06-19T14:35:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="音频编解码以及音乐GPU实时可视化效果实现">
 <meta name="twitter:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变换的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。 声音声音的原理根据维基百科上所述：声音是一种波动；当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
@@ -449,6 +450,8 @@ free (raw); raw = NULL;
 </code></pre><p>}</p>
 <h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后在<code>shader</code>中解析texture，得到频谱数据，并绘制直方图，就可以做出音乐播放器上的直方图效果啦，如下图：</p>
 <p><img src="http://cp0000.github.io/assets/audio/spectrum2.gif" alt="spectrum"></p>
+<p>效果比较素，更加华丽的一些关于音乐可视化的效果可以翻翻<a href="http://shadertoy.com/" target="_blank" rel="external">shadertoy.com</a>，上面有很多绚丽的效果。如下图：</p>
+<p><img src="http://cp0000.github.io/assets/audio/spectrum.gif" alt="shadertoy spectrum"></p>
 <p>以上。</p>
 
       
