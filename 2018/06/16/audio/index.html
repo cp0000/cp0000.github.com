@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。 声音声音的原理根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
+<meta name="description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变换的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。 声音声音的原理根据维基百科上所述：声音是一种波动；当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="音频的编解码以及实时可视化效果实现">
+<meta property="og:title" content="音频编解码以及音乐实时可视化效果实现">
 <meta property="og:url" content="cp0000.github.io/2018/06/16/audio/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。 声音声音的原理根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
+<meta property="og:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变换的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。 声音声音的原理根据维基百科上所述：声音是一种波动；当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/digital_audio_simpli.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/wave.png">
@@ -92,10 +92,10 @@
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/fft2.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/visualization.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/audio/spectrum.gif">
-<meta property="og:updated_time" content="2018-06-18T14:06:46.000Z">
+<meta property="og:updated_time" content="2018-06-19T03:34:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="音频的编解码以及实时可视化效果实现">
-<meta name="twitter:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。 声音声音的原理根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
+<meta name="twitter:title" content="音频编解码以及音乐实时可视化效果实现">
+<meta name="twitter:description" content="前言在一些音乐播放器上（如上学时候用的播放器千千静听）会有一排 直方图 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变换的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。 声音声音的原理根据维基百科上所述：声音是一种波动；当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化">
 <meta name="twitter:image" content="http://cp0000.github.io/assets/audio/digital_audio_simpli.png">
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <title>音频的编解码以及实时可视化效果实现 | CP WRITINGS</title>
+  <title>音频编解码以及音乐实时可视化效果实现 | CP WRITINGS</title>
   
 
 
@@ -265,7 +265,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">音频的编解码以及实时可视化效果实现</h1>
+          <h1 class="post-title" itemprop="name headline">音频编解码以及音乐实时可视化效果实现</h1>
         
 
         <div class="post-meta">
@@ -315,19 +315,19 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在一些音乐播放器上（如上学时候用的播放器<code>千千静听</code>）会有一排 <a href="https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE" target="_blank" rel="external">直方图</a> 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变化的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。</p>
-<h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><h3 id="声音的原理"><a href="#声音的原理" class="headerlink" title="声音的原理"></a>声音的原理</h3><p>根据维基百科上所述，声音是一种波动，当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化，形成疏密相间的纵波，这就产生了声波，这种现象会一直延续到振动消失为止。</p>
-<p>声音作为波的一种，频率和振幅就成了描述波的重要属性，频率的大小与我们通常所说的音高对应，而振幅影响声音的大小。声音可以被分解为不同频率不同强度正弦波的叠加。这种变换（或分解）的过程，称为傅立叶变换(Fourier Transform)。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在一些音乐播放器上（如上学时候用的播放器<code>千千静听</code>）会有一排 <a href="https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE" target="_blank" rel="external">直方图</a> 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变换的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。</p>
+<h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><h3 id="声音的原理"><a href="#声音的原理" class="headerlink" title="声音的原理"></a>声音的原理</h3><p>根据维基百科上所述：声音是一种波动；当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化，形成疏密相间的纵波，这就产生了声波，这种现象会一直延续到振动消失为止。</p>
+<p>声音作为波的一种，频率和振幅就成了描述波的重要属性，频率的大小与我们通常所说的音高对应，而振幅影响声音的大小。声音可以被分解为不同频率不同强度的正弦波的叠加。这种变换（或分解）的过程，称为傅立叶变换(Fourier Transform)。</p>
 <blockquote>
-<p>所以到这里，我们明白了音乐播放器上面的直方图其是声音的频率和振幅的统计图。</p>
+<p>所以到这里，我们大致明白了音乐播放器上面的直方图其实是声音的频率和振幅的统计图。</p>
 </blockquote>
 <h3 id="声音的特性"><a href="#声音的特性" class="headerlink" title="声音的特性"></a>声音的特性</h3><ul>
 <li><strong>响度（loudness）</strong>：人主观上感觉声音的大小（俗称音量），由“振幅”（amplitude）和人离声源的距离决定，振幅越大响度越大，人和声源的距离越小，响度越大。（单位：分贝dB）</li>
-<li><strong>音调（pitch）</strong>：声音的高低（高音、低音），由“频率”（frequency）决定，频率越高音调越高（频率单位Hz（hertz），赫兹)，人耳听觉范围20～20000Hz。20Hz以下称为次声波，20000Hz以上称为超声波）例如，低音端的声音或更高的声音，如细弦声。频率是每秒经过给定点的声波数量，它的测量单位为赫兹.1000 hz 表示每秒经过给定点的声波有1000个周期</li>
+<li><strong>音调（pitch）</strong>：声音的高低（高音、低音），由“频率”（frequency）决定，频率越高音调越高（频率单位Hz（hertz），赫兹)，人耳听觉范围 20～20k Hz。20Hz以下称为次声波，20k Hz以上称为超声波）例如，低音端的声音或更高的声音，如细弦声。频率是每秒经过给定点的声波数量，它的测量单位为赫兹。1000Hz表示每秒经过给定点的声波有1000个周期</li>
 <li><strong>音色（Timbre）</strong>：又称音品，波形决定了声音的音色。声音因不同物体材料的特性而具有不同特性，音色本身是一种抽象的东西，但波形是把这个抽象直观的表现。音色不同，波形则不同。典型的音色波形有方波，锯齿波，正弦波，脉冲波等。不同的音色，通过波形，完全可以分辨的。</li>
 <li><strong>乐音</strong>：有规则的让人愉悦的声音。噪音：从物理学的角度看，由发声体作无规则振动时发出的声音；</li>
 </ul>
-<h2 id="音频编解码"><a href="#音频编解码" class="headerlink" title="音频编解码"></a>音频编解码</h2><p>音频的编解码器需要分成硬件，软件两个部分讨论。硬件部分，音频编码器芯片（ADC）会把接收到的声波转换成PCM数据, 由于PCM占用存储资源搭，不利于传输和存储，会利用音频编解码器软件对PCM数据进行压缩，得到如 FLAC/MP3/OGG 的音频文件。当我们播放一段数字音频文件的时候，则需要先进行软解码，也就是对压缩过的音频文件（FLAC/MP3/OGG）先解码成PCM，然后传送解码后的PCM给音频解码器（DAC），解码器将数字信号转换为模拟信号。</p>
+<h2 id="音频编解码"><a href="#音频编解码" class="headerlink" title="音频编解码"></a>音频编解码</h2><p>音频的编解码器需要分成硬件，软件两个部分讨论。硬件部分，音频编码器芯片（ADC）会把接收到的声波转换成PCM数据, 由于PCM占用存储资源太大，不利于传输和存储，所以需要利用音频编解码器软件对PCM数据进行压缩，得到如 FLAC/MP3/OGG 的音频文件。当我们播放一段数字音频文件的时候，则需要先进行软解码，也就是对压缩过的音频文件（FLAC/MP3/OGG）先解码成PCM，然后传送解码后的PCM给音频解码器（DAC），解码器将数字信号转换为模拟信号。</p>
 <h3 id="音频硬编码过程"><a href="#音频硬编码过程" class="headerlink" title="音频硬编码过程"></a>音频硬编码过程</h3><p>信号的数字化就是将连续的模拟信号转换成离散的数字信号， 一般需要完成采样、量化和编码三个步骤,如下图所示。</p>
 <p><img src="http://cp0000.github.io/assets/audio/digital_audio_simpli.png" alt="pic"></p>
 <ul>
@@ -341,106 +341,113 @@
 <li>例如: 一个采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的WAV文件，它的数据速率则为 44.1K×16×2 =1411.2 Kbps。这表示存储一秒钟采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的音频信号，需要176.4KB的空间，1分钟则约为10.34M</li>
 </ul>
 <h3 id="MP3"><a href="#MP3" class="headerlink" title="MP3"></a>MP3</h3><p><code>MP3</code>全称是<code>MPEG-1</code>or<code>MPEG-2 Audio Layer III</code>，它被设计来大幅降低音频数据量，它舍弃PCM音讯资料中，对人类听觉不重要的资料，从而达到了压缩成较小的档案。而对于大多数用户的听觉感受来说，MP3的音质与最初的不压缩音频相比没有明显的下降。</p>
-<h2 id="音频处理"><a href="#音频处理" class="headerlink" title="音频处理"></a>音频处理</h2><h3 id="音频傅立叶变换"><a href="#音频傅立叶变换" class="headerlink" title="音频傅立叶变换"></a>音频傅立叶变换</h3><p>了解了声音和音频编解码的基础知识之后，我们可以开始对音频进行相关应用处理了。那如何处理音频呢？首先用Audacity软件打开一段音频，会看到如下图所示的波形图。你会想，这乱糟糟，看起来没啥规律可循的波形的我该如何处理。</p>
+<h2 id="音频处理"><a href="#音频处理" class="headerlink" title="音频处理"></a>音频处理</h2><h3 id="音频傅立叶变换"><a href="#音频傅立叶变换" class="headerlink" title="音频傅立叶变换"></a>音频傅立叶变换</h3><p>了解了声音和音频编解码的基础知识之后，我们可以开始对音频进行相关应用处理了。那如何处理音频呢？首先用<a href="https://www.audacityteam.org/" target="_blank" rel="external">Audacity</a>软件打开一段音频，会看到如下图所示的波形图。你会想，这乱糟糟，看起来没啥规律可循的波形的该如何处理。</p>
 <p><img src="http://cp0000.github.io/assets/audio/wave.png" alt="pic"></p>
-<p>就像我们处理图片的时候，会把像素点颜色分解成<code>RGB</code>（或者YCbCr,Lab 等其他颜色空间）进行处理一样，在处理音频的时候，我们需要对音频的波形进行分解。根据声音的特性，不同物体发出的声音的频率范围是不一样的，如下图是不同乐器的频率范围：</p>
+<p>就像我们处理图片的时候，会把像素点颜色分解成<code>RGB</code>三个通道（或者YCbCr,Lab 等其他颜色空间）进行处理一样，在处理音频的时候，我们需要对音频的波形进行分解。根据声音的特性，不同物体发出的声音频率范围是不一样的，如下图是不同乐器的频率范围：</p>
 <p><img src="http://cp0000.github.io/assets/audio/imgext.jpeg" alt="pic"></p>
-<p>所以我们需要把音频从时域转换到频域，然后对分解出来的各个频率进行操作。借助<a href="https://zh.wikipedia.org/zh-hans/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2" target="_blank" rel="external">傅立叶变换</a>，可以完成音频从时域到频域的转换。</p>
+<p>所以我们可以把音频从时域转换到频域，然后对分解出来的各个频率进行操作。这里需要借助<a href="https://zh.wikipedia.org/zh-hans/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2" target="_blank" rel="external">傅立叶变换</a>完成音频从时域到频域的转换。</p>
 <p>看不懂傅立叶变换的数学公式也没有关系，只要记住下面这张图就好。</p>
 <p><img src="http://cp0000.github.io/assets/audio/fft2.png" alt="pic"></p>
-<p>如上图，对红色的音频时域声波进行<code>fft</code>之后，分解成了一系列正弦波。而右边蓝色的频率是针对分解的一些正弦波的统计图，其中横轴是频率，纵轴是振幅。有了这张频谱图，我们可以很方便的处理音频了，（如消除某一段频率等等）。。</p>
-<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>有了上面对音频做傅立叶变换的结果数组，我们可以开始去实现一个音乐实时可视化Demo了。考虑到性能，以及跨平台，我们利用GPU搭配OpenGL编程去实现Demo。实现步骤如下图所示：</p>
+<p>如上图，对左边红色的音频时域声波进行傅立叶变换之后，分解成了一系列正弦波。而右边蓝色部分是针对分解的一系列正弦波的统计图，其中横轴是频率，纵轴是振幅。有了这张频谱图，我们可以很方便的处理音频了（如消除某一段频率等等）。</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>有了上面对音频做傅立叶变换后的频率数组，我们可以开始去实现一个音乐实时可视化Demo了。考虑到性能，以及跨平台，我们利用GPU搭配OpenGL编程去实现Demo。实现步骤如下图所示：</p>
 <p><img src="http://cp0000.github.io/assets/audio/visualization.png" alt="pic"></p>
-<h3 id="获取PCM数据"><a href="#获取PCM数据" class="headerlink" title="获取PCM数据"></a>获取PCM数据</h3><p>在iOS上，利用 <code>AVFoundation</code>中的 <code>AVAudioEngine</code> 获取音乐的<code>pcmbuffer</code>，然后利用 <code>Accelerate framework</code> 中提供的DSP信号处理api，对<code>pcmbuffer</code>进行 FFT 操作。</p>
-<h4 id="加载音乐"><a href="#加载音乐" class="headerlink" title="加载音乐"></a>加载音乐</h4><pre><code>let audioEngine = AVAudioEngine()
-let audioNode = AVAudioPlayerNode()
-audioEngine.attach(audioNode)
+<h3 id="获取PCM数据"><a href="#获取PCM数据" class="headerlink" title="获取PCM数据"></a>获取PCM数据</h3><p>在iOS上，利用<code>AVFoundation</code>中的<code>AVAudioEngine</code>获取音乐的<code>pcmbuffer</code>，然后利用<code>Accelerate framework</code>中提供的DSP信号处理api，对<code>pcmbuffer</code>进行傅立叶变换。</p>
+<h4 id="加载音乐"><a href="#加载音乐" class="headerlink" title="加载音乐"></a>加载音乐</h4><pre><code>NSString          * audioPath   = [[NSBundle mainBundle] pathForResource: @&quot;bgm&quot; ofType: @&quot;.mp3&quot;];
+AVAudioEngine     * engine      = [AVAudioEngine new];
+AVAudioFile       * audioFile   = [[AVAudioFile alloc] initForReading: [NSURL fileURLWithPath: audioPath] error: nil];
 
-guard let url = Bundle.main.url(forResource: &quot;my_music&quot;, withExtension: &quot;mp3&quot;) else { return }
-guard let audioFile = try? AVAudioFile(forReading: url) else { return }
+AVAudioPCMBuffer  * audioPCMBuffer  = [[AVAudioPCMBuffer alloc] initWithPCMFormat: audioFile.processingFormat
+                                                                    frameCapacity: (AVAudioFrameCount)audioFile.length];
+[audioFile readIntoBuffer: audioPCMBuffer error: nil];
 
-let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat,
-                              frameCapacity: AVAudioFrameCount(audioFile.length))
-try? audioFile.read(into: buffer)
-audioEngine.connect(audioNode, to: audioEngine.mainMixerNode, format: buffer.format)
-audioNode.scheduleBuffer(buffer, at: nil, options: .loops, completionHandler: nil)
-</code></pre><h4 id="获取-PCMBuffer"><a href="#获取-PCMBuffer" class="headerlink" title="获取 PCMBuffer"></a>获取 PCMBuffer</h4><pre><code>let size: UInt32 = 1024
-let mixerNode = audioEngine.mainMixerNode
+AVAudioPlayerNode * audioPlayerNode = [AVAudioPlayerNode new];
+[engine attachNode: audioPlayerNode];
 
-mixerNode.installTap(onBus: 0,
-                 bufferSize: size,
-                 format: mixerNode.outputFormat(forBus: 0)) { (buffer, time) in
-self.performFFT(buffer: buffer)
-</code></pre><h4 id="执行-FFT"><a href="#执行-FFT" class="headerlink" title="执行 FFT"></a>执行 FFT</h4><pre><code>func performFFT(buffer: AVAudioPCMBuffer) {
-let frameCount = buffer.frameLength
-let log2n = UInt(round(log2(Double(frameCount))))
-let bufferSizePOT = Int(1 &lt;&lt; log2n)
-let inputCount = bufferSizePOT / 2
-let fftSetup = vDSP_create_fftsetup(log2n, Int32(kFFTRadix2))
+// Connect Nodes
+AVAudioMixerNode *mixerNode = [engine mainMixerNode];
+[engine connect: audioPlayerNode to: mixerNode format: audioFile.processingFormat];
+[audioPlayerNode scheduleBuffer: audioPCMBuffer  completionHandler:^{
+    NSLog(@&quot;scheduleBuffer&quot;);
+}];
 
-var realp = [Float](repeating: 0, count: inputCount)
-var imagp = [Float](repeating: 0, count: inputCount)
-var output = DSPSplitComplex(realp: &amp;realp, imagp: &amp;imagp)
-
-let windowSize = bufferSizePOT
-var transferBuffer = [Float](repeating: 0, count: windowSize)
-var window = [Float](repeating: 0, count: windowSize)
-
-// Hann windowing to reduce the frequency leakage
-vDSP_hann_window(&amp;window, vDSP_Length(windowSize), Int32(vDSP_HANN_NORM))
-vDSP_vmul((buffer.floatChannelData?.pointee)!, 1, window,
-          1, &amp;transferBuffer, 1, vDSP_Length(windowSize))
-
-// Transforming the [Float] buffer into a UnsafePointer&lt;Float&gt; object for the vDSP_ctoz method
-// And then pack the input into the complex buffer (output)
-let temp = UnsafePointer&lt;Float&gt;(transferBuffer)
-temp.withMemoryRebound(to: DSPComplex.self,
-                       capacity: transferBuffer.count) {
-    vDSP_ctoz($0, 2, &amp;output, 1, vDSP_Length(inputCount))
+// Start engine
+NSError *error;
+[self.engine prepare];
+[self.engine startAndReturnError: &amp;error];
+if (error) {
+    NSLog(@&quot;error:%@&quot;, error);
 }
-
-// Perform the FFT
-vDSP_fft_zrip(fftSetup!, &amp;output, 1, log2n, FFTDirection(FFT_FORWARD))
-
-var magnitudes = [Float](repeating: 0.0, count: inputCount)
-vDSP_zvmags(&amp;output, 1, &amp;magnitudes, 1, vDSP_Length(inputCount))
-
-// Normalising
-var normalizedMagnitudes = [Float](repeating: 0.0, count: inputCount)
-vDSP_vsmul(sqrtq(magnitudes), 1, [2.0 / Float(inputCount)],
-           &amp;normalizedMagnitudes, 1, vDSP_Length(inputCount))
-
-self.magnitudes = magnitudes
-vDSP_destroy_fftsetup(fftSetup)
-</code></pre><p>}</p>
-<h4 id="上传FFT数据到GPU"><a href="#上传FFT数据到GPU" class="headerlink" title="上传FFT数据到GPU"></a>上传<code>FFT</code>数据到<code>GPU</code></h4><p>拿到<code>fft</code>数据之后，需要利用<code>shader</code>来实现音乐可视化的效果。当中如何把<code>fft</code>数据上传到<code>GPU</code>是一个问题，因为<code>fft</code>数据一个长达1k的数组，直接用<code>uniform float[]</code>来上传，性能很差。这里有一个比较tricky的做法是把<code>fft</code>数据存储到一张空白图片上，然后把图片转换成<code>texture</code>，再把<code>texture</code>上传到<code>GPU</code>，这样就可以优化上传<code>fft</code>数据性能差的问题。</p>
-<pre><code>// Passing the data to the GPU
-class func load(data: [Float], width: Int, height: Int, slot: GLenum) {
-    var texture: GLuint = 0
-    var raw: [GLubyte] = []
-
-    for i in 0..&lt;data.count {
-        let value = GLubyte(data[i] * 255.0)
-        raw.append(value) // R
-        raw.append(value) // G
-        raw.append(value) // B
-        raw.append(value) // A
+</code></pre><h4 id="获取-PCMBuffer"><a href="#获取-PCMBuffer" class="headerlink" title="获取 PCMBuffer"></a>获取 PCMBuffer</h4><pre><code>int bufferSize = 1024;
+[mixerNode installTapOnBus: 0
+                bufferSize: bufferSize
+                    format: [mixerNode outputFormatForBus: 0]
+                   block: ^(AVAudioPCMBuffer * _Nonnull buffer, AVAudioTime * _Nonnull when) {
+    float    * magnitudes  = [FFTHelper performFFT: buffer];
+}];
+</code></pre><h4 id="执行-FFT"><a href="#执行-FFT" class="headerlink" title="执行 FFT"></a>执行 FFT</h4><pre><code>+ (float *)  performFFT: (AVAudioPCMBuffer *) buffer {
+    if (buffer == NULL) {
+        return NULL;
     }
+    int frameLength = buffer.frameLength;
+    long nOver2 = frameLength / 2;
+    vDSP_Length fftLength = nOver2;
 
-    glActiveTexture(slot)
+    float * imag = (float *) calloc(frameLength, sizeof(float));
+    DSPSplitComplex splitComplex;
 
-    glGenTextures(1, &amp;texture)
-    glBindTexture(GLenum(GL_TEXTURE_2D), texture);
+    splitComplex.realp = buffer.floatChannelData[0];
+    splitComplex.imagp = imag;
 
-    glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_S), GL_REPEAT);
-    glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_T), GL_REPEAT);
+    int log2n  = (vDSP_Length)(floor(log2((float)frameLength)));
+    int radix   = (FFTRadix)kFFTRadix2;
+    FFTSetup weights = vDSP_create_fftsetup(log2n, radix);
+    vDSP_fft_zip(weights, &amp;splitComplex, 1, log2n, (FFTDirection)FFT_FORWARD);
+    float fftNormFactor = 1.0 / (2 * fftLength);
+    vDSP_vsmul(splitComplex.realp, 1, &amp;fftNormFactor, splitComplex.realp, 1, fftLength);
+    vDSP_vsmul(splitComplex.imagp, 1, &amp;fftNormFactor, splitComplex.imagp, 1, fftLength);
 
-    glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_MAG_FILTER), GL_LINEAR);
-    glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_MIN_FILTER), GL_LINEAR);
-    glTexImage2D(GLenum(GL_TEXTURE_2D), 0, GL_RGBA, GLsizei(width), GLsizei(height), 0, GLenum(GL_RGBA), GLenum(GL_UNSIGNED_BYTE), raw);
+    float * magnitudes = (float *) calloc(fftLength, sizeof(float));
+    //Convert the fft data to dB
+    vDSP_zvmags(&amp;splitComplex, 1, magnitudes, 1, fftLength);
 
+    float kAdjust0DB  = 1.5849e-13;
+    //In order to avoid taking log10 of zero, an adjusting factor is added in to make the minimum value equal -128dB
+    vDSP_vsadd(magnitudes, 1, &amp;kAdjust0DB, magnitudes, 1, fftLength);
+    float one = 1;
+    // vDSP_vdbcon: Vector convert to decibels, power, or amplitude.
+    vDSP_vdbcon(magnitudes, 1, &amp;one, magnitudes, 1, fftLength, 0);
+
+    free(imag);
+    vDSP_destroy_fftsetup(weights);
+    return magnitudes;
 }
-</code></pre><h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后在<code>shader</code>中解析texture，得到<code>fft</code>数据，并绘制直方图，就可以做出音乐播放器上的直方图效果啦，如下图：</p>
+</code></pre><h4 id="上传FFT数据到GPU"><a href="#上传FFT数据到GPU" class="headerlink" title="上传FFT数据到GPU"></a>上传<code>FFT</code>数据到<code>GPU</code></h4><p>拿到频谱数据之后，需要利用<code>shader</code>来实现音乐可视化的效果。当中如何把频谱数据上传到<code>GPU</code>是一个问题，因为频谱数据一个长达1k的数组，直接用<code>uniform float[]</code>来上传，性能很差。这里有一个比较tricky的做法是把频谱数据存储到一张空白图片上，然后把图片转换成<code>texture</code>，再上传<code>texture</code>到<code>GPU</code>，这样就可以优化上传频谱数组性能差的问题。</p>
+<pre><code>// Passing the data to the GPU
+-（void）load: (float *) data length: (int) length width: (int) width height: (int) height slot: (GLenum) slot {
+GLuint    texture   = 0;
+GLubyte * raw       = (GLubyte *) malloc (sizeof (GLubyte) * length * 4);
+
+for (int i = 0; i &lt; length; i++) {
+    GLubyte color   = GLubyte(data[i] * 255.0);
+    raw[4*i+0]      = color; // R
+    raw[4*i+1]      = color; // G
+    raw[4*i+2]      = color; // B
+    raw[4*i+3]      = color; // A
+}
+
+glActiveTexture (slot)
+glGenTextures (1, &amp;texture)
+glBindTexture (GLenum (GL_TEXTURE_2D), texture);
+
+glTexParameteri (GLenum (GL_TEXTURE_2D), GLenum (GL_TEXTURE_WRAP_S), GL_REPEAT);
+glTexParameteri (GLenum (GL_TEXTURE_2D), GLenum (GL_TEXTURE_WRAP_T), GL_REPEAT);
+
+glTexParameteri (GLenum (GL_TEXTURE_2D), GLenum (GL_TEXTURE_MAG_FILTER), GL_LINEAR);
+glTexParameteri (GLenum (GL_TEXTURE_2D), GLenum (GL_TEXTURE_MIN_FILTER), GL_LINEAR);
+glTexImage2D (GLenum (GL_TEXTURE_2D), 0, GL_RGBA, GLsizei (width), GLsizei (height), 0, GLenum (GL_RGBA), GLenum (GL_UNSIGNED_BYTE), raw);
+free (raw); raw = NULL;
+</code></pre><p>}</p>
+<h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后在<code>shader</code>中解析texture，得到频谱数据，并绘制直方图，就可以做出音乐播放器上的直方图效果啦，如下图：</p>
 <p><img src="http://cp0000.github.io/assets/audio/spectrum.gif" alt="pic"></p>
 <p>以上。</p>
 
