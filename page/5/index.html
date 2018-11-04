@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2017/10/04/opengl-lighting/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2017/10/29/29/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/04/opengl-lighting/" itemprop="url">Learning OpenGL：光照</a></h1>
+                <a class="post-title-link" href="/2017/10/29/29/" itemprop="url">活到29</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-04T17:39:47+08:00">
-                2017-10-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-29T22:56:05+08:00">
+                2017-10-29
               </time>
             
 
@@ -279,6 +279,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Life/" itemprop="url" rel="index">
+                    <span itemprop="name">Life</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -309,69 +331,13 @@
       
         
           
-            <h2 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h2><p>计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。</p>
-<p>颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：</p>
-<pre><code>vec3 lightColor(1.0,1.0,1.0);
-vec3 clothingColor(0.0,0.5,0.0);
-vec3 result =  lightColor * clothingColor; // (0.0, 0.5, 0.0);
-</code></pre><p>我们定义<strong>物体的颜色为物体从一个光源反射各个颜色分量的大小</strong>.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。</p>
-<p>##基础光照</p>
-<p>现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：</p>
-<p><img src="http://cp0000.github.io/assets/lighting/phong_reflection.jpg" alt=""></p>
-<ul>
-<li>环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。</li>
-<li>漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。</li>
-<li>镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。</li>
-</ul>
-<h3 id="环境光照"><a href="#环境光照" class="headerlink" title="环境光照"></a>环境光照</h3><p>我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。</p>
-<pre><code>void main()
-{
-    float ambientStrength = 0.1;
-    vec3 ambient = ambientStrength * lightColor;
-    vec3 result = ambient * objectColor;
-    gl_fragColor = vec4(result, 1.0);
-}
-</code></pre><h3 id="漫反射光照"><a href="#漫反射光照" class="headerlink" title="漫反射光照"></a>漫反射光照</h3><p>漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。</p>
-<p>光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做<strong>法向量</strong>（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：</p>
-<ul>
-<li>法向量：一个垂直于顶点表面的向量</li>
-<li>定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。</li>
-</ul>
-<h3 id="法向量"><a href="#法向量" class="headerlink" title="法向量"></a>法向量</h3><p>法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。</p>
-<p>###漫反射光照<br>每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：</p>
-<pre><code>uniform vec3 lightPos;
-</code></pre><p>渲染的时候，设置lightPos就可以了。<br>最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：</p>
-<pre><code>varying vec3 fragPos;
-varying vec3 normal;
-
-void main() {
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
-    fragPos = vec3 (model * vec4(aPos, 1.0));
-    normal = aNormal;
-}
-</code></pre><p>在片段着色器中，我们需要计算光源和片段位置之间的方向向量。通过让两个向量相减的方式计算向量差。</p>
-<pre><code>vec3 norm = normalize (normal);
-vec3 lightDir = normalize (lightPos - fragPos);
-</code></pre><p>然后我们对 norm 和 lightDir 向量进行点乘，计算光源对当前片段实际的漫发射影响。结果值再乘以光的颜色，得到漫发射分量。两个向量之间的角度越大，漫反射分量就会越小：</p>
-<pre><code>float diff = max (dot(norm, lightDir), 0.0); // 如果两个向量之间的角度大于90度，点乘的结果就会变成负数，这样会导致漫反射分量变为负数，为此，我们使用max函数返回两个参数之间较大的参数，从而保证漫反射分量不会变成负数。
-vec3 diffuse = diff * lightColor;
-
-vec3 result = (ambient + diffuse) * objectColor;
-gl_FragColor =  vec4(result, 1.0);
-</code></pre><h3 id="镜面光照（Specular-Hightlight）"><a href="#镜面光照（Specular-Hightlight）" class="headerlink" title="镜面光照（Specular Hightlight）"></a>镜面光照（Specular Hightlight）</h3><p>和漫反射光照一样，镜面光照是依据光的方向向量和物体的法向量来决定的，但是它还依赖于观察方向。镜面光照是基于光的反射特性。如果我们想象物体表面像一面镜子一样，那么无论我们从哪里去看那个表面所反射的光，镜面光照都会达到最大化。如下图：</p>
-<p><img src="http://cp0000.github.io/assets/lighting/specularLight.jpg" alt=""></p>
-<p>我们通过反射法向量周围光的方向来计算反射向量。然后我们计算反射向量和视线方向的角度差，如果夹角越小，那么镜面光的影响就会越大。<br>观察向量是镜面光照附加的一个变量，我们可以使用观察者世界空间位置和片段的位置来计算它。之后，我们计算镜面光强度，用它乘以光源的颜色，再将它加上环境光和漫反射分量。</p>
-<pre><code>uniform vec3 viewPos;
-float specularStrength = 0.5;
-float shininess  = 32; // 反光度，一个物体的反光度越高，反射光的能力越强，散射得越少，高光点就会越小
-vec3 viewDir = normalize(viewPos - fragPos);
-vec3 reflectDir = reflect(-lightDir, norm)
-float spec = pow (max (dot (viewDir, reflectDir), 0.0), shininess);
-vec3 specular = specularStrength * spec * lightColor;
-
-vec3 result = (ambient + diffuse + specular) * objectColor;
-gl_FragColor = vec4(result, 1.0);
-</code></pre><p>以上就是基础光照的相关知识了。</p>
+            <blockquote>
+<p>“婚姻是一座围城，城外的人想进去，城里的人想出来.” – 钱钟书 《围城》</p>
+</blockquote>
+<p>我还没有结婚，所以也无从体验婚姻是否真如钱先生所说的那样，是一座围城。倒是这世上许许多多的事情，还真如这句话所言，城外的人想进去，城里的人想出来。前阵子看到一篇文章，讲的是在美国硅谷生活工作的35岁左右男性面临的职业危机，或者说是两难吧。要么继续呆在美国，但职业天花板明摆在那里，生活也是一眼到头。选择回国，会有更具吸引力的薪资，权利，机会，但年轻的时候拼了命来美国是否又变得没有意义；而且老婆孩子还得继续留在美国，自己异地工作，没法照顾家庭，夫妻，父子关系会否变得浅薄起来。总之就是对现状无法感到满意，着急改变。这应该是一个很典型的围城思维。就像国内的程序员会觉得能去美国硅谷的大公司，如Google,Apple,Facebook工作才算是真正成功的程序员。不但可以肉身翻墙，赚取美金，还可以享受“民主与自由”。但身处美利坚的同志们可能也有自己的烦恼，比如如上文案例所讲的，事业发展有瓶颈，机会不如在国内多，父母亲留在国内，没法照顾，等诸如此类的。</p>
+<p>的确，我们成长的过程中，总是在经历着各种各样的围城事件。去大城市打拼的人觉得工作生活压力太大，留在小城市安逸舒服，反之小城市的人觉得大城市繁华，机会多，挣钱多。搞计算机的觉得其他行当的人没这么累，其他行当的人觉得这几年搞计算机的人挣得多。呆在大公司上班的人觉得自己创业的人酷，什么都自己说的算，创业的人却在抱怨投资人像祖宗一样难搞，自己每天都在透支着自己的身体，还是留在大公司打一份工，省心。总之，诸如此类，不甚枚举。每个人在某个阶段都会有围城思维，我经历过，其他人肯定也经历过。</p>
+<p>程序员对解决问题这件事情有着近乎偏执的爱好，行文到这里，该是到写如何破解围城思维的时候了。但有些事情就像今年奥斯卡最佳男主角所演的《海边的曼彻斯特》这部电影中表述的故事一样，注定是没有答案，无从解决的。围城就是在那里，每个人在生命的各个阶段都得面对自己的围城，是进去，还是出来，亦或是出来后再进去，只能全凭自己的判断。运气好的，生活继续，吃饱睡足，心满意足；运气不好的，只能怪自己为何出城，老实呆着不好嘛之类的。</p>
+<p>活到二十九，而立之年。今年的生日过的分外没劲，可能日子就是这样，年纪越大越觉得过生日是一种折磨。时间流逝，所谓理想，爱好都会随之消散，到最后只剩下买房，结婚生子，赡养老人等社会责任让你继续上路，不至于垮掉。</p>
 
           
         
@@ -411,7 +377,7 @@ gl_FragColor = vec4(result, 1.0);
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -461,7 +427,7 @@ gl_FragColor = vec4(result, 1.0);
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
