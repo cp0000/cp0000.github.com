@@ -79,13 +79,30 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="CP WRITINGS">
-<meta property="og:url" content="cp0000.github.io/page/43/index.html">
+<meta name="description" content="这是一篇译文，原文Review: FCN (Semantic Segmentation))  本文主要记录用于语义分割的全卷积网络。和分类，检测任务相比，分割是更难的一种任务。  图片分类：对图像进行分类 物体检测：检测一张图片中存在的物体，并给出物体的区域。 分割：为图像中的每个像素分类。  一个语义分割的例子：    该论文发表于 2015 CVPR，现在有 6000 次引用。它也是使用FC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全卷积网络-语义分割的简介">
+<meta property="og:url" content="cp0000.github.io/2018/11/18/review-fcn/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
+<meta property="og:description" content="这是一篇译文，原文Review: FCN (Semantic Segmentation))  本文主要记录用于语义分割的全卷积网络。和分类，检测任务相比，分割是更难的一种任务。  图片分类：对图像进行分类 物体检测：检测一张图片中存在的物体，并给出物体的区域。 分割：为图像中的每个像素分类。  一个语义分割的例子：    该论文发表于 2015 CVPR，现在有 6000 次引用。它也是使用FC">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*jrqv1qX2J1AGMA0g-RU7fg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*ErOVnlmtWYFGpnpvKJImKw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*11XDuwNHHRE7EB_fu_TzCg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*T-tYcj11_qySDHTRhlF9pQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*LtSSJ9QP0Y9qWG9nz9sb2w.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*NXNGhfSyzQcKzoOSt-Z0Ng.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/0*NBKHZlXvqOg3R6_z.gif">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*ajovnrcLYRuwlTrM5j-Qng.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*lUnNaKAjL-Mq10v3tIBtJg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*tcYqvV0KHjK2ANBGe8GpjQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/2000/1*2obgSShyzzBKuds_XxPCoA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*fU9El2B2qELtKsD9FsHB-w.png">
+<meta property="og:updated_time" content="2018-11-18T14:03:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CP WRITINGS">
+<meta name="twitter:title" content="全卷积网络-语义分割的简介">
+<meta name="twitter:description" content="这是一篇译文，原文Review: FCN (Semantic Segmentation))  本文主要记录用于语义分割的全卷积网络。和分类，检测任务相比，分割是更难的一种任务。  图片分类：对图像进行分类 物体检测：检测一张图片中存在的物体，并给出物体的区域。 分割：为图像中的每个像素分类。  一个语义分割的例子：    该论文发表于 2015 CVPR，现在有 6000 次引用。它也是使用FC">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/1600/1*jrqv1qX2J1AGMA0g-RU7fg.png">
 
 
 
@@ -115,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="cp0000.github.io/page/43/"/>
+  <link rel="canonical" href="cp0000.github.io/2018/11/18/review-fcn/"/>
 
 
 
 
 
-  <title>CP WRITINGS</title>
+  <title>全卷积网络-语义分割的简介 | CP WRITINGS</title>
   
 
 
@@ -149,8 +166,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -223,9 +239,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -238,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2014/04/10/google-wildcard/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2018/11/18/review-fcn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -255,9 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/04/10/google-wildcard/" itemprop="url">Google Wildcard</a></h1>
+          <h1 class="post-title" itemprop="name headline">全卷积网络-语义分割的简介</h1>
         
 
         <div class="post-meta">
@@ -269,8 +283,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2014-04-10T00:00:00+08:00">
-                2014-04-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-18T22:00:21+08:00">
+                2018-11-18
               </time>
             
 
@@ -279,28 +293,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index">
-                    <span itemprop="name">Tech</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -329,36 +321,71 @@
       
 
       
-        
-          
-            <p>1.双引号</p>
-<p>把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。</p>
-<pre><code>“seo方法图片”
-</code></pre><p>2.减号</p>
-<p>减号代表搜索不包含减号后面的词的页面。使用这个指令时减号前面必须是空格，减号后面没有空格，紧跟着需要排除的词。</p>
-<pre><code>搜索 -引擎
-</code></pre><p>3.星号</p>
-<p>星号常用的通配符</p>
-<pre><code>搜索*擎
-</code></pre><p>4.inurl</p>
-<p>inurl: 指令用于搜索查询词出现在url 中的页面。</p>
-<pre><code>inurl:搜索引擎优化
-</code></pre><p>5.inanchor</p>
-<p>指令返回的结果是导入链接锚文字中包含搜索词的页面。</p>
-<pre><code>inanchor:点击这里
-</code></pre><p>6.intitle</p>
-<p>指令返回的是页面title 中包含关键词的页面。</p>
-<p>7.allintitle</p>
-<p>搜索返回的是页面标题中包含多组关键词的文件。</p>
-<p>8.filetype</p>
-<p>用于搜索特定文件格式。</p>
-<pre><code>filetype:pdf SEO
-</code></pre><p>9.site</p>
-<p>用来搜索某个域名下的所有文件。</p>
-<pre><code>site:developer.apple.com gcd
-</code></pre>
-          
-        
+        <blockquote>
+<p>这是一篇译文，原文<a href="https://towardsdatascience.com/review-fcn-semantic-segmentation-eb8c9b50d2d1" target="_blank" rel="external">Review: FCN (Semantic Segmentation))</a></p>
+</blockquote>
+<p>本文主要记录用于语义分割的全卷积网络。和分类，检测任务相比，分割是更难的一种任务。</p>
+<ul>
+<li>图片分类：对图像进行分类</li>
+<li>物体检测：检测一张图片中存在的物体，并给出物体的区域。</li>
+<li>分割：为图像中的每个像素分类。</li>
+</ul>
+<p>一个语义分割的例子：</p>
+<iframe width="700" height="393" src="https://www.youtube.com/embed/xr_2dwZDH6U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*jrqv1qX2J1AGMA0g-RU7fg.png" alt="原图，Ground Truth，预测结果，融合结果"></p>
+<p>该论文发表于 2015 CVPR，现在有 6000 次引用。它也是使用FCN进行语义分割的最基础的论文之一。</p>
+<p>#本文包括</p>
+<ol>
+<li>从图像分类到语义分割</li>
+<li>利用反卷积进行上采样</li>
+<li>融合输出</li>
+<li>结论</li>
+</ol>
+<p>#1. 从图像分类到语义分割</p>
+<p>传统意义上的分类任务，输入图像会缩小尺寸，并通过卷积层和全连接层，最终输出关于输入图片的标签，如下图：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*ErOVnlmtWYFGpnpvKJImKw.png" alt="分类"></p>
+<p>想象我们把上图中的全连接层替换成 1X1 卷积层：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*11XDuwNHHRE7EB_fu_TzCg.png" alt="所有层都是卷积层
+"></p>
+<p>如果图像没有缩小尺寸，输出将不是单个标签。相反，输出的大小小于输入图像（由于最大池化层）</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*T-tYcj11_qySDHTRhlF9pQ.png" alt="所有层都是卷积层
+"></p>
+<p>如果我们对上面的输出进行上采样，那么我们逐像素输出标签贴图，如下所示：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*LtSSJ9QP0Y9qWG9nz9sb2w.png" alt="上采样
+"><br><img src="https://cdn-images-1.medium.com/max/1600/1*NXNGhfSyzQcKzoOSt-Z0Ng.png" alt="Feature Map"></p>
+<p>#2. 利用反卷积进行上采样</p>
+<p>卷积是一个使输出尺寸变小的过程。反卷积就是一上采样，使得输出尺寸变大的过程（但不要把反卷积曲解成卷积的逆向操作），反卷积也被称为上卷积和转置卷积。当使用分数步幅时，也被称为分数步幅卷积。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/0*NBKHZlXvqOg3R6_z.gif" alt="通过反卷积进行上采样(蓝色：输入，绿色：输出)
+"></p>
+<p>#3. 融合输出</p>
+<p>经过如下图所示的conv7后，输出尺寸很小，然后进行32X 上采样，得到和输入同样大小的输出。但也会把输出标签变得很糙。这个叫 <strong>FCN-32s</strong>:</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*ajovnrcLYRuwlTrM5j-Qng.png" alt="FCN-32s"></p>
+<p>这是因为在网络变深的时候能够获得深层次的特征，但如此同时空间位置信息也会丢失。这意味着浅网络可以获得更多的位置信息。如果我们把两种网络合并在一起，我们可以平衡结果。</p>
+<p>为了组合，我们融合输出（通过元素添加）：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*lUnNaKAjL-Mq10v3tIBtJg.png" alt="融合FCN-16s和FCN-8s"></p>
+<p><strong>FCN-16s:</strong>的输出是把pool5的输出2倍上采样和pool4融合并进行16次上采样。<strong>FCN-8s:</strong>操作如上图所示，也是类似。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*tcYqvV0KHjK2ANBGe8GpjQ.png" alt="对比不同的FCNs结果"></p>
+<p>FCN-32s由于位置信息丢失结果非常粗糙，而FCN-8s的结果最好。</p>
+<p>这种融合操作实际上就像AlexNet,VGGNet和GoogleNet中使用的增强/整合技术一样，它们通过多个模型结果的叠加，使预测更准确。但在这个任务中，它是针对每个像素去做的，并且它是拿模型中不同层的结果去叠加的。</p>
+<p>#4. 结果</p>
+<p><img src="https://cdn-images-1.medium.com/max/2000/1*2obgSShyzzBKuds_XxPCoA.png" alt="Pascal VOC 2011 dataset (Left), NYUDv2 Dataset (Middle), SIFT Flow Dataset (Right)
+"></p>
+<ul>
+<li>FCN-8s在Pascal VOC 2011数据集上效果最佳</li>
+<li>FCN-16s在NYUDv2数据集上效果最佳</li>
+<li>FCN-16s在SIFT数据集上效果最佳</li>
+</ul>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*fU9El2B2qELtKsD9FsHB-w.png" alt="结果可视化比较
+"></p>
+<p>第四行显示了一个失败案例：网络把船上的救生衣当作了人。</p>
+<p>希望将来能够更多地阅读有关语义分割的深度学习技术。</p>
+<p>#References</p>
+<ol>
+<li>[2015 CVPR] [FCN] <a href="https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf" target="_blank" rel="external">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
+<li>[2017 TPAMI] [FCN] <a href="https://ieeexplore.ieee.org/document/7478072" target="_blank" rel="external">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
+</ol>
+
       
     </div>
     
@@ -375,12 +402,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/06/review-fsrcnn/" rel="next" title="超分FSRCNN的简介">
+                <i class="fa fa-chevron-left"></i> 超分FSRCNN的简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -390,14 +433,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/42/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/44/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -405,6 +445,8 @@
 
 
           
+  
+
 
         </div>
         
@@ -643,6 +685,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
