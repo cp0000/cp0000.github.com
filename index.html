@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/06/review-fsrcnn/" itemprop="url">超分FSRCNN的Review</a></h1>
+                <a class="post-title-link" href="/2018/11/06/review-fsrcnn/" itemprop="url">超分FSRCNN的简介</a></h1>
         
 
         <div class="post-meta">
@@ -313,7 +313,7 @@
 <p>这是一篇译文，原文<a href="https://towardsdatascience.com/review-fsrcnn-super-resolution-80ca2ee14da4" target="_blank" rel="external">Review:FSRCNN(Super Resolution)</a></p>
 </blockquote>
 <p>本文主要用来概述一篇实时超分辨率的实现FSRCNN，全称Fast Super-Resolution Convolutional Neural Network，FSRCNN 发表于2016年的ECCV，目前为止有近300次的引用。<br>FSRCNN有着一个相对浅的网络结构，浅网络层让我们比较好理解每一个网络层的用途。与SRCNN相比，它重建后的图像质量更高。</p>
-<p>对比SRCNN，FSRCNN-s(FSRCNN小模型版本)，FSRCNN-s 有着更好的PSNR（图像质量），更快的处理时长。<br>对比 SRCNN-Ex（SRCNN优质版本）和 FSRCNN，FSRCNN的结果PSNR更好，处理速度更快。<br>所以，来看下FSRCNN是如何达到质量和速度双优的。</p>
+<p>对比SRCNN，FSRCNN-s(FSRCNN小模型版本)，FSRCNN-s 有着更好的PSNR（图像质量），更快的处理时长。<br>对比 SRCNN-Ex（SRCNN优质版本）和 FSRCNN，FSRCNN的结果PSNR更好，处理速度更快。<br>所以，来看下FSRCNN是如何达到质量和速度双优的</p>
 <p>下文包含如下内容：</p>
 <ul>
 <li>SRCNN 简述</li>
@@ -375,7 +375,7 @@
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*kw9miEL54IPgKW1YTodb9w.png" alt="FSRCNN和FSRCNN在91张训练集上的结果"></p>
 <p>从上述结果可以得出：FSRCNN和FSRCNN-s在放大2倍，3倍效果好。当放大4倍的效果比SCN差一点点。</p>
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*eVcmO3zw9qO8EDstMWt5Ug.png" alt="放大3倍的效果"></p>
-<p>在这篇论文中，通过这种浅层网络，我们可以了解每种组件的效果，例如1×1卷积和多个3×3卷积。</p>
+<p>通过论文中的浅层网络，我们可以了解每种组件的效果，例如1×1卷积和多个3×3卷积。</p>
 
           
         
