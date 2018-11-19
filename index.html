@@ -323,15 +323,13 @@
 
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*jrqv1qX2J1AGMA0g-RU7fg.png" alt="原图，Ground Truth，预测结果，融合结果"></p>
 <p>该论文发表于 2015 CVPR，现在有 6000 次引用。它也是使用FCN进行语义分割的最基础的论文之一。</p>
-<p>#本文包括</p>
-<ol>
+<h2 id="本文包括"><a href="#本文包括" class="headerlink" title="本文包括"></a>本文包括</h2><ol>
 <li>从图像分类到语义分割</li>
 <li>利用反卷积进行上采样</li>
 <li>融合输出</li>
 <li>结论</li>
 </ol>
-<p>#1. 从图像分类到语义分割</p>
-<p>传统意义上的分类任务，输入图像会缩小尺寸，并通过卷积层和全连接层，最终输出关于输入图片的标签，如下图：</p>
+<h2 id="1-从图像分类到语义分割"><a href="#1-从图像分类到语义分割" class="headerlink" title="1.从图像分类到语义分割"></a>1.从图像分类到语义分割</h2><p>传统意义上的分类任务，输入图像会缩小尺寸，并通过卷积层和全连接层，最终输出关于输入图片的标签，如下图：</p>
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*ErOVnlmtWYFGpnpvKJImKw.png" alt="分类"></p>
 <p>想象我们把上图中的全连接层替换成 1X1 卷积层：</p>
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*11XDuwNHHRE7EB_fu_TzCg.png" alt="所有层都是卷积层
@@ -342,12 +340,10 @@
 <p>如果我们对上面的输出进行上采样，那么我们逐像素输出标签贴图，如下所示：</p>
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*LtSSJ9QP0Y9qWG9nz9sb2w.png" alt="上采样
 "><br><img src="https://cdn-images-1.medium.com/max/1600/1*NXNGhfSyzQcKzoOSt-Z0Ng.png" alt="Feature Map"></p>
-<p>#2. 利用反卷积进行上采样</p>
-<p>卷积是一个使输出尺寸变小的过程。反卷积就是一上采样，使得输出尺寸变大的过程（但不要把反卷积曲解成卷积的逆向操作），反卷积也被称为上卷积和转置卷积。当使用分数步幅时，也被称为分数步幅卷积。</p>
+<h2 id="2-利用反卷积进行上采样"><a href="#2-利用反卷积进行上采样" class="headerlink" title="2.利用反卷积进行上采样"></a>2.利用反卷积进行上采样</h2><p>卷积是一个使输出尺寸变小的过程。反卷积就是一上采样，使得输出尺寸变大的过程（但不要把反卷积曲解成卷积的逆向操作），反卷积也被称为上卷积和转置卷积。当使用分数步幅时，也被称为分数步幅卷积。</p>
 <p><img src="https://cdn-images-1.medium.com/max/1600/0*NBKHZlXvqOg3R6_z.gif" alt="通过反卷积进行上采样(蓝色：输入，绿色：输出)
 "></p>
-<p>#3. 融合输出</p>
-<p>经过如下图所示的conv7后，输出尺寸很小，然后进行32X 上采样，得到和输入同样大小的输出。但也会把输出标签变得很糙。这个叫 <strong>FCN-32s</strong>:</p>
+<h2 id="3-融合输出"><a href="#3-融合输出" class="headerlink" title="3.融合输出"></a>3.融合输出</h2><p>经过如下图所示的conv7后，输出尺寸很小，然后进行32X 上采样，得到和输入同样大小的输出。但也会把输出标签变得很糙。这个叫 <strong>FCN-32s</strong>:</p>
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*ajovnrcLYRuwlTrM5j-Qng.png" alt="FCN-32s"></p>
 <p>这是因为在网络变深的时候能够获得深层次的特征，但如此同时空间位置信息也会丢失。这意味着浅网络可以获得更多的位置信息。如果我们把两种网络合并在一起，我们可以平衡结果。</p>
 <p>为了组合，我们融合输出（通过元素添加）：</p>
@@ -356,8 +352,7 @@
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*tcYqvV0KHjK2ANBGe8GpjQ.png" alt="对比不同的FCNs结果"></p>
 <p>FCN-32s由于位置信息丢失结果非常粗糙，而FCN-8s的结果最好。</p>
 <p>这种融合操作实际上就像AlexNet,VGGNet和GoogleNet中使用的增强/整合技术一样，它们通过多个模型结果的叠加，使预测更准确。但在这个任务中，它是针对每个像素去做的，并且它是拿模型中不同层的结果去叠加的。</p>
-<p>#4. 结果</p>
-<p><img src="https://cdn-images-1.medium.com/max/2000/1*2obgSShyzzBKuds_XxPCoA.png" alt="Pascal VOC 2011 dataset (Left), NYUDv2 Dataset (Middle), SIFT Flow Dataset (Right)
+<h2 id="4-结果"><a href="#4-结果" class="headerlink" title="4.结果"></a>4.结果</h2><p><img src="https://cdn-images-1.medium.com/max/2000/1*2obgSShyzzBKuds_XxPCoA.png" alt="Pascal VOC 2011 dataset (Left), NYUDv2 Dataset (Middle), SIFT Flow Dataset (Right)
 "></p>
 <ul>
 <li>FCN-8s在Pascal VOC 2011数据集上效果最佳</li>
@@ -368,8 +363,7 @@
 "></p>
 <p>第四行显示了一个失败案例：网络把船上的救生衣当作了人。</p>
 <p>希望将来能够更多地阅读有关语义分割的深度学习技术。</p>
-<p>#References</p>
-<ol>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
 <li>[2015 CVPR] [FCN] <a href="https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf" target="_blank" rel="external">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
 <li>[2017 TPAMI] [FCN] <a href="https://ieeexplore.ieee.org/document/7478072" target="_blank" rel="external">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
 </ol>

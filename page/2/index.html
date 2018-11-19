@@ -325,8 +325,7 @@
 </ul>
 <p><img src="https://cdn-images-1.medium.com/max/1000/1*auit3UsBTjbnzZoLDEJUUg.png" alt="Network Architecture: SRCNN (Top) and FSRCNN (Bottom)"></p>
 <p>上图是 SRCNN 和 FSRCNN 的网络架构图。其中 Conv(f,n,c)表示该卷积： 卷积大小为fxf， 有n个过滤器以及c个输入通道。</p>
-<p>##1. SRCNN简述</p>
-<p>SRCNN 的处理过程如下：</p>
+<h2 id="1-SRCNN简述"><a href="#1-SRCNN简述" class="headerlink" title="1. SRCNN简述"></a>1. SRCNN简述</h2><p>SRCNN 的处理过程如下：</p>
 <ol>
 <li>对输入图片利用双立方采样做上采样，使得其分辨率为目标分辨率</li>
 <li>然后分别利用 9x9, 1x1, 5x5 的卷积来提高图片质量。其中 1x1 卷积是用来把低分辨率（LR）图像向量非线性映射为高分辨率 (HR) 图像向量.</li>
@@ -334,8 +333,7 @@
 <p>计算复杂度为：</p>
 <p><img src="https://cdn-images-1.medium.com/max/800/1*OsUvb3UK7elWkaNIhDpXlA.png" alt=""></p>
 <p>计算复杂度和HR图像大小成线性比例，SHR。HR图像越大，复杂度越高。</p>
-<p>##2. FSRCNN 网络结构</p>
-<p>FSRCNN 包含如下五个主要处理步骤：</p>
+<h2 id="2-FSRCNN-网络结构"><a href="#2-FSRCNN-网络结构" class="headerlink" title="2. FSRCNN 网络结构"></a>2. FSRCNN 网络结构</h2><p>FSRCNN 包含如下五个主要处理步骤：</p>
 <ol>
 <li>特征提取：利用一个 5x5 卷积代替 SRCNN 中的双立方差值</li>
 <li>压缩：利用 1x1 卷积把特征层从 d 压缩为 s，其中 s 小于 d</li>
@@ -348,8 +346,7 @@
 <p>可见复杂度和 LR 图像大小成线性比例，SLR，所以它的复杂度小于 SRCNN</p>
 <p>网络中激活函数是 PReLU. PReLU意为带参数的ReLu，目的是比 ReLU 更好。（更多关于 PReLu 的内容， <a href="https://medium.com/coinmonks/review-prelu-net-the-first-to-surpass-human-level-performance-in-ilsvrc-2015-image-f619dddd5617" target="_blank" rel="external">请参照</a>）</p>
 <p>代价函数是均方误差（MSE）：<br><img src="https://cdn-images-1.medium.com/max/800/1*CGk1oqKbj76eNuPhYKARsQ.png" alt=""></p>
-<p>##3. 如何利用 1x1 卷积对网络进行压缩和扩大</p>
-<p>假设我们在不使用 1x1 卷积的情况下运行 5x5 卷积，如下所示：</p>
+<h2 id="3-如何利用-1x1-卷积对网络进行压缩和扩大"><a href="#3-如何利用-1x1-卷积对网络进行压缩和扩大" class="headerlink" title="3. 如何利用 1x1 卷积对网络进行压缩和扩大"></a>3. 如何利用 1x1 卷积对网络进行压缩和扩大</h2><p>假设我们在不使用 1x1 卷积的情况下运行 5x5 卷积，如下所示：</p>
 <p><img src="https://cdn-images-1.medium.com/max/800/1*s6_8m_0EpwrzZPunRGgFCQ.png" alt="5x5 卷积"></p>
 <p>计算次数 = (14x14x48)x(5x5x480) = 112.9M</p>
 <p>如果使用 1x1 卷积：</p>
@@ -357,8 +354,7 @@
 <p>1x1 卷积计算次数 = (14x14x16)x(1x1x480) = 1.5M<br>5x5 卷积计算此时 = (14x14x48)x(5x5x16) = 3.8M<br>两者总共计算次数 = 1.5M + 3.8M = 5.3M,比只使用 5x5 足足少了 112.9M 次计算。</p>
 <p>论文<a href="https://arxiv.org/abs/1312.4400" target="_blank" rel="external">Network-In-Netwrok</a>建议使用 1x1 卷积引入更多的非线性并改善性能，而GoogleNet建议 1x1 卷积有助于在保证效果的同时减小模型大小。(<a href="https://medium.com/coinmonks/paper-review-of-googlenet-inception-v1-winner-of-ilsvlc-2014-image-classification-c2b3565a64e7" target="_blank" rel="external">GoogleNet简述</a>)。</p>
 <p>因此在两个卷积层之前使用 1x1 卷积来减少连接（参数）。通过减少参数，我们只需要更少的乘法和加法运算，最终加速网络。这就是 FSRCNN 比 SRCNN 快的原因。</p>
-<p>##4. 如何利用多个 3x3 卷积实现非线性映射</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*NMC4KrYIciGdE_FaazxF7w.png" alt="两个 3x3 滤波器可以包含一个 5x5 的滤波器区域"></p>
+<h2 id="4-如何利用多个-3x3-卷积实现非线性映射"><a href="#4-如何利用多个-3x3-卷积实现非线性映射" class="headerlink" title="4. 如何利用多个 3x3 卷积实现非线性映射"></a>4. 如何利用多个 3x3 卷积实现非线性映射</h2><p><img src="https://cdn-images-1.medium.com/max/800/1*NMC4KrYIciGdE_FaazxF7w.png" alt="两个 3x3 滤波器可以包含一个 5x5 的滤波器区域"></p>
 <p>如上图所示通过使用2层 3x3 滤波器来覆盖 5x5 滤波器的区域，让参数数量变少。</p>
 <p>1层 5x5 滤波器的参数数量 = 5x5 = 25<br>2层 3x3 滤波器的参数数量 = 3x3+3x3 = 18<br>参数量减少了28%。而更少的参数意味着网络在训练的时候可以更快的收敛，并减少过拟合问题。</p>
 <h2 id="5-对比实验"><a href="#5-对比实验" class="headerlink" title="5. 对比实验"></a>5. 对比实验</h2><p><img src="https://cdn-images-1.medium.com/max/1600/1*c4pkT0SQRxd6N_G8KBQHkA.png" alt="对比实验"></p>
@@ -371,8 +367,7 @@
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*Gg5emNKjDs9wcbobOKIxMQ.png" alt="m,sd"></p>
 <p>对比各种参数的结果，选取 m=4, d=56, s=12时，可以兼顾HR图像质量（33.16dB）和模型复杂度（12464参数）。</p>
 <p>最终我们选用 <strong>FSRCNN:FSRCNN (56,12,4),FSRCNN-s:FSRCNN (32,5,1)</strong></p>
-<p>##结论</p>
-<ul>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ul>
 <li>利用91张放大3倍的图片从头开始训练网络，然后利用利用放大2倍和4倍的100张图反卷积微调网络。</li>
 <li>数据增强部分，缩放：0.9，0.8，0.7，旋转：：90，180，270</li>
 </ul>
