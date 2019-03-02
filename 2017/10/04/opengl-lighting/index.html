@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="颜色计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色">
+<meta name="description" content="##颜色 计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Learning OpenGL：光照">
 <meta property="og:url" content="cp0000.github.io/2017/10/04/opengl-lighting/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="颜色计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色">
+<meta property="og:description" content="##颜色 计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://cp0000.github.io/assets/lighting/phong_reflection.jpg">
 <meta property="og:image" content="http://cp0000.github.io/assets/lighting/specularLight.jpg">
-<meta property="og:updated_time" content="2017-10-05T11:07:43.000Z">
+<meta property="og:updated_time" content="2019-03-02T09:50:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Learning OpenGL：光照">
-<meta name="twitter:description" content="颜色计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色">
+<meta name="twitter:description" content="##颜色 计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除">
 <meta name="twitter:image" content="http://cp0000.github.io/assets/lighting/phong_reflection.jpg">
 
 
@@ -311,7 +311,8 @@
       
 
       
-        <h2 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h2><p>计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。</p>
+        <p>##颜色</p>
+<p>计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。</p>
 <p>颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：</p>
 <pre><code>vec3 lightColor(1.0,1.0,1.0);
 vec3 clothingColor(0.0,0.5,0.0);
@@ -511,7 +512,7 @@ gl_FragColor = vec4(result, 1.0);
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -578,7 +579,7 @@ gl_FragColor = vec4(result, 1.0);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#颜色"><span class="nav-number">1.</span> <span class="nav-text">颜色</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境光照"><span class="nav-number">1.1.</span> <span class="nav-text">环境光照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漫反射光照"><span class="nav-number">1.2.</span> <span class="nav-text">漫反射光照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#法向量"><span class="nav-number">1.3.</span> <span class="nav-text">法向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#镜面光照（Specular-Hightlight）"><span class="nav-number">1.4.</span> <span class="nav-text">镜面光照（Specular Hightlight）</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境光照"><span class="nav-number">1.</span> <span class="nav-text">环境光照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漫反射光照"><span class="nav-number">2.</span> <span class="nav-text">漫反射光照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#法向量"><span class="nav-number">3.</span> <span class="nav-text">法向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#镜面光照（Specular-Hightlight）"><span class="nav-number">4.</span> <span class="nav-text">镜面光照（Specular Hightlight）</span></a></li></ol></div>
             
 
           </div>
