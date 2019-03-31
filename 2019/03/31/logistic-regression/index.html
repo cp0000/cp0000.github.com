@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://img-blog.csdn.net/20160409210420143">
 <meta property="og:image" content="https://img-blog.csdn.net/20160409210508019">
 <meta property="og:image" content="https://image.jiqizhixin.com/uploads/editor/cc1f0a41-fa18-4499-b12b-374da215ebe9/1526191840804.png">
-<meta property="og:updated_time" content="2019-03-31T15:34:39.000Z">
+<meta property="og:updated_time" content="2019-03-31T16:29:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑回归">
 <meta name="twitter:description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。  本文从以下几个方面讲述逻辑回归：  什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结  什么是逻辑回归和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它">
@@ -345,12 +345,7 @@
 <h3 id="决策边界（Decision-Boundary）"><a href="#决策边界（Decision-Boundary）" class="headerlink" title="决策边界（Decision Boundary）"></a>决策边界（Decision Boundary）</h3><p>决策边界，也称为决策面，是用于在N维空间，将不同类别样本分开的平面或曲面。<br><strong>线性决策边界：</strong><br><img src="https://img-blog.csdn.net/20160409204957945" alt=""><br>决策边界： -3 + x1 +x2 = 0</p>
 <p><strong>非线性决策边界</strong><br><img src="https://img-blog.csdn.net/20160409205014946" alt=""><br>决策边界： -1 + x1^2 +x2^2 = 0</p>
 <p><strong>决策边界</strong>其实是一个方程，在逻辑回归中，决策边界由theta’ X=0定义。<br><strong>假设函数</strong>（h=g(z)）用于计算样本属于某种类别的可能性；<strong>决策函数</strong>(h=1(g(z)&gt;0.5))用于计算样本的类别；<strong>决策边界</strong>（θ^Tx=0）是一个方程，用于标识出分类函数（模型）的分类边界。 </p>
-<h3 id="代价函数（Cost-Function）"><a href="#代价函数（Cost-Function）" class="headerlink" title="代价函数（Cost Function）"></a>代价函数（Cost Function）</h3><a href="!--线性回归中的代价函数：
-![](https://img-blog.csdn.net/20160409205240533)
---">!--线性回归中的代价函数：
-![](https://img-blog.csdn.net/20160409205240533)
---</a>
-<p>逻辑回归中，采用如下的形式计算样本的代价值：</p>
+<h3 id="代价函数（Cost-Function）"><a href="#代价函数（Cost-Function）" class="headerlink" title="代价函数（Cost Function）"></a>代价函数（Cost Function）</h3><p>逻辑回归中，采用如下的形式计算样本的代价值：</p>
 <p><img src="https://img-blog.csdn.net/20160409210035918" alt=""></p>
 <p>整合一下，得到逻辑回归中的代价函数：</p>
 <p><img src="https://img-blog.csdn.net/20160409210057356" alt=""></p>
