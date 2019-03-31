@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://img-blog.csdn.net/20160409210420143">
 <meta property="og:image" content="https://img-blog.csdn.net/20160409210508019">
 <meta property="og:image" content="https://image.jiqizhixin.com/uploads/editor/cc1f0a41-fa18-4499-b12b-374da215ebe9/1526191840804.png">
-<meta property="og:updated_time" content="2019-03-31T16:29:29.000Z">
+<meta property="og:updated_time" content="2019-03-31T16:30:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑回归">
 <meta name="twitter:description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。  本文从以下几个方面讲述逻辑回归：  什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结  什么是逻辑回归和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它">
@@ -352,8 +352,7 @@
 <h3 id="优化方法"><a href="#优化方法" class="headerlink" title="优化方法"></a>优化方法</h3><p>在逻辑回归中，使用梯度下降法对代价函数进行优化，完整形式如下：<br><img src="https://img-blog.csdn.net/20160409210420143" alt=""></p>
 <p>注意：<br>逻辑回归和线性回归问题中，梯度下降算法的形式看上去一致，但实际上两者完全不同，因为假设函数是不同的，需要特别注意这一点。</p>
 <p>其向量化实现（vectorized implementation）如下：<br><img src="https://img-blog.csdn.net/20160409210508019" alt=""></p>
-<p>##逻辑回归 vs 线性回归</p>
-<p>逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。</p>
+<h2 id="逻辑回归-vs-线性回归"><a href="#逻辑回归-vs-线性回归" class="headerlink" title="逻辑回归 vs 线性回归"></a>逻辑回归 vs 线性回归</h2><p>逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。</p>
 <h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。</p>
 <p>逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。<br>它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。</p>
 <h2 id="何时适用"><a href="#何时适用" class="headerlink" title="何时适用"></a>何时适用</h2><p>逻辑回归通过线性边界将你的输入分成两个区域，每个类别划分一个区域。因为，你的数据应当是线性可分的，如下图：</p>
@@ -564,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是逻辑回归"><span class="nav-number">1.</span> <span class="nav-text">什么是逻辑回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#它是如何工作的？"><span class="nav-number">2.</span> <span class="nav-text">它是如何工作的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#假设函数-（Hypothesis-function）"><span class="nav-number">2.1.</span> <span class="nav-text">假设函数 （Hypothesis function）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#决策边界（Decision-Boundary）"><span class="nav-number">2.2.</span> <span class="nav-text">决策边界（Decision Boundary）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代价函数（Cost-Function）"><span class="nav-number">2.3.</span> <span class="nav-text">代价函数（Cost Function）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化方法"><span class="nav-number">2.4.</span> <span class="nav-text">优化方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">3.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时适用"><span class="nav-number">4.</span> <span class="nav-text">何时适用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是逻辑回归"><span class="nav-number">1.</span> <span class="nav-text">什么是逻辑回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#它是如何工作的？"><span class="nav-number">2.</span> <span class="nav-text">它是如何工作的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#假设函数-（Hypothesis-function）"><span class="nav-number">2.1.</span> <span class="nav-text">假设函数 （Hypothesis function）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#决策边界（Decision-Boundary）"><span class="nav-number">2.2.</span> <span class="nav-text">决策边界（Decision Boundary）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代价函数（Cost-Function）"><span class="nav-number">2.3.</span> <span class="nav-text">代价函数（Cost Function）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化方法"><span class="nav-number">2.4.</span> <span class="nav-text">优化方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逻辑回归-vs-线性回归"><span class="nav-number">3.</span> <span class="nav-text">逻辑回归 vs 线性回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">4.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时适用"><span class="nav-number">5.</span> <span class="nav-text">何时适用</span></a></li></ol></div>
             
 
           </div>
