@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="CP WRITINGS">
 <meta property="og:description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。  本文从以下几个方面讲述逻辑回归：  什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结  什么是逻辑回归和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://image.jiqizhixin.com/uploads/editor/164bdc1d-46ae-4c67-868f-a36d8c129af0/1526191840515.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/logistic_regression/00.jpg">
 <meta property="og:image" content="https://img-blog.csdn.net/20160409203810378">
 <meta property="og:image" content="https://img-blog.csdn.net/20160409203837285">
 <meta property="og:image" content="https://img-blog.csdn.net/20160409203927593">
@@ -98,12 +98,12 @@
 <meta property="og:image" content="https://img-blog.csdn.net/20160409210057356">
 <meta property="og:image" content="https://img-blog.csdn.net/20160409210420143">
 <meta property="og:image" content="https://img-blog.csdn.net/20160409210508019">
-<meta property="og:image" content="https://image.jiqizhixin.com/uploads/editor/cc1f0a41-fa18-4499-b12b-374da215ebe9/1526191840804.png">
-<meta property="og:updated_time" content="2019-03-31T16:30:51.000Z">
+<meta property="og:image" content="http://cp0000.github.io/assets/logistic_regression/01.jpg">
+<meta property="og:updated_time" content="2019-03-31T16:36:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑回归">
 <meta name="twitter:description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。  本文从以下几个方面讲述逻辑回归：  什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结  什么是逻辑回归和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它">
-<meta name="twitter:image" content="https://image.jiqizhixin.com/uploads/editor/164bdc1d-46ae-4c67-868f-a36d8c129af0/1526191840515.png">
+<meta name="twitter:image" content="http://cp0000.github.io/assets/logistic_regression/00.jpg">
 
 
 
@@ -338,7 +338,7 @@
 </ul>
 <h2 id="什么是逻辑回归"><a href="#什么是逻辑回归" class="headerlink" title="什么是逻辑回归"></a>什么是逻辑回归</h2><p>和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。 </p>
 <p>癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。</p>
-<h2 id="它是如何工作的？"><a href="#它是如何工作的？" class="headerlink" title="它是如何工作的？"></a>它是如何工作的？</h2><p>逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。<br>然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1.<br>下图说明了逻辑回归得出预测所需的所有步骤。<br><img src="https://image.jiqizhixin.com/uploads/editor/164bdc1d-46ae-4c67-868f-a36d8c129af0/1526191840515.png" alt="logistic_regreesion"></p>
+<h2 id="它是如何工作的？"><a href="#它是如何工作的？" class="headerlink" title="它是如何工作的？"></a>它是如何工作的？</h2><p>逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。<br>然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1.<br>下图说明了逻辑回归得出预测所需的所有步骤。<br><img src="http://cp0000.github.io/assets/logistic_regression/00.jpg" alt="logistic_regreesion"></p>
 <h3 id="假设函数-（Hypothesis-function）"><a href="#假设函数-（Hypothesis-function）" class="headerlink" title="假设函数 （Hypothesis function）"></a>假设函数 （Hypothesis function）</h3><p>逻辑回归的假设函数形式如下：<br><img src="https://img-blog.csdn.net/20160409203810378" alt=""></p>
 <p>这个函数称为sigmoid函数，也称为逻辑函数，其函数曲线如下：<br><img src="https://img-blog.csdn.net/20160409203837285" alt=""></p>
 <p>从上图可以看到sigmoid函数是一个s形的曲线，它的取值在[0,1]之间，在远离0的地方函数的值会很快接近0/1.这个性质使我们能够以概率的方式来解释。<br>一个机器学习的模型，实际上就是把决策函数限定在某一组条件下，这组限定条件就决定了模型的假设空间。当然，我们还希望这组限定条件简单而合理。而逻辑回归模型所做的假设是：<br><img src="https://img-blog.csdn.net/20160409203927593" alt=""><br>这里的g(h)是上面提到的sigmoid函数，相应的决策函数是：<br><img src="https://img-blog.csdn.net/20160409204029426" alt=""><br>选择0.5作为阈值是一个一般的做法，实际应用时特定情况可以选择不同阈值。</p>
@@ -356,7 +356,7 @@
 <h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。</p>
 <p>逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。<br>它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。</p>
 <h2 id="何时适用"><a href="#何时适用" class="headerlink" title="何时适用"></a>何时适用</h2><p>逻辑回归通过线性边界将你的输入分成两个区域，每个类别划分一个区域。因为，你的数据应当是线性可分的，如下图：</p>
-<p><img src="https://image.jiqizhixin.com/uploads/editor/cc1f0a41-fa18-4499-b12b-374da215ebe9/1526191840804.png" alt=""></p>
+<p><img src="http://cp0000.github.io/assets/logistic_regression/01.jpg" alt="01"></p>
 
       
     </div>
