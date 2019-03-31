@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Tech," />
 
 
 
@@ -79,13 +79,22 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="CP WRITINGS">
-<meta property="og:url" content="cp0000.github.io/page/10/index.html">
+<meta name="description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。  本文从以下几个方面讲述逻辑回归：  什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结  什么是逻辑回归和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它">
+<meta name="keywords" content="Tech">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逻辑回归">
+<meta property="og:url" content="cp0000.github.io/2019/03/31/logistic-regression/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
+<meta property="og:description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。  本文从以下几个方面讲述逻辑回归：  什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结  什么是逻辑回归和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://image.jiqizhixin.com/uploads/editor/164bdc1d-46ae-4c67-868f-a36d8c129af0/1526191840515.png">
+<meta property="og:image" content="https://image.jiqizhixin.com/uploads/editor/1fe28e0e-94a3-42aa-a1fa-1c46e21cc29d/1526191840278.png">
+<meta property="og:image" content="https://image.jiqizhixin.com/uploads/editor/cc1f0a41-fa18-4499-b12b-374da215ebe9/1526191840804.png">
+<meta property="og:updated_time" content="2019-03-31T07:13:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CP WRITINGS">
+<meta name="twitter:title" content="逻辑回归">
+<meta name="twitter:description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。  本文从以下几个方面讲述逻辑回归：  什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结  什么是逻辑回归和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它">
+<meta name="twitter:image" content="https://image.jiqizhixin.com/uploads/editor/164bdc1d-46ae-4c67-868f-a36d8c129af0/1526191840515.png">
 
 
 
@@ -115,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="cp0000.github.io/page/10/"/>
+  <link rel="canonical" href="cp0000.github.io/2019/03/31/logistic-regression/"/>
 
 
 
 
 
-  <title>CP WRITINGS</title>
+  <title>逻辑回归 | CP WRITINGS</title>
   
 
 
@@ -149,8 +158,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -223,9 +231,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -238,7 +246,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2017/10/29/29/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2019/03/31/logistic-regression/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -255,9 +263,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/29/29/" itemprop="url">活到29</a></h1>
+          <h1 class="post-title" itemprop="name headline">逻辑回归</h1>
         
 
         <div class="post-meta">
@@ -269,8 +275,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-29T22:56:05+08:00">
-                2017-10-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-31T14:41:59+08:00">
+                2019-03-31
               </time>
             
 
@@ -279,28 +285,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index">
-                    <span itemprop="name">Life</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -329,18 +313,32 @@
       
 
       
-        
-          
-            <blockquote>
-<p>“婚姻是一座围城，城外的人想进去，城里的人想出来.” – 钱钟书 《围城》</p>
+        <blockquote>
+<p>逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。</p>
 </blockquote>
-<p>我还没有结婚，所以也无从体验婚姻是否真如钱先生所说的那样，是一座围城。倒是这世上许许多多的事情，还真如这句话所言，城外的人想进去，城里的人想出来。前阵子看到一篇文章，讲的是在美国硅谷生活工作的35岁左右男性面临的职业危机，或者说是两难吧。要么继续呆在美国，但职业天花板明摆在那里，生活也是一眼到头。选择回国，会有更具吸引力的薪资，权利，机会，但年轻的时候拼了命来美国是否又变得没有意义；而且老婆孩子还得继续留在美国，自己异地工作，没法照顾家庭，夫妻，父子关系会否变得浅薄起来。总之就是对现状无法感到满意，着急改变。这应该是一个很典型的围城思维。就像国内的程序员会觉得能去美国硅谷的大公司，如Google,Apple,Facebook工作才算是真正成功的程序员。不但可以肉身翻墙，赚取美金，还可以享受“民主与自由”。但身处美利坚的同志们可能也有自己的烦恼，比如如上文案例所讲的，事业发展有瓶颈，机会不如在国内多，父母亲留在国内，没法照顾，等诸如此类的。</p>
-<p>的确，我们成长的过程中，总是在经历着各种各样的围城事件。去大城市打拼的人觉得工作生活压力太大，留在小城市安逸舒服，反之小城市的人觉得大城市繁华，机会多，挣钱多。搞计算机的觉得其他行当的人没这么累，其他行当的人觉得这几年搞计算机的人挣得多。呆在大公司上班的人觉得自己创业的人酷，什么都自己说的算，创业的人却在抱怨投资人像祖宗一样难搞，自己每天都在透支着自己的身体，还是留在大公司打一份工，省心。总之，诸如此类，不甚枚举。每个人在某个阶段都会有围城思维，我经历过，其他人肯定也经历过。</p>
-<p>程序员对解决问题这件事情有着近乎偏执的爱好，行文到这里，该是到写如何破解围城思维的时候了。但有些事情就像今年奥斯卡最佳男主角所演的《海边的曼彻斯特》这部电影中表述的故事一样，注定是没有答案，无从解决的。围城就是在那里，每个人在生命的各个阶段都得面对自己的围城，是进去，还是出来，亦或是出来后再进去，只能全凭自己的判断。运气好的，生活继续，吃饱睡足，心满意足；运气不好的，只能怪自己为何出城，老实呆着不好嘛之类的。</p>
-<p>活到二十九，而立之年。今年的生日过的分外没劲，可能日子就是这样，年纪越大越觉得过生日是一种折磨。时间流逝，所谓理想，爱好都会随之消散，到最后只剩下买房，结婚生子，赡养老人等社会责任让你继续上路，不至于垮掉。</p>
+<p>本文从以下几个方面讲述逻辑回归：</p>
+<ul>
+<li>什么是逻辑回归？</li>
+<li>它是如何工作的。</li>
+<li>逻辑回归 vs 线性回归</li>
+<li>优缺点</li>
+<li>何时适用</li>
+<li>多分类任务（OvA, OvO）</li>
+<li>其他分类算法</li>
+<li>总结</li>
+</ul>
+<h2 id="什么是逻辑回归"><a href="#什么是逻辑回归" class="headerlink" title="什么是逻辑回归"></a>什么是逻辑回归</h2><p>和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。 </p>
+<p>癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。</p>
+<h2 id="它是如何工作的？"><a href="#它是如何工作的？" class="headerlink" title="它是如何工作的？"></a>它是如何工作的？</h2><p>逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。<br>然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1.<br>下图说明了逻辑回归得出预测所需的所有步骤。<br><img src="https://image.jiqizhixin.com/uploads/editor/164bdc1d-46ae-4c67-868f-a36d8c129af0/1526191840515.png" alt="logistic_regreesion"></p>
+<p>下面是逻辑函数（sigmoid函数）的图形表示：<br><img src="https://image.jiqizhixin.com/uploads/editor/1fe28e0e-94a3-42aa-a1fa-1c46e21cc29d/1526191840278.png" alt="sigmoid_function"><br>我们希望随机数据点被正确分类的概率最大化。这就是最大似然估计。最大似然估计是统计模型中估计参数的通用方法。</p>
+<p>你可以使用不同的方法（如优化算法）来最大化概率。牛顿法也是其中一种，可用于查找许多不同函数的最大值（或最小值），包括似然函数。也可以用梯度下降法代替牛顿法。</p>
+<p>##逻辑回归 vs 线性回归</p>
+<p>逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。</p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。</p>
+<p>逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。<br>它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。</p>
+<h2 id="何时适用"><a href="#何时适用" class="headerlink" title="何时适用"></a>何时适用</h2><p>逻辑回归通过线性边界将你的输入分成两个区域，每个类别划分一个区域。因为，你的数据应当是线性可分的，如下图：</p>
+<p><img src="https://image.jiqizhixin.com/uploads/editor/cc1f0a41-fa18-4499-b12b-374da215ebe9/1526191840804.png" alt=""></p>
 
-          
-        
       
     </div>
     
@@ -355,14 +353,36 @@
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/Tech/" rel="tag"># Tech</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/02/entropy/" rel="next" title="机器学习基础知识：熵，交叉熵，相对熵">
+                <i class="fa fa-chevron-left"></i> 机器学习基础知识：熵，交叉熵，相对熵
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -372,14 +392,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -387,6 +404,8 @@
 
 
           
+  
+
 
         </div>
         
@@ -407,8 +426,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -506,6 +534,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是逻辑回归"><span class="nav-number">1.</span> <span class="nav-text">什么是逻辑回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#它是如何工作的？"><span class="nav-number">2.</span> <span class="nav-text">它是如何工作的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">3.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时适用"><span class="nav-number">4.</span> <span class="nav-text">何时适用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -625,6 +669,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
