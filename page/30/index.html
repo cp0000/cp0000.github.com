@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2015/11/30/iOS-reverse-engineering-02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/11/21/iOS-reverse-engineering-01/" itemprop="url">iOS逆向工程-0x00－用途以及准备工作</a></h1>
+                <a class="post-title-link" href="/2015/11/30/iOS-reverse-engineering-02/" itemprop="url">iOS逆向工程-0x01－工具篇-Cycript</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-21T10:46:07+08:00">
-                2015-11-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-30T22:00:07+08:00">
+                2015-11-30
               </time>
             
 
@@ -331,114 +331,107 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。</p>
-<p>作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。</p>
-<p>当然了，逆向工程还有其他更重要的用途，如下：</p>
+            <p>对于初开始学习iOS逆向工程的人来说，实现一个<code>tweak</code>可以算是入门逆向工程了。</p>
+<p>当然了，可能你现在还不知道<code>tweak</code>是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。</p>
+<blockquote>
+<p>比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码</p>
+</blockquote>
+<p>那问题来了，我们要如何知道哪个函数是账号登录函数咧？<strong>这就涉及到我们如何去分析一个iOS app</strong></p>
+<h2 id="分析-iOS-app-的两种方法"><a href="#分析-iOS-app-的两种方法" class="headerlink" title="分析 iOS app 的两种方法"></a>分析 iOS app 的两种方法</h2><ul>
+<li><p>运行时分析</p>
 <ul>
-<li>分析恶意软件</li>
-<li>安全研究</li>
-<li>借鉴别人的软件</li>
-<li>破解使用限制</li>
-</ul>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>在开始 iOS 逆向工作之前，得准备一下相关设备</p>
-<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><ul>
-<li>Mac 电脑</li>
-<li>一台越狱机器 (如何越狱，请访问 <strong><a href="http://pangu.io/" target="_blank" rel="external">pangu</a></strong>)</li>
-</ul>
-<h3 id="设置环境"><a href="#设置环境" class="headerlink" title="设置环境"></a>设置环境</h3><h4 id="利用Cydia安装相关开发工具，建议安装下表中的全部软件"><a href="#利用Cydia安装相关开发工具，建议安装下表中的全部软件" class="headerlink" title="利用Cydia安装相关开发工具，建议安装下表中的全部软件"></a>利用<code>Cydia</code>安装相关开发工具，建议安装下表中的全部软件</h4><table>
-<thead>
-<tr>
-<th>tool</th>
-<th>description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ps</td>
-<td>process status, cpu usage, memory usage</td>
-</tr>
-<tr>
-<td>sysctl</td>
-<td>get or set kernal state</td>
-</tr>
-<tr>
-<td>netstat</td>
-<td>show network status</td>
-</tr>
-<tr>
-<td>route</td>
-<td>manually manipulate the routing tables</td>
-</tr>
-<tr>
-<td>renice</td>
-<td>alter priority of running processes</td>
-</tr>
-<tr>
-<td>ifconfig</td>
-<td>configure network interface parameters</td>
-</tr>
-<tr>
-<td>tcpdump</td>
-<td>dump traffic on a network</td>
-</tr>
-<tr>
-<td>lsof</td>
-<td>list open files</td>
-</tr>
-<tr>
-<td>otool</td>
-<td>displays specified parts of object files or libraries.</td>
-</tr>
-<tr>
-<td>nm</td>
-<td>displays the name list (symbol table) of each object file in the argument list.</td>
-</tr>
-<tr>
-<td>ldid</td>
-<td>signature tool</td>
-</tr>
-<tr>
-<td>gdb</td>
-<td>debug tool</td>
-</tr>
-<tr>
-<td>lldb</td>
-<td>debug tool</td>
-</tr>
-<tr>
-<td>patch</td>
-<td>patch tool</td>
-</tr>
-<tr>
-<td>SSH</td>
-<td>is a program for logging into a remote machine and for executing commands on a remote machine.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="SSH-to-iPhone"><a href="#SSH-to-iPhone" class="headerlink" title="SSH to iPhone"></a>SSH to iPhone</h4><h5 id="通过-wifi"><a href="#通过-wifi" class="headerlink" title="通过 wifi"></a>通过 wifi</h5><pre><code>ssh root@your.iphone.ip
-</code></pre><p>iOS 系统中的<code>root</code>用户的默认密码是 <code>Alipne</code>.第一次登录的时候请使用这个密码。不过请记得修改<code>root</code>用户的密码，不然这台越狱机器就很不安全了。</p>
-<p><strong>修改用户密码</strong></p>
-<pre><code>iPhone:~ root# passwd
-Changing password for root
-New password:
-Retype new password:
-iPhone:~ root#
-</code></pre><h5 id="通过-usb"><a href="#通过-usb" class="headerlink" title="通过 usb"></a>通过 usb</h5><p>在wifi不稳定的场景下，建议使用usb来ssh到iPhone上。（我自己也是主要适用usb来进行ssh）</p>
-<ul>
-<li><p>关于如何使用 usb ssh 到 iPhone上，详情请访问网页 <a href="http://iphonedevwiki.net/index.php/SSH_Over_USB" target="_blank" rel="external">SSH over USB</a>。根据网页上面的guide，需要下载：<a href="https://code.google.com/p/iphonetunnel-usbmuxconnectbyport/downloads/detail?name=itnl_rev8.zip" target="_blank" rel="external">itnl_rev8.zip</a></p>
-</li>
-<li><p>解压zip包之后，做如下操作：</p>
-<ul>
-<li><p>OS X terminal:</p>
-<pre><code>sudo path/to/itnl --iport 22 --lport 2222
-</code></pre></li>
-<li><p>iPhone terminal:</p>
-<pre><code>ssh -p 2222 root@localhost
-</code></pre></li>
+<li>GDB/LLDB</li>
+<li>Cycript</li>
+<li>Logify</li>
+<li>weak_classdump</li>
+<li>InspectiveC</li>
 </ul>
 </li>
 </ul>
-<p>然后，就成功 ssh 到 iPhone 上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS app了。</p>
+<ul>
+<li><p>可执行代码分析</p>
+<ul>
+<li>dumpdecrpted</li>
+<li>class_dump,class_dump_z,classdump_dyld</li>
+<li>Disassemblers<ul>
+<li>IDA</li>
+<li>Hopper</li>
+<li>otool</li>
+</ul>
+</li>
+<li>strings</li>
+<li>nm</li>
+</ul>
+</li>
+</ul>
+<p>先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。</p>
+<p>###Cycript</p>
+<p><a href="http://www.cycript.org/" target="_blank" rel="external">Cycript</a>最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。</p>
+<p>以下是 Cycript 的用途：</p>
+<ul>
+<li>能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController</li>
+<li>对程序中的类，可以获取到它用过的方法名称</li>
+<li>可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值</li>
+<li>能够执行 method swizzling， 替换某个指定的函数</li>
+<li>可以在运行时调用其他方法</li>
+</ul>
+<h4 id="安装-cycript"><a href="#安装-cycript" class="headerlink" title="安装 cycript"></a>安装 cycript</h4><p>首先利用 Cydia 下载 <code>mobilesubstrate</code> <code>adv-mds</code>;从<a href="www.cycript.org/debs/">官网</a>上面下载最新的包，并通过 <code>scp</code> 把文件拷贝到 iOS 设备上去，利用 <code>dpkg</code> 进行安装：</p>
+<pre><code>dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb
+</code></pre><p>安装完成之后，执行 cycript 看是否工作：</p>
+<h4 id="用Cycript进行实时修改"><a href="#用Cycript进行实时修改" class="headerlink" title="用Cycript进行实时修改"></a>用Cycript进行实时修改</h4><p>本文将使用支付宝来进行测试。</p>
+<ul>
+<li>让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程</li>
+</ul>
+<pre><code>chengpeide-iPhone:~ root# ps aux | grep AlipayWallet
+mobile     629   0.0  9.3   815836  47792   ??  Ss    9:45PM   0:34.79 /var/mobile/Containers/Bundle/Application/FB2E1466-0D87-4FF9-9616-BD4269D61BCF/AlipayWallet.app/AlipayWallet
+root       678   0.0  0.1   536256    412 s000  U+    9:49PM   0:00.01 grep AlipayWallet
+
+-rwxr-xr-x 1 root admin 906 Jan 12  2015 cycript
+chengpeide-iPhone:/cp/Cycript_0.9.502 root# cycript -p 629
+
+cy# var app = [UIApplication sharedApplication]
+#&quot;&lt;DFApplication: 0x14df44d0&gt;&quot;
+cy# app.delegate
+#&quot;&lt;DFClientDelegate: 0x14ed2d40&gt;&quot;
+cy# app.keyWindow.rootViewController
+#&quot;&lt;DFNavigationController: 0x15ac9a00&gt;&quot;
+cy# var nav = new Instance(0x15ac9a00)
+#&quot;&lt;DFNavigationController: 0x15ac9a00&gt;&quot;
+cy# nav.topViewController.childViewControllers
+@[#&quot;&lt;HPHomeWidgetGroup: 0x160a03d0&gt;&quot;,#&quot;&lt;O2OIndexViewController: 0x15ad6600&gt;&quot;,#&quot;&lt;APContactRecentViewController: 0x15afb600&gt;&quot;,#&quot;&lt;WWAssetsViewController: 0x160a9da0&gt;&quot;]
+cy# var assetsViewController = new Instance(0x160a9da0)
+#&quot;&lt;WWAssetsViewController: 0x160a9da0&gt;&quot;
+cy# [assetsViewController.view subviews]
+@[#&quot;&lt;UIView: 0x162d8000; frame = (0 0; 0 0); layer = &lt;CALayer: 0x162c85d0&gt;&gt;&quot;,#&quot;&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: {0, -64}; contentSize: {320, 800}&gt;&quot;]
+cy# var tableView = new Instance (0x15433800)
+#&quot;&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: {0, -42}; contentSize: {320, 800}&gt;&quot;
+cy# tableView.backgroundColor = [UIColor redColor]
+#&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;
+
+[tableView visibleCells]
+@[#&quot;&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;&quot;,#&quot;&lt;DoubleInfoCell: 0x1569e800; baseClass = UITableViewCell; frame = (0 300; 320 80); autoresize = W; layer = &lt;CALayer: 0x16486e80&gt;&gt;&quot;,#&quot;&lt;DoubleInfoCell: 0x15452e00; baseClass = UITableViewCell; frame = (0 380; 320 80); autoresize = W; layer = &lt;CALayer: 0x16491a50&gt;&gt;&quot;]
+cy# var headCell = new Instance (0x16160a40)
+#&quot;&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;&quot;
+cy# headCell.backgroundColor = [UIColor redColor]
+#&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;
+cy# headCell.contentView.backgroundColor = [UIColor redColor]
+#&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;
+</code></pre><p>我们可以看到，界面上 tableViewCell 的背景颜色变成了红色。</p>
+<p><img src="http://cp0000.github.io/assets/blue.PNG" alt="shortcut2"></p>
+<p>以上操作的思路大致就是， appdelegate =&gt; keyWindow =&gt; rootViewController =&gt; viewControllers =&gt; view </p>
+<p>当然你也可以骗骗自己，把余额这个label的text改成巨款，过过眼瘾</p>
+<pre><code>cy# [tableView subviews]
+@[#&quot;&lt;UIRefreshControl: 0x16482c90; frame = (0 0; 320 60); hidden = YES; autoresize = W; layer = &lt;CALayer: 0x16256370&gt;&gt;&quot;,#&quot;&lt;UITableViewWrapperView: 0x1624cce0; frame = (0 0; 320 519); gestureRecognizers = &lt;NSArray: 0x16098960&gt;; layer = &lt;CALayer: 0x14e12cf0&gt;; contentOffset: {0, 0}; contentSize: {320, 519}&gt;&quot;,#&quot;&lt;UIView: 0x16216d10; frame = (0 780; 320 20); layer = &lt;CALayer: 0x162562c0&gt;&gt;&quot;,#&quot;&lt;WHAccountHeaderView: 0x16217c10; frame = (0 0; 320 180); layer = &lt;CALayer: 0x1637edd0&gt;&gt;&quot;,#&quot;&lt;UIView: 0x17635b80; frame = (0 180; 320 40); autoresize = W; layer = &lt;CALayer: 0x1620d670&gt;&gt;&quot;,#&quot;&lt;UIImageView: 0x161f4740; frame = (0 452.5; 320 2.5); alpha = 0; opaque = NO; autoresize = TM; userInteractionEnabled = NO; layer = &lt;CALayer: 0x161f47c0&gt;&gt;&quot;]
+cy# var header = new Instance(0x16217c10)
+#&quot;&lt;WHAccountHeaderView: 0x16217c10; frame = (0 0; 320 180); layer = &lt;CALayer: 0x1637edd0&gt;&gt;&quot;
+cy# [header subviews]
+@[#&quot;&lt;UIView: 0x161c6530; frame = (0 0; 320 117); layer = &lt;CALayer: 0x1638a780&gt;&gt;&quot;,#&quot;&lt;UIView: 0x16142d70; frame = (0 117.5; 106.667 62.5); layer = &lt;CALayer: 0x161f6350&gt;&gt;&quot;,#&quot;&lt;UIView: 0x16142de0; frame = (106.667 117.5; 106.667 62.5); layer = &lt;CALayer: 0x16109ed0&gt;&gt;&quot;,#&quot;&lt;UIView: 0x1610a4b0; frame = (213.333 117.5; 106.667 62.5); layer = &lt;CALayer: 0x163771b0&gt;&gt;&quot;,#&quot;&lt;UILabel: 0x161082c0; frame = (122 28; 76 41); text = &apos;0.00&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x14f73520&gt;&gt;&quot;,#&quot;&lt;UIImageView: 0x1610a520; frame = (246 42; 9 13); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x161025c0&gt;&gt;&quot;,#&quot;&lt;UIImageView: 0x161692b0; frame = (56.5 83; 13 13); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x16169330&gt;&gt;&quot;,#&quot;&lt;UILabel: 0x16169380; frame = (74.5 83; 189 13); text = &apos;\xe7\x82\xb9\xe6\xad\xa4\xe5\xbc\x80\xe5\x90\xaf\xe8\xb4\xa6\xe6\x88\xb7\xe5\xae\x89\xe5\x85\xa8\xe9\x99\xa9\xef\xbc\x8c\xe4\xba\xab100\xe4\xb8\x87\xe4\xbf\x9d\xe9\x9a\x9c&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16169230&gt;&gt;&quot;,#&quot;&lt;UILabel: 0x16169570; frame = (36.8333 154.25; 33 12); text = &apos;\xe9\x93\xb6\xe8\xa1\x8c\xe5\x8d\xa1&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16169630&gt;&gt;&quot;,#&quot;&lt;UILabel: 0x16169810; frame = (48.3333 131.25; 10 17); text = &apos;2&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x161698d0&gt;&gt;&quot;,#&quot;&lt;UIImageView: 0x16169ab0; frame = (42.3333 127.25; 22 22); hidden = YES; opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x16169b30&gt;&gt;&quot;,#&quot;&lt;UILabel: 0x16381200; frame = (149 154.25; 22 12); text = &apos;\xe4\xbd\x99\xe9\xa2\x9d&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16381160&gt;&gt;&quot;,#&quot;&lt;UILabel: 0x16380280; frame = (144 131.25; 32 17); text = &apos;0.00&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x16380340&gt;&gt;&quot;,#&quot;&lt;UILabel: 0x16380520; frame = (255.667 154.25; 22 12); text = &apos;\xe5\x8d\xa1\xe5\x8c\x85&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x163805e0&gt;&gt;&quot;,#&quot;&lt;UILabel: 0x1638d640; frame = (261.667 131.25; 10 17); text = &apos;0&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x1638d700&gt;&gt;&quot;,#&quot;&lt;UIView: 0x16151570; frame = (0 117; 320 0.5); layer = &lt;CALayer: 0x161515e0&gt;&gt;&quot;,#&quot;&lt;UIView: 0x16151670; frame = (0 179.5; 320 0.5); layer = &lt;CALayer: 0x161516e0&gt;&gt;&quot;]
+cy# var label2= new Instance(0x161082c0)
+#&quot;&lt;UILabel: 0x161082c0; frame = (122 28; 76 41); text = &apos;0.00&apos;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x14f73520&gt;&gt;&quot;
+cy# label2.text=@&quot;10000000000000&quot;
+@&quot;10000000000000&quot;
+</code></pre><p><img src="http://cp0000.github.io/assets/rich.PNG" alt="shortcut2"></p>
+<p>很好玩，也很有用的工具，cycript。当然cycript还有一些高级用法，后面会介绍。</p>
 
           
         
@@ -478,7 +471,7 @@ iPhone:~ root#
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/29/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/48/">48</a><a class="extend next" rel="next" href="/page/31/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/29/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><a class="extend next" rel="next" href="/page/31/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -528,7 +521,7 @@ iPhone:~ root#
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

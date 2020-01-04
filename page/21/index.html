@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2016/10/26/28/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2016/11/07/ffmpeg-command-example/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/10/26/28/" itemprop="url">活到28</a></h1>
+                <a class="post-title-link" href="/2016/11/07/ffmpeg-command-example/" itemprop="url">ffmpeg 使用例程</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-26T23:49:23+08:00">
-                2016-10-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-07T21:03:47+08:00">
+                2016-11-07
               </time>
             
 
@@ -292,8 +292,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index">
-                    <span itemprop="name">Life</span>
+                  <a href="/categories/Tech/" itemprop="url" rel="index">
+                    <span itemprop="name">Tech</span>
                   </a>
                 </span>
 
@@ -331,19 +331,52 @@
       
         
           
-            <p><code>信则有，不信则无</code>-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的<code>我思故我在</code>式的思维模式，但不可否认在特定条件下，这句话会对一个人起到良好的心理按摩作用。</p>
-<p>就个人而言，学习OpenGL编程是一个难度相对大的技术。也许是因为没有学习过计算机图形学，在学习OpenGL编程期间，会遇到各种不懂的名词概念：<code>着色器</code>，<code>光栅化</code>，<code>纹理</code>，<code>帧缓存</code>；OpenGL本身的状态机也不是很好理解；加上不友好的开发工具链（无法打印GPU数据，OpenGL crash堆栈信息很少）。这三点导致学习OpenGL是一门入门难度比较大，学习曲线陡峭的技术。刚开始的时候，困难的确比较多，很容易失去信心；这个时候，如果对自己说一句<code>信则有</code>，相信这东西自己是可以学出来。坚持持续不断的看教程，动手试错，最终是可以学出来的。</p>
-<p>同样，在学习蛙泳的时候，在升职答辩的时候，在健身的时候，在极限运动的时候；面对深水区的恐惧，主考官的质问，肌肉的酸痛，呼吸的急促，死亡的恐惧。我们需要鼓起勇气，运用我们一直练习的学习技巧，观察别人怎么做的，思考自己哪里做的不对，不停的模仿，不断的试错重来，不怕失败，自信每次都会有所进步，最终能够扛过这座山。</p>
-<p>如果说在28岁生日这一天，回顾过去一年，我有什么收获的话，</p>
-<blockquote>
-<p>“立志不坚，终不济事。” –（宋）朱熹</p>
+            <p>本文介绍<a href="https://en.wikipedia.org/wiki/FFmpeg" target="_blank" rel="external">ffmpeg</a>命令行的一些使用方法；</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><h3 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h3><ul>
+<li>-i——设置输入档名。</li>
+<li>-f——设置输出格式。</li>
+<li>-y——若输出文件已存在时则覆盖文件。</li>
+<li>-fs——超过指定的文件大小时则结束转换。</li>
+<li>-ss——从指定时间开始转换。</li>
+<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
+<li>-title——设置标题。</li>
+<li>-timestamp——设置时间戳。</li>
+<li>-vsync——增减Frame使影音同步。<h3 id="视频参数"><a href="#视频参数" class="headerlink" title="视频参数"></a>视频参数</h3></li>
+<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
+<li>-r——设置帧率值，默认为25。</li>
+<li>-s——设置画面的宽与高。</li>
+<li>-aspect——设置画面的比例。</li>
+<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
+<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数"><a href="#声音参数" class="headerlink" title="声音参数"></a>声音参数</h3></li>
+<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
+<li>-ar——设置采样率。</li>
+<li>-ac——设置声音的Channel数。</li>
+<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
+<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
+<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
+</ul>
+<p>##例子</p>
+<p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
+<h3 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h3><p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
+<pre><code>ffmpeg -i input.mp4  -strict -2 -vf crop=405:720:420:0  video_out.mp4
+</code></pre><p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
+<h3 id="视频转换成图片"><a href="#视频转换成图片" class="headerlink" title="视频转换成图片"></a>视频转换成图片</h3><pre><code>ffmpeg -i input.mp4 image%3d.png
+</code></pre><p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
+<pre><code>ffmpeg -i input.mp4 -r 30  $filename%3d.png  
+</code></pre><p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
+<pre><code>ffprobe &quot;input.mp4&quot; -v 0 -select_streams v  -print_format flat -show_entries stream=r_frame_rate 
+</code></pre><h3 id="剪辑视频"><a href="#剪辑视频" class="headerlink" title="剪辑视频"></a>剪辑视频</h3><p>一段长视频只需要保留其中一段，可用如下命令：</p>
+<pre><code>ffmpeg -i input.mp4 -ss 00:00:21 -t 00:00:10 -acodec aac -vcodec h264 -strict -2 out.mp4
+</code></pre><p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
+<h3 id="调整视频分辨率大小"><a href="#调整视频分辨率大小" class="headerlink" title="调整视频分辨率大小"></a>调整视频分辨率大小</h3><p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
+<pre><code>ffmpeg -i input.mp4 -vf scale=853:480 -acodec aac -vcodec h264 out.mp4
+</code></pre><ul>
+<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
+<li><code>-vcodec h264</code> 指定视频使用 h264 编码。<blockquote>
+<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
 </blockquote>
-<p>这句话是我最大的收获。</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="http://music.163.com/outchain/player?type=2&id=16148113&auto=1&height=66"></iframe>
-
-<blockquote>
-<p>对了，如果实在找不到信心的话，就这样想：”这么多人都行，我怎么可能不行”。</p>
-</blockquote>
+</li>
+</ul>
 
           
         
@@ -383,7 +416,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/48/">48</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -433,7 +466,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
