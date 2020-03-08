@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2015/09/03/There-will-be-blood/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2015/09/30/iOS9-Quick-Actions-shortcut/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/09/03/There-will-be-blood/" itemprop="url">There Will Be Blood</a></h1>
+                <a class="post-title-link" href="/2015/09/30/iOS9-Quick-Actions-shortcut/" itemprop="url">3D-Touch(1) iOS9 Quick Actions Shortcut</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-09-03T23:47:22+08:00">
-                2015-09-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-09-30T19:24:13+08:00">
+                2015-09-30
               </time>
             
 
@@ -292,8 +292,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Movie/" itemprop="url" rel="index">
-                    <span itemprop="name">Movie</span>
+                  <a href="/categories/Tech/" itemprop="url" rel="index">
+                    <span itemprop="name">Tech</span>
                   </a>
                 </span>
 
@@ -331,25 +331,111 @@
       
         
           
-            <p><img src="http://cp0000.github.io/assets/there_will_be_blood.jpg" alt="pic"></p>
-<p>&gt;<br>如果你喜欢《老无所依》，去看《血色将至》<br>如果你喜欢西部片，去看《血色将至》<br>如果你喜欢电影，去看《血色将至》  </p>
-<p>电影讲述的是一个银矿勘探者如何通过自身的艰苦奋斗最终成为石油大亨的故事。在观看影片的过程中，主角丹尼尔身上的所表现出来的气质，和我们今天所传扬的创业者身上的气质有着极大相似之处。（当然这些创业者的气质我也是从书中，网络中得来）。其中有两个场景给我映像极其深刻。</p>
+            <p>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。</p>
+<h2 id="Home-Screen-Quick-Actions"><a href="#Home-Screen-Quick-Actions" class="headerlink" title="Home Screen Quick Actions"></a>Home Screen Quick Actions</h2><p>通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。</p>
+<h3 id="静态快捷键的添加"><a href="#静态快捷键的添加" class="headerlink" title="静态快捷键的添加"></a>静态快捷键的添加</h3><p>打开 Info.plist, 在该文件中添加如下键值：</p>
+<p><img src="http://cp0000.github.io/assets/static_shortcut.jpg" alt="static_shortcut"></p>
+<p>添加一个key为<code>UIApplicationShortcutItems</code>的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：</p>
 <ul>
-<li><p>场景一：丹尼尔刚刚开发的新油井发生不幸发生意外，井喷了。丹尼尔的儿子 H.W 在井喷中意外受伤。丹尼尔把受伤的儿子抱到安全地带之后，在明知道儿子因伤至聋，极其需要爸爸的情况下，毅然丢下了儿子，跑去事故现场救灾。当身边的伙伴皱着眉头看着大火的时候，丹尼尔却笑着说：你干嘛要愁眉头，井喷证明了下面埋藏着无穷的石油，我们要发财了。此时，他已经把H.W的情况抛之脑后，心里所想全部是采油的事情。当伙伴问他H.W怎么样了，他才想起来儿子情况很不好。影片此后的镜头就是海报中的场景，丹尼尔指挥者工人用炸药把油井炸封起来。</p>
-</li>
-<li><p>第二个场景是，为了运输开采出来的石油。丹尼尔决心建一条油管通往大海。但油管铺设遇到了需要通过一块没有弄到租借权的土地。为了能够租下这块地，丹尼尔忍辱负重跑去教堂接受小人Eli神父洗礼。洗礼过程中Eli出于对丹尼尔的嫉妒狠狠的打了几个丹尼尔耳光（个人觉得Eli是在嫉妒丹尼尔，嫉妒他给小镇带来了繁荣，嫉妒他的石油生意）。但此时的丹尼尔并不在意被Eli侮辱，他只在意这块地终于租下来了，石油管道的铺设有谱了，自己的石油生意真的要做起来了。（这里有个细节，在还没有和土地主人谈妥之前，丹尼尔已经在那块地上面打桩测量油管路线。这一情节，也表明了丹尼尔对自己能够说明别人把地租给他的强大自信）</p>
-</li>
+<li>UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示</li>
+<li>UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上</li>
+<li>UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上</li>
+<li>UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 <a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/index.html#//apple_ref/c/tdef/UIApplicationShortcutIconType" target="_blank" rel="external">UIApplicationShortcutIcon_Class</a></li>
+<li>UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，35<em>35的倍数（试过100</em>100也是Ok的），并且单色。</li>
+<li>UIApplicationShortcutItemUserInfo (optional): 传值用</li>
 </ul>
-<p>这两个场景都表现出了，丹尼尔对石油开采的极度专注和极大热情。开采过程的任何困难，挫折对于丹尼尔来说都不是问题，井喷不怕，火灾不怕，被小人侮辱无所谓。他眼中只关心和石油相关的事情，他探索油田，建筑油井，铺设油管，一切都是为了自己的石油生意。在生意路上遇到的问题，丹尼尔唯一做的就是自信满满的去解决它。</p>
-<p>如果从资本家，企业家的角度来看丹尼尔，他无意是成功创业家的典范。创业后辈们无疑可以从他的事迹中汲取到很多的经验和养分。而他对当地石油的开采，无疑也提高当地人民的生活水平。</p>
-<p>但这部电影不是单单讲述一个成功企业家的创业故事，还描述了丹尼尔作为一个人与这个上世界其它人的关系和情感。</p>
-<p>我想绝大多数人应该都会害怕孤独吧，开心没人分享，失落无人倾诉。丹尼尔人生就是如此，影片开篇十几分钟跟默片一般，没有一句台词，镜头中只有丹尼尔一个人胡子拉渣的孤独的在矿井中勘探。有了油井，挣了初始资本之后，丹尼尔则每次都会带着H.W去做和卖家谈买卖。美国是一个清教徒国家，大家信上帝，非常重视家庭，大部分都会买亲情的帐。当在H.W变聋之后，为了专注工作，丹尼尔又能冷酷地把儿子从自己身边送走，寄养在别处。不过每个人都渴望亲情，渴望被别人所理解，丹尼尔内心深处也是如此。冒牌弟弟Henry的到来，让他在一段时间好似找到了久违的亲情。但可惜这个Henry是冒牌的，丹尼尔发现真相之后，开枪直接打死了冒牌的Henry，尽管冒牌Henry是唯一能和丹尼尔说得上话的人。</p>
-<p>野心，孤独，对权力的欲望，虚伪，憎恶，不信任，丧失人性，这是丹尼尔作为人的一面。但与此同时，他却又是成功的资本家，他成功创业的事迹又会被当今的社会所传颂。或许按中国人的智慧，这就叫是非功过三七开吧。</p>
-<p>熙熙皆为利来，攘攘皆为利往。丹尼尔这样的人在当代中国应该很受崇拜吧，应该会。</p>
-<p>最后，摘录片中我喜欢的一段台词，也是丹尼尔唯一一次吐露自己心声的一段对话</p>
-<p><strong>亨利：</strong><br>　　……你为什么离家出走？我知道你和父亲的关系不好。<br><strong>丹尼尔：</strong><br>　　我替地质调查局工作，去了堪萨斯。<br>　　我没法留在家里，不可能。<br>　　我不喜欢解释自己的行为。<br>　　……<br><strong>丹尼尔：</strong><br>　　你是个愤怒的人吗，亨利？<br><strong>亨利：</strong><br>　　愤怒什么？<br><strong>丹尼尔：</strong><br>　　你嫉妒吗？你会嫉妒别人吗？<br><strong>亨利：</strong><br>　　我想不会。不嫉妒。<br><strong>丹尼尔：</strong><br>　　我有一颗争强好胜的心。<br>　　我不想看到别人成功。<br>　　我憎恨大多数人。<br><strong>亨利：</strong><br>　　我已经没有那种心气了……<br>　　辛苦工作却总不能成功――所有的失败让我……我就不在乎了。<br><strong>丹尼尔：</strong><br>　　我心里有，你心里就也有。<br>　　有时候我注视着人群，看不到任何值得我爱的东西。<br>　　我只想挣到足够的钱好让我远离所有的人。<br>　　……<br><strong>丹尼尔：</strong><br>　　我不想提那些事。<br>　　我看到人们最丑陋的一面，亨利。<br>　　我能得到我所要的一切，根本用不着去看那些丑陋背后还有什么。<br>　　经过这么多年，我的仇恨一点一滴越积越深。<br>　　你来这儿，给了我喘息的机会。我自己一个人坚持不下去……同这些人纠缠。   </p>
-<p><strong>英文版</strong></p>
-<p><strong>Plainview</strong>: Are you an angry man. Henry?<br><strong>Henry Brands</strong>: About what?<br><strong>Plainview</strong>: Are you envious? D’you get envious?<br><strong>Henry Brands</strong>: I don’t think so. No.<br><strong>Plainview</strong>: I have a competition in me. I want no one else to succeed. I hate most people.<br><strong>Henry Brands</strong>: That part of me is gone. Working and not succeeding- all my, uh… failures has left me, uh… I just don’t… care.<br><strong>Plainview</strong>: Well, if it’s in me, it’s in you. There are times when I… I look at people and I see nothing worth liking. I want to earn enough money I can get away from everyone.<br><strong>Henry Brands</strong>: What will you do about your boy?<br><strong>Plainview</strong>: I don’t know. Uhhhh, maybe it’ll change. Does your sound come back to you? I don’t know. Maybe no one knows that. A doctor might not know that.<br><strong>Henry Brands</strong>: Where’s his mother?<br><strong>Plainview</strong>: I don’t want to talk about those things. I see the worst in people, Henry. I don’t need to look past seeing them to get all I need. I’ve built up my hatreds over the years, little by little. Having you here gives me a second breath of life. I can’t keep doing this on my own… with these, umm… people.   </p>
+<p>详情请<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36" target="_blank" rel="external">看这里</a></p>
+<p>当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：</p>
+<p><img src="http://cp0000.github.io/assets/shortcut2.jpg" alt="shortcut2"></p>
+<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节<a href="#jump">模拟器上测试Shortcut</a>。</p>
+<h3 id="动态标签的添加"><a href="#动态标签的添加" class="headerlink" title="动态标签的添加"></a>动态标签的添加</h3><p>所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：</p>
+<ul>
+<li>UIApplicationShortcutItem 3DTouch标签的类</li>
+<li>UIApplicationShortcutIcon 标签中图片Icon的类</li>
+</ul>
+<h3 id="响应标签的行为"><a href="#响应标签的行为" class="headerlink" title="响应标签的行为"></a>响应标签的行为</h3><p>当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：</p>
+<pre><code>- (void) application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler
+</code></pre><p>当通过标签进入APP时，appdelegate中会回调到这个函数。当你处理完了标签需要做的工作之后，需要执行 <code>completionHandler</code>。</p>
+<p>这里有一个地方需要特别注意一下，用户按下标签进入应用要分成两种状况：启动APP，APP从后台回到前台。你需要在 <code>application:didFinishLaunchingWithOptions:</code> 或 <code>application:willFinishLaunchingWithOptions:</code> 中的一个去检查字典 <code>launchOptions</code> 中是否包含了<code>UIApplicationLaunchOptionsShortcutItemKey</code>。如果有这个key，则表示是启动app。你需要在此时设置好APP的view层级，并且为 application:willFinishLaunchingWithOptions: 返回 false。这样就可以阻止 <code>application(_:performActionForShortcutItem:completionHandler:)</code> 被调用，避免标签处理逻辑被处理两次。</p>
+<p>以下是 sample code (Objective_c)，demo 放在github上面<a href="https://github.com/cp0000/shortcutDemo" target="_blank" rel="external">shortcutDemo</a></p>
+<p>另外苹果官方提供了 swift 的<a href="https://developer.apple.com/library/prerelease/ios/samplecode/ApplicationShortcuts/Introduction/Intro.html" target="_blank" rel="external">sample code</a></p>
+<pre><code>#import &quot;AppDelegate.h&quot;
+
+@interface AppDelegate ()
+@property (nonatomic, retain) UIApplicationShortcutItem * launchedShortcutItem;
+
+@end
+
+@implementation AppDelegate
+
+- (BOOL) handledShortCutItem: (UIApplicationShortcutItem *) shortcutItem
+{
+    BOOL handled = NO;
+    if (!shortcutItem.type) return NO;
+    if (![shortcutItem.type isKindOfClass:[NSString class]]) return NO;
+
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@&quot;Shortcut Handled&quot; message:shortcutItem.localizedTitle preferredStyle: UIAlertControllerStyleAlert];
+    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@&quot;OK&quot; style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alertController addAction: alertAction];
+
+    [self.window.rootViewController presentViewController: alertController animated: YES completion:nil];
+
+    return handled;
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+//    Dynamic Shortcuts
+    UIApplicationShortcutIcon * addIcon = [UIApplicationShortcutIcon iconWithType: UIApplicationShortcutIconTypeAdd];//Icons should be square, single color,
+
+    UIApplicationShortcutItem * addItem = [[UIApplicationShortcutItem alloc]initWithType: @&quot;add&quot; localizedTitle: @&quot;Add&quot; localizedSubtitle: nil icon: addIcon userInfo: nil];
+
+    [UIApplication sharedApplication].shortcutItems = @[addItem];
+
+    BOOL shouldPerformAdditionalDelegateHandling    = YES;
+    if (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) {
+        UIApplicationShortcutItem * shortcutItem = launchOptions[UIApplicationLaunchOptionsShortcutItemKey];
+        self.launchedShortcutItem   = shortcutItem;
+        // This will block &quot;performActionForShortcutItem:completionHandler&quot; from being called.
+        shouldPerformAdditionalDelegateHandling     = NO;
+    }
+    return shouldPerformAdditionalDelegateHandling;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    if(!self.launchedShortcutItem) {
+        return;
+    }
+    [self handledShortCutItem: self.launchedShortcutItem];
+
+    self.launchedShortcutItem   = nil;
+}
+
+- (void) application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler
+{
+    BOOL result = [self handledShortCutItem: shortcutItem];
+    completionHandler(result);
+}
+
+@end
+</code></pre><p><span id="simulator_shortcuts"></span></p>
+<h3 id="模拟器上测试Shortcuts"><a href="#模拟器上测试Shortcuts" class="headerlink" title="模拟器上测试Shortcuts"></a>模拟器上测试Shortcuts</h3><p>Xcode7.0 的模拟器是没办法之间触发出 3D Touch 事件的，好在有人开发出了插件<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator" target="_blank" rel="external">SBShortcutMenuSimulator</a>.实用也很简单，只需要follow readme 中的 usage 便可。以下摘录</p>
+<pre><code>git clone https://github.com/DeskConnect/SBShortcutMenuSimulator.git
+cd SBShortcutMenuSimulator
+make
+
+xcrun simctl spawn booted launchctl debug system/com.apple.SpringBoard --environment DYLD_INSERT_LIBRARIES=$PWD/SBShortcutMenuSimulator.dylib
+xcrun simctl spawn booted launchctl stop com.apple.SpringBoard
+
+echo &apos;com.apple.mobilecal&apos; | nc 127.0.0.1 8000
+</code></pre><p>‘com.apple.mobilecal’ 替换成你需要测试的app的bundle就可以了，例如我的是 <code>chengpei.shortcutDemo</code></p>
+<pre><code>echo &apos;chengpei.shortcutDemo&apos; | nc 127.0.0.1 8000
+</code></pre><p>上面的命令全都在clone的SBShortcutMenuSimulator目录下执行。</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>以上。</p>
 
           
         
@@ -389,7 +475,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/51/">51</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/52/">52</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -439,7 +525,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
