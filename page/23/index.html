@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2016/10/22/install-caffe-on-macosx/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2016/11/07/ffmpeg-command-example/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/10/22/install-caffe-on-macosx/" itemprop="url">如何在Macosx上安装caffe</a></h1>
+                <a class="post-title-link" href="/2016/11/07/ffmpeg-command-example/" itemprop="url">ffmpeg 使用例程</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-22T12:55:05+08:00">
-                2016-10-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-07T21:03:47+08:00">
+                2016-11-07
               </time>
             
 
@@ -331,95 +331,51 @@
       
         
           
-            <p>在macosx上面安装深度学习框架<a href="http://caffe.berkeleyvision.org/" target="_blank" rel="external">caffe</a>是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。</p>
-<p><strong>硬软件环境</strong><br>&gt;<br>    电脑：iMac<br>    系统：OX EI Caption 版本10.11.4</p>
-<h2 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h2><p>官方推荐使用<a href="http://brew.sh" target="_blank" rel="external">Homebrew</a>来管理依赖项的下载，安装。</p>
-<p>##Anaconda Python<br>Anaconda是python的一个常用的科学计算发行版，自带包管理器conda。从 <a href="https://store.continuum.io/cshop/anaconda/" target="_blank" rel="external">https://store.continuum.io/cshop/anaconda/</a> 下载并安装Anaconda Python。安装成功之后,记得在PATH添加ananconda执行文件的路径：</p>
-<pre><code>export PATH=~/anaconda/bin:$PATH
-</code></pre><h2 id="CUDA"><a href="#CUDA" class="headerlink" title="CUDA"></a>CUDA</h2><p>从 <a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="external">https://developer.nvidia.com/cuda-downloads</a> 下载并安装CUDA 8.0 (for OSX)<br>从 <a href="http://www.nvidia.com/object/mac-driver-archive.html" target="_blank" rel="external">http://www.nvidia.com/object/mac-driver-archive.html</a> 下载并安装最新的CUDA独立驱动。<br>同样我们把驱动的可执行文件路径添加到PATH环境变量中(注意下载安装的CUDA的版本号)：</p>
-<pre><code>export PATH=/Developer/NVIDIA/CUDA-8.0/bin/$PATH
-export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-8.0/lib:$DYLD_LIBRARY_PATH
-</code></pre><h2 id="BLAS"><a href="#BLAS" class="headerlink" title="BLAS"></a>BLAS</h2><p>网上搜索到的教程中都是使用<a href="https://software.intel.com/en-us/intel-mkl" target="_blank" rel="external">Intel MKL</a>，查看网站会发现intel-mkl收费很贵，所以我安装的时候选择了<a href="www.openblas.net/">OpenBLAS</a></p>
-<pre><code>brew install openblas
-</code></pre><blockquote>
-<p>关于 intel-mkl 和 openblas 的优劣，没有做过比较。在校大学生可通过学校邮箱在页面 <a href="https://software.intel.com/en-us/qualify-for-free-software/student" target="_blank" rel="external">https://software.intel.com/en-us/qualify-for-free-software/student</a> 申请安装包。</p>
+            <p>本文介绍<a href="https://en.wikipedia.org/wiki/FFmpeg" target="_blank" rel="external">ffmpeg</a>命令行的一些使用方法；</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><h3 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h3><ul>
+<li>-i——设置输入档名。</li>
+<li>-f——设置输出格式。</li>
+<li>-y——若输出文件已存在时则覆盖文件。</li>
+<li>-fs——超过指定的文件大小时则结束转换。</li>
+<li>-ss——从指定时间开始转换。</li>
+<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
+<li>-title——设置标题。</li>
+<li>-timestamp——设置时间戳。</li>
+<li>-vsync——增减Frame使影音同步。<h3 id="视频参数"><a href="#视频参数" class="headerlink" title="视频参数"></a>视频参数</h3></li>
+<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
+<li>-r——设置帧率值，默认为25。</li>
+<li>-s——设置画面的宽与高。</li>
+<li>-aspect——设置画面的比例。</li>
+<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
+<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数"><a href="#声音参数" class="headerlink" title="声音参数"></a>声音参数</h3></li>
+<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
+<li>-ar——设置采样率。</li>
+<li>-ac——设置声音的Channel数。</li>
+<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
+<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
+<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
+</ul>
+<p>##例子</p>
+<p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
+<h3 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h3><p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
+<pre><code>ffmpeg -i input.mp4  -strict -2 -vf crop=405:720:420:0  video_out.mp4
+</code></pre><p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
+<h3 id="视频转换成图片"><a href="#视频转换成图片" class="headerlink" title="视频转换成图片"></a>视频转换成图片</h3><pre><code>ffmpeg -i input.mp4 image%3d.png
+</code></pre><p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
+<pre><code>ffmpeg -i input.mp4 -r 30  $filename%3d.png  
+</code></pre><p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
+<pre><code>ffprobe &quot;input.mp4&quot; -v 0 -select_streams v  -print_format flat -show_entries stream=r_frame_rate 
+</code></pre><h3 id="剪辑视频"><a href="#剪辑视频" class="headerlink" title="剪辑视频"></a>剪辑视频</h3><p>一段长视频只需要保留其中一段，可用如下命令：</p>
+<pre><code>ffmpeg -i input.mp4 -ss 00:00:21 -t 00:00:10 -acodec aac -vcodec h264 -strict -2 out.mp4
+</code></pre><p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
+<h3 id="调整视频分辨率大小"><a href="#调整视频分辨率大小" class="headerlink" title="调整视频分辨率大小"></a>调整视频分辨率大小</h3><p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
+<pre><code>ffmpeg -i input.mp4 -vf scale=853:480 -acodec aac -vcodec h264 out.mp4
+</code></pre><ul>
+<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
+<li><code>-vcodec h264</code> 指定视频使用 h264 编码。<blockquote>
+<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
 </blockquote>
-<p>##cuDNN</p>
-<p>从 <a href="https://developer.nvidia.com/cudnn" target="_blank" rel="external">https://developer.nvidia.com/cudnn</a> 页面下载并安装cuDNN库,安装过程如下：</p>
-<pre><code>tar -xzvf cudnn-8.0-osx-x64-v5.1.tgz
-cd cuda
-sudo cp lib/* /usr/local/cuda/lib
-sudo cp include/cudnn.h /usr/local/cuda/include/
-</code></pre><p>##安装依赖项 via Homebrew</p>
-<p>首先我们需要修改下homebrew安装 opencv 时需要用到的opencv.rb文件</p>
-<pre><code>brew edit opencv
-</code></pre><p>将下面两行：</p>
-<pre><code>args &lt;&lt; &quot;-DPYTHON_LIBRARY=#{py_lib}/libpython2.7.#{dylib}&quot;
-args &lt;&lt; &quot;-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7&quot;
-</code></pre><p>替换为：</p>
-<pre><code>args &lt;&lt; &quot;-DPYTHON_LIBRARY=#{py_prefix}/lib/libpython2.7.dylib&quot;
-args &lt;&lt; &quot;-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7&quot;
-</code></pre><p>然后开始安装依赖项：</p>
-<pre><code>brew install --fresh -vd snappy leveldb gflags glog szip lmdb homebrew/science/opencv
-brew install --build-from-source --with-python --fresh -vd protobuf
-brew install --build-from-source --fresh -vd boost boost-python
-brew install hdf5
-</code></pre><blockquote>
-<p>安装过程有点漫长，可能会出现一些错误，需要耐心的修复掉。<br>如果你把电脑升级到最新的 macOS Sierra 10.12，会由于新系统不内置QTKit导致opencv编译失败。</p>
-</blockquote>
-<p>##下载Caffe代码</p>
-<pre><code>git clone https://github.com/BVLC/caff.git
-cd caffe
-cp Makefile.config.example Makefile.config
-</code></pre><p>##Makefile.config</p>
-<p>修改Makefile.config</p>
-<pre><code>BLAS:=open
-BLAS_INCLUDE := $(shell brew --prefix openblas)/include
-BLAS_LIB := $(shell brew --prefix openblas)/lib
-</code></pre><p>取消CUDDNN的注释</p>
-<pre><code>USE_CUDNN := 1
-</code></pre><p>检查设置Python路径</p>
-<pre><code># NOTE: this is required only if you will compile the python interface.
-# We need to be able to find Python.h and numpy/arrayobject.h.
-# PYTHON_INCLUDE := /usr/include/python2.7 \
-#         /usr/lib/python2.7/dist-packages/numpy/core/include
-# Anaconda Python distribution is quite popular. Include path:
-# Verify anaconda location, sometimes it&apos;s in root.
-# ANACONDA_HOME := $(HOME)/anaconda
-# PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
-        # $(ANACONDA_HOME)/include/python2.7 \
-        # $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
-
-ANACONDA_HOME := $(HOME)/anaconda
-PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
-$(ANACONDA_HOME)/include/python2.7 \
-$(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
-
-
-# Uncomment to use Python 3 (default is Python 2)
-# PYTHON_LIBRARIES := boost_python3 python3.5m
-# PYTHON_INCLUDE := /usr/include/python3.5m \
-#                 /usr/lib/python3.5/dist-packages/numpy/core/include
-
-# We need to be able to find libpythonX.X.so or .dylib.
-# PYTHON_LIB := /usr/lib
-PYTHON_LIB := $(ANACONDA_HOME)/lib
-
-# Homebrew installs numpy in a non standard path (keg only)
-PYTHON_INCLUDE += $(dir $(shell python -c &apos;import numpy.core; print(numpy.core.__file__)&apos;))/include
-PYTHON_LIB += $(shell brew --prefix numpy)/lib
-</code></pre><p>##环境变量</p>
-<pre><code>export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/cuda/lib:/Users/cp/anaconda/lib:/usr/local/lib:/usr/local/Cellar/:/usr/local/cuda/lib:~/anaconda/lib:/usr/local/lib:/usr/lib:$DYLD_FALLBACK_LIBRARY_PATH
-</code></pre><p>##编译caffe<br>    make clean<br>    make all -j8<br>    make runtest</p>
-<p>runtest 相对会花些时间</p>
-<pre><code>make pycaffe
-make distribute
-</code></pre><p>就大功告成了</p>
-<p>##References:</p>
-<ul>
-<li><a href="http://caffe.berkeleyvision.org/installation.html" target="_blank" rel="external">http://caffe.berkeleyvision.org/installation.html</a></li>
-<li><a href="https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29" target="_blank" rel="external">https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29</a></li>
-<li><a href="http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/" target="_blank" rel="external">http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/</a></li>
+</li>
 </ul>
 
           
@@ -460,7 +416,7 @@ make distribute
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/22/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><a class="extend next" rel="next" href="/page/24/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/22/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/51/">51</a><a class="extend next" rel="next" href="/page/24/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -510,7 +466,7 @@ make distribute
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

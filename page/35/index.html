@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2015/09/03/There-will-be-blood/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2015/10/25/Peek-and-pop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/09/03/There-will-be-blood/" itemprop="url">There Will Be Blood</a></h1>
+                <a class="post-title-link" href="/2015/10/25/Peek-and-pop/" itemprop="url">3D-Touch(2) PEEK And POP</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-09-03T23:47:22+08:00">
-                2015-09-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-25T10:36:21+08:00">
+                2015-10-25
               </time>
             
 
@@ -292,8 +292,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Movie/" itemprop="url" rel="index">
-                    <span itemprop="name">Movie</span>
+                  <a href="/categories/Tech/" itemprop="url" rel="index">
+                    <span itemprop="name">Tech</span>
                   </a>
                 </span>
 
@@ -331,25 +331,83 @@
       
         
           
-            <p><img src="http://cp0000.github.io/assets/there_will_be_blood.jpg" alt="pic"></p>
-<p>&gt;<br>如果你喜欢《老无所依》，去看《血色将至》<br>如果你喜欢西部片，去看《血色将至》<br>如果你喜欢电影，去看《血色将至》  </p>
-<p>电影讲述的是一个银矿勘探者如何通过自身的艰苦奋斗最终成为石油大亨的故事。在观看影片的过程中，主角丹尼尔身上的所表现出来的气质，和我们今天所传扬的创业者身上的气质有着极大相似之处。（当然这些创业者的气质我也是从书中，网络中得来）。其中有两个场景给我映像极其深刻。</p>
+            <p>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp; Pop 的相关知识点。</p>
+<p>在给你的app接入peeking and poping 的功能之前，需要先了解该操作的三个属性， peeking, preview actions, poping。如下图所示：</p>
+<p><img src="http://cp0000.github.io/assets/peekandpop.gif" alt="peek_and_pop"></p>
+<p>用户在 Peeking 图片，视频，网页等内容的时候，能够在不去加载全部内容的情况下获取到更多详细的内容。</p>
+<p>##PEEKING</p>
+<p>当用户对某个view做peeking操作时，程序会展现给用户相对应内容的快照。Peek 操作是 3DTouch 中实现起来相对比较复杂的模块。Peek and Pop API 中有一个 <code>UIViewControllerPreviewingDelegate</code>,给指定的view需要注册这个delegate，就可以接收到系统回调过来的3D Touch事件。</p>
+<pre><code>override func viewDidLoad() {
+    super.viewDidLoad()
+
+    /*  
+        Register for `UIViewControllerPreviewingDelegate` to enable
+        &quot;Peek&quot; and &quot;Pop&quot;.
+        The view controller will be automatically unregistered when it is
+        deallocated.
+    */
+    registerForPreviewingWithDelegate(self, sourceView: view)
+}
+</code></pre><p>这里有一点需要注意，我们可以在一个 view Controller 中，给多个view注册 Previewing Delegate ，但是我们不能反复去注册同一个view。</p>
+<blockquote>
+<p>“You can designate more than one source view for a single registered view controller, but you cannot designate a single view as a source view more than once.”</p>
+</blockquote>
+<p>Peek的操作过程可以分解成下面三个步骤：</p>
+<p><img src="http://cp0000.github.io/assets/peek_and_pop2.png" alt="peek_and_pop_2"></p>
+<p>Peek的系统回调函数会提供一个关于 source view的context，以及 touch事件的point。以sourceView为 collectionView为例，回调函数中我们需要处理以下三件事情：</p>
 <ul>
-<li><p>场景一：丹尼尔刚刚开发的新油井发生不幸发生意外，井喷了。丹尼尔的儿子 H.W 在井喷中意外受伤。丹尼尔把受伤的儿子抱到安全地带之后，在明知道儿子因伤至聋，极其需要爸爸的情况下，毅然丢下了儿子，跑去事故现场救灾。当身边的伙伴皱着眉头看着大火的时候，丹尼尔却笑着说：你干嘛要愁眉头，井喷证明了下面埋藏着无穷的石油，我们要发财了。此时，他已经把H.W的情况抛之脑后，心里所想全部是采油的事情。当伙伴问他H.W怎么样了，他才想起来儿子情况很不好。影片此后的镜头就是海报中的场景，丹尼尔指挥者工人用炸药把油井炸封起来。</p>
-</li>
-<li><p>第二个场景是，为了运输开采出来的石油。丹尼尔决心建一条油管通往大海。但油管铺设遇到了需要通过一块没有弄到租借权的土地。为了能够租下这块地，丹尼尔忍辱负重跑去教堂接受小人Eli神父洗礼。洗礼过程中Eli出于对丹尼尔的嫉妒狠狠的打了几个丹尼尔耳光（个人觉得Eli是在嫉妒丹尼尔，嫉妒他给小镇带来了繁荣，嫉妒他的石油生意）。但此时的丹尼尔并不在意被Eli侮辱，他只在意这块地终于租下来了，石油管道的铺设有谱了，自己的石油生意真的要做起来了。（这里有个细节，在还没有和土地主人谈妥之前，丹尼尔已经在那块地上面打桩测量油管路线。这一情节，也表明了丹尼尔对自己能够说明别人把地租给他的强大自信）</p>
-</li>
+<li>(1) 根据 location 找到被 peeked 的 cell，以及cell的 NSIndexPath</li>
+<li>(2) 设置 previewingContext 的 sourceRect 大小</li>
+<li>(3) alloc 一个 PreViewController，并设置背景图片，title之类的， 然后返回这个 PreviewController</li>
 </ul>
-<p>这两个场景都表现出了，丹尼尔对石油开采的极度专注和极大热情。开采过程的任何困难，挫折对于丹尼尔来说都不是问题，井喷不怕，火灾不怕，被小人侮辱无所谓。他眼中只关心和石油相关的事情，他探索油田，建筑油井，铺设油管，一切都是为了自己的石油生意。在生意路上遇到的问题，丹尼尔唯一做的就是自信满满的去解决它。</p>
-<p>如果从资本家，企业家的角度来看丹尼尔，他无意是成功创业家的典范。创业后辈们无疑可以从他的事迹中汲取到很多的经验和养分。而他对当地石油的开采，无疑也提高当地人民的生活水平。</p>
-<p>但这部电影不是单单讲述一个成功企业家的创业故事，还描述了丹尼尔作为一个人与这个上世界其它人的关系和情感。</p>
-<p>我想绝大多数人应该都会害怕孤独吧，开心没人分享，失落无人倾诉。丹尼尔人生就是如此，影片开篇十几分钟跟默片一般，没有一句台词，镜头中只有丹尼尔一个人胡子拉渣的孤独的在矿井中勘探。有了油井，挣了初始资本之后，丹尼尔则每次都会带着H.W去做和卖家谈买卖。美国是一个清教徒国家，大家信上帝，非常重视家庭，大部分都会买亲情的帐。当在H.W变聋之后，为了专注工作，丹尼尔又能冷酷地把儿子从自己身边送走，寄养在别处。不过每个人都渴望亲情，渴望被别人所理解，丹尼尔内心深处也是如此。冒牌弟弟Henry的到来，让他在一段时间好似找到了久违的亲情。但可惜这个Henry是冒牌的，丹尼尔发现真相之后，开枪直接打死了冒牌的Henry，尽管冒牌Henry是唯一能和丹尼尔说得上话的人。</p>
-<p>野心，孤独，对权力的欲望，虚伪，憎恶，不信任，丧失人性，这是丹尼尔作为人的一面。但与此同时，他却又是成功的资本家，他成功创业的事迹又会被当今的社会所传颂。或许按中国人的智慧，这就叫是非功过三七开吧。</p>
-<p>熙熙皆为利来，攘攘皆为利往。丹尼尔这样的人在当代中国应该很受崇拜吧，应该会。</p>
-<p>最后，摘录片中我喜欢的一段台词，也是丹尼尔唯一一次吐露自己心声的一段对话</p>
-<p><strong>亨利：</strong><br>　　……你为什么离家出走？我知道你和父亲的关系不好。<br><strong>丹尼尔：</strong><br>　　我替地质调查局工作，去了堪萨斯。<br>　　我没法留在家里，不可能。<br>　　我不喜欢解释自己的行为。<br>　　……<br><strong>丹尼尔：</strong><br>　　你是个愤怒的人吗，亨利？<br><strong>亨利：</strong><br>　　愤怒什么？<br><strong>丹尼尔：</strong><br>　　你嫉妒吗？你会嫉妒别人吗？<br><strong>亨利：</strong><br>　　我想不会。不嫉妒。<br><strong>丹尼尔：</strong><br>　　我有一颗争强好胜的心。<br>　　我不想看到别人成功。<br>　　我憎恨大多数人。<br><strong>亨利：</strong><br>　　我已经没有那种心气了……<br>　　辛苦工作却总不能成功――所有的失败让我……我就不在乎了。<br><strong>丹尼尔：</strong><br>　　我心里有，你心里就也有。<br>　　有时候我注视着人群，看不到任何值得我爱的东西。<br>　　我只想挣到足够的钱好让我远离所有的人。<br>　　……<br><strong>丹尼尔：</strong><br>　　我不想提那些事。<br>　　我看到人们最丑陋的一面，亨利。<br>　　我能得到我所要的一切，根本用不着去看那些丑陋背后还有什么。<br>　　经过这么多年，我的仇恨一点一滴越积越深。<br>　　你来这儿，给了我喘息的机会。我自己一个人坚持不下去……同这些人纠缠。   </p>
-<p><strong>英文版</strong></p>
-<p><strong>Plainview</strong>: Are you an angry man. Henry?<br><strong>Henry Brands</strong>: About what?<br><strong>Plainview</strong>: Are you envious? D’you get envious?<br><strong>Henry Brands</strong>: I don’t think so. No.<br><strong>Plainview</strong>: I have a competition in me. I want no one else to succeed. I hate most people.<br><strong>Henry Brands</strong>: That part of me is gone. Working and not succeeding- all my, uh… failures has left me, uh… I just don’t… care.<br><strong>Plainview</strong>: Well, if it’s in me, it’s in you. There are times when I… I look at people and I see nothing worth liking. I want to earn enough money I can get away from everyone.<br><strong>Henry Brands</strong>: What will you do about your boy?<br><strong>Plainview</strong>: I don’t know. Uhhhh, maybe it’ll change. Does your sound come back to you? I don’t know. Maybe no one knows that. A doctor might not know that.<br><strong>Henry Brands</strong>: Where’s his mother?<br><strong>Plainview</strong>: I don’t want to talk about those things. I see the worst in people, Henry. I don’t need to look past seeing them to get all I need. I’ve built up my hatreds over the years, little by little. Having you here gives me a second breath of life. I can’t keep doing this on my own… with these, umm… people.   </p>
+<p><strong>UICOLLECTIONVIEW 代码片段</strong></p>
+<pre><code>override func viewDidLoad() {
+    super.viewDidLoad()
+
+    registerForPreviewingWithDelegate(self, sourceView: tableView)
+}
+
+func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController? {
+    guard let indexPath = collectionView?.indexPathForItemAtPoint(location) else { return nil }
+
+    guard let cell = collectionView?.cellForItemAtIndexPath(indexPath) else { return nil }
+
+    guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier(&quot;DetailViewController&quot;) as? DetailViewController else { return nil }
+
+    let photo = photos[indexPath.row]
+    detailVC.photo = photo
+
+    detailVC.preferredContentSize = CGSize(width: 0.0, height: 300)
+
+    previewingContext.sourceRect = cell.frame
+
+    return detailVC
+}
+</code></pre><h2 id="UIPREVIEWACTIONITEMS"><a href="#UIPREVIEWACTIONITEMS" class="headerlink" title="UIPREVIEWACTIONITEMS"></a>UIPREVIEWACTIONITEMS</h2><p>当用户在 PreViewing Controller 的界面，手指往上推，会从屏幕底部弹出一个类似 actionsheet 的界面，这个是 <code>UIPreviewActions</code>。那如何给指定的 preViewController 自定义这些 <code>UIPreviewActions</code>？ 方法很简单，override UIViewController 中的 preViewActionItems() 方法，在该方法中定义好 actionItems 的数组就好了：</p>
+<pre><code>override func previewActionItems() -&gt; [UIPreviewActionItem] {
+
+    let likeAction = UIPreviewAction(title: &quot;Like&quot;, style: .Default) { (action, viewController) -&gt; Void in
+        print(&quot;You liked the photo&quot;)
+    }
+
+    let deleteAction = UIPreviewAction(title: &quot;Delete&quot;, style: .Destructive) { (action, viewController) -&gt; Void in
+        print(&quot;You deleted the photo&quot;)
+    }
+
+    let groupAction = UIPreviewActionGroup (title: &quot;Group&quot;, style: .Default, actions: [likeAction, deleteAction])
+    return [likeAction, deleteAction, groupAction]
+
+}
+</code></pre><p>另外苹果还提供了 <code>UIPreviewActionGroup</code>，顾名思义就是把几个UIPreviewActionItem操作放到一起，组成一个组。</p>
+<h2 id="POPPING"><a href="#POPPING" class="headerlink" title="POPPING"></a>POPPING</h2><p>poping 操作处理起来相对简单。在回调函数中</p>
+<pre><code>func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    //Here&apos;s where you commit (pop)
+}
+</code></pre><p>我们需要根据preViewingContext来确定poping的时候需要commit的ViewController就好了。</p>
+<h2 id="WEBVIEW-PEEK-AND-POP"><a href="#WEBVIEW-PEEK-AND-POP" class="headerlink" title="WEBVIEW PEEK AND POP"></a>WEBVIEW PEEK AND POP</h2><p>让 <code>UIWebView</code> 和 <code>WKWebview</code> 支持 Peek&amp;Pop就很简单了：</p>
+<pre><code>webView.allowsLinkPreview = true
+</code></pre><p>##结语</p>
+<p>以上。</p>
 
           
         
@@ -389,7 +447,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/34/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><a class="extend next" rel="next" href="/page/36/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/34/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><span class="space">&hellip;</span><a class="page-number" href="/page/51/">51</a><a class="extend next" rel="next" href="/page/36/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -439,7 +497,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
