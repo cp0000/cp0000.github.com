@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2017/02/26/GLSL-Dictionary/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2017/03/19/framebuffer-object-opengl/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/26/GLSL-Dictionary/" itemprop="url">Learning OpenGL：GLSL Shader 手册</a></h1>
+                <a class="post-title-link" href="/2017/03/19/framebuffer-object-opengl/" itemprop="url">Learning OpenGL：帧缓冲对象</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-26T14:26:08+08:00">
-                2017-02-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-19T14:20:09+08:00">
+                2017-03-19
               </time>
             
 
@@ -331,343 +331,124 @@
       
         
           
-            <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>void</td>
-<td>空类型</td>
-</tr>
-<tr>
-<td>bool</td>
-<td>布尔类型</td>
-</tr>
-<tr>
-<td>int</td>
-<td>带符号的整数 signed integer</td>
-</tr>
-<tr>
-<td>float</td>
-<td>带符号的浮点数 floating scalar</td>
-</tr>
-<tr>
-<td>vec2,vec3,vec4</td>
-<td>n维浮点数向量 n-component floating point vector</td>
-</tr>
-<tr>
-<td>bvec2,bvec3,bvec4</td>
-<td>n维整数向量 singed integer vector</td>
-</tr>
-<tr>
-<td>bvec2,bvec3,bvec4</td>
-<td>n维布尔向量 boolean vector</td>
-</tr>
-<tr>
-<td>ivec2,ivec3,ivec4</td>
-<td>n维整数向量 singed integer vector</td>
-</tr>
-<tr>
-<td>mat2,mat3,mat4</td>
-<td>2X2,3X3,4X4 浮点数矩阵 float matrix</td>
-</tr>
-<tr>
-<td>sampler2D</td>
-<td>2D 纹理  a 2D texture</td>
-</tr>
-<tr>
-<td>samplerCube</td>
-<td>盒纹理  cube mapped texture</td>
-</tr>
-</tbody>
-</table>
-<h2 id="基本结构和数组"><a href="#基本结构和数组" class="headerlink" title="基本结构和数组"></a>基本结构和数组</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>结构</td>
-<td>struct type-name{} 类似c语言中的结构体</td>
-</tr>
-<tr>
-<td>数组</td>
-<td>float foo3[] glsl 只支持1维数组，数组可以是结构体的成员</td>
-</tr>
-</tbody>
-</table>
-<p>##内置的特殊变量</p>
-<p>glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成<code>input</code>,<code>output</code>两种类型，<code>input</code>类型，负责向硬件（渲染管线）发送数据，<code>output</code>类型负责向程序回传数据。</p>
-<ul>
-<li>在vertex shader中</li>
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
+<h2 id="FBO"><a href="#FBO" class="headerlink" title="FBO"></a>FBO</h2><p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
+<p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。</p>
+<p>帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：</p>
+<pre><code>&gt;注：OpenGL es 2.0 也只有一个颜色附加点
+</code></pre><p><img src="http://www.songho.ca/opengl/files/gl_fbo01.png" alt="framebuffer object"></p>
+<p>从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。</p>
+<h3 id="创建-FBO"><a href="#创建-FBO" class="headerlink" title="创建 FBO"></a>创建 FBO</h3><p>创建和销毁FBO的步骤很简单：</p>
+<pre><code>void glGenFramebuffers(GLsizei n, GLuint * ids);
+void glDeleteFramebuffers(GLsizei n, const GLuint * ids);
+</code></pre><p>将FBO绑定到目标对象：</p>
+<pre><code>void glBindFramebuffer(GLenum target, GLuint id)
+</code></pre><ul>
+<li>target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER–缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。</li>
+<li>id 即为创建出来的帧缓冲id</li>
 </ul>
-<p>output 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>highp vec4 gl_Position;</td>
-<td>gl_Position 放置顶点坐标信息</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>mediump float gl_Pointsize;</td>
-<td>gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效）</td>
-<td>float</td>
-</tr>
-</tbody>
-</table>
+<p>通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。</p>
+<p>OpenGL要求，一个完整的FBO需要满足以下条件：</p>
 <ul>
-<li>在fragment Shader中：</li>
+<li>至少附加一个缓冲区（颜色，深度或模版）</li>
+<li>至少有一个颜色附加</li>
+<li><p>所有的附加必须完整（预分配了内存）</p>
+<blockquote>
+<p>if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整</p>
+</blockquote>
+</li>
+<li><p>每个缓冲区的采样需要一致</p>
+</li>
 </ul>
-<p>input 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mediump vec4 gl_FragCoord;</td>
-<td>片元在fragmebuffer画面的相对位置</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>bool gl_FrontFacing</td>
-<td>标志当前图元是不是正面图元的一部分</td>
-<td>bool</td>
-</tr>
-<tr>
-<td>mediump vec2 gl_PointCoord;</td>
-<td>经过插值计算后的纹理坐标，点的范围是0.0到1.0</td>
-<td>vec2</td>
-</tr>
-</tbody>
-</table>
-<p>output 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mediump vec4 gl_FragColor;</td>
-<td>设置当前片点的颜色</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>mediump vec4 gl_FragData[n];</td>
-<td>设置当前片点的颜色,使用glDrawBuffers数据数组</td>
-<td>vec4</td>
-</tr>
-</tbody>
-</table>
-<p>##内置函数库</p>
-<p>###通用函数</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T abs(T x)</td>
-<td>返回x的绝对值</td>
-</tr>
-<tr>
-<td>T sign(T x)</td>
-<td>比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0</td>
-</tr>
-<tr>
-<td>T floor(T x)</td>
-<td>返回 &lt;= x 的最大整数</td>
-</tr>
-<tr>
-<td>T ceil(T x)</td>
-<td>返回 &gt;= x 的最小整数</td>
-</tr>
-<tr>
-<td>T fract(T x)</td>
-<td>返回 x 的小数部分</td>
-</tr>
-<tr>
-<td>T mod(T x,T y) T mod(T x,float y)</td>
-<td>取 x,y 的余数</td>
-</tr>
-<tr>
-<td>T min(T x,T y) T min(T x,float y)</td>
-<td>取 x,y 的最小值</td>
-</tr>
-<tr>
-<td>T max(T x,T y) T max(T x,float y)</td>
-<td>取 x,y 的最大值</td>
-</tr>
-<tr>
-<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal)</td>
-<td>min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间</td>
-</tr>
-<tr>
-<td>T mix(T x,T y, T a) T mix(T x,T y, float a)</td>
-<td>取 x,y 的线性混合，x(1-a)+ya</td>
-</tr>
-<tr>
-<td>T step(T edge,T x) T step(float edge,T x)</td>
-<td>if x &lt; edge返回0.0， 否则返回1.0</td>
-</tr>
-<tr>
-<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x)</td>
-<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0， 否则返回Hermite插值</td>
-</tr>
-</tbody>
-</table>
-<h3 id="角度-amp-三角函数"><a href="#角度-amp-三角函数" class="headerlink" title="角度&amp;三角函数"></a>角度&amp;三角函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T radinans(T degrees)</td>
-<td>角度转弧度</td>
-</tr>
-<tr>
-<td>T degrees(T radians)</td>
-<td>弧度转角度</td>
-</tr>
-<tr>
-<td>T sin(T angle)</td>
-<td>正弦函数</td>
-</tr>
-<tr>
-<td>T cos(T angle)</td>
-<td>余弦函数</td>
-</tr>
-<tr>
-<td>T tan(T angle)</td>
-<td>正切函数</td>
-</tr>
-<tr>
-<td>T asin(T angle)</td>
-<td>反正弦函数</td>
-</tr>
-<tr>
-<td>T acos(T angle)</td>
-<td>反余弦函数</td>
-</tr>
-<tr>
-<td>T atan(T y, T x) T atan(T y_over_x)</td>
-<td>反正切函数</td>
-</tr>
-</tbody>
-</table>
-<h3 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>T pow(T x, T y)</td>
-<td>返回x的y次幂 </td>
-</tr>
-<tr>
-<td>T exp(T x)</td>
-<td>返回x的自然指数幂 </td>
-</tr>
-<tr>
-<td>T log(T x)</td>
-<td>返回x的自然对数 ln</td>
-</tr>
-<tr>
-<td>T exp2(T x)</td>
-<td>返回2的x次幂</td>
-</tr>
-<tr>
-<td>T log2(T x)</td>
-<td>返回2位低的对数 log2</td>
-</tr>
-<tr>
-<td>T sqrt(T x)</td>
-<td>开根号 √x</td>
-</tr>
-<tr>
-<td>T inversesqrt(T x)</td>
-<td>先开根号，在取倒数，</td>
-</tr>
-</tbody>
-</table>
-<h3 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>float length(T x)</td>
-<td>返回矢量x的长度</td>
-</tr>
-<tr>
-<td>float distance(T p0,T p1)</td>
-<td>返回p0, p1两点的距离</td>
-</tr>
-<tr>
-<td>float dot(T x,T y)</td>
-<td>返回x y 的点积</td>
-</tr>
-<tr>
-<td>vec3 cross(vec3 x,vec3 y)</td>
-<td>返回x y 的叉积</td>
-</tr>
-<tr>
-<td>vec3 normalize(T y)</td>
-<td>对x进行归一化，保持向量方向不变但长度变为1</td>
-</tr>
-<tr>
-<td>vec3 faceforward(T N, T I, T Nref)</td>
-<td>根据 矢量 N 与Nref 调整法向量</td>
-</tr>
-<tr>
-<td>vec3 reflect(T I, T N)</td>
-<td>返回 I - 2 <em> dot(N,I) </em> N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量</td>
-</tr>
-<tr>
-<td>vec3 normalize(T I, T N, float eta)</td>
-<td>返回入射矢量I关于法向量N的折射矢量,折射率为eta</td>
-</tr>
-</tbody>
-</table>
+<p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
+<pre><code>glBindFramebuffer (GL_FRAMEBUFFER, 0);
+</code></pre><h3 id="创建纹理附加图像"><a href="#创建纹理附加图像" class="headerlink" title="创建纹理附加图像"></a>创建纹理附加图像</h3><p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
+<pre><code>glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level);
+</code></pre><ul>
+<li>target: 绑定目标，一般为 GL_FRAMEBUFFER</li>
+<li>attachment:附加点，可选为GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT,GL_STENCIK_ATTACHMENT</li>
+<li>textTarget: 纹理的绑定目标，一般为 GL_TEXTURE_2D</li>
+<li>texture：实际的纹理对象</li>
+<li>level：mipmap级别，一般为0</li>
+</ul>
+<pre><code>GLuint texture;
+glGenTextures(1, &amp;texture);
+glBindTexture(GL_TEXTURE_2D, texture);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); //末尾的NULL表示我们只预分配空间，而不实际加载纹理
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+</code></pre><p>上面创建的纹理图像，可以附加到FBO：</p>
+<pre><code>glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+</code></pre><p>FBO创建和准备工作完成额，在利用FBO作图前，我们需要介绍另一个附加图像-RenderBuffer。</p>
+<h3 id="创建Renderbuffer附加图像"><a href="#创建Renderbuffer附加图像" class="headerlink" title="创建Renderbuffer附加图像"></a>创建Renderbuffer附加图像</h3><p>和纹理图像一样，一个renderbuffer对象也是一个缓冲，它可以是一堆字节，整数，像素等。renderbuffer的优点是：它以OpenGL原生渲染格式存储它的数据，因此在离屏渲染到帧缓冲的时候，这些数据相当于被优化过。</p>
+<p>renderbuffer对象将所有渲染数据直接储存在它们的缓冲里，而不会进行针对特定纹理格式的任何转换，这样它们就成了一种快速可写的存储介质了。然后，renderbuffer对象通常是只写的，不能修改它们。</p>
+<p>因为renderbuffer对象中的数据已经是原生格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。</p>
+<blockquote>
+<p>要了解为什么渲染的末尾需要交换帧缓冲数据，和谁交换帧缓冲数据，需要理解什么叫双缓存。所谓双缓存机制指的是显示系统通常会引入两个缓冲区，在这种情况下，GPU会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU会直接把视频控制器的指针指向第二个缓冲器。</p>
+</blockquote>
+<p>创建和销毁RenderBuffer也很简单：</p>
+<pre><code>void glGenRenderbuffers(GLsizei n, GLuint * ids);
+void glDeleteRenderbuffers(GLsizei n, const GLuint * ids);
+</code></pre><p>绑定到目标对象：</p>
+<pre><code>glBindRenderbuffer (GL_RENDERBUFFER,rbo);
+</code></pre><p>需为 RBO 预分配内存空间：</p>
+<pre><code>void glRenderbufferStorage (GLenum target, GLenum internalFormat, GLsizei width, GLsizei height);
+</code></pre><p>RBO绑定到FBO</p>
+<pre><code>glFramebufferRenderbuffer (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rboId);
+</code></pre><p>在帧缓冲项目中，renderbuffer可以优化渲染，但重要的是要懂得何时使用renderbuffer对象，何时使用纹理。通常规则是：如果你永远都不需要从特定的缓冲中进行采样，renderbuffer对特定缓冲是更明智的选择。如果需要从比如颜色或深度值这样的特定缓冲采样数据的话，最好使用纹理。</p>
+<h3 id="渲染到纹理"><a href="#渲染到纹理" class="headerlink" title="渲染到纹理"></a>渲染到纹理</h3><p>到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。</p>
+<p><strong>Step1: 创建并绑定帧缓冲</strong></p>
+<pre><code>GLuint framebuffer;
+glGenFramebuffers(1, &amp;framebuffer);
+glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+</code></pre><p><strong>Step2: 创建一个纹理</strong></p>
+<pre><code>// Generate texture
+GLuint texColorBuffer;
+glGenTextures(1, &amp;texColorBuffer);
+glBindTexture(GL_TEXTURE_2D, texColorBuffer);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+glBindTexture(GL_TEXTURE_2D, 0);
 
+// Attach it to currently bound framebuffer object
+glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
+</code></pre><p><strong>Step3 创建renderbuffer来进行深度测试</strong></p>
+<p>为了让OpenGL进行深度测试，我们必须要确保向帧缓冲中添加一个深度附件。由于我们只采样颜色缓冲，并不采样深度，模版缓冲，所以我们可以创建一个渲染缓冲对象来达到这个目的。</p>
+<pre><code>GLuint rbo;
+glGenRenderbuffers(1, &amp;rbo);
+glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);  
+glBindRenderbuffer(GL_RENDERBUFFER, 0);
+</code></pre><p>把renderbuffer对象附加到帧缓冲的深度和模版附件上：</p>
+<pre><code>glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+</code></pre><p>所以，为了把场景绘制到一个单独的纹理，我们必须以下面步骤来做：</p>
+<ul>
+<li>创建并绑定一个新的帧缓冲，并在这个帧缓冲上做相关渲染操作</li>
+<li>绑定默认帧缓冲</li>
+<li>绘制一个铺满屏幕的四边形，并用新的帧缓冲的颜色缓冲作为输入的纹理</li>
+</ul>
+<p>以下是每一帧渲染的伪代码：</p>
+<pre><code>//First pass
+glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+glClearColor(0.f,0.f,0.f, 1.0f);
+glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+glEnable(GL_DEPTH_TEST);
+DrawScene();
+
+// Second pass
+glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+glClear(GL_COLOR_BUFFER_BIT);
+
+screenShader.Use();  
+glBindVertexArray(quadVAO);
+glDisable(GL_DEPTH_TEST);
+glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+glDrawArrays(GL_TRIANGLES, 0, 6);
+glBindVertexArray(0);
+</code></pre><h3 id="后处理"><a href="#后处理" class="headerlink" title="后处理"></a>后处理</h3><pre><code>&gt;待续
+</code></pre>
           
         
       
@@ -706,7 +487,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/21/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><a class="extend next" rel="next" href="/page/23/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/21/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/55/">55</a><a class="extend next" rel="next" href="/page/23/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -756,7 +537,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
