@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2018/11/18/review-fcn/">
+    <link itemprop="mainEntityOfPage" href="cp0000.github.io/2019/01/20/2018-summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pei Cheng">
@@ -257,7 +257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/18/review-fcn/" itemprop="url">全卷积网络-语义分割的简介</a></h1>
+                <a class="post-title-link" href="/2019/01/20/2018-summary/" itemprop="url">2018年度总结</a></h1>
         
 
         <div class="post-meta">
@@ -269,8 +269,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-18T22:00:21+08:00">
-                2018-11-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-20T20:09:46+08:00">
+                2019-01-20
               </time>
             
 
@@ -309,64 +309,90 @@
       
         
           
-            <blockquote>
-<p>这是一篇译文，原文<a href="https://towardsdatascience.com/review-fcn-semantic-segmentation-eb8c9b50d2d1" target="_blank" rel="external">Review: FCN (Semantic Segmentation))</a></p>
-</blockquote>
-<p>本文主要记录用于语义分割的全卷积网络。和分类，检测任务相比，分割是更难的一种任务。</p>
-<ul>
-<li>图片分类：对图像进行分类</li>
-<li>物体检测：检测一张图片中存在的物体，并给出物体的区域。</li>
-<li>分割：为图像中的每个像素分类。</li>
+            <p><img src="http://cp0000.github.io/assets/2018/2018.jpg" alt="2018"></p>
+<h3 id="文娱"><a href="#文娱" class="headerlink" title="文娱"></a>文娱</h3><h4 id="电影"><a href="#电影" class="headerlink" title="电影"></a>电影</h4><h5 id="中国"><a href="#中国" class="headerlink" title="中国"></a>中国</h5><ul>
+<li>一一 - ⭐️⭐️⭐️⭐️⭐️</li>
+<li>红海行动 - ⭐️⭐️⭐️⭐️</li>
+<li>影 - ⭐️⭐️⭐️</li>
+<li>无双 - ⭐️⭐️⭐️</li>
+<li>我不是药神 - ⭐️⭐️⭐️</li>
 </ul>
-<p>一个语义分割的例子：</p>
-<iframe width="700" height="393" src="https://www.youtube.com/embed/xr_2dwZDH6U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*jrqv1qX2J1AGMA0g-RU7fg.png" alt="原图，Ground Truth，预测结果，融合结果"></p>
-<p>该论文发表于 2015 CVPR，现在有 6000 次引用。它也是使用FCN进行语义分割的最基础的论文之一。</p>
-<h2 id="本文包括"><a href="#本文包括" class="headerlink" title="本文包括"></a>本文包括</h2><ol>
-<li>从图像分类到语义分割</li>
-<li>利用反卷积进行上采样</li>
-<li>融合输出</li>
-<li>结论</li>
-</ol>
-<h2 id="1-从图像分类到语义分割"><a href="#1-从图像分类到语义分割" class="headerlink" title="1.从图像分类到语义分割"></a>1.从图像分类到语义分割</h2><p>传统意义上的分类任务，输入图像会缩小尺寸，并通过卷积层和全连接层，最终输出关于输入图片的标签，如下图：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*ErOVnlmtWYFGpnpvKJImKw.png" alt="分类"></p>
-<p>想象我们把上图中的全连接层替换成 1X1 卷积层：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*11XDuwNHHRE7EB_fu_TzCg.png" alt="所有层都是卷积层
-"></p>
-<p>如果图像没有缩小尺寸，输出将不是单个标签。相反，输出的大小小于输入图像（由于最大池化层）</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*T-tYcj11_qySDHTRhlF9pQ.png" alt="所有层都是卷积层
-"></p>
-<p>如果我们对上面的输出进行上采样，那么我们逐像素输出标签贴图，如下所示：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*LtSSJ9QP0Y9qWG9nz9sb2w.png" alt="上采样
-"><br><img src="https://cdn-images-1.medium.com/max/1600/1*NXNGhfSyzQcKzoOSt-Z0Ng.png" alt="Feature Map"></p>
-<h2 id="2-利用反卷积进行上采样"><a href="#2-利用反卷积进行上采样" class="headerlink" title="2.利用反卷积进行上采样"></a>2.利用反卷积进行上采样</h2><p>卷积是一个使输出尺寸变小的过程。反卷积就是一上采样，使得输出尺寸变大的过程（但不要把反卷积曲解成卷积的逆向操作），反卷积也被称为上卷积和转置卷积。当使用分数步幅时，也被称为分数步幅卷积。</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/0*NBKHZlXvqOg3R6_z.gif" alt="通过反卷积进行上采样(蓝色：输入，绿色：输出)
-"></p>
-<h2 id="3-融合输出"><a href="#3-融合输出" class="headerlink" title="3.融合输出"></a>3.融合输出</h2><p>经过如下图所示的conv7后，输出尺寸很小，然后进行32X 上采样，得到和输入同样大小的输出。但也会把输出标签变得很糙。这个叫 <strong>FCN-32s</strong>:</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*ajovnrcLYRuwlTrM5j-Qng.png" alt="FCN-32s"></p>
-<p>这是因为在网络变深的时候能够获得深层次的特征，但如此同时空间位置信息也会丢失。这意味着浅网络可以获得更多的位置信息。如果我们把两种网络合并在一起，我们可以平衡结果。</p>
-<p>为了组合，我们融合输出（通过元素添加）：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*lUnNaKAjL-Mq10v3tIBtJg.png" alt="融合FCN-16s和FCN-8s"></p>
-<p><strong>FCN-16s:</strong>的输出是把pool5的输出2倍上采样和pool4融合并进行16次上采样。<strong>FCN-8s:</strong>操作如上图所示，也是类似。</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*tcYqvV0KHjK2ANBGe8GpjQ.png" alt="对比不同的FCNs结果"></p>
-<p>FCN-32s由于位置信息丢失结果非常粗糙，而FCN-8s的结果最好。</p>
-<p>这种融合操作实际上就像AlexNet,VGGNet和GoogleNet中使用的增强/整合技术一样，它们通过多个模型结果的叠加，使预测更准确。但在这个任务中，它是针对每个像素去做的，并且它是拿模型中不同层的结果去叠加的。</p>
-<h2 id="4-结果"><a href="#4-结果" class="headerlink" title="4.结果"></a>4.结果</h2><p><img src="https://cdn-images-1.medium.com/max/2000/1*2obgSShyzzBKuds_XxPCoA.png" alt="Pascal VOC 2011 dataset (Left), NYUDv2 Dataset (Middle), SIFT Flow Dataset (Right)
-"></p>
-<ul>
-<li>FCN-8s在Pascal VOC 2011数据集上效果最佳</li>
-<li>FCN-16s在NYUDv2数据集上效果最佳</li>
-<li>FCN-16s在SIFT数据集上效果最佳</li>
+<h5 id="好莱坞"><a href="#好莱坞" class="headerlink" title="好莱坞"></a>好莱坞</h5><ul>
+<li>蜘蛛侠-平行宇宙  - ⭐️⭐️⭐️⭐️</li>
+<li>杰出公民  - ⭐️⭐️⭐️⭐️</li>
+<li>碟中谍6：全面瓦解  - ⭐️⭐️⭐️⭐️</li>
+<li>奇迹男孩  - ⭐️⭐️⭐️</li>
+<li>头号玩家  - ⭐️⭐️⭐️</li>
+<li>海王  - ⭐️⭐️⭐️</li>
+<li>寂静之地  - ⭐️⭐️⭐️</li>
+<li>第六感生死缘  - ⭐️⭐️⭐️</li>
+<li>美国丽人 - ⭐️⭐️⭐️</li>
+<li>古墓丽影：源起之战 - ⭐️⭐️</li>
+<li>黑豹  - ⭐️⭐️</li>
+<li>复仇者联盟3  - ⭐️⭐️</li>
+<li>蚁人2  - ⭐️</li>
+<li>金刚-骷髅岛  - ⭐️</li>
 </ul>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*fU9El2B2qELtKsD9FsHB-w.png" alt="结果可视化比较
-"></p>
-<p>第四行显示了一个失败案例：网络把船上的救生衣当作了人。</p>
-<p>希望将来能够更多地阅读有关语义分割的深度学习技术。</p>
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
-<li>[2015 CVPR] [FCN] <a href="https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf" target="_blank" rel="external">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
-<li>[2017 TPAMI] [FCN] <a href="https://ieeexplore.ieee.org/document/7478072" target="_blank" rel="external">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
-</ol>
+<h5 id="日本"><a href="#日本" class="headerlink" title="日本"></a>日本</h5><ul>
+<li>无人知晓 - ⭐️⭐️⭐️</li>
+</ul>
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><ul>
+<li>看不见的客人 - ⭐️⭐️⭐️⭐️</li>
+<li>斯大林之死  - ⭐️⭐️⭐️⭐️</li>
+<li>一个叫欧维的男人决定去死 - ⭐️⭐️⭐️⭐️</li>
+<li>恐怖直播 - ⭐️⭐️⭐️⭐️</li>
+<li>艾尔酒吧 - ⭐️⭐️⭐️</li>
+<li>普通女人  - ⭐️⭐️⭐️</li>
+<li>燃烧  - ⭐️⭐️⭐️</li>
+<li>厕所英雄 - ⭐️⭐️</li>
+</ul>
+<h4 id="美剧-英剧-日剧-纪录片"><a href="#美剧-英剧-日剧-纪录片" class="headerlink" title="美剧-英剧-日剧-纪录片"></a>美剧-英剧-日剧-纪录片</h4><ul>
+<li>辛普森：美国制造 - ⭐️⭐️⭐️⭐️⭐️</li>
+<li>Ugly Delicious - ⭐️⭐️⭐️⭐️⭐️</li>
+<li>风骚律师 - 第四季 - ⭐️⭐️⭐️⭐️</li>
+<li>毒枭：墨西哥 - ⭐️⭐️⭐️⭐️</li>
+<li>梅尔罗斯 - ⭐️⭐️⭐️⭐️</li>
+<li>硅谷第五季 - ⭐️⭐️⭐️⭐️</li>
+<li>非自然死亡 - ⭐️⭐️⭐️⭐️</li>
+<li>西部世界第二季  - ⭐️⭐️⭐️</li>
+<li>保镖  - ⭐️⭐️⭐️</li>
+<li>利器  - ⭐️⭐️⭐️</li>
+<li>杀死伊芙 - ⭐️⭐️⭐️</li>
+<li>了不起的麦瑟尔夫人 - ⭐️⭐️⭐️</li>
+<li>9号秘事第四季 - ⭐️⭐️⭐️</li>
+</ul>
+<h4 id="音乐"><a href="#音乐" class="headerlink" title="音乐"></a>音乐</h4><ul>
+<li>Kendrick Lamar</li>
+</ul>
+<h4 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h4><ul>
+<li>那不勒斯四部曲（1）- 我的天才女友 - ⭐️⭐️⭐️⭐️⭐️</li>
+<li>那不勒斯四部曲（2）- 新名字的故事 - ⭐️⭐️⭐️⭐️</li>
+<li>那不勒斯四部曲（3）- 离开的，留下的 - ⭐️⭐️⭐️⭐️</li>
+<li>那不勒斯四部曲（4）- 失踪的孩子 - ⭐️⭐️⭐️⭐️</li>
+<li>失明症漫记 - ⭐️⭐️⭐️⭐️</li>
+<li>我是个年轻人，我心情不太好- ⭐️⭐️⭐️</li>
+<li>富士山禁恋- ⭐️⭐️⭐️</li>
+</ul>
+<h4 id="Podcast"><a href="#Podcast" class="headerlink" title="Podcast"></a>Podcast</h4><ul>
+<li>灭茶苦茶</li>
+<li>文化土豆</li>
+<li>硅谷早知道</li>
+<li>Blow Your Mind</li>
+<li>The Dave Chang Show</li>
+<li>996 Podcast by GGV</li>
+</ul>
+<h3 id="体育"><a href="#体育" class="headerlink" title="体育"></a>体育</h3><ul>
+<li>2018年世界杯 1/8 决赛：法国-阿根廷</li>
+<li>17-18 NBA季后赛 西部决赛 - 金州勇士-休斯顿火箭队</li>
+</ul>
+<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><ul>
+<li>年度编程语言 - Python</li>
+<li>年度技术点 - DeepLearning</li>
+<li>年度App - 微信读书，网易有钱</li>
+<li>年度工具 - PyCharm Ce</li>
+<li>年度硬件 - AirPods，15寸mbp</li>
+<li>年度公开课 - 3blue1brow, 李宏毅机器学习课程</li>
+</ul>
 
           
         
@@ -406,7 +432,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/55/">55</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/56/">56</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -456,7 +482,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">56</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
