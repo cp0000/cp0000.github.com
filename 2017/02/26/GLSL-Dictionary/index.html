@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="css/main.css">
+
+
+<link rel="stylesheet" href="lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"https:/cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="基本类型   类型 说明    void 空类型   bool 布尔类型   int 带符号的整数 signed integer   float 带符号的浮点数 floating scalar   vec2,vec3,vec4 n维浮点数向量 n-component floating point vector   bvec2,bvec3,bvec4 n维整数向量 singed integer ve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning OpenGL：GLSL Shader 手册">
+<meta property="og:url" content="2017/02/26/GLSL-Dictionary/index.html">
+<meta property="og:site_name" content="CP WRITINGS">
+<meta property="og:description" content="基本类型   类型 说明    void 空类型   bool 布尔类型   int 带符号的整数 signed integer   float 带符号的浮点数 floating scalar   vec2,vec3,vec4 n维浮点数向量 n-component floating point vector   bvec2,bvec3,bvec4 n维整数向量 singed integer ve">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-02-26T06:26:08.000Z">
+<meta property="article:modified_time" content="2017-10-06T14:20:53.000Z">
+<meta property="article:author" content="Pei Cheng">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="2017/02/26/GLSL-Dictionary/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Learning OpenGL：GLSL Shader 手册 | CP WRITINGS</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CP WRITINGS</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="2017/02/26/GLSL-Dictionary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="images/avatar.gif">
+      <meta itemprop="name" content="Pei Cheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CP WRITINGS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Learning OpenGL：GLSL Shader 手册
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-26 14:26:08" itemprop="dateCreated datePublished" datetime="2017-02-26T14:26:08+08:00">2017-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-10-06 22:20:53" itemprop="dateModified" datetime="2017-10-06T22:20:53+08:00">2017-10-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void</td>
+<td>空类型</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>布尔类型</td>
+</tr>
+<tr>
+<td>int</td>
+<td>带符号的整数 signed integer</td>
+</tr>
+<tr>
+<td>float</td>
+<td>带符号的浮点数 floating scalar</td>
+</tr>
+<tr>
+<td>vec2,vec3,vec4</td>
+<td>n维浮点数向量 n-component floating point vector</td>
+</tr>
+<tr>
+<td>bvec2,bvec3,bvec4</td>
+<td>n维整数向量 singed integer vector</td>
+</tr>
+<tr>
+<td>bvec2,bvec3,bvec4</td>
+<td>n维布尔向量 boolean vector</td>
+</tr>
+<tr>
+<td>ivec2,ivec3,ivec4</td>
+<td>n维整数向量 singed integer vector</td>
+</tr>
+<tr>
+<td>mat2,mat3,mat4</td>
+<td>2X2,3X3,4X4 浮点数矩阵 float matrix</td>
+</tr>
+<tr>
+<td>sampler2D</td>
+<td>2D 纹理  a 2D texture</td>
+</tr>
+<tr>
+<td>samplerCube</td>
+<td>盒纹理  cube mapped texture</td>
+</tr>
+</tbody></table>
+<h2 id="基本结构和数组"><a href="#基本结构和数组" class="headerlink" title="基本结构和数组"></a>基本结构和数组</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>结构</td>
+<td>struct type-name{} 类似c语言中的结构体</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>float foo3[] glsl 只支持1维数组，数组可以是结构体的成员</td>
+</tr>
+</tbody></table>
+<p>##内置的特殊变量</p>
+<p>glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成<code>input</code>,<code>output</code>两种类型，<code>input</code>类型，负责向硬件（渲染管线）发送数据，<code>output</code>类型负责向程序回传数据。</p>
+<ul>
+<li>在vertex shader中</li>
+</ul>
+<p>output 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>highp vec4 gl_Position;</td>
+<td>gl_Position 放置顶点坐标信息</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>mediump float gl_Pointsize;</td>
+<td>gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效）</td>
+<td>float</td>
+</tr>
+</tbody></table>
+<ul>
+<li>在fragment Shader中：</li>
+</ul>
+<p>input 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mediump vec4 gl_FragCoord;</td>
+<td>片元在fragmebuffer画面的相对位置</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>bool gl_FrontFacing</td>
+<td>标志当前图元是不是正面图元的一部分</td>
+<td>bool</td>
+</tr>
+<tr>
+<td>mediump vec2 gl_PointCoord;</td>
+<td>经过插值计算后的纹理坐标，点的范围是0.0到1.0</td>
+<td>vec2</td>
+</tr>
+</tbody></table>
+<p>output 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mediump vec4 gl_FragColor;</td>
+<td>设置当前片点的颜色</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>mediump vec4 gl_FragData[n];</td>
+<td>设置当前片点的颜色,使用glDrawBuffers数据数组</td>
+<td>vec4</td>
+</tr>
+</tbody></table>
+<p>##内置函数库</p>
+<p>###通用函数</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T abs(T x)</td>
+<td>返回x的绝对值</td>
+</tr>
+<tr>
+<td>T sign(T x)</td>
+<td>比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0</td>
+</tr>
+<tr>
+<td>T floor(T x)</td>
+<td>返回 &lt;= x 的最大整数</td>
+</tr>
+<tr>
+<td>T ceil(T x)</td>
+<td>返回 &gt;= x 的最小整数</td>
+</tr>
+<tr>
+<td>T fract(T x)</td>
+<td>返回 x 的小数部分</td>
+</tr>
+<tr>
+<td>T mod(T x,T y) T mod(T x,float y)</td>
+<td>取 x,y 的余数</td>
+</tr>
+<tr>
+<td>T min(T x,T y) T min(T x,float y)</td>
+<td>取 x,y 的最小值</td>
+</tr>
+<tr>
+<td>T max(T x,T y) T max(T x,float y)</td>
+<td>取 x,y 的最大值</td>
+</tr>
+<tr>
+<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal)</td>
+<td>min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间</td>
+</tr>
+<tr>
+<td>T mix(T x,T y, T a) T mix(T x,T y, float a)</td>
+<td>取 x,y 的线性混合，x(1-a)+ya</td>
+</tr>
+<tr>
+<td>T step(T edge,T x) T step(float edge,T x)</td>
+<td>if x &lt; edge返回0.0， 否则返回1.0</td>
+</tr>
+<tr>
+<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x)</td>
+<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0， 否则返回Hermite插值</td>
+</tr>
+</tbody></table>
+<h3 id="角度-amp-三角函数"><a href="#角度-amp-三角函数" class="headerlink" title="角度&amp;三角函数"></a>角度&amp;三角函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T radinans(T degrees)</td>
+<td>角度转弧度</td>
+</tr>
+<tr>
+<td>T degrees(T radians)</td>
+<td>弧度转角度</td>
+</tr>
+<tr>
+<td>T sin(T angle)</td>
+<td>正弦函数</td>
+</tr>
+<tr>
+<td>T cos(T angle)</td>
+<td>余弦函数</td>
+</tr>
+<tr>
+<td>T tan(T angle)</td>
+<td>正切函数</td>
+</tr>
+<tr>
+<td>T asin(T angle)</td>
+<td>反正弦函数</td>
+</tr>
+<tr>
+<td>T acos(T angle)</td>
+<td>反余弦函数</td>
+</tr>
+<tr>
+<td>T atan(T y, T x) T atan(T y_over_x)</td>
+<td>反正切函数</td>
+</tr>
+</tbody></table>
+<h3 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T pow(T x, T y)</td>
+<td>返回x的y次幂</td>
+</tr>
+<tr>
+<td>T exp(T x)</td>
+<td>返回x的自然指数幂</td>
+</tr>
+<tr>
+<td>T log(T x)</td>
+<td>返回x的自然对数 ln</td>
+</tr>
+<tr>
+<td>T exp2(T x)</td>
+<td>返回2的x次幂</td>
+</tr>
+<tr>
+<td>T log2(T x)</td>
+<td>返回2位低的对数 log2</td>
+</tr>
+<tr>
+<td>T sqrt(T x)</td>
+<td>开根号 √x</td>
+</tr>
+<tr>
+<td>T inversesqrt(T x)</td>
+<td>先开根号，在取倒数，</td>
+</tr>
+</tbody></table>
+<h3 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>float length(T x)</td>
+<td>返回矢量x的长度</td>
+</tr>
+<tr>
+<td>float distance(T p0,T p1)</td>
+<td>返回p0, p1两点的距离</td>
+</tr>
+<tr>
+<td>float dot(T x,T y)</td>
+<td>返回x y 的点积</td>
+</tr>
+<tr>
+<td>vec3 cross(vec3 x,vec3 y)</td>
+<td>返回x y 的叉积</td>
+</tr>
+<tr>
+<td>vec3 normalize(T y)</td>
+<td>对x进行归一化，保持向量方向不变但长度变为1</td>
+</tr>
+<tr>
+<td>vec3 faceforward(T N, T I, T Nref)</td>
+<td>根据 矢量 N 与Nref 调整法向量</td>
+</tr>
+<tr>
+<td>vec3 reflect(T I, T N)</td>
+<td>返回 I - 2 * dot(N,I) * N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量</td>
+</tr>
+<tr>
+<td>vec3 normalize(T I, T N, float eta)</td>
+<td>返回入射矢量I关于法向量N的折射矢量,折射率为eta</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="2017/01/29/becoming-steve-jobs/" rel="prev" title="读书笔记《成为乔布斯》">
+      <i class="fa fa-chevron-left"></i> 读书笔记《成为乔布斯》
+    </a></div>
+      <div class="post-nav-item">
+    <a href="2017/03/19/framebuffer-object-opengl/" rel="next" title="Learning OpenGL：帧缓冲对象">
+      Learning OpenGL：帧缓冲对象 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">基本类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%E5%92%8C%E6%95%B0%E7%BB%84"><span class="nav-number">2.</span> <span class="nav-text">基本结构和数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%92%E5%BA%A6-amp-%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">角度&amp;三角函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">指数函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%BD%95%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">几何函数</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Pei Cheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="lib/anime.min.js"></script>
+  <script src="lib/velocity/velocity.min.js"></script>
+  <script src="lib/velocity/velocity.ui.min.js"></script>
+
+<script src="js/utils.js"></script>
+
+<script src="js/motion.js"></script>
+
+
+<script src="js/schemes/muse.js"></script>
+
+
+<script src="js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

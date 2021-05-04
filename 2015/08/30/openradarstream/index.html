@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="css/main.css">
+
+
+<link rel="stylesheet" href="lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"https:/cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="写在前面随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Openradar Stream">
+<meta property="og:url" content="2015/08/30/openradarstream/index.html">
+<meta property="og:site_name" content="CP WRITINGS">
+<meta property="og:description" content="写在前面随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://cp0000.github.io/assets/radardetector2.jpg">
+<meta property="article:published_time" content="2015-08-30T14:02:42.000Z">
+<meta property="article:modified_time" content="2017-10-06T14:25:04.000Z">
+<meta property="article:author" content="Pei Cheng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cp0000.github.io/assets/radardetector2.jpg">
+
+<link rel="canonical" href="2015/08/30/openradarstream/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Openradar Stream | CP WRITINGS</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CP WRITINGS</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="2015/08/30/openradarstream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="images/avatar.gif">
+      <meta itemprop="name" content="Pei Cheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CP WRITINGS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Openradar Stream
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2015-08-30 22:02:42" itemprop="dateCreated datePublished" datetime="2015-08-30T22:02:42+08:00">2015-08-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-10-06 22:25:04" itemprop="dateModified" datetime="2017-10-06T22:25:04+08:00">2017-10-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="http://cp0000.github.io/assets/radardetector2.jpg" alt="Openradar Stream"></p>
+<h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><p>随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债”上，之前release了太多的feature，遗留了太多的bug，会在这一次修复掉。</p>
+<h4 id="Openradar-stream-的来由"><a href="#Openradar-stream-的来由" class="headerlink" title="Openradar stream 的来由"></a>Openradar stream 的来由</h4><p>和大多数 iOS developers 一样，我也在第一时间安装了 iOS 9 beta版本。满足了尝鲜感之后，随着而来就是 beta 系统的不稳定，以及各种的bug。用 iOS 9 进行开发的过程中，我遇到了许许多多的坑，对于一些系统的bug，会花费掉我很多的时间去debug。然后，我发现了<a target="_blank" rel="noopener" href="http://www.openradar.appspot.com/">openradar</a>。一个 open database of radars for Apple bug。从openradar 上，你可以看到其他开发者提交的bug，这当然会为你省去很多的时间，帮助你避免很多的坑。</p>
+<p>后来我想我是不是应该做一个自动的脚本，定时的去抓取这个网页上面的信息，然后发到微博上。关注这个微博的人就可以在自己的时间线上面看到最新的bug了。这样做的好处是，一来你了解到bug信息，下次你遇到类似的问题，会联想到之前看过的bug信息，省去大量的时间。二来，刷微博的时候，还顺便学习了新知识，就没那么大的罪恶感了～。为此，我写一个tiny project，auto radarstream。</p>
+<h4 id="具体工作"><a href="#具体工作" class="headerlink" title="具体工作"></a>具体工作</h4><p>完成openradarstream，有以下事情需要去做</p>
+<p><strong>前期工作</strong></p>
+<ul>
+<li>申请一个微博账号，并申请微博OpenApi，获取到<code>apikey</code>和<code>apisecret</code>。</li>
+<li>获取到微博的 accessToken， expires</li>
+</ul>
+<p><strong>开发工具</strong></p>
+<ul>
+<li>language: python</li>
+<li>database: sqlite</li>
+</ul>
+<p><strong>细节</strong></p>
+<ul>
+<li><p>设置好微博的环境，其中微博的OpenAPI,使用开源库<a target="_blank" rel="noopener" href="https://github.com/michaelliao/sinaweibopy">sinaweibopy</a></p>
+</li>
+<li><p>初始化数据库</p>
+<pre><code>  def initDB ():
+      print &#39;initDB ...&#39;
+      db = sqlite3.connect(sqlite_file)
+      cursor = db.cursor()
+      cursor.execute(&#39;&#39;&#39;CREATE TABLE IF NOT EXISTS
+                        bugs(id INTEGER PRIMARY KEY, bugid TEXT, status TEXT, originator TEXT, product TEXT, title TEXT)&#39;&#39;&#39;)
+      db.commit()
+</code></pre>
+</li>
+<li><p>获取网站信息，并做相关处理。</p>
+<p>  第一步利用 urllib2 获取<a target="_blank" rel="noopener" href="http://openradar.appspot.com/">openradar</a>主页信息。<br>  第二步对获取到的信息，利用 BeautifulSoap 对<code>html</code>进行解析，得到一个buglist。<br>  第三步，由于网页上面的信息是按时间降序的，而我们是希望最新的bug，在本次最后一个发布，这样这条bug会出现在微博主页时间线的最上头。所以我们这里反转buglist。<br>  第四步，遍历buglist，发布没有发布的bug，并把发布过的bug插入数据库存档。</p>
+</li>
+</ul>
+<p>项目在Github上面的地址：<a target="_blank" rel="noopener" href="https://github.com/cp0000/radarstream">radarstream</a>。</p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p><strong>To track open radar posts, please follow <a target="_blank" rel="noopener" href="http://weibo.com/p/1005051666350201">@openradarstream</a></strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/" rel="prev" title="UICollectionViews Now Have Easy Reordering （译）">
+      <i class="fa fa-chevron-left"></i> UICollectionViews Now Have Easy Reordering （译）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="2015/09/03/There-will-be-blood/" rel="next" title="There Will Be Blood">
+      There Will Be Blood <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Openradar-stream-%E7%9A%84%E6%9D%A5%E7%94%B1"><span class="nav-number">2.</span> <span class="nav-text">Openradar stream 的来由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">具体工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Pei Cheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="lib/anime.min.js"></script>
+  <script src="lib/velocity/velocity.min.js"></script>
+  <script src="lib/velocity/velocity.ui.min.js"></script>
+
+<script src="js/utils.js"></script>
+
+<script src="js/motion.js"></script>
+
+
+<script src="js/schemes/muse.js"></script>
+
+
+<script src="js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
