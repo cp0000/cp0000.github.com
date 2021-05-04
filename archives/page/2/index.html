@@ -1,430 +1,539 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Archives | CP WRITINGS</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+<link rel="stylesheet" href="css/main.css">
 
-  <meta name="generator" content="CP WRITINGS">
 
-  
-  
+<link rel="stylesheet" href="lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"https:/cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="CP WRITINGS">
+<meta property="og:url" content="archives/page/2/index.html">
+<meta property="og:site_name" content="CP WRITINGS">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Pei Cheng">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="archives/page/2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Archive | CP WRITINGS</title>
   
 
-  
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body class="home-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="http://cp0000.github.io/assets/icon/logo.jpg" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">CP WRITINGS</h1>
-            <h2 class="blog-description"></h2>
-        </div>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-</header>
-  
-<main class="content" role="main">
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2016-10-22T04:55:05.000Z" itemprop="datePublished">
-          Oct 22 2016
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2016/10/22/install-caffe-on-macosx/">如何在Macosx上安装caffe</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。
-硬软件环境&gt;    电脑：iMac    系统：OX EI Caption 版本10.11.4
-Homebrew
-官方推荐使用Homebrew来管理依赖项的下载，安装。
-Anaconda Python
-Anaconda是python的一个常用的科学计
-      
-      </p>
-      
-      <p>
-          <a href="/2016/10/22/install-caffe-on-macosx/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2016-09-25T15:05:21.000Z" itemprop="datePublished">
-          Sep 25 2016
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2016/09/25/2016-1st-half/">2016上半年电影，美剧，以及书 清单</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        电影
-中国
-
-饮食男女
-喜宴
-推手
-
-李安“父亲”三部曲；在三部电影里面，饰演男主角的郎雄，都给人一种很亲切的感觉，让人很喜爱这老头儿。最喜欢《饮食男女》中吴倩莲饰演的二姐，走在最先锋的人，却最终选择了守住传统。
-
-
-北京遇上西雅图之不二情书
-
-加分的是那对老夫妇，以及老爷子身上的文人气质
-
-
-寒战2
-
-梁sir还是那么棒
-
-
-使徒行者
-火锅英雄
-老炮儿
-
-日本
-
-步伐不停
-
-平淡的，生活化的，舍不得结束的
-
-
-海街日记
-
-依旧是平淡的
-      
-      </p>
-      
-      <p>
-          <a href="/2016/09/25/2016-1st-half/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2016-07-30T06:35:05.000Z" itemprop="datePublished">
-          Jul 30 2016
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2016/07/30/shanghai-4-years/">五年，四年</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        
-2012年端午节前的一个礼拜，我买了张从南宁到上海的火车票,只身一人来到上海。
-两个礼拜前我从广州的一家公司辞职。这家广州公司在南宁有一个更小的办公室，我11年刚毕业的时候找不到很好的工作，就先去那个小办公室上班；那时我和大学室友在公司附近一起租了一套房子，房主是戒毒所医生，一个个子小小的，为人和蔼的南宁阿姨；同年10月份，我被派去广州出差，那是我第一次去发达省份，第一次坐地铁，也第一次感受到大城市竞争的残酷性。不过那时我以为自己年底
-      
-      </p>
-      
-      <p>
-          <a href="/2016/07/30/shanghai-4-years/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2016-06-11T08:21:36.000Z" itemprop="datePublished">
-          Jun 11 2016
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2016/06/11/pragmatic-thinking-and-learning/">《程序员的思维训练》读书笔记</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        
-技术从业人员的五个级别
-书中开篇介绍一项技术领域的从业人员，大体可以分成五个级别：新手，高级新手，胜任者，精通者，专家。从名次表面就很好理解这五个级别所代表的意思。有意思的地方在于现在国内的大型互联网公司内部，技术人员的职级分类也是如此：初级工程师，工程师，高级工程师，资深工程师，专家。文中列举了一些各个级别的人的一些有意思的特征，如新手非常在乎他们是否成功，新手不是特别想要学习，他们只是想要一个立竿见影的效果，如果出错，他们非常容易
-      
-      </p>
-      
-      <p>
-          <a href="/2016/06/11/pragmatic-thinking-and-learning/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2016-03-06T03:32:44.000Z" itemprop="datePublished">
-          Mar 6 2016
-      </time>
-    
-    
-    | 
-    <a href='/tags/iOS-Reverse-Engineering/'>iOS Reverse Engineering</a>
-    
-    
-</span>
-      <h2 class="post-title"><a href="/2016/03/06/iOS-reverse-engineering-03/">iOS逆向工程-0x02－Hacking on B612</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。
-B612是Line公司出品的一款非常棒的拍照软件。它的界面，交互，用起来非常顺手。app中的滤镜效果很赞，用户简单几步操作就可以生成一张很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。
-
-      
-      </p>
-      
-      <p>
-          <a href="/2016/03/06/iOS-reverse-engineering-03/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-12-31T03:10:31.000Z" itemprop="datePublished">
-          Dec 31 2015
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2015/12/31/2015-summary/">2015 年终总结</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        上海的冬天不是很好过，屋里屋外都很冷。忙碌中，不觉间，这一年已经来到了12月31号，15年就快要结束了。这两年自己也算养成了在一年结束的时候写一篇年終总结的习惯，好让自己来和这一年说再见。
-15年对自己影响最大的事情是奶奶的过世。奶奶的逝去的那一阵子，让我恍惚间有了一种了无牵挂的感觉。那段时间，我觉得自己从此无依无靠；没有了任何牵挂，也无了任何寄托。自己可以随风漂泊去任何地方了。
-每当我遇到自己恐惧的事情，会想到奶奶；想到奶奶临终前独自
-      
-      </p>
-      
-      <p>
-          <a href="/2015/12/31/2015-summary/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-12-27T14:16:11.000Z" itemprop="datePublished">
-          Dec 27 2015
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2015/12/27/2015-2nd-movie-list/">2015下半年电影清单</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        中国大陆
-
-港囧 (2015)
-西游记之大圣归来 (2015) ✔
-寻龙诀 (2015) ✔
-
-中国香港
-
-暗战 暗戰 (1999) ✔
-
-中国台湾
-
-我的少女时代 我的少女時代 (2015)✔
-
-欧美
-
-蚁人 Ant-Man (2015) ✔
-小黄人大眼萌 Minions (2015)
-碟中谍5：神秘国度 Mission: Impossible - Rogue Nation (2015) ✔
-模仿游戏 The Imitation Ga
-      
-      </p>
-      
-      <p>
-          <a href="/2015/12/27/2015-2nd-movie-list/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-11-30T14:00:07.000Z" itemprop="datePublished">
-          Nov 30 2015
-      </time>
-    
-    
-    | 
-    <a href='/tags/iOS-Reverse-Engineering/'>iOS Reverse Engineering</a>
-    
-    
-</span>
-      <h2 class="post-title"><a href="/2015/11/30/iOS-reverse-engineering-02/">iOS逆向工程-0x01－工具篇-Cycript</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。
-当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。
-
-比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码
-
-那问题来了，我们要如何知道哪个函
-      
-      </p>
-      
-      <p>
-          <a href="/2015/11/30/iOS-reverse-engineering-02/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-11-21T02:46:07.000Z" itemprop="datePublished">
-          Nov 21 2015
-      </time>
-    
-    
-    | 
-    <a href='/tags/iOS-Reverse-Engineering/'>iOS Reverse Engineering</a>
-    
-    
-</span>
-      <h2 class="post-title"><a href="/2015/11/21/iOS-reverse-engineering-01/">iOS逆向工程-0x00－用途以及准备工作</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言
-好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
-作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationControlle
-      
-      </p>
-      
-      <p>
-          <a href="/2015/11/21/iOS-reverse-engineering-01/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-10-26T16:05:53.000Z" itemprop="datePublished">
-          Oct 27 2015
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2015/10/27/27/">活到二十七</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        
-“Many people die at 25 and aren’t buried until 75.”(很多人25岁就死了，但是要75岁才被埋进土里)－－这是美国政治家，科学家富兰克林的名句。
-
-这里的死当然不是生理上的死亡，我的理解是指一个人的生活进入了静止的状态；早上8点起床，吃着相同的早餐，走着每天上下班的路去公司，开始一天忙碌的办公司生活，日复一日，循环至死。
-今天是我二七岁的生日，想来我自己不也是如此嘛？每天的日子趋于静止，
-      
-      </p>
-      
-      <p>
-          <a href="/2015/10/27/27/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <nav class="pagination" role="pagination">
-    <a class="newer-posts" href="/archives/">← Newer Posts</a>
-    <span class="page-number">Page 2 of 4</span>
-    <a class="older-posts" href="/archives/page/3/">Older Posts →</a>
-  </nav>
-</main>
-
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">CP WRITINGS</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
   </div>
-</footer>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <div class="site-meta">
 
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CP WRITINGS</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
 
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-63703524-1']);
-    _gaq.push(['_trackPageview']);
 
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content archive">
+            
+
+  
+  
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        
+        <span class="collection-header">Nice! 58 posts in total. Keep on posting.</span>
+      </div>
+
+      
+    <div class="collection-year">
+      <span class="collection-header">2019</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2019-11-20T00:05:53+08:00"
+              content="2019-11-20">
+          11-20
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2019/11/20/31/" itemprop="url">
+            <span itemprop="name">活到31</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2019-03-31T14:41:59+08:00"
+              content="2019-03-31">
+          03-31
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2019/03/31/logistic-regression/" itemprop="url">
+            <span itemprop="name">逻辑回归</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2019-03-02T16:02:21+08:00"
+              content="2019-03-02">
+          03-02
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2019/03/02/entropy/" itemprop="url">
+            <span itemprop="name">机器学习基础知识：熵，交叉熵，相对熵</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2019-01-20T20:09:46+08:00"
+              content="2019-01-20">
+          01-20
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2019/01/20/2018-summary/" itemprop="url">
+            <span itemprop="name">2018年度总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2018</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-11-18T22:00:21+08:00"
+              content="2018-11-18">
+          11-18
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2018/11/18/review-fcn/" itemprop="url">
+            <span itemprop="name">全卷积网络-语义分割的简介</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-11-06T00:24:40+08:00"
+              content="2018-11-06">
+          11-06
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2018/11/06/review-fsrcnn/" itemprop="url">
+            <span itemprop="name">超分FSRCNN的简介</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-11-04T20:08:40+08:00"
+              content="2018-11-04">
+          11-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2018/11/04/30/" itemprop="url">
+            <span itemprop="name">活到30</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-06-16T10:58:22+08:00"
+              content="2018-06-16">
+          06-16
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2018/06/16/audio/" itemprop="url">
+            <span itemprop="name">音频编解码以及音乐GPU实时可视化效果实现</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-01-03T19:31:06+08:00"
+              content="2018-01-03">
+          01-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2018/01/03/goals-are-for-losers/" itemprop="url">
+            <span itemprop="name">失败者才设定目标</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2017</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-12-03T12:58:39+08:00"
+              content="2017-12-03">
+          12-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="2017/12/03/my-2017/" itemprop="url">
+            <span itemprop="name">我的2017</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+
+    </div>
+  </div>
+  
+  
+  
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="archives/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="archives/">1</a><span class="page-number current">2</span><a class="page-number" href="archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="archives/page/6/">6</a><a class="extend next" rel="next" href="archives/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Pei Cheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
 
 
-<link rel="stylesheet" href="/modules/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/modules/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-    (function($){
 
-        var wrapAll = function(q) {
-            $(q).each( function() {
-                var $img = $(this),
-                        href = $img.attr('src');
-                $img.wrap('<a rel="fancybox" href="' + href + '" title="' + $img.attr('alt') + '" class="link"></a>');
-            });
-        };
+      </div>
 
-        wrapAll('.post-content img');
-        wrapAll('.post-excerpt img');
-        $('[rel="fancybox"]').fancybox();
-    })(jQuery);
-</script>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
 
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="lib/anime.min.js"></script>
+  <script src="lib/velocity/velocity.min.js"></script>
+  <script src="lib/velocity/velocity.ui.min.js"></script>
+
+<script src="js/utils.js"></script>
+
+<script src="js/motion.js"></script>
+
+
+<script src="js/schemes/muse.js"></script>
+
+
+<script src="js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
