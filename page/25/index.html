@@ -146,7 +146,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/10/04/opengl-lighting/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/12/03/my-2017/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -160,7 +160,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2017/10/04/opengl-lighting/" class="post-title-link" itemprop="url">Learning OpenGL：光照</a>
+            <a href="/2017/12/03/my-2017/" class="post-title-link" itemprop="url">我的2017</a>
         </h2>
 
         <div class="post-meta">
@@ -170,14 +170,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2017-10-04 17:39:47" itemprop="dateCreated datePublished" datetime="2017-10-04T17:39:47+08:00">2017-10-04</time>
+              <time title="Created: 2017-12-03 12:58:39" itemprop="dateCreated datePublished" datetime="2017-12-03T12:58:39+08:00">2017-12-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-03-02 17:54:59" itemprop="dateModified" datetime="2019-03-02T17:54:59+08:00">2019-03-02</time>
+                <time title="Modified: 2018-01-03 13:34:40" itemprop="dateModified" datetime="2018-01-03T13:34:40+08:00">2018-01-03</time>
               </span>
 
           
@@ -191,76 +191,29 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h2><p>计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。</p>
-<p>颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：</p>
-<pre><code>vec3 lightColor(1.0,1.0,1.0);
-vec3 clothingColor(0.0,0.5,0.0);
-vec3 result =  lightColor * clothingColor; // (0.0, 0.5, 0.0);
-</code></pre>
-<p>我们定义<strong>物体的颜色为物体从一个光源反射各个颜色分量的大小</strong>.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。</p>
-<p>##基础光照</p>
-<p>现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：</p>
-<p><img src="http://cp0000.github.io/assets/lighting/phong_reflection.jpg"></p>
+          <p>2017年还剩一个月，这一年马上就要走完。年初的计划如果此时还没有开始做，想必也来不及在2017去完成了。所以在12月的开头，总结一下这一年发生的事情，想想其实也不算太早。</p>
+<h2 id="Life-is-Short"><a href="#Life-is-Short" class="headerlink" title="Life is Short"></a>Life is Short</h2><p>“时间真的过得太快了“，是人们在年尾回顾一年所作所为时最常感叹的一句陈词滥调。其实，每个人都知道时间流逝，人生苦短。不过仔细想想，当我们在抱怨时间过得太快的时候，是真的在抱怨时间流逝嘛？还是在为自己这一年来碌碌无为，浑浑噩噩所苦恼？Paul Graham在他的博客里提出一个很有意思的假设： 假如我们人类的寿命是现在的10倍，那我们还会感叹人生苦短么？这个假设目前无从验证，但如果感叹人生苦短的本质是苦恼于自己的碌碌无为，那我们应该还是会感叹时间飞逝，即便我们能活800年。</p>
+<p>一个可以稍微减轻<code>life is short</code>的解法是不要等待，想到了就去做。诸如明天再进行体育锻炼，下个礼拜再给父母打电话，下个月再开始学习新技术，明年再思考自己到底想做什么等等这些需要以后再去做的事情，最好能当下处理掉。我们不应该感叹于时光飞逝，自己却什么都没做；而应该满足于逝去的时间我都在做我想做，喜欢做的事情上。感叹于物理现象是没有意义的。</p>
+<h2 id="出行"><a href="#出行" class="headerlink" title="出行"></a>出行</h2><p>2017年我去了美国和澳大利亚。年初的时候是没计划今年会去澳大利亚和美国。去澳大利亚是在五月份，主要目的是旅游。那次出行，我们住在墨尔本城市里面，主要是在维多利亚州活动。维多利亚州到处都是平坦辽阔的草原，上面牛羊成群，真的是一块完美的畜牧地。旅行中见到了小企鹅，树懒，美丽的澳洲风光，可就是没看到袋鼠。墨尔本这座城市也让人很喜欢，虽说澳洲是个移民国家，没什么历史，但墨尔本给人感觉是一座很有历史感的城市。它不是很大，但很美，还有一种莫名其妙的不知道从哪里来的亲切感。在城市广场附近，我远远的看到了澳网球场，作为一个德约科维奇的球迷，没能参观他最为成功的一块球场，略微有点遗憾。相比于墨尔本，黄金海岸给我的感觉是个典型的旅游海岛型城市，坐直升飞机俯览整个黄金海岸，真的很美。行程中，我不止一次的羡慕这块土地的人们，他们的地理环境比起我们中国真的好太多。</p>
+<p>去美国是在8月下旬的时候，原因是公司和苹果合作参与<code>iPhone X</code>的新特性封闭开发。凭借着自己三脚猫的英语口语，过了美国海关，搭上出租车来到圣何塞的库比蒂诺和同事汇合。硅谷整体给人的观感是一个大农村，公共交通设施很差，物价很高。天气也比较干旱，一开始会不太喜欢那里的天气，但呆久了就觉得还挺好。硅谷的建筑都不高，一般都是四五层楼，不像国内的办公楼动辄二三十层。那是段很有意思的经历。</p>
+<h2 id="一些推荐"><a href="#一些推荐" class="headerlink" title="一些推荐"></a>一些推荐</h2><p>###书<br>17年还是读了一些蛮有意思的书，其中人物传记比较多，有</p>
 <ul>
-<li>环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。</li>
-<li>漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。</li>
-<li>镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。</li>
+<li>《鞋狗》</li>
+<li>《硅谷钢铁侠：埃隆马斯克的冒险人生》</li>
+<li>《成为乔布斯》</li>
+<li>《曾国藩家书》</li>
+<li>《毛泽东传》</li>
 </ul>
-<h3 id="环境光照"><a href="#环境光照" class="headerlink" title="环境光照"></a>环境光照</h3><p>我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。</p>
-<pre><code>void main()
-&#123;
-    float ambientStrength = 0.1;
-    vec3 ambient = ambientStrength * lightColor;
-    vec3 result = ambient * objectColor;
-    gl_fragColor = vec4(result, 1.0);
-&#125;
-</code></pre>
-<h3 id="漫反射光照"><a href="#漫反射光照" class="headerlink" title="漫反射光照"></a>漫反射光照</h3><p>漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。</p>
-<p>光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做<strong>法向量</strong>（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：</p>
+<p>其他的书</p>
 <ul>
-<li>法向量：一个垂直于顶点表面的向量</li>
-<li>定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。</li>
+<li>《死之枝》</li>
+<li>《独裁者手册》</li>
+<li>《拆掉思维里的墙-原来我还可以这样活》</li>
+<li>《平凡的世界》</li>
 </ul>
-<h3 id="法向量"><a href="#法向量" class="headerlink" title="法向量"></a>法向量</h3><p>法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。</p>
-<p>###漫反射光照<br>每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：</p>
-<pre><code>uniform vec3 lightPos;
-</code></pre>
-<p>渲染的时候，设置lightPos就可以了。<br>最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：</p>
-<pre><code>varying vec3 fragPos;
-varying vec3 normal;
-
-void main() &#123;
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
-    fragPos = vec3 (model * vec4(aPos, 1.0));
-    normal = aNormal;
-&#125;
-</code></pre>
-<p>在片段着色器中，我们需要计算光源和片段位置之间的方向向量。通过让两个向量相减的方式计算向量差。</p>
-<pre><code>vec3 norm = normalize (normal);
-vec3 lightDir = normalize (lightPos - fragPos);
-</code></pre>
-<p>然后我们对 norm 和 lightDir 向量进行点乘，计算光源对当前片段实际的漫发射影响。结果值再乘以光的颜色，得到漫发射分量。两个向量之间的角度越大，漫反射分量就会越小：</p>
-<pre><code>float diff = max (dot(norm, lightDir), 0.0); // 如果两个向量之间的角度大于90度，点乘的结果就会变成负数，这样会导致漫反射分量变为负数，为此，我们使用max函数返回两个参数之间较大的参数，从而保证漫反射分量不会变成负数。
-vec3 diffuse = diff * lightColor;
-
-vec3 result = (ambient + diffuse) * objectColor;
-gl_FragColor =  vec4(result, 1.0);
-</code></pre>
-<h3 id="镜面光照（Specular-Hightlight）"><a href="#镜面光照（Specular-Hightlight）" class="headerlink" title="镜面光照（Specular Hightlight）"></a>镜面光照（Specular Hightlight）</h3><p>和漫反射光照一样，镜面光照是依据光的方向向量和物体的法向量来决定的，但是它还依赖于观察方向。镜面光照是基于光的反射特性。如果我们想象物体表面像一面镜子一样，那么无论我们从哪里去看那个表面所反射的光，镜面光照都会达到最大化。如下图：</p>
-<p><img src="http://cp0000.github.io/assets/lighting/specularLight.jpg"></p>
-<p>我们通过反射法向量周围光的方向来计算反射向量。然后我们计算反射向量和视线方向的角度差，如果夹角越小，那么镜面光的影响就会越大。<br>观察向量是镜面光照附加的一个变量，我们可以使用观察者世界空间位置和片段的位置来计算它。之后，我们计算镜面光强度，用它乘以光源的颜色，再将它加上环境光和漫反射分量。</p>
-<pre><code>uniform vec3 viewPos;
-float specularStrength = 0.5;
-float shininess  = 32; // 反光度，一个物体的反光度越高，反射光的能力越强，散射得越少，高光点就会越小
-vec3 viewDir = normalize(viewPos - fragPos);
-vec3 reflectDir = reflect(-lightDir, norm)
-float spec = pow (max (dot (viewDir, reflectDir), 0.0), shininess);
-vec3 specular = specularStrength * spec * lightColor;
-
-vec3 result = (ambient + diffuse + specular) * objectColor;
-gl_FragColor = vec4(result, 1.0);
-</code></pre>
-<p>以上就是基础光照的相关知识了。</p>
+<h3 id="播客"><a href="#播客" class="headerlink" title="播客"></a>播客</h3><p>播客听的比较多是跟李如一先生或多或少有关系的一些博客, 推荐的有：《一天世界》，《灭茶苦茶》，《博物志》，《硬影像》，《太医来了》，《声东击西》，《迟早更新》，《简单心理》</p>
+<h3 id="影视"><a href="#影视" class="headerlink" title="影视"></a>影视</h3><p>电影《赴汤蹈火》，《爱乐之城》不错；美剧《Better Call Saul》，《Mr. Robot》，《GOT》都不错。</p>
+<p>以上。</p>
 
       
     </div>
@@ -279,7 +232,7 @@ gl_FragColor = vec4(result, 1.0);
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/24/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><span class="page-number current">25</span><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/26/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/24/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><span class="page-number current">25</span><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/63/">63</a><a class="extend next" rel="next" href="/page/26/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -345,7 +298,7 @@ gl_FragColor = vec4(result, 1.0);
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -146,7 +146,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2018/11/06/review-fsrcnn/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2019/01/20/2018-summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -160,7 +160,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/11/06/review-fsrcnn/" class="post-title-link" itemprop="url">超分FSRCNN的简介</a>
+            <a href="/2019/01/20/2018-summary/" class="post-title-link" itemprop="url">2018年度总结</a>
         </h2>
 
         <div class="post-meta">
@@ -169,16 +169,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2018-11-06 00:24:40" itemprop="dateCreated datePublished" datetime="2018-11-06T00:24:40+08:00">2018-11-06</time>
+              <time title="Created: 2019-01-20 20:09:46 / Modified: 21:38:59" itemprop="dateCreated datePublished" datetime="2019-01-20T20:09:46+08:00">2019-01-20</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2018-11-19 11:57:22" itemprop="dateModified" datetime="2018-11-19T11:57:22+08:00">2018-11-19</time>
-              </span>
 
           
 
@@ -191,73 +185,90 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>这是一篇译文，原文<a target="_blank" rel="noopener" href="https://towardsdatascience.com/review-fsrcnn-super-resolution-80ca2ee14da4">Review:FSRCNN(Super Resolution)</a></p>
-</blockquote>
-<p>本文主要用来概述一篇实时超分辨率的实现FSRCNN，全称Fast Super-Resolution Convolutional Neural Network，FSRCNN 发表于2016年的ECCV，目前为止有近300次的引用。<br>FSRCNN有着一个相对浅的网络结构，浅网络层让我们比较好理解每一个网络层的用途。与SRCNN相比，它重建后的图像质量更高。</p>
-<p>对比SRCNN，FSRCNN-s(FSRCNN小模型版本)，FSRCNN-s 有着更好的PSNR（图像质量），更快的处理时长。<br>对比 SRCNN-Ex（SRCNN优质版本）和 FSRCNN，FSRCNN的结果PSNR更好，处理速度更快。<br>所以，来看下FSRCNN是如何达到质量和速度双优的</p>
-<p>下文包含如下内容：</p>
-<ul>
-<li>SRCNN 简述</li>
-<li>FSRCNN 网络架构</li>
-<li>如何利用 1x1 卷积对网络进行压缩和扩大</li>
-<li>如何利用多个 3X3 卷积实现非线性映射</li>
-<li>对比实验</li>
-<li>结论</li>
+          <p><img src="http://cp0000.github.io/assets/2018/2018.jpg" alt="2018"></p>
+<h3 id="文娱"><a href="#文娱" class="headerlink" title="文娱"></a>文娱</h3><h4 id="电影"><a href="#电影" class="headerlink" title="电影"></a>电影</h4><h5 id="中国"><a href="#中国" class="headerlink" title="中国"></a>中国</h5><ul>
+<li>一一 - ⭐️⭐️⭐️⭐️⭐️</li>
+<li>红海行动 - ⭐️⭐️⭐️⭐️</li>
+<li>影 - ⭐️⭐️⭐️</li>
+<li>无双 - ⭐️⭐️⭐️</li>
+<li>我不是药神 - ⭐️⭐️⭐️</li>
 </ul>
-<p><img src="https://cdn-images-1.medium.com/max/1000/1*auit3UsBTjbnzZoLDEJUUg.png" alt="Network Architecture: SRCNN (Top) and FSRCNN (Bottom)"></p>
-<p>上图是 SRCNN 和 FSRCNN 的网络架构图。其中 Conv(f,n,c)表示该卷积： 卷积大小为fxf， 有n个过滤器以及c个输入通道。</p>
-<h2 id="1-SRCNN简述"><a href="#1-SRCNN简述" class="headerlink" title="1. SRCNN简述"></a>1. SRCNN简述</h2><p>SRCNN 的处理过程如下：</p>
-<ol>
-<li>对输入图片利用双立方采样做上采样，使得其分辨率为目标分辨率</li>
-<li>然后分别利用 9x9, 1x1, 5x5 的卷积来提高图片质量。其中 1x1 卷积是用来把低分辨率（LR）图像向量非线性映射为高分辨率 (HR) 图像向量.</li>
-</ol>
-<p>计算复杂度为：</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*OsUvb3UK7elWkaNIhDpXlA.png"></p>
-<p>计算复杂度和HR图像大小成线性比例，SHR。HR图像越大，复杂度越高。</p>
-<h2 id="2-FSRCNN-网络结构"><a href="#2-FSRCNN-网络结构" class="headerlink" title="2. FSRCNN 网络结构"></a>2. FSRCNN 网络结构</h2><p>FSRCNN 包含如下五个主要处理步骤：</p>
-<ol>
-<li>特征提取：利用一个 5x5 卷积代替 SRCNN 中的双立方差值</li>
-<li>压缩：利用 1x1 卷积把特征层从 d 压缩为 s，其中 s 小于 d</li>
-<li>非线性映射：多个 3x3 网络层代替单个的宽网络层</li>
-<li>扩大： 1x1 卷积把特征层从 s 扩大为 d</li>
-<li>反卷积： 利用 9x9 过滤器重建 HR 图像</li>
-</ol>
-<p>以上结构就是 FSRCNN(d,s,m). 其计算复杂度如下：</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*xvdMQu_xpVt5Rong_JANjQ.png"></p>
-<p>可见复杂度和 LR 图像大小成线性比例，SLR，所以它的复杂度小于 SRCNN</p>
-<p>网络中激活函数是 PReLU. PReLU意为带参数的ReLu，目的是比 ReLU 更好。（更多关于 PReLu 的内容， <a target="_blank" rel="noopener" href="https://medium.com/coinmonks/review-prelu-net-the-first-to-surpass-human-level-performance-in-ilsvrc-2015-image-f619dddd5617">请参照</a>）</p>
-<p>代价函数是均方误差（MSE）：<br><img src="https://cdn-images-1.medium.com/max/800/1*CGk1oqKbj76eNuPhYKARsQ.png"></p>
-<h2 id="3-如何利用-1x1-卷积对网络进行压缩和扩大"><a href="#3-如何利用-1x1-卷积对网络进行压缩和扩大" class="headerlink" title="3. 如何利用 1x1 卷积对网络进行压缩和扩大"></a>3. 如何利用 1x1 卷积对网络进行压缩和扩大</h2><p>假设我们在不使用 1x1 卷积的情况下运行 5x5 卷积，如下所示：</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*s6_8m_0EpwrzZPunRGgFCQ.png" alt="5x5 卷积"></p>
-<p>计算次数 = (14x14x48)x(5x5x480) = 112.9M</p>
-<p>如果使用 1x1 卷积：</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*SJDJyBGM__wRX9wJYIKv8w.png" alt="1x1 卷积"></p>
-<p>1x1 卷积计算次数 = (14x14x16)x(1x1x480) = 1.5M<br>5x5 卷积计算此时 = (14x14x48)x(5x5x16) = 3.8M<br>两者总共计算次数 = 1.5M + 3.8M = 5.3M,比只使用 5x5 足足少了 112.9M 次计算。</p>
-<p>论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.4400">Network-In-Netwrok</a>建议使用 1x1 卷积引入更多的非线性并改善性能，而GoogleNet建议 1x1 卷积有助于在保证效果的同时减小模型大小。(<a target="_blank" rel="noopener" href="https://medium.com/coinmonks/paper-review-of-googlenet-inception-v1-winner-of-ilsvlc-2014-image-classification-c2b3565a64e7">GoogleNet简述</a>)。</p>
-<p>因此在两个卷积层之前使用 1x1 卷积来减少连接（参数）。通过减少参数，我们只需要更少的乘法和加法运算，最终加速网络。这就是 FSRCNN 比 SRCNN 快的原因。</p>
-<h2 id="4-如何利用多个-3x3-卷积实现非线性映射"><a href="#4-如何利用多个-3x3-卷积实现非线性映射" class="headerlink" title="4. 如何利用多个 3x3 卷积实现非线性映射"></a>4. 如何利用多个 3x3 卷积实现非线性映射</h2><p><img src="https://cdn-images-1.medium.com/max/800/1*NMC4KrYIciGdE_FaazxF7w.png" alt="两个 3x3 滤波器可以包含一个 5x5 的滤波器区域"></p>
-<p>如上图所示通过使用2层 3x3 滤波器来覆盖 5x5 滤波器的区域，让参数数量变少。</p>
-<p>1层 5x5 滤波器的参数数量 = 5x5 = 25<br>2层 3x3 滤波器的参数数量 = 3x3+3x3 = 18<br>参数量减少了28%。而更少的参数意味着网络在训练的时候可以更快的收敛，并减少过拟合问题。</p>
-<h2 id="5-对比实验"><a href="#5-对比实验" class="headerlink" title="5. 对比实验"></a>5. 对比实验</h2><p><img src="https://cdn-images-1.medium.com/max/1600/1*c4pkT0SQRxd6N_G8KBQHkA.png" alt="对比实验"></p>
-<ul>
-<li><strong>SCRCNN-Ex:</strong> SRCNN 的优质版本，拥有 57184 个参数</li>
-<li><strong>Transition State 1:</strong> 使用反卷机，有 58976 个参数，获得更高的PSNR</li>
-<li><strong>FSRCNN (56,12,4):</strong> 更小的滤波器，更少的滤波器，有 12464 个参数，更高的PSNR。更重要的参数更少，相对容易收敛。</li>
+<h5 id="好莱坞"><a href="#好莱坞" class="headerlink" title="好莱坞"></a>好莱坞</h5><ul>
+<li>蜘蛛侠-平行宇宙  - ⭐️⭐️⭐️⭐️</li>
+<li>杰出公民  - ⭐️⭐️⭐️⭐️</li>
+<li>碟中谍6：全面瓦解  - ⭐️⭐️⭐️⭐️</li>
+<li>奇迹男孩  - ⭐️⭐️⭐️</li>
+<li>头号玩家  - ⭐️⭐️⭐️</li>
+<li>海王  - ⭐️⭐️⭐️</li>
+<li>寂静之地  - ⭐️⭐️⭐️</li>
+<li>第六感生死缘  - ⭐️⭐️⭐️</li>
+<li>美国丽人 - ⭐️⭐️⭐️</li>
+<li>古墓丽影：源起之战 - ⭐️⭐️</li>
+<li>黑豹  - ⭐️⭐️</li>
+<li>复仇者联盟3  - ⭐️⭐️</li>
+<li>蚁人2  - ⭐️</li>
+<li>金刚-骷髅岛  - ⭐️</li>
 </ul>
-<p>下表为每个组件的贡献值：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*Gg5emNKjDs9wcbobOKIxMQ.png" alt="m,sd"></p>
-<p>对比各种参数的结果，选取 m=4, d=56, s=12时，可以兼顾HR图像质量（33.16dB）和模型复杂度（12464参数）。</p>
-<p>最终我们选用 <strong>FSRCNN:FSRCNN (56,12,4),FSRCNN-s:FSRCNN (32,5,1)</strong></p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ul>
-<li>利用91张放大3倍的图片从头开始训练网络，然后利用利用放大2倍和4倍的100张图反卷积微调网络。</li>
-<li>数据增强部分，缩放：0.9，0.8，0.7，旋转：：90，180，270</li>
+<h5 id="日本"><a href="#日本" class="headerlink" title="日本"></a>日本</h5><ul>
+<li>无人知晓 - ⭐️⭐️⭐️</li>
 </ul>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*zTzSP4Y9R_RlBZwLDtCC7Q.png" alt="所有网络在91张训练集的结果"></p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*kw9miEL54IPgKW1YTodb9w.png" alt="FSRCNN和FSRCNN在91张训练集上的结果"></p>
-<p>从上述结果可以得出：FSRCNN和FSRCNN-s在放大2倍，3倍效果好。当放大4倍的效果比SCN差一点点。</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*eVcmO3zw9qO8EDstMWt5Ug.png" alt="放大3倍的效果"></p>
-<p>通过论文中的浅层网络，我们可以了解每种组件的效果，例如1×1卷积和多个3×3卷积。</p>
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><ul>
+<li>看不见的客人 - ⭐️⭐️⭐️⭐️</li>
+<li>斯大林之死  - ⭐️⭐️⭐️⭐️</li>
+<li>一个叫欧维的男人决定去死 - ⭐️⭐️⭐️⭐️</li>
+<li>恐怖直播 - ⭐️⭐️⭐️⭐️</li>
+<li>艾尔酒吧 - ⭐️⭐️⭐️</li>
+<li>普通女人  - ⭐️⭐️⭐️</li>
+<li>燃烧  - ⭐️⭐️⭐️</li>
+<li>厕所英雄 - ⭐️⭐️</li>
+</ul>
+<h4 id="美剧-英剧-日剧-纪录片"><a href="#美剧-英剧-日剧-纪录片" class="headerlink" title="美剧-英剧-日剧-纪录片"></a>美剧-英剧-日剧-纪录片</h4><ul>
+<li>辛普森：美国制造 - ⭐️⭐️⭐️⭐️⭐️</li>
+<li>Ugly Delicious - ⭐️⭐️⭐️⭐️⭐️</li>
+<li>风骚律师 - 第四季 - ⭐️⭐️⭐️⭐️</li>
+<li>毒枭：墨西哥 - ⭐️⭐️⭐️⭐️</li>
+<li>梅尔罗斯 - ⭐️⭐️⭐️⭐️</li>
+<li>硅谷第五季 - ⭐️⭐️⭐️⭐️</li>
+<li>非自然死亡 - ⭐️⭐️⭐️⭐️</li>
+<li>西部世界第二季  - ⭐️⭐️⭐️</li>
+<li>保镖  - ⭐️⭐️⭐️</li>
+<li>利器  - ⭐️⭐️⭐️</li>
+<li>杀死伊芙 - ⭐️⭐️⭐️</li>
+<li>了不起的麦瑟尔夫人 - ⭐️⭐️⭐️</li>
+<li>9号秘事第四季 - ⭐️⭐️⭐️</li>
+</ul>
+<h4 id="音乐"><a href="#音乐" class="headerlink" title="音乐"></a>音乐</h4><ul>
+<li>Kendrick Lamar</li>
+</ul>
+<h4 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h4><ul>
+<li>那不勒斯四部曲（1）- 我的天才女友 - ⭐️⭐️⭐️⭐️⭐️</li>
+<li>那不勒斯四部曲（2）- 新名字的故事 - ⭐️⭐️⭐️⭐️</li>
+<li>那不勒斯四部曲（3）- 离开的，留下的 - ⭐️⭐️⭐️⭐️</li>
+<li>那不勒斯四部曲（4）- 失踪的孩子 - ⭐️⭐️⭐️⭐️</li>
+<li>失明症漫记 - ⭐️⭐️⭐️⭐️</li>
+<li>我是个年轻人，我心情不太好- ⭐️⭐️⭐️</li>
+<li>富士山禁恋- ⭐️⭐️⭐️</li>
+</ul>
+<h4 id="Podcast"><a href="#Podcast" class="headerlink" title="Podcast"></a>Podcast</h4><ul>
+<li>灭茶苦茶</li>
+<li>文化土豆</li>
+<li>硅谷早知道</li>
+<li>Blow Your Mind</li>
+<li>The Dave Chang Show</li>
+<li>996 Podcast by GGV</li>
+</ul>
+<h3 id="体育"><a href="#体育" class="headerlink" title="体育"></a>体育</h3><ul>
+<li>2018年世界杯 1/8 决赛：法国-阿根廷</li>
+<li>17-18 NBA季后赛 西部决赛 - 金州勇士-休斯顿火箭队</li>
+</ul>
+<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><ul>
+<li>年度编程语言 - Python</li>
+<li>年度技术点 - DeepLearning</li>
+<li>年度App - 微信读书，网易有钱</li>
+<li>年度工具 - PyCharm Ce</li>
+<li>年度硬件 - AirPods，15寸mbp</li>
+<li>年度公开课 - 3blue1brow, 李宏毅机器学习课程</li>
+</ul>
 
       
     </div>
@@ -276,7 +287,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/63/">63</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -342,7 +353,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

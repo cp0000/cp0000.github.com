@@ -146,7 +146,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/02/26/GLSL-Dictionary/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/07/02/Kangrinboqe/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -160,7 +160,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2017/02/26/GLSL-Dictionary/" class="post-title-link" itemprop="url">Learning OpenGL：GLSL Shader 手册</a>
+            <a href="/2017/07/02/Kangrinboqe/" class="post-title-link" itemprop="url">冈仁波齐</a>
         </h2>
 
         <div class="post-meta">
@@ -170,14 +170,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2017-02-26 14:26:08" itemprop="dateCreated datePublished" datetime="2017-02-26T14:26:08+08:00">2017-02-26</time>
+              <time title="Created: 2017-07-02 15:08:30" itemprop="dateCreated datePublished" datetime="2017-07-02T15:08:30+08:00">2017-07-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-10-06 22:20:53" itemprop="dateModified" datetime="2017-10-06T22:20:53+08:00">2017-10-06</time>
+                <time title="Modified: 2017-10-06 22:21:56" itemprop="dateModified" datetime="2017-10-06T22:21:56+08:00">2017-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -185,7 +185,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
+                  <a href="/categories/Movie/" itemprop="url" rel="index"><span itemprop="name">Movie</span></a>
                 </span>
             </span>
 
@@ -200,324 +200,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>void</td>
-<td>空类型</td>
-</tr>
-<tr>
-<td>bool</td>
-<td>布尔类型</td>
-</tr>
-<tr>
-<td>int</td>
-<td>带符号的整数 signed integer</td>
-</tr>
-<tr>
-<td>float</td>
-<td>带符号的浮点数 floating scalar</td>
-</tr>
-<tr>
-<td>vec2,vec3,vec4</td>
-<td>n维浮点数向量 n-component floating point vector</td>
-</tr>
-<tr>
-<td>bvec2,bvec3,bvec4</td>
-<td>n维整数向量 singed integer vector</td>
-</tr>
-<tr>
-<td>bvec2,bvec3,bvec4</td>
-<td>n维布尔向量 boolean vector</td>
-</tr>
-<tr>
-<td>ivec2,ivec3,ivec4</td>
-<td>n维整数向量 singed integer vector</td>
-</tr>
-<tr>
-<td>mat2,mat3,mat4</td>
-<td>2X2,3X3,4X4 浮点数矩阵 float matrix</td>
-</tr>
-<tr>
-<td>sampler2D</td>
-<td>2D 纹理  a 2D texture</td>
-</tr>
-<tr>
-<td>samplerCube</td>
-<td>盒纹理  cube mapped texture</td>
-</tr>
-</tbody></table>
-<h2 id="基本结构和数组"><a href="#基本结构和数组" class="headerlink" title="基本结构和数组"></a>基本结构和数组</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>结构</td>
-<td>struct type-name{} 类似c语言中的结构体</td>
-</tr>
-<tr>
-<td>数组</td>
-<td>float foo3[] glsl 只支持1维数组，数组可以是结构体的成员</td>
-</tr>
-</tbody></table>
-<p>##内置的特殊变量</p>
-<p>glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成<code>input</code>,<code>output</code>两种类型，<code>input</code>类型，负责向硬件（渲染管线）发送数据，<code>output</code>类型负责向程序回传数据。</p>
-<ul>
-<li>在vertex shader中</li>
-</ul>
-<p>output 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>highp vec4 gl_Position;</td>
-<td>gl_Position 放置顶点坐标信息</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>mediump float gl_Pointsize;</td>
-<td>gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效）</td>
-<td>float</td>
-</tr>
-</tbody></table>
-<ul>
-<li>在fragment Shader中：</li>
-</ul>
-<p>input 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>mediump vec4 gl_FragCoord;</td>
-<td>片元在fragmebuffer画面的相对位置</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>bool gl_FrontFacing</td>
-<td>标志当前图元是不是正面图元的一部分</td>
-<td>bool</td>
-</tr>
-<tr>
-<td>mediump vec2 gl_PointCoord;</td>
-<td>经过插值计算后的纹理坐标，点的范围是0.0到1.0</td>
-<td>vec2</td>
-</tr>
-</tbody></table>
-<p>output 类型的内置变量：</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>说明</th>
-<th>单位</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>mediump vec4 gl_FragColor;</td>
-<td>设置当前片点的颜色</td>
-<td>vec4</td>
-</tr>
-<tr>
-<td>mediump vec4 gl_FragData[n];</td>
-<td>设置当前片点的颜色,使用glDrawBuffers数据数组</td>
-<td>vec4</td>
-</tr>
-</tbody></table>
-<p>##内置函数库</p>
-<p>###通用函数</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>T abs(T x)</td>
-<td>返回x的绝对值</td>
-</tr>
-<tr>
-<td>T sign(T x)</td>
-<td>比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0</td>
-</tr>
-<tr>
-<td>T floor(T x)</td>
-<td>返回 &lt;= x 的最大整数</td>
-</tr>
-<tr>
-<td>T ceil(T x)</td>
-<td>返回 &gt;= x 的最小整数</td>
-</tr>
-<tr>
-<td>T fract(T x)</td>
-<td>返回 x 的小数部分</td>
-</tr>
-<tr>
-<td>T mod(T x,T y) T mod(T x,float y)</td>
-<td>取 x,y 的余数</td>
-</tr>
-<tr>
-<td>T min(T x,T y) T min(T x,float y)</td>
-<td>取 x,y 的最小值</td>
-</tr>
-<tr>
-<td>T max(T x,T y) T max(T x,float y)</td>
-<td>取 x,y 的最大值</td>
-</tr>
-<tr>
-<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal)</td>
-<td>min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间</td>
-</tr>
-<tr>
-<td>T mix(T x,T y, T a) T mix(T x,T y, float a)</td>
-<td>取 x,y 的线性混合，x(1-a)+ya</td>
-</tr>
-<tr>
-<td>T step(T edge,T x) T step(float edge,T x)</td>
-<td>if x &lt; edge返回0.0， 否则返回1.0</td>
-</tr>
-<tr>
-<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x)</td>
-<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0， 否则返回Hermite插值</td>
-</tr>
-</tbody></table>
-<h3 id="角度-amp-三角函数"><a href="#角度-amp-三角函数" class="headerlink" title="角度&amp;三角函数"></a>角度&amp;三角函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>T radinans(T degrees)</td>
-<td>角度转弧度</td>
-</tr>
-<tr>
-<td>T degrees(T radians)</td>
-<td>弧度转角度</td>
-</tr>
-<tr>
-<td>T sin(T angle)</td>
-<td>正弦函数</td>
-</tr>
-<tr>
-<td>T cos(T angle)</td>
-<td>余弦函数</td>
-</tr>
-<tr>
-<td>T tan(T angle)</td>
-<td>正切函数</td>
-</tr>
-<tr>
-<td>T asin(T angle)</td>
-<td>反正弦函数</td>
-</tr>
-<tr>
-<td>T acos(T angle)</td>
-<td>反余弦函数</td>
-</tr>
-<tr>
-<td>T atan(T y, T x) T atan(T y_over_x)</td>
-<td>反正切函数</td>
-</tr>
-</tbody></table>
-<h3 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>T pow(T x, T y)</td>
-<td>返回x的y次幂</td>
-</tr>
-<tr>
-<td>T exp(T x)</td>
-<td>返回x的自然指数幂</td>
-</tr>
-<tr>
-<td>T log(T x)</td>
-<td>返回x的自然对数 ln</td>
-</tr>
-<tr>
-<td>T exp2(T x)</td>
-<td>返回2的x次幂</td>
-</tr>
-<tr>
-<td>T log2(T x)</td>
-<td>返回2位低的对数 log2</td>
-</tr>
-<tr>
-<td>T sqrt(T x)</td>
-<td>开根号 √x</td>
-</tr>
-<tr>
-<td>T inversesqrt(T x)</td>
-<td>先开根号，在取倒数，</td>
-</tr>
-</tbody></table>
-<h3 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>float length(T x)</td>
-<td>返回矢量x的长度</td>
-</tr>
-<tr>
-<td>float distance(T p0,T p1)</td>
-<td>返回p0, p1两点的距离</td>
-</tr>
-<tr>
-<td>float dot(T x,T y)</td>
-<td>返回x y 的点积</td>
-</tr>
-<tr>
-<td>vec3 cross(vec3 x,vec3 y)</td>
-<td>返回x y 的叉积</td>
-</tr>
-<tr>
-<td>vec3 normalize(T y)</td>
-<td>对x进行归一化，保持向量方向不变但长度变为1</td>
-</tr>
-<tr>
-<td>vec3 faceforward(T N, T I, T Nref)</td>
-<td>根据 矢量 N 与Nref 调整法向量</td>
-</tr>
-<tr>
-<td>vec3 reflect(T I, T N)</td>
-<td>返回 I - 2 * dot(N,I) * N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量</td>
-</tr>
-<tr>
-<td>vec3 normalize(T I, T N, float eta)</td>
-<td>返回入射矢量I关于法向量N的折射矢量,折射率为eta</td>
-</tr>
-</tbody></table>
+          <p>去看了电影《冈仁波齐》，一开始倒不是因为想了解这部电影所宣扬的藏族信仰是为何物，而是因为朴树的片尾曲《No Fear In My Heart》。想来从高一的时候接触到朴树，从听《Colorful Days》，《傲慢的上校》，《生如夏花》，到现在已然13年了。令人兴奋的是，朴树这两年回来了。</p>
+<p>很难讲《冈仁波齐》一部好看的电影，她是一部很特别的电影，看完电影我会觉得还是很值得一看。整个电影给我最大的冲击瞬间是他们从村里出发朝圣去冈仁波齐的时候。看到影片中出现了拖拉机，我以为他们会坐着拖拉机一路开过去。但又觉得坐拖拉机不能算朝圣吧，那怎不能走着过去吧，那么远，而且在高原上，得走多久才能到。所以当他们卧倒开始磕头前行的时候，我被震住了，说不出话来。是啊，在这个出行飞机高铁，挣钱越快越好，什么都讲究利益的年代，你看到一行人，一路从家乡磕头2000多里去圣地，很难不被这种行为所震动。</p>
+<p>大多数国人是无宗教信仰者，当然我也是。我不懂宗教，更不懂藏传佛教，可能我还是个没有信仰的人。电影中可以明显感受到宗教给藏民带来的影响，一个最直接的感受是，他们都好平静，好平静。朝圣路上，大家生活在一起，无论晴天雪天，每天磕头朝拜，孕妇生完小孩后，回到队伍继续朝圣之路；老人去世了，举行完葬礼，大家继续朝圣。好像没有什么事情能阻止他们，就好像没什么事情能打破他们的平静。孩子出生的喜悦，老人去世的悲伤，都很平静，没有我们红白喜事的那种热闹，嘈杂，笑声朗朗或哀嚎震天。</p>
+<p>坦率的说，我不觉得他们的生活方式就是好的，但我很羡慕他们表现出来的那种平静和笃定，那种生活在现代社会的人，很难拥有的不慌不忙。</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=484732973&auto=1&height=66"></iframe>
+
+
+
+
 
       
     </div>
@@ -536,7 +227,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/28/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/30/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/28/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/63/">63</a><a class="extend next" rel="next" href="/page/30/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -602,7 +293,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

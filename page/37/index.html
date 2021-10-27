@@ -146,7 +146,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2016/07/30/shanghai-4-years/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -160,7 +160,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/30/shanghai-4-years/" class="post-title-link" itemprop="url">五年，四年</a>
+            <a href="/2016/10/22/install-caffe-on-macosx/" class="post-title-link" itemprop="url">如何在Macosx上安装caffe</a>
         </h2>
 
         <div class="post-meta">
@@ -170,14 +170,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-07-30 14:35:05" itemprop="dateCreated datePublished" datetime="2016-07-30T14:35:05+08:00">2016-07-30</time>
+              <time title="Created: 2016-10-22 12:55:05" itemprop="dateCreated datePublished" datetime="2016-10-22T12:55:05+08:00">2016-10-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2016-08-27 01:03:52" itemprop="dateModified" datetime="2016-08-27T01:03:52+08:00">2016-08-27</time>
+                <time title="Modified: 2019-03-02 17:54:42" itemprop="dateModified" datetime="2019-03-02T17:54:42+08:00">2019-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -185,7 +185,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
+                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
                 </span>
             </span>
 
@@ -200,20 +200,115 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <img src="http://cp0000.github.io/assets/lights.jpg" alt="lights"/>
+          <p>在macosx上面安装深度学习框架<a target="_blank" rel="noopener" href="http://caffe.berkeleyvision.org/">caffe</a>是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。</p>
+<p><strong>硬软件环境</strong></p>
+<blockquote>
+</blockquote>
+<pre><code>电脑：iMac
+系统：OX EI Caption 版本10.11.4
+</code></pre>
+<h2 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h2><p>官方推荐使用<a target="_blank" rel="noopener" href="http://brew.sh/">Homebrew</a>来管理依赖项的下载，安装。</p>
+<p>##Anaconda Python<br>Anaconda是python的一个常用的科学计算发行版，自带包管理器conda。从 <a target="_blank" rel="noopener" href="https://store.continuum.io/cshop/anaconda/">https://store.continuum.io/cshop/anaconda/</a> 下载并安装Anaconda Python。安装成功之后,记得在PATH添加ananconda执行文件的路径：</p>
+<pre><code>export PATH=~/anaconda/bin:$PATH
+</code></pre>
+<h2 id="CUDA"><a href="#CUDA" class="headerlink" title="CUDA"></a>CUDA</h2><p>从 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">https://developer.nvidia.com/cuda-downloads</a> 下载并安装CUDA 8.0 (for OSX)<br>从 <a target="_blank" rel="noopener" href="http://www.nvidia.com/object/mac-driver-archive.html">http://www.nvidia.com/object/mac-driver-archive.html</a> 下载并安装最新的CUDA独立驱动。<br>同样我们把驱动的可执行文件路径添加到PATH环境变量中(注意下载安装的CUDA的版本号)：</p>
+<pre><code>export PATH=/Developer/NVIDIA/CUDA-8.0/bin/$PATH
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-8.0/lib:$DYLD_LIBRARY_PATH
+</code></pre>
+<h2 id="BLAS"><a href="#BLAS" class="headerlink" title="BLAS"></a>BLAS</h2><p>网上搜索到的教程中都是使用<a target="_blank" rel="noopener" href="https://software.intel.com/en-us/intel-mkl">Intel MKL</a>，查看网站会发现intel-mkl收费很贵，所以我安装的时候选择了<a href="www.openblas.net/">OpenBLAS</a></p>
+<pre><code>brew install openblas
+</code></pre>
+<blockquote>
+<p>关于 intel-mkl 和 openblas 的优劣，没有做过比较。在校大学生可通过学校邮箱在页面 <a target="_blank" rel="noopener" href="https://software.intel.com/en-us/qualify-for-free-software/student">https://software.intel.com/en-us/qualify-for-free-software/student</a> 申请安装包。</p>
+</blockquote>
+<p>##cuDNN</p>
+<p>从 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cudnn">https://developer.nvidia.com/cudnn</a> 页面下载并安装cuDNN库,安装过程如下：</p>
+<pre><code>tar -xzvf cudnn-8.0-osx-x64-v5.1.tgz
+cd cuda
+sudo cp lib/* /usr/local/cuda/lib
+sudo cp include/cudnn.h /usr/local/cuda/include/
+</code></pre>
+<p>##安装依赖项 via Homebrew</p>
+<p>首先我们需要修改下homebrew安装 opencv 时需要用到的opencv.rb文件</p>
+<pre><code>brew edit opencv
+</code></pre>
+<p>将下面两行：</p>
+<pre><code>args &lt;&lt; &quot;-DPYTHON_LIBRARY=#&#123;py_lib&#125;/libpython2.7.#&#123;dylib&#125;&quot;
+args &lt;&lt; &quot;-DPYTHON_INCLUDE_DIR=#&#123;py_prefix&#125;/include/python2.7&quot;
+</code></pre>
+<p>替换为：</p>
+<pre><code>args &lt;&lt; &quot;-DPYTHON_LIBRARY=#&#123;py_prefix&#125;/lib/libpython2.7.dylib&quot;
+args &lt;&lt; &quot;-DPYTHON_INCLUDE_DIR=#&#123;py_prefix&#125;/include/python2.7&quot;
+</code></pre>
+<p>然后开始安装依赖项：</p>
+<pre><code>brew install --fresh -vd snappy leveldb gflags glog szip lmdb homebrew/science/opencv
+brew install --build-from-source --with-python --fresh -vd protobuf
+brew install --build-from-source --fresh -vd boost boost-python
+brew install hdf5
+</code></pre>
+<blockquote>
+<p>安装过程有点漫长，可能会出现一些错误，需要耐心的修复掉。<br>如果你把电脑升级到最新的 macOS Sierra 10.12，会由于新系统不内置QTKit导致opencv编译失败。</p>
+</blockquote>
+<p>##下载Caffe代码</p>
+<pre><code>git clone https://github.com/BVLC/caff.git
+cd caffe
+cp Makefile.config.example Makefile.config
+</code></pre>
+<p>##Makefile.config</p>
+<p>修改Makefile.config</p>
+<pre><code>BLAS:=open
+BLAS_INCLUDE := $(shell brew --prefix openblas)/include
+BLAS_LIB := $(shell brew --prefix openblas)/lib
+</code></pre>
+<p>取消CUDDNN的注释</p>
+<pre><code>USE_CUDNN := 1
+</code></pre>
+<p>检查设置Python路径</p>
+<pre><code># NOTE: this is required only if you will compile the python interface.
+# We need to be able to find Python.h and numpy/arrayobject.h.
+# PYTHON_INCLUDE := /usr/include/python2.7 \
+#         /usr/lib/python2.7/dist-packages/numpy/core/include
+# Anaconda Python distribution is quite popular. Include path:
+# Verify anaconda location, sometimes it&#39;s in root.
+# ANACONDA_HOME := $(HOME)/anaconda
+# PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+        # $(ANACONDA_HOME)/include/python2.7 \
+        # $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
 
-<p>2012年端午节前的一个礼拜，我买了张从南宁到上海的火车票,只身一人来到上海。</p>
-<p>两个礼拜前我从广州的一家公司辞职。这家广州公司在南宁有一个更小的办公室，我11年刚毕业的时候找不到很好的工作，就先去那个小办公室上班；那时我和大学室友在公司附近一起租了一套房子，房主是戒毒所医生，一个个子小小的，为人和蔼的南宁阿姨；同年10月份，我被派去广州出差，那是我第一次去发达省份，第一次坐地铁，也第一次感受到大城市竞争的残酷性。不过那时我以为自己年底还会回南宁继续上班，所以还留了一些杂物在南宁，租的房子也没有退。</p>
-<p>没想到，再次回南宁的时候，已经是决定离开这座城市了。我在南宁大概呆了一个多礼拜，见了南宁办公室的同事，并和他们一起去了趟北海玩了两天，那是我第二次去北海。在北海的两天，我和蒙哥（南宁办公室的老大）一起住的一个标准间，夜里我们七七八八聊了一些；我只记得他跟我讲了他在IBM当销售的时候是怎么搞定客户的故事，和他对未来的一些打算，似乎有挽留之意，我含糊中转移了话题。从北海回南宁后，约了几个大学同学聚餐，地点在西大后面农院路的街头。尔后退了房子，收拾好行李，临走的前一天，我一个人去西大走了走，看了看。然后搭上火车，和这个呆了四年多的城市道别了。</p>
-<p>刚来上海的头两个礼拜，我借住在朋友那里；朋友住在他自己租在桂林路地铁站附近的一间小屋子里；那个小格子间是我经历过的条件最艰苦的住宿环境，小小的隔间，只有四五平方米，屋子里还臭气一阵阵。那段时间，我疯狂的投简历，只要人家约我去面试，我都要跑去试试看，一心想把自己买一个好价钱。最终，我去到上家公司上班，公司叫 yeecco。找好工作之后，我从朋友的小隔间里面搬了出来。我无意冒犯这位朋友，只是觉得人应该对自己好一点，那样的住宿环境现在想起来我都会觉得难受。</p>
-<p>新租的房子在淞虹路地铁站附近，隔壁住的是一对刚毕业的情侣。有了工作和住的地方，我稍微定心了些，没有刚来的时候那么惶恐。</p>
-<p>那段日子，早上我从淞虹路坐地铁到静安寺上班。半个小时拥挤的地铁中，我会看一会书；印象中看的是稻盛和夫的《活法》。这本书可能会被现在的人诟病，但对一个初来乍到，在这个都市一个帮手都没有的人来讲，不失为一本很好的精神慰藉。它让我把所有的精力都放在新工作上，让我不要多想，做好眼前事，明日事明日议。</p>
-<p>新工作并不容易，公司做的项目是 <a target="_blank" rel="noopener" href="https://github.com/morningtec/StellaSDK">StellaSDK</a>，对于当时的我来讲，项目中大多数知识是我没接触过的，很多东西无从下手。那段时间，我拼命学习，工作。经常会在地铁里面，思考到某个点，恨不能马上拿电脑验证一下；又会因为某个问题没思路解决不了，导致压力太大吃不下饭。但回过头来看，那段经历对自己编程技术的提升帮助很大，让我养成了很好的学习新技术的习惯和方法，不畏惧任何不懂的技术领域。我很感激老大wenqi，那时候他对我也很好（一个会夜里开车送你回家的老大不是那么的常见），我的技术，习惯，思考方式，以及保持勤奋全都是从他身上学得，非常感激他。</p>
-<p>后来，由于一些原因我离开了上家公司，来到了腾讯。如今，算算我已经毕业五年，来到上海也已经四年；看起来情况在变好，至于未来，应该会变得更好一些吧。</p>
-<p>后记：</p>
-<p>不知道其它人会不会有这样一种感觉，在生活中的某个阶段，你会突然意识到自己生命中的一切都只能靠你自己。我有这种感觉是在我刚毕业的时候。在那段时间里的某一刻，我突然意识到接下来的一切，钱，工作，女人，以及所有的渴望都只有靠自己。你是你唯一的依靠。</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="http://music.163.com/outchain/player?type=2&id=3986326&auto=1&height=66"></iframe>
+ANACONDA_HOME := $(HOME)/anaconda
+PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+$(ANACONDA_HOME)/include/python2.7 \
+$(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
 
+
+# Uncomment to use Python 3 (default is Python 2)
+# PYTHON_LIBRARIES := boost_python3 python3.5m
+# PYTHON_INCLUDE := /usr/include/python3.5m \
+#                 /usr/lib/python3.5/dist-packages/numpy/core/include
+
+# We need to be able to find libpythonX.X.so or .dylib.
+# PYTHON_LIB := /usr/lib
+PYTHON_LIB := $(ANACONDA_HOME)/lib
+
+# Homebrew installs numpy in a non standard path (keg only)
+PYTHON_INCLUDE += $(dir $(shell python -c &#39;import numpy.core; print(numpy.core.__file__)&#39;))/include
+PYTHON_LIB += $(shell brew --prefix numpy)/lib
+</code></pre>
+<p>##环境变量</p>
+<pre><code>export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/cuda/lib:/Users/cp/anaconda/lib:/usr/local/lib:/usr/local/Cellar/:/usr/local/cuda/lib:~/anaconda/lib:/usr/local/lib:/usr/lib:$DYLD_FALLBACK_LIBRARY_PATH
+</code></pre>
+<p>##编译caffe<br>    make clean<br>    make all -j8<br>    make runtest</p>
+<p>runtest 相对会花些时间</p>
+<pre><code>make pycaffe
+make distribute
+</code></pre>
+<p>就大功告成了</p>
+<p>##References:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://caffe.berkeleyvision.org/installation.html">http://caffe.berkeleyvision.org/installation.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29">https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29</a></li>
+<li><a target="_blank" rel="noopener" href="http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/">http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/</a></li>
+</ul>
 
       
     </div>
@@ -232,7 +327,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/63/">63</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -298,7 +393,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
