@@ -146,7 +146,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/01/29/becoming-steve-jobs/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/02/26/GLSL-Dictionary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -160,7 +160,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2017/01/29/becoming-steve-jobs/" class="post-title-link" itemprop="url">读书笔记《成为乔布斯》</a>
+            <a href="/2017/02/26/GLSL-Dictionary/" class="post-title-link" itemprop="url">Learning OpenGL：GLSL Shader 手册</a>
         </h2>
 
         <div class="post-meta">
@@ -170,14 +170,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2017-01-29 15:54:14" itemprop="dateCreated datePublished" datetime="2017-01-29T15:54:14+08:00">2017-01-29</time>
+              <time title="Created: 2017-02-26 14:26:08" itemprop="dateCreated datePublished" datetime="2017-02-26T14:26:08+08:00">2017-02-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-02-15 23:34:44" itemprop="dateModified" datetime="2017-02-15T23:34:44+08:00">2017-02-15</time>
+                <time title="Modified: 2017-10-06 22:20:53" itemprop="dateModified" datetime="2017-10-06T22:20:53+08:00">2017-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -185,7 +185,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Reading-notes/" itemprop="url" rel="index"><span itemprop="name">Reading notes</span></a>
+                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
                 </span>
             </span>
 
@@ -200,10 +200,324 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在接触《成为乔布斯》这本乔布斯人生旅程传记之前，我试过两三次去读官方那本《乔布斯传》，结果都以失败告终；因为《乔布斯传》这本书的内容太过干巴巴，读起来很容易走神。而《成为乔布斯》则不一样，这书是以故事的方式讲述了乔布斯的生平事迹，读起来有趣的多。</p>
-<p>其中该书最让我喜欢的地方是，书中讲述了很多我们以前不知道的小细节，小故事。如iTunes是先于iPod就出现的；在2007年第一代iPhone发布之前，乔布斯已经得知自己的癌细胞扩散了，留给他的时间只有五年左右（但我们回头看他在发布会上面的表现，不像是一个知道自己只剩四五年时间的人）。例如iPad这个产品是先于iPhone就出现在了苹果公司中，只不过那时候的iPad和最后上市的iPad是不一样的。还比如库克在乔布斯病危的时候想捐献肝脏给他这一让人感动的场景。</p>
-<p>全书主要讲述的是乔布斯从早期和沃滋一起创业，研发个人电脑，到苹果电脑大卖，公司上市；从和沃滋的关系决裂，到Lisa等一系列产品的失败，再到被苹果公司驱逐。从受到Next，打算凭借Next击败评估，到收购皮克斯，并见证了皮克斯生产了动画电影史上重要篇章《玩具总动员》。后来Next被苹果收购，乔布斯回归苹果，收拾其他人留下来的烂摊子。上面的故事离我们比较远，但乔布斯回归苹果之后，也不是立马就做出了具有历史意义的iPhone。回归苹果之后的乔布斯，可以从书中得知，主要的业务还是个人电脑。但乔布斯对事物的敏感度，让他在2000年的时候觉得消费电子领域是一个很有市场的领域。随后苹果公司发布了iTunes，让用户在iTunes上面购买正版音乐。也标志着苹果公司正式进入了个人电子消费市场。后面的故事就是你我比较熟悉的了，iPod让苹果公司great again，苹果公司又成了大众喜欢并愿意花钱消费其产品的公司。然后就是2007年的iPhone一代的发布，真正一款划时代的产品。书中说到这是让乔布斯理想实现的一款产品，因为iPod，iPhone让苹果公司生产的产品不再是一小撮人玩弄的小众产品，而是被大众接受，喜爱，并购买的消费电子产品。而iPhone整个设计上面的美学，在我看来也让整个大众的审美得到了提升。回头看看在iPhone普及之后，我们的电子产品，网站界面，甚至包括家具，汽车等产品的工业设计都受到了苹果产品传达出来的美学影响。苹果的产品真的让生活变得美好了起来。</p>
-<p>最后，书名叫《成为乔布斯》，意思不是教大家如何变成乔布斯，而是讲述了乔布斯是如何一步一步成长成为那个被世人奉若神明的史蒂芬。</p>
+          <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void</td>
+<td>空类型</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>布尔类型</td>
+</tr>
+<tr>
+<td>int</td>
+<td>带符号的整数 signed integer</td>
+</tr>
+<tr>
+<td>float</td>
+<td>带符号的浮点数 floating scalar</td>
+</tr>
+<tr>
+<td>vec2,vec3,vec4</td>
+<td>n维浮点数向量 n-component floating point vector</td>
+</tr>
+<tr>
+<td>bvec2,bvec3,bvec4</td>
+<td>n维整数向量 singed integer vector</td>
+</tr>
+<tr>
+<td>bvec2,bvec3,bvec4</td>
+<td>n维布尔向量 boolean vector</td>
+</tr>
+<tr>
+<td>ivec2,ivec3,ivec4</td>
+<td>n维整数向量 singed integer vector</td>
+</tr>
+<tr>
+<td>mat2,mat3,mat4</td>
+<td>2X2,3X3,4X4 浮点数矩阵 float matrix</td>
+</tr>
+<tr>
+<td>sampler2D</td>
+<td>2D 纹理  a 2D texture</td>
+</tr>
+<tr>
+<td>samplerCube</td>
+<td>盒纹理  cube mapped texture</td>
+</tr>
+</tbody></table>
+<h2 id="基本结构和数组"><a href="#基本结构和数组" class="headerlink" title="基本结构和数组"></a>基本结构和数组</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>结构</td>
+<td>struct type-name{} 类似c语言中的结构体</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>float foo3[] glsl 只支持1维数组，数组可以是结构体的成员</td>
+</tr>
+</tbody></table>
+<p>##内置的特殊变量</p>
+<p>glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成<code>input</code>,<code>output</code>两种类型，<code>input</code>类型，负责向硬件（渲染管线）发送数据，<code>output</code>类型负责向程序回传数据。</p>
+<ul>
+<li>在vertex shader中</li>
+</ul>
+<p>output 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>highp vec4 gl_Position;</td>
+<td>gl_Position 放置顶点坐标信息</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>mediump float gl_Pointsize;</td>
+<td>gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效）</td>
+<td>float</td>
+</tr>
+</tbody></table>
+<ul>
+<li>在fragment Shader中：</li>
+</ul>
+<p>input 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mediump vec4 gl_FragCoord;</td>
+<td>片元在fragmebuffer画面的相对位置</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>bool gl_FrontFacing</td>
+<td>标志当前图元是不是正面图元的一部分</td>
+<td>bool</td>
+</tr>
+<tr>
+<td>mediump vec2 gl_PointCoord;</td>
+<td>经过插值计算后的纹理坐标，点的范围是0.0到1.0</td>
+<td>vec2</td>
+</tr>
+</tbody></table>
+<p>output 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mediump vec4 gl_FragColor;</td>
+<td>设置当前片点的颜色</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>mediump vec4 gl_FragData[n];</td>
+<td>设置当前片点的颜色,使用glDrawBuffers数据数组</td>
+<td>vec4</td>
+</tr>
+</tbody></table>
+<p>##内置函数库</p>
+<p>###通用函数</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T abs(T x)</td>
+<td>返回x的绝对值</td>
+</tr>
+<tr>
+<td>T sign(T x)</td>
+<td>比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0</td>
+</tr>
+<tr>
+<td>T floor(T x)</td>
+<td>返回 &lt;= x 的最大整数</td>
+</tr>
+<tr>
+<td>T ceil(T x)</td>
+<td>返回 &gt;= x 的最小整数</td>
+</tr>
+<tr>
+<td>T fract(T x)</td>
+<td>返回 x 的小数部分</td>
+</tr>
+<tr>
+<td>T mod(T x,T y) T mod(T x,float y)</td>
+<td>取 x,y 的余数</td>
+</tr>
+<tr>
+<td>T min(T x,T y) T min(T x,float y)</td>
+<td>取 x,y 的最小值</td>
+</tr>
+<tr>
+<td>T max(T x,T y) T max(T x,float y)</td>
+<td>取 x,y 的最大值</td>
+</tr>
+<tr>
+<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal)</td>
+<td>min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间</td>
+</tr>
+<tr>
+<td>T mix(T x,T y, T a) T mix(T x,T y, float a)</td>
+<td>取 x,y 的线性混合，x(1-a)+ya</td>
+</tr>
+<tr>
+<td>T step(T edge,T x) T step(float edge,T x)</td>
+<td>if x &lt; edge返回0.0， 否则返回1.0</td>
+</tr>
+<tr>
+<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x)</td>
+<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0， 否则返回Hermite插值</td>
+</tr>
+</tbody></table>
+<h3 id="角度-amp-三角函数"><a href="#角度-amp-三角函数" class="headerlink" title="角度&amp;三角函数"></a>角度&amp;三角函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T radinans(T degrees)</td>
+<td>角度转弧度</td>
+</tr>
+<tr>
+<td>T degrees(T radians)</td>
+<td>弧度转角度</td>
+</tr>
+<tr>
+<td>T sin(T angle)</td>
+<td>正弦函数</td>
+</tr>
+<tr>
+<td>T cos(T angle)</td>
+<td>余弦函数</td>
+</tr>
+<tr>
+<td>T tan(T angle)</td>
+<td>正切函数</td>
+</tr>
+<tr>
+<td>T asin(T angle)</td>
+<td>反正弦函数</td>
+</tr>
+<tr>
+<td>T acos(T angle)</td>
+<td>反余弦函数</td>
+</tr>
+<tr>
+<td>T atan(T y, T x) T atan(T y_over_x)</td>
+<td>反正切函数</td>
+</tr>
+</tbody></table>
+<h3 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T pow(T x, T y)</td>
+<td>返回x的y次幂</td>
+</tr>
+<tr>
+<td>T exp(T x)</td>
+<td>返回x的自然指数幂</td>
+</tr>
+<tr>
+<td>T log(T x)</td>
+<td>返回x的自然对数 ln</td>
+</tr>
+<tr>
+<td>T exp2(T x)</td>
+<td>返回2的x次幂</td>
+</tr>
+<tr>
+<td>T log2(T x)</td>
+<td>返回2位低的对数 log2</td>
+</tr>
+<tr>
+<td>T sqrt(T x)</td>
+<td>开根号 √x</td>
+</tr>
+<tr>
+<td>T inversesqrt(T x)</td>
+<td>先开根号，在取倒数，</td>
+</tr>
+</tbody></table>
+<h3 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>float length(T x)</td>
+<td>返回矢量x的长度</td>
+</tr>
+<tr>
+<td>float distance(T p0,T p1)</td>
+<td>返回p0, p1两点的距离</td>
+</tr>
+<tr>
+<td>float dot(T x,T y)</td>
+<td>返回x y 的点积</td>
+</tr>
+<tr>
+<td>vec3 cross(vec3 x,vec3 y)</td>
+<td>返回x y 的叉积</td>
+</tr>
+<tr>
+<td>vec3 normalize(T y)</td>
+<td>对x进行归一化，保持向量方向不变但长度变为1</td>
+</tr>
+<tr>
+<td>vec3 faceforward(T N, T I, T Nref)</td>
+<td>根据 矢量 N 与Nref 调整法向量</td>
+</tr>
+<tr>
+<td>vec3 reflect(T I, T N)</td>
+<td>返回 I - 2 * dot(N,I) * N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量</td>
+</tr>
+<tr>
+<td>vec3 normalize(T I, T N, float eta)</td>
+<td>返回入射矢量I关于法向量N的折射矢量,折射率为eta</td>
+</tr>
+</tbody></table>
 
       
     </div>
@@ -222,7 +536,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/32/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/64/">64</a><a class="extend next" rel="next" href="/page/34/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/32/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/65/">65</a><a class="extend next" rel="next" href="/page/34/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -288,7 +602,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -324,7 +638,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
