@@ -186,7 +186,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-18 10:36:19" itemprop="dateModified" datetime="2022-02-18T10:36:19+08:00">2022-02-18</time>
+                <time title="Modified: 2022-02-23 11:21:03" itemprop="dateModified" datetime="2022-02-23T11:21:03+08:00">2022-02-23</time>
               </span>
 
           
@@ -201,7 +201,10 @@
 
       
           <blockquote>
-<p> 免责声明：这篇文章只是为了记录我在做这个mini site project时候的一些知识点，从最终预测的结果来看，效果不太理想。投资有风险，入市需谨慎。</p>
+<p> 免责声明：这篇文章记录我在做这个mini site project时候的一些知识点，从最终预测的结果来看，效果不太理想。投资有风险，入市需谨慎。</p>
+</blockquote>
+<blockquote>
+<p>本文中的代码多数是参考： <a target="_blank" rel="noopener" href="https://github.com/olof98johansson/StockPrediction.git">https://github.com/olof98johansson/StockPrediction.git</a></p>
 </blockquote>
 <h2 id="股票数据获取和处理"><a href="#股票数据获取和处理" class="headerlink" title="股票数据获取和处理"></a>股票数据获取和处理</h2><h3 id="获取股票数据"><a href="#获取股票数据" class="headerlink" title="获取股票数据"></a>获取股票数据</h3><p>我们这里借助 pandas_datareader 这个库来获取目标股票的信息。比如可以通过如下的代码获取Telsa股票信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pandas_datareader.data as web</span><br><span class="line">df &#x3D; web.DataReader(&quot;TSLA&quot;, data_source&#x3D;&quot;yahoo&quot;)</span><br></pre></td></tr></table></figure>
@@ -310,6 +313,7 @@
 <h2 id="模拟交易"><a href="#模拟交易" class="headerlink" title="模拟交易"></a>模拟交易</h2><p>有了预测模型之后，我们可以制定一些简单的交易策略了。这里我们参照 <a target="_blank" rel="noopener" href="https://medium.com/towards-data-science/getting-rich-quick-with-machine-learning-and-stock-market-predictions-696802da94fe">getting-rich-quick-with-machine-learning-and-stock-market-predictions</a>这篇文章里面的交易策略。</p>
 <p>策略也很简单，就是那预测第二天的股票价格和当天的收盘价做比较，高了就买，底了就卖。然后计算测试数据的投资回报率。</p>
 <p>下图是测试的结果<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_transformer_trade.svg" alt="TESLA Trade Results"></p>
+<p>code: <a target="_blank" rel="noopener" href="https://github.com/cp0000/stock_prediction">stock_prediction</a></p>
 
       
     </div>
