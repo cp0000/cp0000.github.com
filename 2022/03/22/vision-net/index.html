@@ -33,10 +33,11 @@
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/alexnet_detail.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/vggnet.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/vggnet_detail.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/inception.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/googlenet.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/resnet.png">
 <meta property="article:published_time" content="2022-03-22T03:15:28.000Z">
-<meta property="article:modified_time" content="2022-03-22T09:01:33.926Z">
+<meta property="article:modified_time" content="2022-03-22T09:28:31.329Z">
 <meta property="article:author" content="Pei Cheng">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://cp0000.github.io/assets/vision_net/lenet.png">
@@ -193,7 +194,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-03-22 11:15:28 / Modified: 17:01:33" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
+              <time title="Created: 2022-03-22 11:15:28 / Modified: 17:28:31" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
             </span>
 
           
@@ -241,7 +242,19 @@
 <li>VGG16包含了13个卷积层和3个全连层，如上图的网络D。</li>
 <li>VGG19包含了16个卷积层和3个全连层，如上图的网络E。</li>
 </ul>
-<h4 id="GoogleNet"><a href="#GoogleNet" class="headerlink" title="GoogleNet"></a><a target="_blank" rel="noopener" href="https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf">GoogleNet</a></h4><img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="720px" >
+<p><strong>VGG优缺点</strong></p>
+<ul>
+<li>主要贡献是增加了网络深度</li>
+<li>优点：网络结构简洁，整个网络使用同样大小的卷积核尺寸（3x3） 和最大池化尺寸（2x2）。</li>
+<li>缺点：最后三个FC层计算量巨大，耗费更多资源</li>
+</ul>
+<h4 id="GoogLeNet"><a href="#GoogLeNet" class="headerlink" title="GoogLeNet"></a><a target="_blank" rel="noopener" href="https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf">GoogLeNet</a></h4><p>GoogLeNet是Google于2014年推出的基于Inception模块的深度神经网络模型，并在随后的两年中一直改进，形成InceptionV2, InceptionV3,Inception V4等版本。</p>
+<p><strong>Inception</strong><br>Inception是把多个卷积或池化操作，放在一起组装成一个网络模块，设计神经网络时以模块为单位去组成整个网络结构。Inception结构如下图所示：</p>
+<img src="http://cp0000.github.io/assets/vision_net/inception.png" width="360px" >
+
+<p>如上图所示，Inception Module结构组成有四个成分：1x1 conv, 3x3 conv, 5x5 conv, 3x3 maxpooling. 最后</p>
+<p><strong>GoogLeNet网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="720px" >
 
 
 <h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1512.03385">ResNet</a></h4><img src="http://cp0000.github.io/assets/vision_net/resnet.png" width="720px" >
@@ -323,7 +336,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#LeNet"><span class="nav-number">1.</span> <span class="nav-text">LeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AlexNet"><span class="nav-number">2.</span> <span class="nav-text">AlexNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGNet"><span class="nav-number">3.</span> <span class="nav-text">VGGNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GoogleNet"><span class="nav-number">4.</span> <span class="nav-text">GoogleNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ResNet"><span class="nav-number">5.</span> <span class="nav-text">ResNet</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#LeNet"><span class="nav-number">1.</span> <span class="nav-text">LeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AlexNet"><span class="nav-number">2.</span> <span class="nav-text">AlexNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGNet"><span class="nav-number">3.</span> <span class="nav-text">VGGNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GoogLeNet"><span class="nav-number">4.</span> <span class="nav-text">GoogLeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ResNet"><span class="nav-number">5.</span> <span class="nav-text">ResNet</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
