@@ -180,7 +180,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-03-22 11:15:28 / Modified: 22:05:03" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
+              <time title="Created: 2022-03-22 11:15:28 / Modified: 22:37:24" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
             </span>
 
           
@@ -221,7 +221,7 @@
 <img src="http://cp0000.github.io/assets/vision_net/vggnet.png" width="720px" >
 
 <p><strong>VGG网路细节</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/vggnet_detail.png" width="540px" >
+<img src="http://cp0000.github.io/assets/vision_net/vggnet_detail.png" width="720px" >
 
 <p>上图是VGG各种网络的网络结构。</p>
 <ul>
@@ -250,9 +250,19 @@
 
 
 
+<h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1512.03385">ResNet</a></h4><p>深度学习网络的深度对最后分类和识别的效果有很大影响，但我们把网络设计的很深时，网络在训练时，梯度消失的现象会越来越明显。为了解决这一问题，何恺明于2015年提出了ResNet，深度残差网络。ResNet，全称Deep residual network，网路中通过引入residual block解决了当CNN网络深度很深时网络学习退化的问题。ResNet的提出是CNN图像史上一件里程碑事件。</p>
+<p><strong>残差块：Residual Block</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/residual_block.png" width="360px" >
+
+<p>非常深的网络很难训练，存在梯度消失和梯度爆炸问题，学习skip connection它可以从某一层获得激活，然后迅速反馈给另外一层甚至更深层，利用skip connection可以构建残差网络ResNet来训练更深的网络，ResNet网络时由残差模块构建的。</p>
+<p><strong>ResNet网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/resnet.png" width="720px" >
 
 
-<h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1512.03385">ResNet</a></h4><img src="http://cp0000.github.io/assets/vision_net/resnet.png" width="720px" >
+<p><strong>ResNet网络细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/resnet_detail.png" width="720px" >
+
+
 
 
       
