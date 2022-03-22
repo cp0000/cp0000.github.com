@@ -180,7 +180,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-03-22 11:15:28 / Modified: 17:52:39" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
+              <time title="Created: 2022-03-22 11:15:28 / Modified: 18:15:36" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
             </span>
 
           
@@ -235,13 +235,21 @@
 <li>缺点：最后三个FC层计算量巨大，耗费更多资源</li>
 </ul>
 <h4 id="GoogLeNet"><a href="#GoogLeNet" class="headerlink" title="GoogLeNet"></a><a target="_blank" rel="noopener" href="https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf">GoogLeNet</a></h4><p>GoogLeNet是Google于2014年推出的基于Inception模块的深度神经网络模型，并在随后的两年中一直改进，形成InceptionV2, InceptionV3,Inception V4等版本。</p>
-<p><strong>Inception</strong><br>Inception是把多个卷积或池化操作，放在一起组装成一个网络模块，设计神经网络时以模块为单位去组成整个网络结构。Inception结构如下图所示：</p>
+<p><strong>Inception-V1</strong><br>Inception是把多个卷积或池化操作，放在一起组装成一个网络模块，设计神经网络时以模块为单位去组成整个网络结构。Inception结构如下图所示：</p>
 <img src="http://cp0000.github.io/assets/vision_net/inception_layer.png" width="480px" >
 
 <p>如上图所示，Inception Module结构组成有四个成分：1x1 conv, 3x3 conv, 5x5 conv, 3x3 maxpooling. 最后对四个成分运算结果进行通道上组合。Inception Module的核心思想是：利用不同大小的卷积核实现不同尺度的感知，最后进行融合，可以得到图像更好的表征。</p>
 <p>另外图中的1x1 conv 有两种，一种蓝色底，一种黄色底，其中黄色底1x1 conv是用来进行压缩降维的。因为使用Inception结构，利用上多尺度卷积后，网络变宽了，计算量变大了；需要减少参数量来减少计算量，所以在Inception v1中加入了黄色底 1x1 conv来进行降维。黄色底1x1 conv 叫做 pointwise conv.</p>
 <p><strong>GoogLeNet网络结构</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="720px" >
+<img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="1280px" >
+
+<p>GoogLNet网络有22层深（加上pool层，有27层深），由于全连接层参数多，计算量大，容易过拟合，所以GoogLNet没有采用LeNet，AlexNet，VGG三层全连接结构，在Inception模块之后使用Average Pool和Dropout方法，同时达到防止过拟合和降维的作用。</p>
+<p>辅助分类器： 为了利用中间层抽象的特征，在某些中间层中添加含有多层的分类器。GoogLNet网络中加入了两个辅助分类器，作用有两点：一是为了避免梯度小时，用于向前传导梯度。反向传播时如果有一层求导为0，链式求导结果为0.二是将中间某一层输出作用作分类，起到模型融合作用。</p>
+<p><strong>GoogLeNet网络细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/googlenet_detail.png" width="540px" >
+
+
+
 
 
 <h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1512.03385">ResNet</a></h4><img src="http://cp0000.github.io/assets/vision_net/resnet.png" width="720px" >
