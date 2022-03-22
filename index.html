@@ -180,7 +180,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-03-22 11:15:28 / Modified: 16:22:47" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
+              <time title="Created: 2022-03-22 11:15:28 / Modified: 16:58:49" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
             </span>
 
           
@@ -215,9 +215,19 @@
 <p>AlexNet的网络细节如下：</p>
 <img src="http://cp0000.github.io/assets/vision_net/alexnet_detail.png" width="360px" >
 
-<h6 id="VGGNet"><a href="#VGGNet" class="headerlink" title="VGGNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">VGGNet</a></h6><img src="http://cp0000.github.io/assets/vision_net/vggnet.png" width="720px" >
+<h6 id="VGGNet"><a href="#VGGNet" class="headerlink" title="VGGNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">VGGNet</a></h6><p>VGG是牛津的Visual Geometry Group组于2014年提出的网络结构。该网络是在ILSVRC 2014上的相关工作，主要证明了增加网络深度能够在一定程度上影响网络最终的性能。</p>
+<p><strong>VGG原理</strong><br>VGG中，使用3个3x3卷积核来代替7x7卷积核，使用2个3x3卷积核来代替5x5卷积核，这样做的目的是在保证相同感受野的条件下，提升了网络深度。而增加网络深度过程中引入的多层非线性层帮助学习到更复杂的模式，在一定程度上提升了神经网络的效果。</p>
+<p><strong>VGG网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/vggnet.png" width="720px" >
 
+<p><strong>VGG网路细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/vggnet_detail.png" width="360px" >
 
+<p>上图是VGG各种网络的网络结构。</p>
+<ul>
+<li>VGG16包含了13个卷积层和3个全连层，如上图的网络D。</li>
+<li>VGG19包含了16个卷积层和3个全连层，如上图的网络E。</li>
+</ul>
 <h6 id="GoogleNet"><a href="#GoogleNet" class="headerlink" title="GoogleNet"></a><a target="_blank" rel="noopener" href="https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf">GoogleNet</a></h6><img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="720px" >
 
 
