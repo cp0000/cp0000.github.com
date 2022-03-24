@@ -22,7 +22,7 @@
 
   <meta name="description" content="MobileNetMobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。 深度可分离卷积 标准卷积如下图：   输入一个 12x12x3 的featuremap，经">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机视觉移动端小网络：MobileNet，ShuffleNet，Xception，GhostNet">
+<meta property="og:title" content="计算机视觉移动端小网络：MobileNet">
 <meta property="og:url" content="https://cp0000.github.io/2022/03/24/vision-mobile-network/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
 <meta property="og:description" content="MobileNetMobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。 深度可分离卷积 标准卷积如下图：   输入一个 12x12x3 的featuremap，经">
@@ -34,8 +34,10 @@
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenet_v1.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/relu.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/linear_block.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenetv2_block.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenetv2_detail.png">
 <meta property="article:published_time" content="2022-03-24T02:48:12.000Z">
-<meta property="article:modified_time" content="2022-03-24T10:04:30.045Z">
+<meta property="article:modified_time" content="2022-03-24T14:52:35.519Z">
 <meta property="article:author" content="Pei Cheng">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://cp0000.github.io/assets/vision_net/normal_conv.png">
@@ -53,7 +55,7 @@
   };
 </script>
 
-  <title>计算机视觉移动端小网络：MobileNet，ShuffleNet，Xception，GhostNet | CP WRITINGS</title>
+  <title>计算机视觉移动端小网络：MobileNet | CP WRITINGS</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
     <script>
@@ -181,7 +183,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          计算机视觉移动端小网络：MobileNet，ShuffleNet，Xception，GhostNet
+          计算机视觉移动端小网络：MobileNet
         </h1>
 
         <div class="post-meta">
@@ -192,7 +194,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-03-24 10:48:12 / Modified: 18:04:30" itemprop="dateCreated datePublished" datetime="2022-03-24T10:48:12+08:00">2022-03-24</time>
+              <time title="Created: 2022-03-24 10:48:12 / Modified: 22:52:35" itemprop="dateCreated datePublished" datetime="2022-03-24T10:48:12+08:00">2022-03-24</time>
             </span>
 
           
@@ -233,7 +235,20 @@
 <p>以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。</p>
 <img src="http://cp0000.github.io/assets/vision_net/linear_block.png" width="480px" >
 
-<p><strong>Expansion layer</strong></p>
+<p><strong>Inverted residuals</strong></p>
+<p>经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。</p>
+<p>以下是MoblieNet V2的block结构：</p>
+<img src="http://cp0000.github.io/assets/vision_net/mobilenetv2_block.png" width="480px" >
+
+<p>这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -&gt; conv3x3 -&gt; conv1x1 的模式，但不同在于：</p>
+<ul>
+<li>ResNet先降维（0.25 倍），标准卷积，再生维</li>
+<li>MobileNet V2先升维（6倍），深度可分离卷积，再降维</li>
+</ul>
+<p>以下是MobileNetv2 block 和 ResNet residual block的对比：</p>
+<p><strong>MobileNet V2 的网络详情</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/mobilenetv2_detail.png" width="480px" >
+
 
     </div>
 
