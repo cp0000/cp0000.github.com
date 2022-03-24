@@ -180,7 +180,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-03-24 10:48:12 / Modified: 16:41:04" itemprop="dateCreated datePublished" datetime="2022-03-24T10:48:12+08:00">2022-03-24</time>
+              <time title="Created: 2022-03-24 10:48:12 / Modified: 18:04:30" itemprop="dateCreated datePublished" datetime="2022-03-24T10:48:12+08:00">2022-03-24</time>
             </span>
 
           
@@ -196,12 +196,33 @@
       
           <h4 id="MobileNet"><a href="#MobileNet" class="headerlink" title="MobileNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1704.04861">MobileNet</a></h4><p>MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.<br>MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。</p>
 <p><strong>深度可分离卷积</strong></p>
-<p>标准卷积如下图：<br><img src="http://cp0000.github.io/assets/vision_net/normal_conv.png" width="720px" ><br>输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。</p>
-<p>深度可分离卷积如下图：<br><img src="http://cp0000.github.io/assets/vision_net/depthwise_conv.png" width="720px" ></p>
+<p>标准卷积如下图：</p>
+<img src="http://cp0000.github.io/assets/vision_net/normal_conv.png" width="720px" >
+
+<p>输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。</p>
+<p>深度可分离卷积如下图：</p>
+<img src="http://cp0000.github.io/assets/vision_net/depthwise_conv.png" width="720px" >
+
 <p>深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。</p>
 <p>如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。</p>
-<p>普通卷积和深度可分离卷积的计算量对比如下图：<br><img src="http://cp0000.github.io/assets/vision_net/depthwise_conv_3.png" width="720px" ></p>
-<img src="http://cp0000.github.io/assets/vision_net/depthwise_conv_2.png" width="720px" >
+<p>普通卷积和深度可分离卷积的计算量对比如下图：</p>
+<img src="http://cp0000.github.io/assets/vision_net/depthwise_conv_3.png" width="360px" >
+
+<img src="http://cp0000.github.io/assets/vision_net/depthwise_conv_2.png" width="360px" >
+
+<p><strong>MobileNetV1 网络详情</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/mobilenet_v1.png" width="480px" >
+
+<h4 id="MobileNet-V2"><a href="#MobileNet-V2" class="headerlink" title="MobileNet V2"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1801.04381">MobileNet V2</a></h4><p><strong>Linear bottleneck</strong></p>
+<p>对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：</p>
+<img src="http://cp0000.github.io/assets/vision_net/relu.png" width="480px" >
+
+<p>如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。</p>
+<p>以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。</p>
+<img src="http://cp0000.github.io/assets/vision_net/linear_block.png" width="480px" >
+
+<p><strong>Expansion layer</strong></p>
+
       
     </div>
 
