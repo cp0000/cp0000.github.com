@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2021/10/11/vit-2/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2021/10/27/33/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/10/11/vit-2/" class="post-title-link" itemprop="url">Vision Transformer - Transformer的实现和代码解读</a>
+            <a href="/2021/10/27/33/" class="post-title-link" itemprop="url">活到33</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-10-11 21:05:48" itemprop="dateCreated datePublished" datetime="2021-10-11T21:05:48+08:00">2021-10-11</time>
+              <time title="Created: 2021-10-27 19:48:31" itemprop="dateCreated datePublished" datetime="2021-10-27T19:48:31+08:00">2021-10-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-10-18 00:52:06" itemprop="dateModified" datetime="2021-10-18T00:52:06+08:00">2021-10-18</time>
+                <time title="Modified: 2021-10-28 19:21:12" itemprop="dateModified" datetime="2021-10-28T19:21:12+08:00">2021-10-28</time>
               </span>
 
           
@@ -200,55 +200,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="2-Transformer的实现和代码解读"><a href="#2-Transformer的实现和代码解读" class="headerlink" title="2 Transformer的实现和代码解读"></a>2 Transformer的实现和代码解读</h3><h4 id="2-1-Transformer原理分析："><a href="#2-1-Transformer原理分析：" class="headerlink" title="2.1 Transformer原理分析："></a>2.1 Transformer原理分析：</h4><p><img src="http://cp0000.github.io/assets/vit/transformer_1.jpeg" alt="图1: Transformer"></p>
-<blockquote>
-<p>Encoder</p>
-</blockquote>
-<p>图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head Attention, Decoder block包含两个Multi-Head Attention(其中有一个用到Masked)。Multi-Head Attention上方还包括一个Add &amp; Norm 层，Add表示残差连接（Residual Connection）用于防止网络退化。Norm 表示Layer Normalization,用于对每一层的激活值进行归一化。比如说在Encoder input处的输入是机器学习，在Decoder Input处的输入是<BOS>,输出是machine。再下一个时刻在Decoder Input处的输入是machine，输出是learning。不断重复直到输出是句点(.)代表翻译结束。</p>
-<p>Encoder: 首先输入 X ∈ R(nx, N)通过一个Input Embedding的转移矩阵 Wx ∈ R(d, nx)变为一个张量，即上文所述的 I ∈ R(d, N)，再加上一个表示位置的Positional Encoding E ∈ R(d, N),得到一个张量。</p>
-<p>进入绿色block，绿色的block会重复N次。绿色Block的第1层是一个上文讲的multi-head的attention。现在一个sequence I ∈ R(d, N)经过一个multi-head 的attention，会得到另外一个sequence O ∈ R(d, N).</p>
-<p>下一个Layer是Add &amp; Norm，这里的意思是：把multi-head的attention的layer的输入 I ∈ R(d, N)和输出O ∈ R(d, N)进行相加以后，再做Layer Normalization。</p>
-<p><img src="http://cp0000.github.io/assets/vit/normalization.jpeg" alt="图2: Normalization"></p>
-<p>Batch Normalization强行让一个batch的数据的某个channel的 μ=0，σ=1，而Layer Normalization让一个数据的所有channel的μ=0，σ=1。</p>
-<p><img src="http://cp0000.github.io/assets/vit/bn_ln.jpeg" alt="图3: BN和LN的对比"></p>
-<p>接着是一个Feed Forward的前馈网络和一个Add &amp; Norm Layer。<br>所以，这一个绿色的block的前2个Layer操作的表达式为：</p>
-<blockquote>
-<p>O1 = LayerNormalization(I + Multi-head Self-Attention(I))</p>
-</blockquote>
-<p>这一个绿色的block的后2个Layer操作的表达式为：</p>
-<blockquote>
-<p>O2 = LayerNormalization(O1 + FeedForwardNetwork(O1))<br>Block(I) = O2</p>
-</blockquote>
-<p>所以Transformer的Encoder的整体操作为：</p>
-<blockquote>
-<p>Encoder(I) = Block(..Block(Block)(I))</p>
-</blockquote>
-<blockquote>
-<p>Decoder:</p>
-</blockquote>
-<p>现在来看Decoder的部分，输入包括2部分，下方是前一个timestep的输出的embedding，即上文所述的I ∈ R(d,N)，再加上一个表示位置的Positional Encoding E ∈ R(d,N)，得到一个张量，去往后面的操作。它进入了绿色的block，绿色的block会重复N次。</p>
-<p>绿色block里面的内容，首先是Masked Multi-Head Self-attention,masked的意思是使attend on已经产生的sequence,这个很合理，因为还没有产生出来的东西是不存在的，就无法做attention。</p>
-<p><strong>输出是：</strong> 对应 i 位置的输出词的概率分布<br><strong>输入是：</strong> Encoder 的输出和对应 i-1 位置decoder的输出。所以中间的attention不是self-attention,它的key和value来自Encoder，Query来自上一位置Decoder的输出。</p>
-<p><strong>解码：</strong> 这里要特别注意一下，编码可以并行计算，一次性全部Encoding出来，但解码不是一次把所有序列解出来，而是像RNN一样一个一个解出来的，因为要用上一个位置的输入当作attention的query。</p>
-<p>明确了解码过程之后最上面的图就很好懂了，这里主要的不同就是新加的attention多了一个mask，因为训练时的output都是Ground Truth，这样可以确保预测第i个位置时不会接触到未来的信息。</p>
-<ul>
-<li>包含两个Multi-Head Attention层。</li>
-<li>第一个Multi-Head Attention层采用了Masked操作。</li>
-<li>第二个Multi-Head Attention层的key，value矩阵使用Encoder的编码信息矩阵C进行计算，而Query使用上一个Decoder block的输出计算。</li>
-<li>最后有一个Softmax层计算下一个翻译单词的概率</li>
-</ul>
-<p>下面详细介绍下Masked Multi-Head Self-attention的具体操作，Masked在Scale操作之后，softmax操作之前。</p>
-<p><img src="http://cp0000.github.io/assets/vit/masked.png" alt="图4: Masked在Scale操作之后，softmax操作之前"></p>
-<p>因为在翻译的过程中是顺序翻译的，即翻译完第i个单词，才可以翻译第 i+1 个单词。通过Masked操作可以防止第i个单词知道第i+1个单词之后的信息。下面以“我有一只猫”翻译成“I have a cat”为例，了解一下Masked操作。在Decoder的时候，是需要根据之前的翻译，求解当前最有可能的翻译，如下图所示。首先根据输入“<Begin>”预测出第一个单词为“I”，然后根据输入“<Begin> I”预测下一个单词“have”。</p>
-<p>Decoder 在训练的过程中使用 Teacher Forcing并且并行化训练，即将正确的单词序列（<Beigin> I have a cat）和对应输出(I have a cat <end>) 传递到Decoder。那么在预测第i个输出时，就要将第i+1之后的单词掩盖住，注意Mask操作是在Self-Attention的softmax之前使用的，下面用0 1 2 3 4 5分别表示”<Begin> I have a cat <end>“。</p>
-<p><img src="http://cp0000.github.io/assets/vit/decoder.png" alt="图5: Decoder过程"></p>
-<p>注意这里transformer模型训练和测试的方法不同：</p>
-<p><strong>测试时：</strong></p>
-<ol>
-<li>输入<Begin>,解码器输出 I</li>
-<li>输入前面已经解码的<Begin>和I，解码器输出have</li>
-<li>输入已经解码的<Begin>, I, have, a, cat, 解码器输出解码结束标志位<end>,每次解码都会利用前面已经解码输出的所有单词嵌入信息。</li>
-</ol>
+          <p>前几天团建去了海南万宁，回来的最后的一天正好是我33岁生日。每年生日我会写一篇“活到xx”的文章，来“庆祝”生日，今年当然也不例外。在从海口飞回上海的飞机上，我就在想今年要写点什么？</p>
+<p>我2011年从大学毕业，今年正好是我毕业10周年的日子，所以我写一下我毕业10年的事情吧。最近大学校友组建了个微信群，拉大家进群让大家回去参加10周年活动；我是没什么意愿回去参加校友会的，个中原因是因为我的大学比较一般，我对我的母校没有很强的归属感。</p>
+<p>先说一下工作，毕业10年，我换了三份工作，第一份工作在南宁和广州，干了大概1年。毕业1年之后，12年端午节附近来到上海，在一家小公司开始第二份工作，干了大概2年半，然后14年11月来了腾讯，至今在腾讯已经干了快7年了。三家公司是三种不同的工作体验，其中第二家公司的leader wenqi对我的影响蛮大，跟着wenqi，我学习到了很多研发技术和经验。那两年工作压力很大，记得2012年过年回家，弟弟说我看起来很疲惫，整个人看起来闷闷不乐，也不太爱说话。后来想想那时候我的确给了自己太大的压力，几乎每天都过度焦虑于工作的事情。但那段时间，即便压力再大，也没思考过离职，因为我能感知到每天都在被新的知识冲击，脑袋里面那种获取到新鲜知识的快感让人上瘾。比如尽早return，比如代码结构，第一个new的object，一定是最后一个free，比如markdown，比如状态机，这一个一个经典的编程知识，是一个普通大学毕业生在2012年很难接触到，更别提在日常coding中加以使用。当接触到这些理念之后，我会觉得这东西很有道理，就像是为自己的编程人生找到了锚点。后来在我独自面对一些不确定的问题时，我会变的笃定，有勇气去做一些不确定的事情，相信对的工作方式，相信步步为营，相信“复杂的事情简单化，简单的事情重复做”。</p>
+<p>后面即便来了腾讯，我也一直秉持着“复杂的事情简单化，简单的事情重复做”，相信技术是可以自学的。就像后面我自己摸索出iOS reverse，图像图形处理，OpenGL渲染，以及计算机视觉。只要愿意学习，好像的确啥技术都能学。</p>
+<p>生活上，这10年，周围的亲人和自己均发生了不小的变化。15年奶奶去世，今年外婆也走了，这两年过年回家发现爸爸妈妈头上的白发和脸上的皱纹也变多了，他们今年53岁，步入了中老年。在万宁的那几天晚上，我不断做梦梦到自己的家人，因为一些外在原因，我高中之后，就没有和家人长时间生活在一起，每年基本上就过年那几天会一起生活；有时候我会觉得他们是一瞬间老的，印象中他们还是意气风发的青年人，有着自己的抱负，转瞬就已经步入中老年了。我和我的父辈，这两代农村人，因为打工，求学错过了很多和亲人一起生活的时光。今年国庆期间，我在老家办了婚礼，爸爸妈妈很开心，我的人生也进入了新的一个阶段。</p>
+<p>活到33，有一点30而立的意思，希望在今后的日子里，自己可以更加笃定自信，生命有很多的可能性，勇敢去追求自己的内心。</p>
 
       
     </div>
@@ -267,7 +224,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/70/">70</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -333,7 +290,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

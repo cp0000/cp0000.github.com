@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/03/19/framebuffer-object-opengl/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/07/02/Kangrinboqe/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2017/03/19/framebuffer-object-opengl/" class="post-title-link" itemprop="url">Learning OpenGL：帧缓冲对象</a>
+            <a href="/2017/07/02/Kangrinboqe/" class="post-title-link" itemprop="url">冈仁波齐</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2017-03-19 14:20:09" itemprop="dateCreated datePublished" datetime="2017-03-19T14:20:09+08:00">2017-03-19</time>
+              <time title="Created: 2017-07-02 15:08:30" itemprop="dateCreated datePublished" datetime="2017-07-02T15:08:30+08:00">2017-07-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-10-06 22:18:11" itemprop="dateModified" datetime="2017-10-06T22:18:11+08:00">2017-10-06</time>
+                <time title="Modified: 2017-10-06 22:21:56" itemprop="dateModified" datetime="2017-10-06T22:21:56+08:00">2017-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -194,7 +194,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
+                  <a href="/categories/Movie/" itemprop="url" rel="index"><span itemprop="name">Movie</span></a>
                 </span>
             </span>
 
@@ -209,142 +209,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
-<h2 id="FBO"><a href="#FBO" class="headerlink" title="FBO"></a>FBO</h2><p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
-<p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。</p>
-<p>帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：</p>
-<pre><code>&gt;注：OpenGL es 2.0 也只有一个颜色附加点
-</code></pre>
-<p><img src="http://www.songho.ca/opengl/files/gl_fbo01.png" alt="framebuffer object"></p>
-<p>从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。</p>
-<h3 id="创建-FBO"><a href="#创建-FBO" class="headerlink" title="创建 FBO"></a>创建 FBO</h3><p>创建和销毁FBO的步骤很简单：</p>
-<pre><code>void glGenFramebuffers(GLsizei n, GLuint * ids);
-void glDeleteFramebuffers(GLsizei n, const GLuint * ids);
-</code></pre>
-<p>将FBO绑定到目标对象：</p>
-<pre><code>void glBindFramebuffer(GLenum target, GLuint id)
-</code></pre>
-<ul>
-<li>target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER–缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。</li>
-<li>id 即为创建出来的帧缓冲id</li>
-</ul>
-<p>通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。</p>
-<p>OpenGL要求，一个完整的FBO需要满足以下条件：</p>
-<ul>
-<li><p>至少附加一个缓冲区（颜色，深度或模版）</p>
-</li>
-<li><p>至少有一个颜色附加</p>
-</li>
-<li><p>所有的附加必须完整（预分配了内存）</p>
-<blockquote>
-<p>if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整</p>
-</blockquote>
-</li>
-<li><p>每个缓冲区的采样需要一致</p>
-</li>
-</ul>
-<p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
-<pre><code>glBindFramebuffer (GL_FRAMEBUFFER, 0);
-</code></pre>
-<h3 id="创建纹理附加图像"><a href="#创建纹理附加图像" class="headerlink" title="创建纹理附加图像"></a>创建纹理附加图像</h3><p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
-<pre><code>glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level);
-</code></pre>
-<ul>
-<li>target: 绑定目标，一般为 GL_FRAMEBUFFER</li>
-<li>attachment:附加点，可选为GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT,GL_STENCIK_ATTACHMENT</li>
-<li>textTarget: 纹理的绑定目标，一般为 GL_TEXTURE_2D</li>
-<li>texture：实际的纹理对象</li>
-<li>level：mipmap级别，一般为0</li>
-</ul>
-<pre><code>GLuint texture;
-glGenTextures(1, &amp;texture);
-glBindTexture(GL_TEXTURE_2D, texture);
-glTexImage2D(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); //末尾的NULL表示我们只预分配空间，而不实际加载纹理
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-</code></pre>
-<p>上面创建的纹理图像，可以附加到FBO：</p>
-<pre><code>glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-</code></pre>
-<p>FBO创建和准备工作完成额，在利用FBO作图前，我们需要介绍另一个附加图像-RenderBuffer。</p>
-<h3 id="创建Renderbuffer附加图像"><a href="#创建Renderbuffer附加图像" class="headerlink" title="创建Renderbuffer附加图像"></a>创建Renderbuffer附加图像</h3><p>和纹理图像一样，一个renderbuffer对象也是一个缓冲，它可以是一堆字节，整数，像素等。renderbuffer的优点是：它以OpenGL原生渲染格式存储它的数据，因此在离屏渲染到帧缓冲的时候，这些数据相当于被优化过。</p>
-<p>renderbuffer对象将所有渲染数据直接储存在它们的缓冲里，而不会进行针对特定纹理格式的任何转换，这样它们就成了一种快速可写的存储介质了。然后，renderbuffer对象通常是只写的，不能修改它们。</p>
-<p>因为renderbuffer对象中的数据已经是原生格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。</p>
-<blockquote>
-<p>要了解为什么渲染的末尾需要交换帧缓冲数据，和谁交换帧缓冲数据，需要理解什么叫双缓存。所谓双缓存机制指的是显示系统通常会引入两个缓冲区，在这种情况下，GPU会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU会直接把视频控制器的指针指向第二个缓冲器。</p>
-</blockquote>
-<p>创建和销毁RenderBuffer也很简单：</p>
-<pre><code>void glGenRenderbuffers(GLsizei n, GLuint * ids);
-void glDeleteRenderbuffers(GLsizei n, const GLuint * ids);
-</code></pre>
-<p>绑定到目标对象：</p>
-<pre><code>glBindRenderbuffer (GL_RENDERBUFFER,rbo);
-</code></pre>
-<p>需为 RBO 预分配内存空间：</p>
-<pre><code>void glRenderbufferStorage (GLenum target, GLenum internalFormat, GLsizei width, GLsizei height);
-</code></pre>
-<p>RBO绑定到FBO</p>
-<pre><code>glFramebufferRenderbuffer (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rboId);
-</code></pre>
-<p>在帧缓冲项目中，renderbuffer可以优化渲染，但重要的是要懂得何时使用renderbuffer对象，何时使用纹理。通常规则是：如果你永远都不需要从特定的缓冲中进行采样，renderbuffer对特定缓冲是更明智的选择。如果需要从比如颜色或深度值这样的特定缓冲采样数据的话，最好使用纹理。</p>
-<h3 id="渲染到纹理"><a href="#渲染到纹理" class="headerlink" title="渲染到纹理"></a>渲染到纹理</h3><p>到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。</p>
-<p><strong>Step1: 创建并绑定帧缓冲</strong></p>
-<pre><code>GLuint framebuffer;
-glGenFramebuffers(1, &amp;framebuffer);
-glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-</code></pre>
-<p><strong>Step2: 创建一个纹理</strong></p>
-<pre><code>// Generate texture
-GLuint texColorBuffer;
-glGenTextures(1, &amp;texColorBuffer);
-glBindTexture(GL_TEXTURE_2D, texColorBuffer);
-glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-glBindTexture(GL_TEXTURE_2D, 0);
+          <p>去看了电影《冈仁波齐》，一开始倒不是因为想了解这部电影所宣扬的藏族信仰是为何物，而是因为朴树的片尾曲《No Fear In My Heart》。想来从高一的时候接触到朴树，从听《Colorful Days》，《傲慢的上校》，《生如夏花》，到现在已然13年了。令人兴奋的是，朴树这两年回来了。</p>
+<p>很难讲《冈仁波齐》一部好看的电影，她是一部很特别的电影，看完电影我会觉得还是很值得一看。整个电影给我最大的冲击瞬间是他们从村里出发朝圣去冈仁波齐的时候。看到影片中出现了拖拉机，我以为他们会坐着拖拉机一路开过去。但又觉得坐拖拉机不能算朝圣吧，那怎不能走着过去吧，那么远，而且在高原上，得走多久才能到。所以当他们卧倒开始磕头前行的时候，我被震住了，说不出话来。是啊，在这个出行飞机高铁，挣钱越快越好，什么都讲究利益的年代，你看到一行人，一路从家乡磕头2000多里去圣地，很难不被这种行为所震动。</p>
+<p>大多数国人是无宗教信仰者，当然我也是。我不懂宗教，更不懂藏传佛教，可能我还是个没有信仰的人。电影中可以明显感受到宗教给藏民带来的影响，一个最直接的感受是，他们都好平静，好平静。朝圣路上，大家生活在一起，无论晴天雪天，每天磕头朝拜，孕妇生完小孩后，回到队伍继续朝圣之路；老人去世了，举行完葬礼，大家继续朝圣。好像没有什么事情能阻止他们，就好像没什么事情能打破他们的平静。孩子出生的喜悦，老人去世的悲伤，都很平静，没有我们红白喜事的那种热闹，嘈杂，笑声朗朗或哀嚎震天。</p>
+<p>坦率的说，我不觉得他们的生活方式就是好的，但我很羡慕他们表现出来的那种平静和笃定，那种生活在现代社会的人，很难拥有的不慌不忙。</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=484732973&auto=1&height=66"></iframe>
 
-// Attach it to currently bound framebuffer object
-glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
-</code></pre>
-<p><strong>Step3 创建renderbuffer来进行深度测试</strong></p>
-<p>为了让OpenGL进行深度测试，我们必须要确保向帧缓冲中添加一个深度附件。由于我们只采样颜色缓冲，并不采样深度，模版缓冲，所以我们可以创建一个渲染缓冲对象来达到这个目的。</p>
-<pre><code>GLuint rbo;
-glGenRenderbuffers(1, &amp;rbo);
-glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);  
-glBindRenderbuffer(GL_RENDERBUFFER, 0);
-</code></pre>
-<p>把renderbuffer对象附加到帧缓冲的深度和模版附件上：</p>
-<pre><code>glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-</code></pre>
-<p>所以，为了把场景绘制到一个单独的纹理，我们必须以下面步骤来做：</p>
-<ul>
-<li>创建并绑定一个新的帧缓冲，并在这个帧缓冲上做相关渲染操作</li>
-<li>绑定默认帧缓冲</li>
-<li>绘制一个铺满屏幕的四边形，并用新的帧缓冲的颜色缓冲作为输入的纹理</li>
-</ul>
-<p>以下是每一帧渲染的伪代码：</p>
-<pre><code>//First pass
-glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-glClearColor(0.f,0.f,0.f, 1.0f);
-glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-glEnable(GL_DEPTH_TEST);
-DrawScene();
 
-// Second pass
-glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
-glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-glClear(GL_COLOR_BUFFER_BIT);
 
-screenShader.Use();  
-glBindVertexArray(quadVAO);
-glDisable(GL_DEPTH_TEST);
-glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-glDrawArrays(GL_TRIANGLES, 0, 6);
-glBindVertexArray(0);
-</code></pre>
-<h3 id="后处理"><a href="#后处理" class="headerlink" title="后处理"></a>后处理</h3><pre><code>&gt;待续
-</code></pre>
+
 
       
     </div>
@@ -363,7 +236,7 @@ glBindVertexArray(0);
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/70/">70</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -429,7 +302,7 @@ glBindVertexArray(0);
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
