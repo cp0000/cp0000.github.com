@@ -178,10 +178,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-03-24 10:48:12 / Modified: 22:52:35" itemprop="dateCreated datePublished" datetime="2022-03-24T10:48:12+08:00">2022-03-24</time>
+              <time title="Created: 2022-03-24 10:48:12" itemprop="dateCreated datePublished" datetime="2022-03-24T10:48:12+08:00">2022-03-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-03-25 18:15:35" itemprop="dateModified" datetime="2022-03-25T18:15:35+08:00">2022-03-25</time>
+              </span>
 
           
 
@@ -235,6 +241,28 @@
 <p><strong>MobileNet V2 的网络详情</strong></p>
 <img src="http://cp0000.github.io/assets/vision_net/mobilenetv2_detail.png" width="480px" >
 
+
+<h4 id="MobileNet-V3"><a href="#MobileNet-V3" class="headerlink" title="MobileNet V3"></a><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1905.02244.pdf">MobileNet V3</a></h4><p>MobileNet V3的相关技术</p>
+<ul>
+<li>引入了NAS进行网络结构搜索</li>
+<li>引入轻量级注意力模型（SE）</li>
+<li>使用了一种新的激活函数 h-swish(x)</li>
+</ul>
+<p><strong>MobileNet V3 网络结构</strong></p>
+<p>网络的结构如下图，引入SE模块：</p>
+<img src="http://cp0000.github.io/assets/vision_net/se.png" width="480px" >
+
+<p>Pool: average pool 1x1, FC1将通道数减小为1/4，后接一个ReLU函数，FC2将通道数变为原来一样，后接h-sigmoid函数，得到的权重与原来的特质矩阵相乘得到新的特征矩阵。</p>
+<p><strong>hard-swish 函数</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/swish.png" width="640px" >
+
+<p><strong>MobileNet V3 网络详情</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/mobilenetv3_detail.png" width="640px" >
+
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>MobileNet 在目前的移动端小模型上有着广泛的应用，特别是depthwise-conv，pointwise-conv</li>
+</ul>
 
       
     </div>
