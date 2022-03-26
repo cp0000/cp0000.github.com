@@ -20,28 +20,45 @@
     var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="CP WRITINGS">
-<meta property="og:url" content="https://cp0000.github.io/index.html">
+  <meta name="description" content="MobileNetMobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。 深度可分离卷积 标准卷积如下图：   输入一个 12x12x3 的featuremap，经">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机视觉移动端小网络：MobileNet">
+<meta property="og:url" content="https://cp0000.github.io/2022/03/24/mobilenet-intro/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
+<meta property="og:description" content="MobileNetMobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。 深度可分离卷积 标准卷积如下图：   输入一个 12x12x3 的featuremap，经">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/normal_conv.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/depthwise_conv.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/depthwise_conv_3.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/depthwise_conv_2.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenet_v1.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/relu.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/linear_block.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenetv2_block.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenetv2_detail.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/se.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/swish.png">
+<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenetv3_detail.png">
+<meta property="article:published_time" content="2022-03-24T02:48:12.000Z">
+<meta property="article:modified_time" content="2022-03-25T10:15:35.107Z">
 <meta property="article:author" content="Pei Cheng">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cp0000.github.io/assets/vision_net/normal_conv.png">
 
-<link rel="canonical" href="https://cp0000.github.io/">
+<link rel="canonical" href="https://cp0000.github.io/2022/03/24/mobilenet-intro/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>CP WRITINGS</title>
+  <title>计算机视觉移动端小网络：MobileNet | CP WRITINGS</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
     <script>
@@ -149,9 +166,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -167,10 +185,9 @@
       <meta itemprop="name" content="CP WRITINGS">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/24/mobilenet-intro/" class="post-title-link" itemprop="url">计算机视觉移动端小网络：MobileNet</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          计算机视觉移动端小网络：MobileNet
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -200,7 +217,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="MobileNet"><a href="#MobileNet" class="headerlink" title="MobileNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1704.04861">MobileNet</a></h4><p>MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.<br>MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。</p>
+        <h4 id="MobileNet"><a href="#MobileNet" class="headerlink" title="MobileNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1704.04861">MobileNet</a></h4><p>MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.<br>MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。</p>
 <p><strong>深度可分离卷积</strong></p>
 <p>标准卷积如下图：</p>
 <img src="http://cp0000.github.io/assets/vision_net/normal_conv.png" width="720px" >
@@ -264,25 +281,31 @@
 <li>MobileNet 在目前的移动端小模型上有着广泛的应用，特别是depthwise-conv，pointwise-conv</li>
 </ul>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/" rel="prev" title="计算机视觉经典网络：LeNet，AlexNet, VGG, GoogLeNet, ResNet">
+      <i class="fa fa-chevron-left"></i> 计算机视觉经典网络：LeNet，AlexNet, VGG, GoogLeNet, ResNet
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
   </article>
   
   
   
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
 
 
 
@@ -334,6 +357,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#MobileNet"><span class="nav-number">1.</span> <span class="nav-text">MobileNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MobileNet-V2"><span class="nav-number">2.</span> <span class="nav-text">MobileNet V2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MobileNet-V3"><span class="nav-number">3.</span> <span class="nav-text">MobileNet V3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
