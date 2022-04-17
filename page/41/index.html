@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2016/12/18/opengl-3d-matrix/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2017/02/26/GLSL-Dictionary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/12/18/opengl-3d-matrix/" class="post-title-link" itemprop="url">OpenGL ES 2.0 3D基础（1）－矩阵</a>
+            <a href="/2017/02/26/GLSL-Dictionary/" class="post-title-link" itemprop="url">Learning OpenGL：GLSL Shader 手册</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-12-18 14:37:53" itemprop="dateCreated datePublished" datetime="2016-12-18T14:37:53+08:00">2016-12-18</time>
+              <time title="Created: 2017-02-26 14:26:08" itemprop="dateCreated datePublished" datetime="2017-02-26T14:26:08+08:00">2017-02-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-10-06 22:24:49" itemprop="dateModified" datetime="2017-10-06T22:24:49+08:00">2017-10-06</time>
+                <time title="Modified: 2017-10-06 22:20:53" itemprop="dateModified" datetime="2017-10-06T22:20:53+08:00">2017-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,87 +209,325 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。</p>
-<h2 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h2><p>学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。</p>
-<h3 id="向量运算"><a href="#向量运算" class="headerlink" title="向量运算"></a>向量运算</h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F">向量</a>: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。</p>
-<h4 id="向量加减"><a href="#向量加减" class="headerlink" title="向量加减"></a>向量加减</h4><p>向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_01.png"></p>
-<h4 id="向量相乘"><a href="#向量相乘" class="headerlink" title="向量相乘"></a>向量相乘</h4><h5 id="点乘"><a href="#点乘" class="headerlink" title="点乘"></a>点乘</h5><p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_02.png"></p>
-<h4 id="叉乘"><a href="#叉乘" class="headerlink" title="叉乘"></a>叉乘</h4><p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_03.png"></p>
-<h3 id="矩阵运算"><a href="#矩阵运算" class="headerlink" title="矩阵运算"></a>矩阵运算</h3><h4 id="矩阵简介"><a href="#矩阵简介" class="headerlink" title="矩阵简介"></a>矩阵简介</h4><p>数学上，一个  m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_04.png"></p>
-<h4 id="矩阵运算规则"><a href="#矩阵运算规则" class="headerlink" title="矩阵运算规则"></a>矩阵运算规则</h4><h5 id="矩阵的加减"><a href="#矩阵的加减" class="headerlink" title="矩阵的加减"></a>矩阵的加减</h5><p>矩阵与标量之间的加减：</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_05.png"></p>
-<p>矩阵与矩阵之间的加减：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_06.png"></p>
-<h5 id="矩阵乘法"><a href="#矩阵乘法" class="headerlink" title="矩阵乘法"></a>矩阵乘法</h5><ul>
-<li><p>矩阵数乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_07.png"></p>
-</li>
-<li><p>矩阵相乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_08.png"></p>
-</li>
-</ul>
-<h4 id="单位矩阵"><a href="#单位矩阵" class="headerlink" title="单位矩阵"></a>单位矩阵</h4><p>在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_09.png"></p>
-<p>单位矩阵通常是生成其他变换矩阵的起点。</p>
-<h4 id="缩放矩阵"><a href="#缩放矩阵" class="headerlink" title="缩放矩阵"></a>缩放矩阵</h4><p>对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_11.png"></p>
-<h4 id="位移矩阵"><a href="#位移矩阵" class="headerlink" title="位移矩阵"></a>位移矩阵</h4><p>位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_12.png"></p>
-<h4 id="旋转矩阵"><a href="#旋转矩阵" class="headerlink" title="旋转矩阵"></a>旋转矩阵</h4><p>（Rx,Ry,Rz）代表任意旋转轴，θ是角度：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_16.png"></p>
-<h5 id="累积变换"><a href="#累积变换" class="headerlink" title="累积变换"></a>累积变换</h5><p>上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：</p>
-<pre><code>TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector;
-</code></pre>
-<p>这行代码首先执行缩放，接着旋转，最后才是平移</p>
-<h2 id="坐标系统"><a href="#坐标系统" class="headerlink" title="坐标系统"></a>坐标系统</h2><p>OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：</p>
+          <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void</td>
+<td>空类型</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>布尔类型</td>
+</tr>
+<tr>
+<td>int</td>
+<td>带符号的整数 signed integer</td>
+</tr>
+<tr>
+<td>float</td>
+<td>带符号的浮点数 floating scalar</td>
+</tr>
+<tr>
+<td>vec2,vec3,vec4</td>
+<td>n维浮点数向量 n-component floating point vector</td>
+</tr>
+<tr>
+<td>bvec2,bvec3,bvec4</td>
+<td>n维整数向量 singed integer vector</td>
+</tr>
+<tr>
+<td>bvec2,bvec3,bvec4</td>
+<td>n维布尔向量 boolean vector</td>
+</tr>
+<tr>
+<td>ivec2,ivec3,ivec4</td>
+<td>n维整数向量 singed integer vector</td>
+</tr>
+<tr>
+<td>mat2,mat3,mat4</td>
+<td>2X2,3X3,4X4 浮点数矩阵 float matrix</td>
+</tr>
+<tr>
+<td>sampler2D</td>
+<td>2D 纹理  a 2D texture</td>
+</tr>
+<tr>
+<td>samplerCube</td>
+<td>盒纹理  cube mapped texture</td>
+</tr>
+</tbody></table>
+<h2 id="基本结构和数组"><a href="#基本结构和数组" class="headerlink" title="基本结构和数组"></a>基本结构和数组</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>结构</td>
+<td>struct type-name{} 类似c语言中的结构体</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>float foo3[] glsl 只支持1维数组，数组可以是结构体的成员</td>
+</tr>
+</tbody></table>
+<p>##内置的特殊变量</p>
+<p>glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成<code>input</code>,<code>output</code>两种类型，<code>input</code>类型，负责向硬件（渲染管线）发送数据，<code>output</code>类型负责向程序回传数据。</p>
 <ul>
-<li><p>局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。</p>
-</li>
-<li><p>世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。</p>
-<blockquote>
-<p>模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。</p>
-</blockquote>
-</li>
-<li><p>观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。</p>
-</li>
-<li><p>裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。</p>
-</li>
+<li>在vertex shader中</li>
 </ul>
-<p>将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。</p>
+<p>output 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>highp vec4 gl_Position;</td>
+<td>gl_Position 放置顶点坐标信息</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>mediump float gl_Pointsize;</td>
+<td>gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效）</td>
+<td>float</td>
+</tr>
+</tbody></table>
 <ul>
-<li>屏幕空间（Screen Space）</li>
+<li>在fragment Shader中：</li>
 </ul>
-<h3 id="正交投影（Orthographic-Projection）"><a href="#正交投影（Orthographic-Projection）" class="headerlink" title="正交投影（Orthographic Projection）"></a>正交投影（Orthographic Projection）</h3><p>正交投影矩阵定义一个立方体的平截头箱，在这个立方体之外的顶点都会被裁剪掉。</p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_18.png"></p>
-<p>正交投影矩阵直接将坐标映射到2D平面上。不过正交投影没有透视效果，远处箱子和近处箱子投射到平面上是一样大的，这和我们日常生活中看东西时近大远小的视觉效果是不符的。要解决这个问题，我们需要用到透视投影。</p>
-<p>###透视投影（Perspective Projection）</p>
-<p>透视投影定义一个大平截头体。透视投影有两种表述方式：</p>
-<ul>
-<li>视锥体：</li>
-</ul>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_19.png"></p>
-<p>glFrustum (left, right, bottom, top, zNear, zFar);</p>
-<p>left,right,bottom,top定义near裁剪面大小，zNear和zFar定义从观察点到远近两个裁剪面的距离。这六个参数定义出六个裁剪面构成的视锥体。</p>
-<ul>
-<li>透视图：</li>
-</ul>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_20.png"></p>
-<p>gluPerspective(fovy, aspect, zNear, zFar);</p>
-<ul>
-<li>fovy: camera 在 y 方向上的视线角度（0~180)</li>
-<li>aspect定义近截面的宽高比 aspect=w/h</li>
-<li>zNear, zFar: 观察点到远近两个裁剪面的距离</li>
-</ul>
-<p> 透视体参数转换车过视锥体参数：</p>
-<pre><code>    tan(fovy/2) = (h / 2)/zNear -&gt; h; 
-    w =  h * aspect -&gt; w;
-</code></pre>
-<h3 id="矩阵组合"><a href="#矩阵组合" class="headerlink" title="矩阵组合"></a>矩阵组合</h3><p>基于前面介绍的4个变换矩阵：模型矩阵，世界矩阵，观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程变换到裁剪坐标：</p>
-<pre><code>Vclip=Mprojection⋅Mview⋅Mmodel⋅Vlocal
-</code></pre>
-<blockquote>
-<p>注意矩阵运算的顺序是从右往左阅读，最终计算出来的顶点赋值给<code>gl_Position</code></p>
-</blockquote>
-<h2 id="3D-Demo"><a href="#3D-Demo" class="headerlink" title="3D Demo"></a>3D Demo</h2><p>至此我们了解了OpenGL 3D渲染中需要知道的矩阵知识，运用这些知识，便可进行开发OpenGL3D程序了；苹果官方提供一个很好的GL demo <a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/samplecode/GLEssentials/Introduction/Intro.html">GLEssentials</a></p>
-<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_21.png"></p>
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2>
+<p>input 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mediump vec4 gl_FragCoord;</td>
+<td>片元在fragmebuffer画面的相对位置</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>bool gl_FrontFacing</td>
+<td>标志当前图元是不是正面图元的一部分</td>
+<td>bool</td>
+</tr>
+<tr>
+<td>mediump vec2 gl_PointCoord;</td>
+<td>经过插值计算后的纹理坐标，点的范围是0.0到1.0</td>
+<td>vec2</td>
+</tr>
+</tbody></table>
+<p>output 类型的内置变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mediump vec4 gl_FragColor;</td>
+<td>设置当前片点的颜色</td>
+<td>vec4</td>
+</tr>
+<tr>
+<td>mediump vec4 gl_FragData[n];</td>
+<td>设置当前片点的颜色,使用glDrawBuffers数据数组</td>
+<td>vec4</td>
+</tr>
+</tbody></table>
+<p>##内置函数库</p>
+<p>###通用函数</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T abs(T x)</td>
+<td>返回x的绝对值</td>
+</tr>
+<tr>
+<td>T sign(T x)</td>
+<td>比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0</td>
+</tr>
+<tr>
+<td>T floor(T x)</td>
+<td>返回 &lt;= x 的最大整数</td>
+</tr>
+<tr>
+<td>T ceil(T x)</td>
+<td>返回 &gt;= x 的最小整数</td>
+</tr>
+<tr>
+<td>T fract(T x)</td>
+<td>返回 x 的小数部分</td>
+</tr>
+<tr>
+<td>T mod(T x,T y) T mod(T x,float y)</td>
+<td>取 x,y 的余数</td>
+</tr>
+<tr>
+<td>T min(T x,T y) T min(T x,float y)</td>
+<td>取 x,y 的最小值</td>
+</tr>
+<tr>
+<td>T max(T x,T y) T max(T x,float y)</td>
+<td>取 x,y 的最大值</td>
+</tr>
+<tr>
+<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal)</td>
+<td>min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间</td>
+</tr>
+<tr>
+<td>T mix(T x,T y, T a) T mix(T x,T y, float a)</td>
+<td>取 x,y 的线性混合，x(1-a)+ya</td>
+</tr>
+<tr>
+<td>T step(T edge,T x) T step(float edge,T x)</td>
+<td>if x &lt; edge返回0.0， 否则返回1.0</td>
+</tr>
+<tr>
+<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x)</td>
+<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0， 否则返回Hermite插值</td>
+</tr>
+</tbody></table>
+<h3 id="角度-amp-三角函数"><a href="#角度-amp-三角函数" class="headerlink" title="角度&amp;三角函数"></a>角度&amp;三角函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T radinans(T degrees)</td>
+<td>角度转弧度</td>
+</tr>
+<tr>
+<td>T degrees(T radians)</td>
+<td>弧度转角度</td>
+</tr>
+<tr>
+<td>T sin(T angle)</td>
+<td>正弦函数</td>
+</tr>
+<tr>
+<td>T cos(T angle)</td>
+<td>余弦函数</td>
+</tr>
+<tr>
+<td>T tan(T angle)</td>
+<td>正切函数</td>
+</tr>
+<tr>
+<td>T asin(T angle)</td>
+<td>反正弦函数</td>
+</tr>
+<tr>
+<td>T acos(T angle)</td>
+<td>反余弦函数</td>
+</tr>
+<tr>
+<td>T atan(T y, T x) T atan(T y_over_x)</td>
+<td>反正切函数</td>
+</tr>
+</tbody></table>
+<h3 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T pow(T x, T y)</td>
+<td>返回x的y次幂</td>
+</tr>
+<tr>
+<td>T exp(T x)</td>
+<td>返回x的自然指数幂</td>
+</tr>
+<tr>
+<td>T log(T x)</td>
+<td>返回x的自然对数 ln</td>
+</tr>
+<tr>
+<td>T exp2(T x)</td>
+<td>返回2的x次幂</td>
+</tr>
+<tr>
+<td>T log2(T x)</td>
+<td>返回2位低的对数 log2</td>
+</tr>
+<tr>
+<td>T sqrt(T x)</td>
+<td>开根号 √x</td>
+</tr>
+<tr>
+<td>T inversesqrt(T x)</td>
+<td>先开根号，在取倒数，</td>
+</tr>
+</tbody></table>
+<h3 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>float length(T x)</td>
+<td>返回矢量x的长度</td>
+</tr>
+<tr>
+<td>float distance(T p0,T p1)</td>
+<td>返回p0, p1两点的距离</td>
+</tr>
+<tr>
+<td>float dot(T x,T y)</td>
+<td>返回x y 的点积</td>
+</tr>
+<tr>
+<td>vec3 cross(vec3 x,vec3 y)</td>
+<td>返回x y 的叉积</td>
+</tr>
+<tr>
+<td>vec3 normalize(T y)</td>
+<td>对x进行归一化，保持向量方向不变但长度变为1</td>
+</tr>
+<tr>
+<td>vec3 faceforward(T N, T I, T Nref)</td>
+<td>根据 矢量 N 与Nref 调整法向量</td>
+</tr>
+<tr>
+<td>vec3 reflect(T I, T N)</td>
+<td>返回 I - 2 * dot(N,I) * N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量</td>
+</tr>
+<tr>
+<td>vec3 normalize(T I, T N, float eta)</td>
+<td>返回入射矢量I关于法向量N的折射矢量,折射率为eta</td>
+</tr>
+</tbody></table>
+
       
     </div>
 
@@ -307,7 +545,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/40/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/42/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/40/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><span class="space">&hellip;</span><a class="page-number" href="/page/73/">73</a><a class="extend next" rel="next" href="/page/42/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -373,7 +611,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

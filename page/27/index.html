@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2019/01/20/2018-summary/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2019/03/31/logistic-regression/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2019/01/20/2018-summary/" class="post-title-link" itemprop="url">2018年度总结</a>
+            <a href="/2019/03/31/logistic-regression/" class="post-title-link" itemprop="url">逻辑回归</a>
         </h2>
 
         <div class="post-meta">
@@ -178,10 +178,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-01-20 20:09:46 / Modified: 21:38:59" itemprop="dateCreated datePublished" datetime="2019-01-20T20:09:46+08:00">2019-01-20</time>
+              <time title="Created: 2019-03-31 14:41:59" itemprop="dateCreated datePublished" datetime="2019-03-31T14:41:59+08:00">2019-03-31</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-04-09 22:54:39" itemprop="dateModified" datetime="2019-04-09T22:54:39+08:00">2019-04-09</time>
+              </span>
 
           
 
@@ -194,90 +200,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="http://cp0000.github.io/assets/2018/2018.jpg" alt="2018"></p>
-<h3 id="文娱"><a href="#文娱" class="headerlink" title="文娱"></a>文娱</h3><h4 id="电影"><a href="#电影" class="headerlink" title="电影"></a>电影</h4><h5 id="中国"><a href="#中国" class="headerlink" title="中国"></a>中国</h5><ul>
-<li>一一 - ⭐️⭐️⭐️⭐️⭐️</li>
-<li>红海行动 - ⭐️⭐️⭐️⭐️</li>
-<li>影 - ⭐️⭐️⭐️</li>
-<li>无双 - ⭐️⭐️⭐️</li>
-<li>我不是药神 - ⭐️⭐️⭐️</li>
+          <blockquote>
+<p>逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。</p>
+</blockquote>
+<p>本文从以下几个方面讲述逻辑回归：</p>
+<ul>
+<li>什么是逻辑回归？</li>
+<li>它是如何工作的。</li>
+<li>逻辑回归 vs 线性回归</li>
+<li>优缺点</li>
+<li>何时适用</li>
+<li>多分类任务（OvA, OvO）</li>
+<li>其他分类算法</li>
+<li>总结</li>
 </ul>
-<h5 id="好莱坞"><a href="#好莱坞" class="headerlink" title="好莱坞"></a>好莱坞</h5><ul>
-<li>蜘蛛侠-平行宇宙  - ⭐️⭐️⭐️⭐️</li>
-<li>杰出公民  - ⭐️⭐️⭐️⭐️</li>
-<li>碟中谍6：全面瓦解  - ⭐️⭐️⭐️⭐️</li>
-<li>奇迹男孩  - ⭐️⭐️⭐️</li>
-<li>头号玩家  - ⭐️⭐️⭐️</li>
-<li>海王  - ⭐️⭐️⭐️</li>
-<li>寂静之地  - ⭐️⭐️⭐️</li>
-<li>第六感生死缘  - ⭐️⭐️⭐️</li>
-<li>美国丽人 - ⭐️⭐️⭐️</li>
-<li>古墓丽影：源起之战 - ⭐️⭐️</li>
-<li>黑豹  - ⭐️⭐️</li>
-<li>复仇者联盟3  - ⭐️⭐️</li>
-<li>蚁人2  - ⭐️</li>
-<li>金刚-骷髅岛  - ⭐️</li>
-</ul>
-<h5 id="日本"><a href="#日本" class="headerlink" title="日本"></a>日本</h5><ul>
-<li>无人知晓 - ⭐️⭐️⭐️</li>
-</ul>
-<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><ul>
-<li>看不见的客人 - ⭐️⭐️⭐️⭐️</li>
-<li>斯大林之死  - ⭐️⭐️⭐️⭐️</li>
-<li>一个叫欧维的男人决定去死 - ⭐️⭐️⭐️⭐️</li>
-<li>恐怖直播 - ⭐️⭐️⭐️⭐️</li>
-<li>艾尔酒吧 - ⭐️⭐️⭐️</li>
-<li>普通女人  - ⭐️⭐️⭐️</li>
-<li>燃烧  - ⭐️⭐️⭐️</li>
-<li>厕所英雄 - ⭐️⭐️</li>
-</ul>
-<h4 id="美剧-英剧-日剧-纪录片"><a href="#美剧-英剧-日剧-纪录片" class="headerlink" title="美剧-英剧-日剧-纪录片"></a>美剧-英剧-日剧-纪录片</h4><ul>
-<li>辛普森：美国制造 - ⭐️⭐️⭐️⭐️⭐️</li>
-<li>Ugly Delicious - ⭐️⭐️⭐️⭐️⭐️</li>
-<li>风骚律师 - 第四季 - ⭐️⭐️⭐️⭐️</li>
-<li>毒枭：墨西哥 - ⭐️⭐️⭐️⭐️</li>
-<li>梅尔罗斯 - ⭐️⭐️⭐️⭐️</li>
-<li>硅谷第五季 - ⭐️⭐️⭐️⭐️</li>
-<li>非自然死亡 - ⭐️⭐️⭐️⭐️</li>
-<li>西部世界第二季  - ⭐️⭐️⭐️</li>
-<li>保镖  - ⭐️⭐️⭐️</li>
-<li>利器  - ⭐️⭐️⭐️</li>
-<li>杀死伊芙 - ⭐️⭐️⭐️</li>
-<li>了不起的麦瑟尔夫人 - ⭐️⭐️⭐️</li>
-<li>9号秘事第四季 - ⭐️⭐️⭐️</li>
-</ul>
-<h4 id="音乐"><a href="#音乐" class="headerlink" title="音乐"></a>音乐</h4><ul>
-<li>Kendrick Lamar</li>
-</ul>
-<h4 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h4><ul>
-<li>那不勒斯四部曲（1）- 我的天才女友 - ⭐️⭐️⭐️⭐️⭐️</li>
-<li>那不勒斯四部曲（2）- 新名字的故事 - ⭐️⭐️⭐️⭐️</li>
-<li>那不勒斯四部曲（3）- 离开的，留下的 - ⭐️⭐️⭐️⭐️</li>
-<li>那不勒斯四部曲（4）- 失踪的孩子 - ⭐️⭐️⭐️⭐️</li>
-<li>失明症漫记 - ⭐️⭐️⭐️⭐️</li>
-<li>我是个年轻人，我心情不太好- ⭐️⭐️⭐️</li>
-<li>富士山禁恋- ⭐️⭐️⭐️</li>
-</ul>
-<h4 id="Podcast"><a href="#Podcast" class="headerlink" title="Podcast"></a>Podcast</h4><ul>
-<li>灭茶苦茶</li>
-<li>文化土豆</li>
-<li>硅谷早知道</li>
-<li>Blow Your Mind</li>
-<li>The Dave Chang Show</li>
-<li>996 Podcast by GGV</li>
-</ul>
-<h3 id="体育"><a href="#体育" class="headerlink" title="体育"></a>体育</h3><ul>
-<li>2018年世界杯 1/8 决赛：法国-阿根廷</li>
-<li>17-18 NBA季后赛 西部决赛 - 金州勇士-休斯顿火箭队</li>
-</ul>
-<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><ul>
-<li>年度编程语言 - Python</li>
-<li>年度技术点 - DeepLearning</li>
-<li>年度App - 微信读书，网易有钱</li>
-<li>年度工具 - PyCharm Ce</li>
-<li>年度硬件 - AirPods，15寸mbp</li>
-<li>年度公开课 - 3blue1brow, 李宏毅机器学习课程</li>
-</ul>
+<h2 id="什么是逻辑回归"><a href="#什么是逻辑回归" class="headerlink" title="什么是逻辑回归"></a>什么是逻辑回归</h2><p>和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。 </p>
+<p>癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。</p>
+<h2 id="它是如何工作的？"><a href="#它是如何工作的？" class="headerlink" title="它是如何工作的？"></a>它是如何工作的？</h2><p>逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。<br>然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1.<br>下图说明了逻辑回归得出预测所需的所有步骤。<br><img src="http://cp0000.github.io/assets/logistic_regression/01.jpg" alt="logistic_regreesion"></p>
+<h3 id="假设函数-（Hypothesis-function）"><a href="#假设函数-（Hypothesis-function）" class="headerlink" title="假设函数 （Hypothesis function）"></a>假设函数 （Hypothesis function）</h3><p>逻辑回归的假设函数形式如下：<br><img src="http://cp0000.github.io/assets/logistic_regression/20160409203810378.jpg"></p>
+<p>这个函数称为sigmoid函数，也称为逻辑函数，其函数曲线如下：<br><img src="http://cp0000.github.io/assets/logistic_regression/20160409203837285.jpg"></p>
+<p>从上图可以看到sigmoid函数是一个s形的曲线，它的取值在[0,1]之间，在远离0的地方函数的值会很快接近0/1.这个性质使我们能够以概率的方式来解释。<br>一个机器学习的模型，实际上就是把决策函数限定在某一组条件下，这组限定条件就决定了模型的假设空间。当然，我们还希望这组限定条件简单而合理。而逻辑回归模型所做的假设是：<br><img src="http://cp0000.github.io/assets/logistic_regression/20160409203927593"><br>这里的g(h)是上面提到的sigmoid函数，相应的决策函数是：<br><img src="http://cp0000.github.io/assets/logistic_regression/20160409204029426"><br>选择0.5作为阈值是一个一般的做法，实际应用时特定情况可以选择不同阈值。</p>
+<h3 id="决策边界（Decision-Boundary）"><a href="#决策边界（Decision-Boundary）" class="headerlink" title="决策边界（Decision Boundary）"></a>决策边界（Decision Boundary）</h3><p>决策边界，也称为决策面，是用于在N维空间，将不同类别样本分开的平面或曲面。<br><strong>线性决策边界：</strong><br><img src="http://cp0000.github.io/assets/logistic_regression/20160409204957945"><br>决策边界： -3 + x1 +x2 = 0</p>
+<p><strong>非线性决策边界</strong><br><img src="http://cp0000.github.io/assets/logistic_regression/20160409205014946"><br>决策边界： -1 + x1^2 +x2^2 = 0</p>
+<p><strong>决策边界</strong>其实是一个方程，在逻辑回归中，决策边界由theta’ X=0定义。<br><strong>假设函数</strong>（h=g(z)）用于计算样本属于某种类别的可能性；<strong>决策函数</strong>(h=1(g(z)&gt;0.5))用于计算样本的类别；<strong>决策边界</strong>（θ^Tx=0）是一个方程，用于标识出分类函数（模型）的分类边界。 </p>
+<h3 id="代价函数（Cost-Function）"><a href="#代价函数（Cost-Function）" class="headerlink" title="代价函数（Cost Function）"></a>代价函数（Cost Function）</h3><p>逻辑回归中，采用如下的形式计算样本的代价值：</p>
+<p><img src="http://cp0000.github.io/assets/logistic_regression/20160409210035918"></p>
+<p>整合一下，得到逻辑回归中的代价函数：</p>
+<p><img src="http://cp0000.github.io/assets/logistic_regression/20160409210057356"></p>
+<h3 id="优化方法"><a href="#优化方法" class="headerlink" title="优化方法"></a>优化方法</h3><p>在逻辑回归中，使用梯度下降法对代价函数进行优化，完整形式如下：<br><img src="http://cp0000.github.io/assets/logistic_regression/20160409210420143"></p>
+<p>注意：<br>逻辑回归和线性回归问题中，梯度下降算法的形式看上去一致，但实际上两者完全不同，因为假设函数是不同的，需要特别注意这一点。</p>
+<p>其向量化实现（vectorized implementation）如下：<br><img src="http://cp0000.github.io/assets/logistic_regression/20160409210508019"></p>
+<h2 id="逻辑回归-vs-线性回归"><a href="#逻辑回归-vs-线性回归" class="headerlink" title="逻辑回归 vs 线性回归"></a>逻辑回归 vs 线性回归</h2><p>逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。</p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。</p>
+<p>逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。<br>它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。</p>
+<h2 id="何时适用"><a href="#何时适用" class="headerlink" title="何时适用"></a>何时适用</h2><p>逻辑回归通过线性边界将你的输入分成两个区域，每个类别划分一个区域。因为，你的数据应当是线性可分的，如下图：</p>
+<p><img src="http://cp0000.github.io/assets/logistic_regression/02.jpg" alt="01"></p>
 
       
     </div>
@@ -296,7 +253,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/26/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/28/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/26/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/73/">73</a><a class="extend next" rel="next" href="/page/28/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -362,7 +319,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

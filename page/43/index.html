@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2016/11/07/ffmpeg-command-example/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2016/12/18/opengl-3d-matrix/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/11/07/ffmpeg-command-example/" class="post-title-link" itemprop="url">ffmpeg 使用例程</a>
+            <a href="/2016/12/18/opengl-3d-matrix/" class="post-title-link" itemprop="url">OpenGL ES 2.0 3D基础（1）－矩阵</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-11-07 21:03:47" itemprop="dateCreated datePublished" datetime="2016-11-07T21:03:47+08:00">2016-11-07</time>
+              <time title="Created: 2016-12-18 14:37:53" itemprop="dateCreated datePublished" datetime="2016-12-18T14:37:53+08:00">2016-12-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-10-06 22:20:40" itemprop="dateModified" datetime="2017-10-06T22:20:40+08:00">2017-10-06</time>
+                <time title="Modified: 2017-10-06 22:24:49" itemprop="dateModified" datetime="2017-10-06T22:24:49+08:00">2017-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,59 +209,87 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>本文介绍<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/FFmpeg">ffmpeg</a>命令行的一些使用方法；</p>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><h3 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h3><ul>
-<li>-i——设置输入档名。</li>
-<li>-f——设置输出格式。</li>
-<li>-y——若输出文件已存在时则覆盖文件。</li>
-<li>-fs——超过指定的文件大小时则结束转换。</li>
-<li>-ss——从指定时间开始转换。</li>
-<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
-<li>-title——设置标题。</li>
-<li>-timestamp——设置时间戳。</li>
-<li>-vsync——增减Frame使影音同步。<h3 id="视频参数"><a href="#视频参数" class="headerlink" title="视频参数"></a>视频参数</h3></li>
-<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
-<li>-r——设置帧率值，默认为25。</li>
-<li>-s——设置画面的宽与高。</li>
-<li>-aspect——设置画面的比例。</li>
-<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
-<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数"><a href="#声音参数" class="headerlink" title="声音参数"></a>声音参数</h3></li>
-<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
-<li>-ar——设置采样率。</li>
-<li>-ac——设置声音的Channel数。</li>
-<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
-<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
-<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
-</ul>
-<p>##例子</p>
-<p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
-<h3 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h3><p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
-<pre><code>ffmpeg -i input.mp4  -strict -2 -vf crop=405:720:420:0  video_out.mp4
-</code></pre>
-<p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
-<h3 id="视频转换成图片"><a href="#视频转换成图片" class="headerlink" title="视频转换成图片"></a>视频转换成图片</h3><pre><code> ffmpeg -i input.mp4 image%3d.png
-</code></pre>
-<p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
-<pre><code> ffmpeg -i input.mp4 -r 30  $filename%3d.png  
-</code></pre>
-<p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
-<pre><code>ffprobe &quot;input.mp4&quot; -v 0 -select_streams v  -print_format flat -show_entries stream=r_frame_rate 
-</code></pre>
-<h3 id="剪辑视频"><a href="#剪辑视频" class="headerlink" title="剪辑视频"></a>剪辑视频</h3><p>一段长视频只需要保留其中一段，可用如下命令：</p>
-<pre><code>ffmpeg -i input.mp4 -ss 00:00:21 -t 00:00:10 -acodec aac -vcodec h264 -strict -2 out.mp4
-</code></pre>
-<p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
-<h3 id="调整视频分辨率大小"><a href="#调整视频分辨率大小" class="headerlink" title="调整视频分辨率大小"></a>调整视频分辨率大小</h3><p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
-<pre><code>ffmpeg -i input.mp4 -vf scale=853:480 -acodec aac -vcodec h264 out.mp4
-</code></pre>
-<ul>
-<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
-<li><code>-vcodec h264</code> 指定视频使用 h264 编码。<blockquote>
-<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
-</blockquote>
+          <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。</p>
+<h2 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h2><p>学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。</p>
+<h3 id="向量运算"><a href="#向量运算" class="headerlink" title="向量运算"></a>向量运算</h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F">向量</a>: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。</p>
+<h4 id="向量加减"><a href="#向量加减" class="headerlink" title="向量加减"></a>向量加减</h4><p>向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_01.png"></p>
+<h4 id="向量相乘"><a href="#向量相乘" class="headerlink" title="向量相乘"></a>向量相乘</h4><h5 id="点乘"><a href="#点乘" class="headerlink" title="点乘"></a>点乘</h5><p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_02.png"></p>
+<h4 id="叉乘"><a href="#叉乘" class="headerlink" title="叉乘"></a>叉乘</h4><p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_03.png"></p>
+<h3 id="矩阵运算"><a href="#矩阵运算" class="headerlink" title="矩阵运算"></a>矩阵运算</h3><h4 id="矩阵简介"><a href="#矩阵简介" class="headerlink" title="矩阵简介"></a>矩阵简介</h4><p>数学上，一个  m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_04.png"></p>
+<h4 id="矩阵运算规则"><a href="#矩阵运算规则" class="headerlink" title="矩阵运算规则"></a>矩阵运算规则</h4><h5 id="矩阵的加减"><a href="#矩阵的加减" class="headerlink" title="矩阵的加减"></a>矩阵的加减</h5><p>矩阵与标量之间的加减：</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_05.png"></p>
+<p>矩阵与矩阵之间的加减：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_06.png"></p>
+<h5 id="矩阵乘法"><a href="#矩阵乘法" class="headerlink" title="矩阵乘法"></a>矩阵乘法</h5><ul>
+<li><p>矩阵数乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_07.png"></p>
+</li>
+<li><p>矩阵相乘<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_08.png"></p>
 </li>
 </ul>
-
+<h4 id="单位矩阵"><a href="#单位矩阵" class="headerlink" title="单位矩阵"></a>单位矩阵</h4><p>在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_09.png"></p>
+<p>单位矩阵通常是生成其他变换矩阵的起点。</p>
+<h4 id="缩放矩阵"><a href="#缩放矩阵" class="headerlink" title="缩放矩阵"></a>缩放矩阵</h4><p>对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_11.png"></p>
+<h4 id="位移矩阵"><a href="#位移矩阵" class="headerlink" title="位移矩阵"></a>位移矩阵</h4><p>位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_12.png"></p>
+<h4 id="旋转矩阵"><a href="#旋转矩阵" class="headerlink" title="旋转矩阵"></a>旋转矩阵</h4><p>（Rx,Ry,Rz）代表任意旋转轴，θ是角度：<br><img src="http://cp0000.github.io/assets/3d_matrix/matrix_16.png"></p>
+<h5 id="累积变换"><a href="#累积变换" class="headerlink" title="累积变换"></a>累积变换</h5><p>上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：</p>
+<pre><code>TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector;
+</code></pre>
+<p>这行代码首先执行缩放，接着旋转，最后才是平移</p>
+<h2 id="坐标系统"><a href="#坐标系统" class="headerlink" title="坐标系统"></a>坐标系统</h2><p>OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：</p>
+<ul>
+<li><p>局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。</p>
+</li>
+<li><p>世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。</p>
+<blockquote>
+<p>模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。</p>
+</blockquote>
+</li>
+<li><p>观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。</p>
+</li>
+<li><p>裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。</p>
+</li>
+</ul>
+<p>将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。</p>
+<ul>
+<li>屏幕空间（Screen Space）</li>
+</ul>
+<h3 id="正交投影（Orthographic-Projection）"><a href="#正交投影（Orthographic-Projection）" class="headerlink" title="正交投影（Orthographic Projection）"></a>正交投影（Orthographic Projection）</h3><p>正交投影矩阵定义一个立方体的平截头箱，在这个立方体之外的顶点都会被裁剪掉。</p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_18.png"></p>
+<p>正交投影矩阵直接将坐标映射到2D平面上。不过正交投影没有透视效果，远处箱子和近处箱子投射到平面上是一样大的，这和我们日常生活中看东西时近大远小的视觉效果是不符的。要解决这个问题，我们需要用到透视投影。</p>
+<p>###透视投影（Perspective Projection）</p>
+<p>透视投影定义一个大平截头体。透视投影有两种表述方式：</p>
+<ul>
+<li>视锥体：</li>
+</ul>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_19.png"></p>
+<p>glFrustum (left, right, bottom, top, zNear, zFar);</p>
+<p>left,right,bottom,top定义near裁剪面大小，zNear和zFar定义从观察点到远近两个裁剪面的距离。这六个参数定义出六个裁剪面构成的视锥体。</p>
+<ul>
+<li>透视图：</li>
+</ul>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_20.png"></p>
+<p>gluPerspective(fovy, aspect, zNear, zFar);</p>
+<ul>
+<li>fovy: camera 在 y 方向上的视线角度（0~180)</li>
+<li>aspect定义近截面的宽高比 aspect=w/h</li>
+<li>zNear, zFar: 观察点到远近两个裁剪面的距离</li>
+</ul>
+<p> 透视体参数转换车过视锥体参数：</p>
+<pre><code>    tan(fovy/2) = (h / 2)/zNear -&gt; h; 
+    w =  h * aspect -&gt; w;
+</code></pre>
+<h3 id="矩阵组合"><a href="#矩阵组合" class="headerlink" title="矩阵组合"></a>矩阵组合</h3><p>基于前面介绍的4个变换矩阵：模型矩阵，世界矩阵，观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程变换到裁剪坐标：</p>
+<pre><code>Vclip=Mprojection⋅Mview⋅Mmodel⋅Vlocal
+</code></pre>
+<blockquote>
+<p>注意矩阵运算的顺序是从右往左阅读，最终计算出来的顶点赋值给<code>gl_Position</code></p>
+</blockquote>
+<h2 id="3D-Demo"><a href="#3D-Demo" class="headerlink" title="3D Demo"></a>3D Demo</h2><p>至此我们了解了OpenGL 3D渲染中需要知道的矩阵知识，运用这些知识，便可进行开发OpenGL3D程序了；苹果官方提供一个很好的GL demo <a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/samplecode/GLEssentials/Introduction/Intro.html">GLEssentials</a></p>
+<p><img src="http://cp0000.github.io/assets/3d_matrix/matrix_21.png"></p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2>
       
     </div>
 
@@ -279,7 +307,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/42/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/44/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/42/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><span class="space">&hellip;</span><a class="page-number" href="/page/73/">73</a><a class="extend next" rel="next" href="/page/44/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -345,7 +373,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

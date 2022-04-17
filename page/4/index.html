@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/02/16/stock-prediction/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/02/16/stock-prediction/" class="post-title-link" itemprop="url">利用深度学习进行股票价格预测</a>
+            <a href="/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/" class="post-title-link" itemprop="url">计算机视觉经典网络：LeNet，AlexNet, VGG, GoogLeNet, ResNet</a>
         </h2>
 
         <div class="post-meta">
@@ -178,16 +178,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2022-02-16 00:13:14" itemprop="dateCreated datePublished" datetime="2022-02-16T00:13:14+08:00">2022-02-16</time>
+              <time title="Created: 2022-03-22 11:15:28 / Modified: 23:11:12" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-23 11:21:03" itemprop="dateModified" datetime="2022-02-23T11:21:03+08:00">2022-02-23</time>
-              </span>
 
           
 
@@ -200,120 +194,97 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p> 免责声明：这篇文章记录我在做这个mini site project时候的一些知识点，从最终预测的结果来看，效果不太理想。投资有风险，入市需谨慎。</p>
+          <h4 id="LeNet"><a href="#LeNet" class="headerlink" title="LeNet"></a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/LeNet">LeNet</a></h4><blockquote>
+<p>LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。</p>
 </blockquote>
-<blockquote>
-<p>本文中的代码多数是参考： <a target="_blank" rel="noopener" href="https://github.com/olof98johansson/StockPrediction.git">https://github.com/olof98johansson/StockPrediction.git</a></p>
+<p>LeNet-5是用来处理手写字符的识别问题，总共有7层。其结构如下</p>
+<img src="http://cp0000.github.io/assets/vision_net/lenet.png" width="720px" >
+
+
+<p>LeNet-5的网络细节如下：</p>
+<img src="http://cp0000.github.io/assets/vision_net/lenet_detail.png" width="360px" >
+
+
+<h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AlexNet">AlexNet</a></h4><blockquote>
+<p>AlexNet被认为是计算机视觉领域最有影响力的论文之一，它刺激了更多使用卷积神经网络和GPU来加速深度学习的论文出现。截至2022年，AlexNet论文已被引用超过105287次。</p>
 </blockquote>
-<h2 id="股票数据获取和处理"><a href="#股票数据获取和处理" class="headerlink" title="股票数据获取和处理"></a>股票数据获取和处理</h2><h3 id="获取股票数据"><a href="#获取股票数据" class="headerlink" title="获取股票数据"></a>获取股票数据</h3><p>我们这里借助 pandas_datareader 这个库来获取目标股票的信息。比如可以通过如下的代码获取Telsa股票信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pandas_datareader.data as web</span><br><span class="line">df &#x3D; web.DataReader(&quot;TSLA&quot;, data_source&#x3D;&quot;yahoo&quot;)</span><br></pre></td></tr></table></figure>
-<p>数据格式如下：</p>
-<table>
-<thead>
-<tr>
-<th>Date</th>
-<th>High</th>
-<th>Low</th>
-<th>Open</th>
-<th>Close</th>
-<th>Volume</th>
-<th>Adj Close</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2022-02-08</td>
-<td>926.23</td>
-<td>894.80</td>
-<td>905.53</td>
-<td>922.00</td>
-<td>16909700.0</td>
-<td>922.00</td>
-</tr>
-<tr>
-<td>2022-02-09</td>
-<td>946.27</td>
-<td>920.00</td>
-<td>935.00</td>
-<td>932.00</td>
-<td>17419800.0</td>
-<td>932.00</td>
-</tr>
-<tr>
-<td>2022-02-10</td>
-<td>943.81</td>
-<td>896.70</td>
-<td>908.40</td>
-<td>904.55</td>
-<td>22042300.0</td>
-<td>904.55</td>
-</tr>
-<tr>
-<td>2022-02-11</td>
-<td>915.96</td>
-<td>850.70</td>
-<td>909.63</td>
-<td>860.00</td>
-<td>26492700.0</td>
-<td>860.00</td>
-</tr>
-</tbody></table>
-<p>下面对上述获取的股票信息做一些名词解释：</p>
+<p><strong>网络设计</strong><br>AlexNet包含八层。前五层是卷基层，之后是最大池化层，最后三层是全连接层。使用<code>ReLU</code>激活函数。</p>
+<p><strong>网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/alexnet.png" width="720px" >
+
+<p>AlexNet的网络细节如下：</p>
+<img src="http://cp0000.github.io/assets/vision_net/alexnet_detail.png" width="360px" >
+
+<h4 id="VGGNet"><a href="#VGGNet" class="headerlink" title="VGGNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">VGGNet</a></h4><p>VGG是牛津的Visual Geometry Group组于2014年提出的网络结构。该网络是在ILSVRC 2014上的相关工作，主要证明了增加网络深度能够在一定程度上影响网络最终的性能。</p>
+<p><strong>VGG原理</strong><br>VGG中，使用3个3x3卷积核来代替7x7卷积核，使用2个3x3卷积核来代替5x5卷积核，这样做的目的是在保证相同感受野的条件下，提升了网络深度。而增加网络深度过程中引入的多层非线性层帮助学习到更复杂的模式，在一定程度上提升了神经网络的效果。</p>
+<p><strong>VGG网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/vggnet.png" width="720px" >
+
+<p><strong>VGG网路细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/vggnet_detail.png" width="720px" >
+
+<p>上图是VGG各种网络的网络结构。</p>
 <ul>
-<li><code>High</code> : 当日最高成交价</li>
-<li><code>Low</code> : 当日最低成交价</li>
-<li><code>Open</code> : 当日开盘价格</li>
-<li><code>Close</code> : 当日收盘价格</li>
-<li><code>Volume</code> : 当日资金总量</li>
-<li><code>Adj Close</code> : 当日股票收盘价调整后的价格。什么是<a target="_blank" rel="noopener" href="https://www.guruin.com/life-tips/1041">Adj Close</a></li>
+<li>VGG16包含了13个卷积层和3个全连层，如上图的网络D。</li>
+<li>VGG19包含了16个卷积层和3个全连层，如上图的网络E。</li>
 </ul>
-<p>除了从Yahoo Finance上获取的股票基础信息之外，我们这里还引入一些金融行业关于股票的一些技术指标：</p>
-<h3 id="技术指标"><a href="#技术指标" class="headerlink" title="技术指标"></a>技术指标</h3><ul>
-<li>ROC ：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8F%98%E5%8A%A8%E7%8E%87/10091242">股票变动率</a></li>
-<li>william_r: <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A8%81%E5%BB%89%E6%8C%87%E6%A8%99">威廉指標</a></li>
-<li>Money flow index : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/MFI%E6%8C%87%E6%A0%87/1690931">资金流量指标</a></li>
-<li>Ulcer index : <a target="_blank" rel="noopener" href="http://abcexchange.io/terms/u/ulcerindex.asp">溃疡指数</a></li>
-<li>Average true range:<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9C%9F%E5%AF%A6%E6%B3%A2%E5%8B%95%E5%B9%85%E5%BA%A6%E5%9D%87%E5%80%BC">真实波动幅度均值</a></li>
-<li>Simple moving average : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A7%BB%E5%8A%A8%E5%B9%B3%E5%9D%87%E7%BA%BF/217887">移动平均线</a></li>
-<li>Exponential moving average : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/EMA/12646151">指数移动平均值</a></li>
+<p><strong>VGG优缺点</strong></p>
+<ul>
+<li>主要贡献是增加了网络深度</li>
+<li>优点：网络结构简洁，整个网络使用同样大小的卷积核尺寸（3x3） 和最大池化尺寸（2x2）。</li>
+<li>缺点：最后三个FC层计算量巨大，耗费更多资源</li>
 </ul>
-<p>以上就是股票市场里面金融分析师会用的一些技术指标了。这些指标都是可以根据股票价格计算出来的，公式以及其含义也比较简单，不多阐述。</p>
-<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>股票数据属于时间序列数据，时间序列数据一般会有周期性，这里我们可以利用<a target="_blank" rel="noopener" href="https://www.statsmodels.org/stable/index.html">statsmodels API</a>，对股票数据进行分析，这里以<code>TSLA</code>为例：</p>
-<p><img src="http://cp0000.github.io/assets/stock_prediction/TSLA.png" alt="TESLA Stock Analysis"></p>
-<p>从图中的分析结果来看，TESLA股票的确有着显著的周期性。所以这里我们需要处理掉周期性对股票预测时候的影响。这里我们采用差分的方式对股票时间序列数据中的周期性进行去除，以下是去除周期性后的股票价格：</p>
-<p><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_stationary_data.png" alt="TESLA Stock Analysis"></p>
-<p>关于如何去除时间序列数据中包含的趋势和周期性，可以参照这篇文章<a target="_blank" rel="noopener" href="https://machinelearningmastery.com/remove-trends-seasonality-difference-transform-python/">remove-trends-seasonality-difference-transform-python</a></p>
-<p>数据部分处理完成之后，我们就可以训练模型了。</p>
-<h2 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h2><p>首先我们使用经典的序列数据预测模型<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%95%B7%E7%9F%AD%E6%9C%9F%E8%A8%98%E6%86%B6">LSTM</a>。全称 Long Short-Term Memory，中文名称为长短期记忆。</p>
-<p>LSTM是一种特殊的RNN网络，主要是为了解决长序列训练过程中的梯度消失和梯度爆炸的问题，相比普通的RNN，LSTM能够在长序列中有更好的表现。</p>
-<p><img src="http://cp0000.github.io/assets/stock_prediction/lstm_01.jpeg" alt="LSTM"></p>
-<p>而LSTM的内部是通过门控状态来控制传输状态，记住需要长时间记忆的，忘记不重要的信息。</p>
-<p><img src="http://cp0000.github.io/assets/stock_prediction/lstm.jpeg" alt="LSTM"></p>
-<p>关于如何理解LSTM，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">https://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
-<p>以下是利用LSTM对TESLA股价的预测结果<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_lstm_predictions.svg" alt="TESLA LSTM Prediction Results"></p>
-<h2 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h2><p>我们还可以用在语音和图片领域都表现出色的<code>Transformer</code>模型来对股票价格进行预测</p>
-<p>以下是利用Transformer对TESLA股票价格预测结果。<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_transformer_predictions.svg" alt="TESLA Transformer Prediction Results"></p>
-<p>整体预测的准确性上和<code>LSTM</code>差不太多。Transformer小有优势：</p>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>RMSE</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>transformer</td>
-<td>56.239713918089585</td>
-</tr>
-<tr>
-<td>lstm</td>
-<td>56.708656591988834</td>
-</tr>
-</tbody></table>
-<h2 id="模拟交易"><a href="#模拟交易" class="headerlink" title="模拟交易"></a>模拟交易</h2><p>有了预测模型之后，我们可以制定一些简单的交易策略了。这里我们参照 <a target="_blank" rel="noopener" href="https://medium.com/towards-data-science/getting-rich-quick-with-machine-learning-and-stock-market-predictions-696802da94fe">getting-rich-quick-with-machine-learning-and-stock-market-predictions</a>这篇文章里面的交易策略。</p>
-<p>策略也很简单，就是那预测第二天的股票价格和当天的收盘价做比较，高了就买，底了就卖。然后计算测试数据的投资回报率。</p>
-<p>下图是测试的结果<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_transformer_trade.svg" alt="TESLA Trade Results"></p>
-<p>code: <a target="_blank" rel="noopener" href="https://github.com/cp0000/stock_prediction">stock_prediction</a></p>
+<h4 id="GoogLeNet"><a href="#GoogLeNet" class="headerlink" title="GoogLeNet"></a><a target="_blank" rel="noopener" href="https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf">GoogLeNet</a></h4><p>GoogLeNet是Google于2014年推出的基于Inception模块的深度神经网络模型，并在随后的两年中一直改进，形成InceptionV2, InceptionV3,Inception V4等版本。</p>
+<p><strong>Inception-V1</strong><br>Inception是把多个卷积或池化操作，放在一起组装成一个网络模块，设计神经网络时以模块为单位去组成整个网络结构。Inception结构如下图所示：</p>
+<img src="http://cp0000.github.io/assets/vision_net/inception_layer.png" width="480px" >
+
+<p>如上图所示，Inception Module结构组成有四个成分：1x1 conv, 3x3 conv, 5x5 conv, 3x3 maxpooling. 最后对四个成分运算结果进行通道上组合。Inception Module的核心思想是：利用不同大小的卷积核实现不同尺度的感知，最后进行融合，可以得到图像更好的表征。</p>
+<p>另外图中的1x1 conv 有两种，一种蓝色底，一种黄色底，其中黄色底1x1 conv是用来进行压缩降维的。因为使用Inception结构，利用上多尺度卷积后，网络变宽了，计算量变大了；需要减少参数量来减少计算量，所以在Inception v1中加入了黄色底 1x1 conv来进行降维。黄色底1x1 conv 叫做 pointwise conv.</p>
+<p><strong>GoogLeNet网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="1280px" >
+
+<p>GoogLNet网络有22层深（加上pool层，有27层深），由于全连接层参数多，计算量大，容易过拟合，所以GoogLNet没有采用LeNet，AlexNet，VGG三层全连接结构，在Inception模块之后使用Average Pool和Dropout方法，同时达到防止过拟合和降维的作用。</p>
+<p>辅助分类器： 为了利用中间层抽象的特征，在某些中间层中添加含有多层的分类器。GoogLNet网络中加入了两个辅助分类器，作用有两点：一是为了避免梯度小时，用于向前传导梯度。反向传播时如果有一层求导为0，链式求导结果为0.二是将中间某一层输出作用作分类，起到模型融合作用。</p>
+<p><strong>GoogLeNet网络细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/googlenet_detail.png" width="720px" >
+
+
+
+<h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1512.03385">ResNet</a></h4><p>深度学习网络的深度对最后分类和识别的效果有很大影响，但我们把网络设计的很深时，网络在训练时，梯度消失的现象会越来越明显。为了解决这一问题，何恺明于2015年提出了ResNet，深度残差网络。ResNet，全称Deep residual network，网路中通过引入residual block解决了当CNN网络深度很深时网络学习退化的问题。ResNet的提出是CNN图像史上一件里程碑事件。</p>
+<p><strong>残差块：Residual Block</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/residual_block.png" width="360px" >
+
+<p>非常深的网络很难训练，存在梯度消失和梯度爆炸问题，学习skip connection它可以从某一层获得激活，然后迅速反馈给另外一层甚至更深层，利用skip connection可以构建残差网络ResNet来训练更深的网络，ResNet网络时由残差模块构建的。</p>
+<p><strong>ResNet网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/resnet.png" width="720px" >
+
+
+<p><strong>ResNet网络细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/resnet_detail.png" width="720px" >
+
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><ol>
+<li>本文梳理了从CNN开山之作 LeNet，到目前被广泛应用在科研，工业界的ResNet。可以看出深度神经网络朝着越来越深的方向发展。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>AlexNet作为现代CNN网络的开端，奠定了目前使用的CNN网络的基本架构。从AlexNet，到VGG，GooGleNet，再到ResNet，网络均分成5层（以feature map的size来做区分）。且都经过5次下采样，feature map size的大小变换为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">224x224 -&gt; 112x112 -&gt; 56x56 -&gt; 28x28 -&gt; 14x14 -&gt; 7x7</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>纵向比较，个人觉得这里面 <code>AlexNet</code>, <code>VGG</code>,<code> ResNet</code> 是三个最具创造性的网络。（LeNet有点确实久远）</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>GoogLeNet 中的 Inception 后续会演化出 Xception，以及我们能在MobileNet中看到一些影子。</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>从CNN网络的发展，也能看出，技术都是通过不断迭代，一步步演化出来。</li>
+</ol>
+</li>
+</ul>
 
       
     </div>
@@ -332,7 +303,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/73/">73</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -398,7 +369,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

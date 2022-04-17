@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/07/19/nsstring-property-copy-or-retain/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/08/02/mdfind-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2015/07/19/nsstring-property-copy-or-retain/" class="post-title-link" itemprop="url">从 NSString Property:copy or retain 到 NSCopying</a>
+            <a href="/2015/08/02/mdfind-note/" class="post-title-link" itemprop="url">Spotlight & MDFind</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-07-19 11:50:04" itemprop="dateCreated datePublished" datetime="2015-07-19T11:50:04+08:00">2015-07-19</time>
+              <time title="Created: 2015-08-02 11:31:18" itemprop="dateCreated datePublished" datetime="2015-08-02T11:31:18+08:00">2015-08-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2015-07-20 20:55:55" itemprop="dateModified" datetime="2015-07-20T20:55:55+08:00">2015-07-20</time>
+                <time title="Modified: 2015-11-07 23:47:32" itemprop="dateModified" datetime="2015-11-07T23:47:32+08:00">2015-11-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,87 +209,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="NSString-Property-copy-or-retain"><a href="#NSString-Property-copy-or-retain" class="headerlink" title="NSString Property:copy or retain"></a>NSString Property:copy or retain</h4><p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>strong</code>)。</p>
-<p><strong>为什么会有<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
-<p>回答这个问题之前，我们先看段代码：</p>
-<pre><code>@interface Fruit : NSObject
-@property (nonatomic, copy)     NSString  * fruitNameCopy;
-@property (nonatomic, strong)   NSString  * fruitNameStrong;
-@end
-
-NSMutableString * fruitName = [NSMutableString stringWithString:@&quot;apple&quot;];
-
-Fruit * fruit = [[Fruit alloc] init];
-fruit.fruitNameCopy     = fruitName;
-fruit.fruitNameStrong   = fruitName;
-
-NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250  apple
-NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy); // 0xa0000656c7070615 apple
-NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong); // 0x7fddabd0e250  apple
-
-//fruitName =@&quot;pear&quot;;
-[fruitName setString: @&quot;pear&quot;];
-
-NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250  pear
-NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy); // 0xa0000656c7070615 apple
-NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong); // 0x7fddabd0e250  pear
+          <h4 id="Indexing-服务"><a href="#Indexing-服务" class="headerlink" title="Indexing 服务"></a>Indexing 服务</h4><p>Maocx 系统的搜索服务 <code>spotlight</code> 想必大家都用过。它可以很便捷的帮我们找到想要的文件。</p>
+<p>先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：</p>
+<p><img src="http://cp0000.github.io/assets/loadBlock.png" alt="loadBlock"></p>
+<p>spotlight 帮我找到了包含 <code>_loadBlock</code> 这个字符串的文件。</p>
+<p>想象下，电脑硬盘中存储着如此多的文件，<strong>spotlight 是如何如此快速的查询到包涵这个字符串的文件的？</strong></p>
+<p>在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？<br>关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 <code>find</code> 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。<strong>那答案是什么？</strong></p>
+<p>我们不妨先把目光放到<code>搜索</code>这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。<br>那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的<code>indexing</code>的索引服务。那什么是<code>indexing</code>索引服务器，简单来讲： Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。</p>
+<p>当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 <a target="_blank" rel="noopener" href="https://lucene.apache.org/">Lucene</a> 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。</p>
+<h4 id="mdfind"><a href="#mdfind" class="headerlink" title="mdfind"></a>mdfind</h4><p>用 spotlight 的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。<strong>关于如何在spotlight界面显示文件的详细路径</strong>，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。</p>
+<p><strong>那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？</strong></p>
+<p>Macosx 提供了终端执行命令<code>mdfind</code>，我们可以在 terminal 中使用<code>mdfind</code>来进行索引查询。比如要查询出文件内容中包含字符串 “_loadBlock”, 在ternimal中输入以下命令即可：</p>
+<pre><code>mdfind &#39;kMDItemTextContent=&quot;_loadBlock&quot;&#39; 
 </code></pre>
-<p>该段程序运行到结尾时， fruitNameCopy 的值是 apple，fruitNameCopy 的值是 pear，且两者的内存地址也不一样。<br>程序中，当我们对一个mutable对象做<code>copy</code>操作的时候，objc runtime 会用一次<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy">深拷贝</a>来处理， runtime 会重新分配一块内存地址空间，并把原mutable对象的值拷贝过来。所以打印出来的 fruitNameCopy 和 fruitNameStrong 的内存地址是不一样的。而这之后在对 fruitName 做任何的赋值操作都只能作用于 fruitNameStrong.</p>
-<p><strong>那如果我们把 fruitName 改成 immutable 的会是怎样的了？</strong></p>
-<pre><code>NSString * fruitName = @&quot;apple&quot;;
-
-Fruit * fruit = [[Fruit alloc] init];
-fruit.fruitNameCopy     = fruitName;
-fruit.fruitNameStrong   = fruitName;
-
-NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName);// 0x10e27b078 apple
-NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy);// 0x10e27b078 apple
-NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong);// 0x10e27b078 apple
-
-fruitName =@&quot;pear&quot;;
-
-NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName);// 0x10e27b0f8 pear
-NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy);// 0x10e27b078 apple
-NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong);// 0x10e27b078 apple
+<p>results:</p>
+<pre><code>/opt/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.h
+/opt/dev/appstore_cracked/StoreKit_headers/SKStoreProductViewController.h
+/opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUWebViewController.h
+/opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUStorePageViewController.h
+/opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUPreviewOverlayViewController.h
+/opt/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.h
+/opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.h
+/opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.h
 </code></pre>
-<p>结果是 fruitName, fruitNameCopy, fruitNameStrong 三者的地址都是一样的。按理说<code>copy</code>动作是深拷贝，fruitNameCopy指向的地址 应该是新分配的内存地址才对。<br>那为什么打印出来的地址却是同一个地址了？答案是 runtime 在这里做一个性能优化，@”apple” 是一个immutable的值，没有必要做一次深拷贝，直接做一次 retain 就达到目的了。</p>
-<p><strong>试试看把<code>NSString</code>替换成<code>NSArray</code></strong></p>
-<p>对象 Fruit 中添加两个属性<br>    @property (nonatomic, copy)     NSArray  * placesCopy;<br>    @property (nonatomic, strong)   NSArray  * placesStrong;</p>
-<p>先用 mutable 的变量试试</p>
-<pre><code>NSMutableArray * places = [NSMutableArray arrayWithArray:@[@&quot;china&quot;, @&quot;japan&quot;]];
-fruit.placesCopy    = places; //placesCopy: 0x7f8f18d0c4f0 (china,japan)
-fruit.placesStrong  = places; //placesStrong: 0x7f8f18d51a80 (china,japan)
-
-[places addObject:@&quot;korea&quot;];
-//placesCopy: 0x7f8f18d0c4f0 (china,japan)
-//placesStrong: 0x7f8f18d51a80 (china,japan, korea)
+<p>对比终端查询结果和图一中的结果，会发现有两点出入：</p>
+<ul>
+<li>(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。</li>
+<li>(2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下”_loadBlock”在各个文件中的上下文，以下是节选</li>
+</ul>
+<p>nsBlocklistService.js</p>
+<pre><code>this._loadBlocklist();
 </code></pre>
-<p>再用 immutable 的变量试试</p>
-<pre><code>NSArray * places = @[@&quot;china&quot;, @&quot;japan&quot;];
-
-fruit.placesCopy    = places; //placesCopy: 0x7fc4e8c6f2a0 (china,japan)
-fruit.placesStrong  = places; //placesStrong: 0x7fc4e8c6f2a0 (china,japan)
-
-places = @[@&quot;uk&quot;, @&quot;us&quot;];
-//placesCopy: 0x7fc4e8c6f2a0 (china,japan)
-//placesStrong: 0x7fc4e8c6f2a0 (china,japan)
+<p>SKStorePageViewController</p>
+<pre><code>CDUnknownBlockType _loadBlock;
 </code></pre>
-<p>实验结果和 <code>NSString</code> 是一致的。</p>
-<h4 id="NSCopying"><a href="#NSCopying" class="headerlink" title="NSCopying"></a>NSCopying</h4><p>如果你愿意，你可以试试看其他容器类 <code>NSDictionary</code>, <code>NSSet</code>,<code>NSIndexSet</code>， 会发现结果也保持一致。我们尝试解读这些类的头文件，作进一步的探索。以下是这些类头文件的节选：</p>
-<pre><code>@interface NSString : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding&gt;
-@interface NSArray&lt;__covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
-@interface NSDictionary&lt;__covariant KeyType, __covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
-@interface NSSet&lt;__covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
-@interface NSIndexSet : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding&gt;
-@interface NSIndexPath : NSObject &lt;NSCopying, NSSecureCoding&gt;
+<p>看上去问题应该是出在<code>_loadBlock</code>前后是否能跟别的字符串上，修改查询语句</p>
+<pre><code>mdfind &#39;kMDItemTextContent=&quot;_loadBlock*&quot;&#39; 
 </code></pre>
-<p>会发现这些类都实现了<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html"><code>NSCoying</code></a>协议.在<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
-<pre><code>Implement NSCopying by retaining the original instead of creating a new copy when the class and its contents are immutable.
+<p>果然可以查询到结果</p>
+<pre><code>/Project/mozilla-central/toolkit/mozapps/extensions/nsBlocklistService.js
 </code></pre>
-<p>这条准则很好的解释了上面的试验结果，让这些结果讲得通。</p>
-<h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code>。</strong></p>
-<p><strong>如果在程序中我们自己定义的类也需要实现 <code>NSCopying</code> 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象</strong></p>
-<p><strong>如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 <code>copy</code></strong></p>
+<p>关于 mdfind 的一些常用查询语法，可参考 <a target="_blank" rel="noopener" href="http://osxnotes.net/spotlight.html"><code>osxnotes</code></a>，这里列举了大量的例子。</p>
 
       
     </div>
@@ -308,7 +268,7 @@ places = @[@&quot;uk&quot;, @&quot;us&quot;];
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/61/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><span class="page-number current">62</span><a class="page-number" href="/page/63/">63</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/63/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/61/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><span class="page-number current">62</span><a class="page-number" href="/page/63/">63</a><span class="space">&hellip;</span><a class="page-number" href="/page/73/">73</a><a class="extend next" rel="next" href="/page/63/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -374,7 +334,7 @@ places = @[@&quot;uk&quot;, @&quot;us&quot;];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
