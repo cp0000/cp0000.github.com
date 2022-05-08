@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/08/02/mdfind-note/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2015/08/02/mdfind-note/" class="post-title-link" itemprop="url">Spotlight & MDFind</a>
+            <a href="/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/" class="post-title-link" itemprop="url">UICollectionViews Now Have Easy Reordering （译）</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-08-02 11:31:18" itemprop="dateCreated datePublished" datetime="2015-08-02T11:31:18+08:00">2015-08-02</time>
+              <time title="Created: 2015-08-22 09:52:28" itemprop="dateCreated datePublished" datetime="2015-08-22T09:52:28+08:00">2015-08-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2015-11-07 23:47:32" itemprop="dateModified" datetime="2015-11-07T23:47:32+08:00">2015-11-07</time>
+                <time title="Modified: 2015-11-07 23:46:54" itemprop="dateModified" datetime="2015-11-07T23:46:54+08:00">2015-11-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,47 +209,89 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="Indexing-服务"><a href="#Indexing-服务" class="headerlink" title="Indexing 服务"></a>Indexing 服务</h4><p>Maocx 系统的搜索服务 <code>spotlight</code> 想必大家都用过。它可以很便捷的帮我们找到想要的文件。</p>
-<p>先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：</p>
-<p><img src="http://cp0000.github.io/assets/loadBlock.png" alt="loadBlock"></p>
-<p>spotlight 帮我找到了包含 <code>_loadBlock</code> 这个字符串的文件。</p>
-<p>想象下，电脑硬盘中存储着如此多的文件，<strong>spotlight 是如何如此快速的查询到包涵这个字符串的文件的？</strong></p>
-<p>在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？<br>关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 <code>find</code> 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。<strong>那答案是什么？</strong></p>
-<p>我们不妨先把目光放到<code>搜索</code>这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。<br>那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的<code>indexing</code>的索引服务。那什么是<code>indexing</code>索引服务器，简单来讲： Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。</p>
-<p>当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 <a target="_blank" rel="noopener" href="https://lucene.apache.org/">Lucene</a> 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。</p>
-<h4 id="mdfind"><a href="#mdfind" class="headerlink" title="mdfind"></a>mdfind</h4><p>用 spotlight 的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。<strong>关于如何在spotlight界面显示文件的详细路径</strong>，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。</p>
-<p><strong>那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？</strong></p>
-<p>Macosx 提供了终端执行命令<code>mdfind</code>，我们可以在 terminal 中使用<code>mdfind</code>来进行索引查询。比如要查询出文件内容中包含字符串 “_loadBlock”, 在ternimal中输入以下命令即可：</p>
-<pre><code>mdfind &#39;kMDItemTextContent=&quot;_loadBlock&quot;&#39; 
+          <h1 id="iOS-9-0-UICollectionView-拖拽效果实现"><a href="#iOS-9-0-UICollectionView-拖拽效果实现" class="headerlink" title="iOS 9.0 UICollectionView 拖拽效果实现"></a>iOS 9.0 UICollectionView 拖拽效果实现</h1><blockquote>
+<p>原文 <a target="_blank" rel="noopener" href="http://nshint.io/blog/2015/07/16/uicollectionviews-now-have-easy-reordering/">UICollectionViews Now Have Easy Reordering</a></p>
+</blockquote>
+<p>在<code>UICollectionView</code> 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 <code>UITableView</code>，它更加容易进行一些自定义的操作。我们组现在在项目中使用 <code>UICollectionView</code> 要多于 <code>UITableView</code>。伴随着 iOS 9 的 release，<code>UICollectionView</code>排序（动态拖拽）更加简单。在这之前，如果想对 <code>UICollectionView</code> 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址<a target="_blank" rel="noopener" href="https://github.com/nshintio/uicollectionview-reordering">uicollectionview-reordering</a>。</p>
+<p>实现拖动排序最简单的办法是使用 <code>UICollectionViewController</code>, 在 <code>UICollectionViewController</code> 中新增了一个属性  <code>installsStandardGestureForInteractiveMovement</code>, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。     我们所需要做的，只要重载下面这个方法就好了.</p>
+<pre><code>override func collectionView(collectionView: UICollectionView,
+    moveItemAtIndexPath sourceIndexPath: NSIndexPath,
+    toIndexPath destinationIndexPath: NSIndexPath) &#123;
+    // move your data order
+&#125;
 </code></pre>
-<p>results:</p>
-<pre><code>/opt/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.h
-/opt/dev/appstore_cracked/StoreKit_headers/SKStoreProductViewController.h
-/opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUWebViewController.h
-/opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUStorePageViewController.h
-/opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUPreviewOverlayViewController.h
-/opt/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.h
-/opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.h
-/opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.h
+<p>当程序中重载了<code>moveItemAtIndexPath</code>，collectionView 就认为 cell 是可以移动的。</p>
+<pre><code>![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif)
 </code></pre>
-<p>对比终端查询结果和图一中的结果，会发现有两点出入：</p>
+<p>那如果需要给某一个 <code>UIViewController</code> 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现<code>UICollectionViewDataSource</code>中上面提到的代理方法，还需要重写 <code>installsStandardGestureForInteractiveMovement</code>。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势<code>UILongPressGestureRecognizer</code>，它能够完全满足拖拽需求。</p>
+<pre><code>override func viewDidLoad() &#123;
+    super.viewDidLoad()
+    longPressGesture = UILongPressGestureRecognizer(target: self, action: &quot;handleLongGesture:&quot;)
+    self.collectionView.addGestureRecognizer(longPressGesture)
+&#125;
+
+func handleLongGesture(gesture: UILongPressGestureRecognizer) &#123;
+
+    switch(gesture.state) &#123;
+
+    case UIGestureRecognizerState.Began:
+        guard let selectedIndexPath = self.collectionView.indexPathForItemAtPoint(gesture.locationInView(self.collectionView)) else &#123;
+            break
+        &#125;
+        collectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
+    case UIGestureRecognizerState.Changed:
+        collectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
+    case UIGestureRecognizerState.Ended:
+        collectionView.endInteractiveMovement()
+    default:
+        collectionView.cancelInteractiveMovement()
+    &#125;
+&#125;
+</code></pre>
+<p>这段代码主要是给 collectionView 添加一个长手势识别器，并根据手势的不同状态调用collectionView的相关方法。</p>
 <ul>
-<li>(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。</li>
-<li>(2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下”_loadBlock”在各个文件中的上下文，以下是节选</li>
+<li><code>beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)</code>: 该方法在开始拖拽某个cell时被调用</li>
+<li><code>updateInteractiveMovementTargetPosition(targetPosition:CGPoint)</code>: 根据手势更新拖拽cell的位置</li>
+<li><code>endInteractiveMovement()</code>: 手势结束时调用，结束拖拽</li>
+<li><code>cancelInteractiveMovement()</code>: 手势取消时调用，取消拖拽</li>
 </ul>
-<p>nsBlocklistService.js</p>
-<pre><code>this._loadBlocklist();
+<p>这样就实现了需要的拖拽效果：</p>
+<p><img src="http://nshint.io/images/uicollectionview-reordering/2.gif" alt="reordering_collection_view"></p>
+<p>这段代码出来的效果和 <code>UICollectionViewController</code> 是一致的。很厉害吧，但更厉害的是我们可以用上面的方法对自定义的 collection view layout 进行拖拽。下面我们来实现一个简单的瀑布流。</p>
+<p><img src="http://nshint.io/images/uicollectionview-reordering/3.gif" alt="reordering_waterfall"></p>
+<p>昂～，看起来还凑合，但在移动的时候cell的size被改变了呢，如何才能保持cell的size不变呢？ <code>UICollectionViewLayout</code>提供了相关办法可以帮助我们解决这个问题。</p>
+<pre><code>func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],
+    withTargetPosition targetPosition: CGPoint,
+    previousIndexPaths: [NSIndexPath],
+    previousPosition: CGPoint) -&gt; UICollectionViewLayoutInvalidationContext
+
+func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(indexPaths: [NSIndexPath],
+    previousIndexPaths: [NSIndexPath],
+    movementCancelled: Bool) -&gt; UICollectionViewLayoutInvalidationContext
 </code></pre>
-<p>SKStorePageViewController</p>
-<pre><code>CDUnknownBlockType _loadBlock;
+<ul>
+<li><p>第一个函数会在 cells 拖拽过程中被调用</p>
+</li>
+<li><p>第二个函数会在拖拽结束时候被调用。有了这些信息，我们可以使用一点小技巧去实现cell size不被改变的功能。</p>
+<p>  internal override func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],</p>
+<pre><code>  withTargetPosition targetPosition: CGPoint,
+  previousIndexPaths: [NSIndexPath],
+  previousPosition: CGPoint) -&gt; UICollectionViewLayoutInvalidationContext &#123;
+
+  var context = super.invalidationContextForInteractivelyMovingItems(targetIndexPaths,
+      withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths,
+      previousPosition: previousPosition)
+
+  self.delegate?.collectionView!(self.collectionView!, moveItemAtIndexPath: previousIndexPaths[0],
+      toIndexPath: targetIndexPaths[0])
+
+  return context
 </code></pre>
-<p>看上去问题应该是出在<code>_loadBlock</code>前后是否能跟别的字符串上，修改查询语句</p>
-<pre><code>mdfind &#39;kMDItemTextContent=&quot;_loadBlock*&quot;&#39; 
-</code></pre>
-<p>果然可以查询到结果</p>
-<pre><code>/Project/mozilla-central/toolkit/mozapps/extensions/nsBlocklistService.js
-</code></pre>
-<p>关于 mdfind 的一些常用查询语法，可参考 <a target="_blank" rel="noopener" href="http://osxnotes.net/spotlight.html"><code>osxnotes</code></a>，这里列举了大量的例子。</p>
+<p>  }</p>
+</li>
+</ul>
+<p>解决方法很直接。获取当前被拖拽的cell的起始indexPath和目标indexPath,然后调用UICollectionViewDataSource代理方法移动当前正在被拖拽的cell。</p>
+<p>一个可以拖拽的的collectionView带来体验效果真的非常棒～</p>
 
       
     </div>
@@ -268,7 +310,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/62/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/62/">62</a><span class="page-number current">63</span><a class="page-number" href="/page/64/">64</a><span class="space">&hellip;</span><a class="page-number" href="/page/74/">74</a><a class="extend next" rel="next" href="/page/64/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/62/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/62/">62</a><span class="page-number current">63</span><a class="page-number" href="/page/64/">64</a><span class="space">&hellip;</span><a class="page-number" href="/page/75/">75</a><a class="extend next" rel="next" href="/page/64/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -334,7 +376,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-count">75</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
