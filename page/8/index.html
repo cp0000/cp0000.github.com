@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/02/23/my-lisenting-podcasts/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/02/23/my-lisenting-podcasts/" class="post-title-link" itemprop="url">我听的播客</a>
+            <a href="/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/" class="post-title-link" itemprop="url">计算机视觉经典网络：LeNet，AlexNet, VGG, GoogLeNet, ResNet</a>
         </h2>
 
         <div class="post-meta">
@@ -178,16 +178,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2022-02-23 12:13:10" itemprop="dateCreated datePublished" datetime="2022-02-23T12:13:10+08:00">2022-02-23</time>
+              <time title="Created: 2022-03-22 11:15:28 / Modified: 23:11:12" itemprop="dateCreated datePublished" datetime="2022-03-22T11:15:28+08:00">2022-03-22</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-24 15:33:03" itemprop="dateModified" datetime="2022-02-24T15:33:03+08:00">2022-02-24</time>
-              </span>
 
           
 
@@ -200,11 +194,97 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>播客本来是一个小众文化产品，这两年互联网的风口好像也吹到了播客这个领域，像QQ音乐，网易云这样的巨头和喜马拉雅，小宇宙这样的创业者也都加入了播客平台的搭建和运营中来。好处是很多之前没人聊的话题，比如足球，会出现一些相关的播客可以让人们去消费，而我也注意到身边开始听播客的人变的越来越多。</p>
-<p>播客是以声音为媒介传递信息的，相比文字和图像，在信息的容量上存在天然的劣势，期待能从播客中能获得非常solid的知识是不现实的。但播客有一个优势是营造一种陪伴的感觉，可以让人在做家务，散步，坐车时收听。</p>
-<p>我大概是从2013年开始听播客，当时收听播客途径主要是通过iPhone上的Podcasts软件，苹果会在这个app中做一些播客的推荐；因为我一直比较喜欢看电影，13，14年通过podcasts我开始听一款叫《电影不无聊》的播客，里面两位主播会聊一些年度好片，一些著名电影人的电影，当时也是让我接触了一些不同的电影。我还买过他们出的一个周边T恤，胸前的logo是一个黑武士。后面不知为何我就没有订阅了，最近查了下他们竟然还在更新，能坚持9年一直做播客，很不容易。</p>
-<p>几乎同时期，作为一个互联网从业人员的我，同样是在Poacasts上发现了《IT公论》，按照IT公论主播李如一的说法，这是一款讨论科技与人文的播客。播客的两位主播李如一和rio那段时间讨论频次最高的话题是关于苹果公司的产品，比如WWDC之后，两位主播会针对硬件，软件的一些update进行一些讨论。后来李如一创办了<a href="ipn.li">IPN</a>，邀请了一些其他主播开播了好几款播客，比如有讲美食的《味之道》，有说美国选举的《选·美》，有三个医生侃大山《太医来了》，关于电影摄影的《硬影像》，和日本文化有关的《灭茶苦茶》，和编程技术相关的《硬核恐慌》，聊字体设计的《字节社》，说故事的《History》,聊流行文化的《流行通信》等等。李如一应该可以说是中文播客的鼻祖，后来一些开播客的主播很多能发现会收到李如一风格的一些影响，无论是播客icon的设计上，盈利方式上，还是内容上。通过听这些播客，拓宽了我的知识边界，让我了解了很多之前不了解的领域，比如建筑，比如设计，比如美国选举，从中也学习了不少。后来不知为何，IT公论就停掉了，而IPN旗下的其他播客也陆陆续续的停更了。但听播客的习惯我算是养成了，后来听到的优秀播客有有比较励志的《得意忘形》，有讲心理咨询和一些七七八八事情的《BYM：blow your mind》，有聊电影，书，话剧，电视剧的《文化土豆》，有关于科技新闻的《硅谷早知道》，《硅谷101》，《声东击西》等。最近听到的高质量播客是孟岩的《无人知晓》，虽然讲的是投资者教育，但有些片段很touch。</p>
-<p>以上就是我听的一些播客，在我看来，李如一的一系列播客无疑是水准最高的，感谢他的创作。</p>
+          <h4 id="LeNet"><a href="#LeNet" class="headerlink" title="LeNet"></a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/LeNet">LeNet</a></h4><blockquote>
+<p>LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。</p>
+</blockquote>
+<p>LeNet-5是用来处理手写字符的识别问题，总共有7层。其结构如下</p>
+<img src="http://cp0000.github.io/assets/vision_net/lenet.png" width="720px" >
+
+
+<p>LeNet-5的网络细节如下：</p>
+<img src="http://cp0000.github.io/assets/vision_net/lenet_detail.png" width="360px" >
+
+
+<h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AlexNet">AlexNet</a></h4><blockquote>
+<p>AlexNet被认为是计算机视觉领域最有影响力的论文之一，它刺激了更多使用卷积神经网络和GPU来加速深度学习的论文出现。截至2022年，AlexNet论文已被引用超过105287次。</p>
+</blockquote>
+<p><strong>网络设计</strong><br>AlexNet包含八层。前五层是卷基层，之后是最大池化层，最后三层是全连接层。使用<code>ReLU</code>激活函数。</p>
+<p><strong>网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/alexnet.png" width="720px" >
+
+<p>AlexNet的网络细节如下：</p>
+<img src="http://cp0000.github.io/assets/vision_net/alexnet_detail.png" width="360px" >
+
+<h4 id="VGGNet"><a href="#VGGNet" class="headerlink" title="VGGNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">VGGNet</a></h4><p>VGG是牛津的Visual Geometry Group组于2014年提出的网络结构。该网络是在ILSVRC 2014上的相关工作，主要证明了增加网络深度能够在一定程度上影响网络最终的性能。</p>
+<p><strong>VGG原理</strong><br>VGG中，使用3个3x3卷积核来代替7x7卷积核，使用2个3x3卷积核来代替5x5卷积核，这样做的目的是在保证相同感受野的条件下，提升了网络深度。而增加网络深度过程中引入的多层非线性层帮助学习到更复杂的模式，在一定程度上提升了神经网络的效果。</p>
+<p><strong>VGG网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/vggnet.png" width="720px" >
+
+<p><strong>VGG网路细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/vggnet_detail.png" width="720px" >
+
+<p>上图是VGG各种网络的网络结构。</p>
+<ul>
+<li>VGG16包含了13个卷积层和3个全连层，如上图的网络D。</li>
+<li>VGG19包含了16个卷积层和3个全连层，如上图的网络E。</li>
+</ul>
+<p><strong>VGG优缺点</strong></p>
+<ul>
+<li>主要贡献是增加了网络深度</li>
+<li>优点：网络结构简洁，整个网络使用同样大小的卷积核尺寸（3x3） 和最大池化尺寸（2x2）。</li>
+<li>缺点：最后三个FC层计算量巨大，耗费更多资源</li>
+</ul>
+<h4 id="GoogLeNet"><a href="#GoogLeNet" class="headerlink" title="GoogLeNet"></a><a target="_blank" rel="noopener" href="https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf">GoogLeNet</a></h4><p>GoogLeNet是Google于2014年推出的基于Inception模块的深度神经网络模型，并在随后的两年中一直改进，形成InceptionV2, InceptionV3,Inception V4等版本。</p>
+<p><strong>Inception-V1</strong><br>Inception是把多个卷积或池化操作，放在一起组装成一个网络模块，设计神经网络时以模块为单位去组成整个网络结构。Inception结构如下图所示：</p>
+<img src="http://cp0000.github.io/assets/vision_net/inception_layer.png" width="480px" >
+
+<p>如上图所示，Inception Module结构组成有四个成分：1x1 conv, 3x3 conv, 5x5 conv, 3x3 maxpooling. 最后对四个成分运算结果进行通道上组合。Inception Module的核心思想是：利用不同大小的卷积核实现不同尺度的感知，最后进行融合，可以得到图像更好的表征。</p>
+<p>另外图中的1x1 conv 有两种，一种蓝色底，一种黄色底，其中黄色底1x1 conv是用来进行压缩降维的。因为使用Inception结构，利用上多尺度卷积后，网络变宽了，计算量变大了；需要减少参数量来减少计算量，所以在Inception v1中加入了黄色底 1x1 conv来进行降维。黄色底1x1 conv 叫做 pointwise conv.</p>
+<p><strong>GoogLeNet网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="1280px" >
+
+<p>GoogLNet网络有22层深（加上pool层，有27层深），由于全连接层参数多，计算量大，容易过拟合，所以GoogLNet没有采用LeNet，AlexNet，VGG三层全连接结构，在Inception模块之后使用Average Pool和Dropout方法，同时达到防止过拟合和降维的作用。</p>
+<p>辅助分类器： 为了利用中间层抽象的特征，在某些中间层中添加含有多层的分类器。GoogLNet网络中加入了两个辅助分类器，作用有两点：一是为了避免梯度小时，用于向前传导梯度。反向传播时如果有一层求导为0，链式求导结果为0.二是将中间某一层输出作用作分类，起到模型融合作用。</p>
+<p><strong>GoogLeNet网络细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/googlenet_detail.png" width="720px" >
+
+
+
+<h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1512.03385">ResNet</a></h4><p>深度学习网络的深度对最后分类和识别的效果有很大影响，但我们把网络设计的很深时，网络在训练时，梯度消失的现象会越来越明显。为了解决这一问题，何恺明于2015年提出了ResNet，深度残差网络。ResNet，全称Deep residual network，网路中通过引入residual block解决了当CNN网络深度很深时网络学习退化的问题。ResNet的提出是CNN图像史上一件里程碑事件。</p>
+<p><strong>残差块：Residual Block</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/residual_block.png" width="360px" >
+
+<p>非常深的网络很难训练，存在梯度消失和梯度爆炸问题，学习skip connection它可以从某一层获得激活，然后迅速反馈给另外一层甚至更深层，利用skip connection可以构建残差网络ResNet来训练更深的网络，ResNet网络时由残差模块构建的。</p>
+<p><strong>ResNet网络结构</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/resnet.png" width="720px" >
+
+
+<p><strong>ResNet网络细节</strong></p>
+<img src="http://cp0000.github.io/assets/vision_net/resnet_detail.png" width="720px" >
+
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><ol>
+<li>本文梳理了从CNN开山之作 LeNet，到目前被广泛应用在科研，工业界的ResNet。可以看出深度神经网络朝着越来越深的方向发展。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>AlexNet作为现代CNN网络的开端，奠定了目前使用的CNN网络的基本架构。从AlexNet，到VGG，GooGleNet，再到ResNet，网络均分成5层（以feature map的size来做区分）。且都经过5次下采样，feature map size的大小变换为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">224x224 -&gt; 112x112 -&gt; 56x56 -&gt; 28x28 -&gt; 14x14 -&gt; 7x7</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>纵向比较，个人觉得这里面 <code>AlexNet</code>, <code>VGG</code>,<code> ResNet</code> 是三个最具创造性的网络。（LeNet有点确实久远）</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>GoogLeNet 中的 Inception 后续会演化出 Xception，以及我们能在MobileNet中看到一些影子。</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>从CNN网络的发展，也能看出，技术都是通过不断迭代，一步步演化出来。</li>
+</ol>
+</li>
+</ul>
 
       
     </div>
@@ -223,7 +303,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/76/">76</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/77/">77</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -289,7 +369,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-count">77</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

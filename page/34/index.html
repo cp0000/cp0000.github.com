@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2018/11/06/review-fsrcnn/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2018/11/18/review-fcn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/11/06/review-fsrcnn/" class="post-title-link" itemprop="url">超分FSRCNN的简介</a>
+            <a href="/2018/11/18/review-fcn/" class="post-title-link" itemprop="url">全卷积网络-语义分割的简介</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-11-06 00:24:40" itemprop="dateCreated datePublished" datetime="2018-11-06T00:24:40+08:00">2018-11-06</time>
+              <time title="Created: 2018-11-18 22:00:21" itemprop="dateCreated datePublished" datetime="2018-11-18T22:00:21+08:00">2018-11-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2018-11-19 11:57:22" itemprop="dateModified" datetime="2018-11-19T11:57:22+08:00">2018-11-19</time>
+                <time title="Modified: 2018-11-19 11:57:58" itemprop="dateModified" datetime="2018-11-19T11:57:58+08:00">2018-11-19</time>
               </span>
 
           
@@ -201,72 +201,63 @@
 
       
           <blockquote>
-<p>这是一篇译文，原文<a target="_blank" rel="noopener" href="https://towardsdatascience.com/review-fsrcnn-super-resolution-80ca2ee14da4">Review:FSRCNN(Super Resolution)</a></p>
+<p>这是一篇译文，原文<a target="_blank" rel="noopener" href="https://towardsdatascience.com/review-fcn-semantic-segmentation-eb8c9b50d2d1">Review: FCN (Semantic Segmentation))</a></p>
 </blockquote>
-<p>本文主要用来概述一篇实时超分辨率的实现FSRCNN，全称Fast Super-Resolution Convolutional Neural Network，FSRCNN 发表于2016年的ECCV，目前为止有近300次的引用。<br>FSRCNN有着一个相对浅的网络结构，浅网络层让我们比较好理解每一个网络层的用途。与SRCNN相比，它重建后的图像质量更高。</p>
-<p>对比SRCNN，FSRCNN-s(FSRCNN小模型版本)，FSRCNN-s 有着更好的PSNR（图像质量），更快的处理时长。<br>对比 SRCNN-Ex（SRCNN优质版本）和 FSRCNN，FSRCNN的结果PSNR更好，处理速度更快。<br>所以，来看下FSRCNN是如何达到质量和速度双优的</p>
-<p>下文包含如下内容：</p>
+<p>本文主要记录用于语义分割的全卷积网络。和分类，检测任务相比，分割是更难的一种任务。</p>
 <ul>
-<li>SRCNN 简述</li>
-<li>FSRCNN 网络架构</li>
-<li>如何利用 1x1 卷积对网络进行压缩和扩大</li>
-<li>如何利用多个 3X3 卷积实现非线性映射</li>
-<li>对比实验</li>
+<li>图片分类：对图像进行分类</li>
+<li>物体检测：检测一张图片中存在的物体，并给出物体的区域。</li>
+<li>分割：为图像中的每个像素分类。</li>
+</ul>
+<p>一个语义分割的例子：</p>
+<iframe width="700" height="393" src="https://www.youtube.com/embed/xr_2dwZDH6U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*jrqv1qX2J1AGMA0g-RU7fg.png" alt="原图，Ground Truth，预测结果，融合结果"></p>
+<p>该论文发表于 2015 CVPR，现在有 6000 次引用。它也是使用FCN进行语义分割的最基础的论文之一。</p>
+<h2 id="本文包括"><a href="#本文包括" class="headerlink" title="本文包括"></a>本文包括</h2><ol>
+<li>从图像分类到语义分割</li>
+<li>利用反卷积进行上采样</li>
+<li>融合输出</li>
 <li>结论</li>
-</ul>
-<p><img src="https://cdn-images-1.medium.com/max/1000/1*auit3UsBTjbnzZoLDEJUUg.png" alt="Network Architecture: SRCNN (Top) and FSRCNN (Bottom)"></p>
-<p>上图是 SRCNN 和 FSRCNN 的网络架构图。其中 Conv(f,n,c)表示该卷积： 卷积大小为fxf， 有n个过滤器以及c个输入通道。</p>
-<h2 id="1-SRCNN简述"><a href="#1-SRCNN简述" class="headerlink" title="1. SRCNN简述"></a>1. SRCNN简述</h2><p>SRCNN 的处理过程如下：</p>
-<ol>
-<li>对输入图片利用双立方采样做上采样，使得其分辨率为目标分辨率</li>
-<li>然后分别利用 9x9, 1x1, 5x5 的卷积来提高图片质量。其中 1x1 卷积是用来把低分辨率（LR）图像向量非线性映射为高分辨率 (HR) 图像向量.</li>
 </ol>
-<p>计算复杂度为：</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*OsUvb3UK7elWkaNIhDpXlA.png"></p>
-<p>计算复杂度和HR图像大小成线性比例，SHR。HR图像越大，复杂度越高。</p>
-<h2 id="2-FSRCNN-网络结构"><a href="#2-FSRCNN-网络结构" class="headerlink" title="2. FSRCNN 网络结构"></a>2. FSRCNN 网络结构</h2><p>FSRCNN 包含如下五个主要处理步骤：</p>
-<ol>
-<li>特征提取：利用一个 5x5 卷积代替 SRCNN 中的双立方差值</li>
-<li>压缩：利用 1x1 卷积把特征层从 d 压缩为 s，其中 s 小于 d</li>
-<li>非线性映射：多个 3x3 网络层代替单个的宽网络层</li>
-<li>扩大： 1x1 卷积把特征层从 s 扩大为 d</li>
-<li>反卷积： 利用 9x9 过滤器重建 HR 图像</li>
-</ol>
-<p>以上结构就是 FSRCNN(d,s,m). 其计算复杂度如下：</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*xvdMQu_xpVt5Rong_JANjQ.png"></p>
-<p>可见复杂度和 LR 图像大小成线性比例，SLR，所以它的复杂度小于 SRCNN</p>
-<p>网络中激活函数是 PReLU. PReLU意为带参数的ReLu，目的是比 ReLU 更好。（更多关于 PReLu 的内容， <a target="_blank" rel="noopener" href="https://medium.com/coinmonks/review-prelu-net-the-first-to-surpass-human-level-performance-in-ilsvrc-2015-image-f619dddd5617">请参照</a>）</p>
-<p>代价函数是均方误差（MSE）：<br><img src="https://cdn-images-1.medium.com/max/800/1*CGk1oqKbj76eNuPhYKARsQ.png"></p>
-<h2 id="3-如何利用-1x1-卷积对网络进行压缩和扩大"><a href="#3-如何利用-1x1-卷积对网络进行压缩和扩大" class="headerlink" title="3. 如何利用 1x1 卷积对网络进行压缩和扩大"></a>3. 如何利用 1x1 卷积对网络进行压缩和扩大</h2><p>假设我们在不使用 1x1 卷积的情况下运行 5x5 卷积，如下所示：</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*s6_8m_0EpwrzZPunRGgFCQ.png" alt="5x5 卷积"></p>
-<p>计算次数 = (14x14x48)x(5x5x480) = 112.9M</p>
-<p>如果使用 1x1 卷积：</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*SJDJyBGM__wRX9wJYIKv8w.png" alt="1x1 卷积"></p>
-<p>1x1 卷积计算次数 = (14x14x16)x(1x1x480) = 1.5M<br>5x5 卷积计算此时 = (14x14x48)x(5x5x16) = 3.8M<br>两者总共计算次数 = 1.5M + 3.8M = 5.3M,比只使用 5x5 足足少了 112.9M 次计算。</p>
-<p>论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.4400">Network-In-Netwrok</a>建议使用 1x1 卷积引入更多的非线性并改善性能，而GoogleNet建议 1x1 卷积有助于在保证效果的同时减小模型大小。(<a target="_blank" rel="noopener" href="https://medium.com/coinmonks/paper-review-of-googlenet-inception-v1-winner-of-ilsvlc-2014-image-classification-c2b3565a64e7">GoogleNet简述</a>)。</p>
-<p>因此在两个卷积层之前使用 1x1 卷积来减少连接（参数）。通过减少参数，我们只需要更少的乘法和加法运算，最终加速网络。这就是 FSRCNN 比 SRCNN 快的原因。</p>
-<h2 id="4-如何利用多个-3x3-卷积实现非线性映射"><a href="#4-如何利用多个-3x3-卷积实现非线性映射" class="headerlink" title="4. 如何利用多个 3x3 卷积实现非线性映射"></a>4. 如何利用多个 3x3 卷积实现非线性映射</h2><p><img src="https://cdn-images-1.medium.com/max/800/1*NMC4KrYIciGdE_FaazxF7w.png" alt="两个 3x3 滤波器可以包含一个 5x5 的滤波器区域"></p>
-<p>如上图所示通过使用2层 3x3 滤波器来覆盖 5x5 滤波器的区域，让参数数量变少。</p>
-<p>1层 5x5 滤波器的参数数量 = 5x5 = 25<br>2层 3x3 滤波器的参数数量 = 3x3+3x3 = 18<br>参数量减少了28%。而更少的参数意味着网络在训练的时候可以更快的收敛，并减少过拟合问题。</p>
-<h2 id="5-对比实验"><a href="#5-对比实验" class="headerlink" title="5. 对比实验"></a>5. 对比实验</h2><p><img src="https://cdn-images-1.medium.com/max/1600/1*c4pkT0SQRxd6N_G8KBQHkA.png" alt="对比实验"></p>
+<h2 id="1-从图像分类到语义分割"><a href="#1-从图像分类到语义分割" class="headerlink" title="1.从图像分类到语义分割"></a>1.从图像分类到语义分割</h2><p>传统意义上的分类任务，输入图像会缩小尺寸，并通过卷积层和全连接层，最终输出关于输入图片的标签，如下图：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*ErOVnlmtWYFGpnpvKJImKw.png" alt="分类"></p>
+<p>想象我们把上图中的全连接层替换成 1X1 卷积层：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*11XDuwNHHRE7EB_fu_TzCg.png" alt="所有层都是卷积层
+"></p>
+<p>如果图像没有缩小尺寸，输出将不是单个标签。相反，输出的大小小于输入图像（由于最大池化层）</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*T-tYcj11_qySDHTRhlF9pQ.png" alt="所有层都是卷积层
+"></p>
+<p>如果我们对上面的输出进行上采样，那么我们逐像素输出标签贴图，如下所示：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*LtSSJ9QP0Y9qWG9nz9sb2w.png" alt="上采样
+"><br><img src="https://cdn-images-1.medium.com/max/1600/1*NXNGhfSyzQcKzoOSt-Z0Ng.png" alt="Feature Map"></p>
+<h2 id="2-利用反卷积进行上采样"><a href="#2-利用反卷积进行上采样" class="headerlink" title="2.利用反卷积进行上采样"></a>2.利用反卷积进行上采样</h2><p>卷积是一个使输出尺寸变小的过程。反卷积就是一上采样，使得输出尺寸变大的过程（但不要把反卷积曲解成卷积的逆向操作），反卷积也被称为上卷积和转置卷积。当使用分数步幅时，也被称为分数步幅卷积。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/0*NBKHZlXvqOg3R6_z.gif" alt="通过反卷积进行上采样(蓝色：输入，绿色：输出)
+"></p>
+<h2 id="3-融合输出"><a href="#3-融合输出" class="headerlink" title="3.融合输出"></a>3.融合输出</h2><p>经过如下图所示的conv7后，输出尺寸很小，然后进行32X 上采样，得到和输入同样大小的输出。但也会把输出标签变得很糙。这个叫 <strong>FCN-32s</strong>:</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*ajovnrcLYRuwlTrM5j-Qng.png" alt="FCN-32s"></p>
+<p>这是因为在网络变深的时候能够获得深层次的特征，但如此同时空间位置信息也会丢失。这意味着浅网络可以获得更多的位置信息。如果我们把两种网络合并在一起，我们可以平衡结果。</p>
+<p>为了组合，我们融合输出（通过元素添加）：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*lUnNaKAjL-Mq10v3tIBtJg.png" alt="融合FCN-16s和FCN-8s"></p>
+<p>**FCN-16s:<strong>的输出是把pool5的输出2倍上采样和pool4融合并进行16次上采样。</strong>FCN-8s:**操作如上图所示，也是类似。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*tcYqvV0KHjK2ANBGe8GpjQ.png" alt="对比不同的FCNs结果"></p>
+<p>FCN-32s由于位置信息丢失结果非常粗糙，而FCN-8s的结果最好。</p>
+<p>这种融合操作实际上就像AlexNet,VGGNet和GoogleNet中使用的增强/整合技术一样，它们通过多个模型结果的叠加，使预测更准确。但在这个任务中，它是针对每个像素去做的，并且它是拿模型中不同层的结果去叠加的。</p>
+<h2 id="4-结果"><a href="#4-结果" class="headerlink" title="4.结果"></a>4.结果</h2><p><img src="https://cdn-images-1.medium.com/max/2000/1*2obgSShyzzBKuds_XxPCoA.png" alt="Pascal VOC 2011 dataset (Left), NYUDv2 Dataset (Middle), SIFT Flow Dataset (Right)
+"></p>
 <ul>
-<li><strong>SCRCNN-Ex:</strong> SRCNN 的优质版本，拥有 57184 个参数</li>
-<li><strong>Transition State 1:</strong> 使用反卷机，有 58976 个参数，获得更高的PSNR</li>
-<li><strong>FSRCNN (56,12,4):</strong> 更小的滤波器，更少的滤波器，有 12464 个参数，更高的PSNR。更重要的参数更少，相对容易收敛。</li>
+<li>FCN-8s在Pascal VOC 2011数据集上效果最佳</li>
+<li>FCN-16s在NYUDv2数据集上效果最佳</li>
+<li>FCN-16s在SIFT数据集上效果最佳</li>
 </ul>
-<p>下表为每个组件的贡献值：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*Gg5emNKjDs9wcbobOKIxMQ.png" alt="m,sd"></p>
-<p>对比各种参数的结果，选取 m=4, d=56, s=12时，可以兼顾HR图像质量（33.16dB）和模型复杂度（12464参数）。</p>
-<p>最终我们选用 <strong>FSRCNN:FSRCNN (56,12,4),FSRCNN-s:FSRCNN (32,5,1)</strong></p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ul>
-<li>利用91张放大3倍的图片从头开始训练网络，然后利用利用放大2倍和4倍的100张图反卷积微调网络。</li>
-<li>数据增强部分，缩放：0.9，0.8，0.7，旋转：：90，180，270</li>
-</ul>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*zTzSP4Y9R_RlBZwLDtCC7Q.png" alt="所有网络在91张训练集的结果"></p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*kw9miEL54IPgKW1YTodb9w.png" alt="FSRCNN和FSRCNN在91张训练集上的结果"></p>
-<p>从上述结果可以得出：FSRCNN和FSRCNN-s在放大2倍，3倍效果好。当放大4倍的效果比SCN差一点点。</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*eVcmO3zw9qO8EDstMWt5Ug.png" alt="放大3倍的效果"></p>
-<p>通过论文中的浅层网络，我们可以了解每种组件的效果，例如1×1卷积和多个3×3卷积。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*fU9El2B2qELtKsD9FsHB-w.png" alt="结果可视化比较
+"></p>
+<p>第四行显示了一个失败案例：网络把船上的救生衣当作了人。</p>
+<p>希望将来能够更多地阅读有关语义分割的深度学习技术。</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
+<li>[2015 CVPR] [FCN] <a target="_blank" rel="noopener" href="https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
+<li>[2017 TPAMI] [FCN] <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/7478072">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
+</ol>
 
       
     </div>
@@ -285,7 +276,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/33/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/page/76/">76</a><a class="extend next" rel="next" href="/page/35/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/33/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/page/77/">77</a><a class="extend next" rel="next" href="/page/35/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -351,7 +342,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-count">77</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

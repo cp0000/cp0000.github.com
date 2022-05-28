@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/07/13/movie-list-been-watched-2015-1st/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/07/19/nsstring-property-copy-or-retain/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2015/07/13/movie-list-been-watched-2015-1st/" class="post-title-link" itemprop="url">2015上半年看过的电影</a>
+            <a href="/2015/07/19/nsstring-property-copy-or-retain/" class="post-title-link" itemprop="url">从 NSString Property:copy or retain 到 NSCopying</a>
         </h2>
 
         <div class="post-meta">
@@ -178,17 +178,23 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2015-07-13 22:40:09 / Modified: 22:47:41" itemprop="dateCreated datePublished" datetime="2015-07-13T22:40:09+08:00">2015-07-13</time>
+              <time title="Created: 2015-07-19 11:50:04" itemprop="dateCreated datePublished" datetime="2015-07-19T11:50:04+08:00">2015-07-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2015-07-20 20:55:55" itemprop="dateModified" datetime="2015-07-20T20:55:55+08:00">2015-07-20</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Movie/" itemprop="url" rel="index"><span itemprop="name">Movie</span></a>
+                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
                 </span>
             </span>
 
@@ -203,35 +209,87 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>中国</strong></p>
-<ul>
-<li>一步之遥 </li>
-</ul>
-<p><strong>United States</strong></p>
-<ul>
-<li>Chirldhood</li>
-<li>Nebraska</li>
-<li>August Osage County</li>
-<li>American Sniper</li>
-<li>Birdman</li>
-<li>2001: A Space Odyssey</li>
-<li>Driving Miss Daisy</li>
-<li>The Maze Runner</li>
-<li>Big Hero 6</li>
-<li>Lost In Translation</li>
-<li>Fast &amp; Furious 7</li>
-</ul>
-<p><strong>Japan</strong></p>
-<ul>
-<li>Seven Samurai</li>
-<li>Little Forest Natsu Aki</li>
-<li>The Little House</li>
-<li>Our Mother</li>
-</ul>
-<p><strong>Korea</strong></p>
-<ul>
-<li>Snowpiercer</li>
-</ul>
+          <h4 id="NSString-Property-copy-or-retain"><a href="#NSString-Property-copy-or-retain" class="headerlink" title="NSString Property:copy or retain"></a>NSString Property:copy or retain</h4><p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>strong</code>)。</p>
+<p><strong>为什么会有<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
+<p>回答这个问题之前，我们先看段代码：</p>
+<pre><code>@interface Fruit : NSObject
+@property (nonatomic, copy)     NSString  * fruitNameCopy;
+@property (nonatomic, strong)   NSString  * fruitNameStrong;
+@end
+
+NSMutableString * fruitName = [NSMutableString stringWithString:@&quot;apple&quot;];
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit.fruitNameCopy     = fruitName;
+fruit.fruitNameStrong   = fruitName;
+
+NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250  apple
+NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy); // 0xa0000656c7070615 apple
+NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong); // 0x7fddabd0e250  apple
+
+//fruitName =@&quot;pear&quot;;
+[fruitName setString: @&quot;pear&quot;];
+
+NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250  pear
+NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy); // 0xa0000656c7070615 apple
+NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong); // 0x7fddabd0e250  pear
+</code></pre>
+<p>该段程序运行到结尾时， fruitNameCopy 的值是 apple，fruitNameCopy 的值是 pear，且两者的内存地址也不一样。<br>程序中，当我们对一个mutable对象做<code>copy</code>操作的时候，objc runtime 会用一次<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy">深拷贝</a>来处理， runtime 会重新分配一块内存地址空间，并把原mutable对象的值拷贝过来。所以打印出来的 fruitNameCopy 和 fruitNameStrong 的内存地址是不一样的。而这之后在对 fruitName 做任何的赋值操作都只能作用于 fruitNameStrong.</p>
+<p><strong>那如果我们把 fruitName 改成 immutable 的会是怎样的了？</strong></p>
+<pre><code>NSString * fruitName = @&quot;apple&quot;;
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit.fruitNameCopy     = fruitName;
+fruit.fruitNameStrong   = fruitName;
+
+NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName);// 0x10e27b078 apple
+NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy);// 0x10e27b078 apple
+NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong);// 0x10e27b078 apple
+
+fruitName =@&quot;pear&quot;;
+
+NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName);// 0x10e27b0f8 pear
+NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy);// 0x10e27b078 apple
+NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong);// 0x10e27b078 apple
+</code></pre>
+<p>结果是 fruitName, fruitNameCopy, fruitNameStrong 三者的地址都是一样的。按理说<code>copy</code>动作是深拷贝，fruitNameCopy指向的地址 应该是新分配的内存地址才对。<br>那为什么打印出来的地址却是同一个地址了？答案是 runtime 在这里做一个性能优化，@”apple” 是一个immutable的值，没有必要做一次深拷贝，直接做一次 retain 就达到目的了。</p>
+<p><strong>试试看把<code>NSString</code>替换成<code>NSArray</code></strong></p>
+<p>对象 Fruit 中添加两个属性<br>    @property (nonatomic, copy)     NSArray  * placesCopy;<br>    @property (nonatomic, strong)   NSArray  * placesStrong;</p>
+<p>先用 mutable 的变量试试</p>
+<pre><code>NSMutableArray * places = [NSMutableArray arrayWithArray:@[@&quot;china&quot;, @&quot;japan&quot;]];
+fruit.placesCopy    = places; //placesCopy: 0x7f8f18d0c4f0 (china,japan)
+fruit.placesStrong  = places; //placesStrong: 0x7f8f18d51a80 (china,japan)
+
+[places addObject:@&quot;korea&quot;];
+//placesCopy: 0x7f8f18d0c4f0 (china,japan)
+//placesStrong: 0x7f8f18d51a80 (china,japan, korea)
+</code></pre>
+<p>再用 immutable 的变量试试</p>
+<pre><code>NSArray * places = @[@&quot;china&quot;, @&quot;japan&quot;];
+
+fruit.placesCopy    = places; //placesCopy: 0x7fc4e8c6f2a0 (china,japan)
+fruit.placesStrong  = places; //placesStrong: 0x7fc4e8c6f2a0 (china,japan)
+
+places = @[@&quot;uk&quot;, @&quot;us&quot;];
+//placesCopy: 0x7fc4e8c6f2a0 (china,japan)
+//placesStrong: 0x7fc4e8c6f2a0 (china,japan)
+</code></pre>
+<p>实验结果和 <code>NSString</code> 是一致的。</p>
+<h4 id="NSCopying"><a href="#NSCopying" class="headerlink" title="NSCopying"></a>NSCopying</h4><p>如果你愿意，你可以试试看其他容器类 <code>NSDictionary</code>, <code>NSSet</code>,<code>NSIndexSet</code>， 会发现结果也保持一致。我们尝试解读这些类的头文件，作进一步的探索。以下是这些类头文件的节选：</p>
+<pre><code>@interface NSString : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding&gt;
+@interface NSArray&lt;__covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
+@interface NSDictionary&lt;__covariant KeyType, __covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
+@interface NSSet&lt;__covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
+@interface NSIndexSet : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding&gt;
+@interface NSIndexPath : NSObject &lt;NSCopying, NSSecureCoding&gt;
+</code></pre>
+<p>会发现这些类都实现了<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html"><code>NSCoying</code></a>协议.在<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
+<pre><code>Implement NSCopying by retaining the original instead of creating a new copy when the class and its contents are immutable.
+</code></pre>
+<p>这条准则很好的解释了上面的试验结果，让这些结果讲得通。</p>
+<h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code>。</strong></p>
+<p><strong>如果在程序中我们自己定义的类也需要实现 <code>NSCopying</code> 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象</strong></p>
+<p><strong>如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 <code>copy</code></strong></p>
 
       
     </div>
@@ -250,7 +308,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/67/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/67/">67</a><span class="page-number current">68</span><a class="page-number" href="/page/69/">69</a><span class="space">&hellip;</span><a class="page-number" href="/page/76/">76</a><a class="extend next" rel="next" href="/page/69/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/67/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/67/">67</a><span class="page-number current">68</span><a class="page-number" href="/page/69/">69</a><span class="space">&hellip;</span><a class="page-number" href="/page/77/">77</a><a class="extend next" rel="next" href="/page/69/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -316,7 +374,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-count">77</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/08/30/openradarstream/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/" class="post-title-link" itemprop="url">UICollectionViews Now Have Easy Reordering （译）</a>
+            <a href="/2015/08/30/openradarstream/" class="post-title-link" itemprop="url">Openradar Stream</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-08-22 09:52:28" itemprop="dateCreated datePublished" datetime="2015-08-22T09:52:28+08:00">2015-08-22</time>
+              <time title="Created: 2015-08-30 22:02:42" itemprop="dateCreated datePublished" datetime="2015-08-30T22:02:42+08:00">2015-08-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2015-11-07 23:46:54" itemprop="dateModified" datetime="2015-11-07T23:46:54+08:00">2015-11-07</time>
+                <time title="Modified: 2017-10-06 22:25:04" itemprop="dateModified" datetime="2017-10-06T22:25:04+08:00">2017-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,89 +209,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="iOS-9-0-UICollectionView-拖拽效果实现"><a href="#iOS-9-0-UICollectionView-拖拽效果实现" class="headerlink" title="iOS 9.0 UICollectionView 拖拽效果实现"></a>iOS 9.0 UICollectionView 拖拽效果实现</h1><blockquote>
-<p>原文 <a target="_blank" rel="noopener" href="http://nshint.io/blog/2015/07/16/uicollectionviews-now-have-easy-reordering/">UICollectionViews Now Have Easy Reordering</a></p>
-</blockquote>
-<p>在<code>UICollectionView</code> 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 <code>UITableView</code>，它更加容易进行一些自定义的操作。我们组现在在项目中使用 <code>UICollectionView</code> 要多于 <code>UITableView</code>。伴随着 iOS 9 的 release，<code>UICollectionView</code>排序（动态拖拽）更加简单。在这之前，如果想对 <code>UICollectionView</code> 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址<a target="_blank" rel="noopener" href="https://github.com/nshintio/uicollectionview-reordering">uicollectionview-reordering</a>。</p>
-<p>实现拖动排序最简单的办法是使用 <code>UICollectionViewController</code>, 在 <code>UICollectionViewController</code> 中新增了一个属性  <code>installsStandardGestureForInteractiveMovement</code>, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。     我们所需要做的，只要重载下面这个方法就好了.</p>
-<pre><code>override func collectionView(collectionView: UICollectionView,
-    moveItemAtIndexPath sourceIndexPath: NSIndexPath,
-    toIndexPath destinationIndexPath: NSIndexPath) &#123;
-    // move your data order
-&#125;
-</code></pre>
-<p>当程序中重载了<code>moveItemAtIndexPath</code>，collectionView 就认为 cell 是可以移动的。</p>
-<pre><code>![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif)
-</code></pre>
-<p>那如果需要给某一个 <code>UIViewController</code> 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现<code>UICollectionViewDataSource</code>中上面提到的代理方法，还需要重写 <code>installsStandardGestureForInteractiveMovement</code>。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势<code>UILongPressGestureRecognizer</code>，它能够完全满足拖拽需求。</p>
-<pre><code>override func viewDidLoad() &#123;
-    super.viewDidLoad()
-    longPressGesture = UILongPressGestureRecognizer(target: self, action: &quot;handleLongGesture:&quot;)
-    self.collectionView.addGestureRecognizer(longPressGesture)
-&#125;
-
-func handleLongGesture(gesture: UILongPressGestureRecognizer) &#123;
-
-    switch(gesture.state) &#123;
-
-    case UIGestureRecognizerState.Began:
-        guard let selectedIndexPath = self.collectionView.indexPathForItemAtPoint(gesture.locationInView(self.collectionView)) else &#123;
-            break
-        &#125;
-        collectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
-    case UIGestureRecognizerState.Changed:
-        collectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
-    case UIGestureRecognizerState.Ended:
-        collectionView.endInteractiveMovement()
-    default:
-        collectionView.cancelInteractiveMovement()
-    &#125;
-&#125;
-</code></pre>
-<p>这段代码主要是给 collectionView 添加一个长手势识别器，并根据手势的不同状态调用collectionView的相关方法。</p>
+          <p><img src="http://cp0000.github.io/assets/radardetector2.jpg" alt="Openradar Stream"></p>
+<h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><p>随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债”上，之前release了太多的feature，遗留了太多的bug，会在这一次修复掉。</p>
+<h4 id="Openradar-stream-的来由"><a href="#Openradar-stream-的来由" class="headerlink" title="Openradar stream 的来由"></a>Openradar stream 的来由</h4><p>和大多数 iOS developers 一样，我也在第一时间安装了 iOS 9 beta版本。满足了尝鲜感之后，随着而来就是 beta 系统的不稳定，以及各种的bug。用 iOS 9 进行开发的过程中，我遇到了许许多多的坑，对于一些系统的bug，会花费掉我很多的时间去debug。然后，我发现了<a target="_blank" rel="noopener" href="http://www.openradar.appspot.com/">openradar</a>。一个 open database of radars for Apple bug。从openradar 上，你可以看到其他开发者提交的bug，这当然会为你省去很多的时间，帮助你避免很多的坑。</p>
+<p>后来我想我是不是应该做一个自动的脚本，定时的去抓取这个网页上面的信息，然后发到微博上。关注这个微博的人就可以在自己的时间线上面看到最新的bug了。这样做的好处是，一来你了解到bug信息，下次你遇到类似的问题，会联想到之前看过的bug信息，省去大量的时间。二来，刷微博的时候，还顺便学习了新知识，就没那么大的罪恶感了～。为此，我写一个tiny project，auto radarstream。</p>
+<h4 id="具体工作"><a href="#具体工作" class="headerlink" title="具体工作"></a>具体工作</h4><p>完成openradarstream，有以下事情需要去做</p>
+<p><strong>前期工作</strong></p>
 <ul>
-<li><code>beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)</code>: 该方法在开始拖拽某个cell时被调用</li>
-<li><code>updateInteractiveMovementTargetPosition(targetPosition:CGPoint)</code>: 根据手势更新拖拽cell的位置</li>
-<li><code>endInteractiveMovement()</code>: 手势结束时调用，结束拖拽</li>
-<li><code>cancelInteractiveMovement()</code>: 手势取消时调用，取消拖拽</li>
+<li>申请一个微博账号，并申请微博OpenApi，获取到<code>apikey</code>和<code>apisecret</code>。</li>
+<li>获取到微博的 accessToken， expires</li>
 </ul>
-<p>这样就实现了需要的拖拽效果：</p>
-<p><img src="http://nshint.io/images/uicollectionview-reordering/2.gif" alt="reordering_collection_view"></p>
-<p>这段代码出来的效果和 <code>UICollectionViewController</code> 是一致的。很厉害吧，但更厉害的是我们可以用上面的方法对自定义的 collection view layout 进行拖拽。下面我们来实现一个简单的瀑布流。</p>
-<p><img src="http://nshint.io/images/uicollectionview-reordering/3.gif" alt="reordering_waterfall"></p>
-<p>昂～，看起来还凑合，但在移动的时候cell的size被改变了呢，如何才能保持cell的size不变呢？ <code>UICollectionViewLayout</code>提供了相关办法可以帮助我们解决这个问题。</p>
-<pre><code>func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],
-    withTargetPosition targetPosition: CGPoint,
-    previousIndexPaths: [NSIndexPath],
-    previousPosition: CGPoint) -&gt; UICollectionViewLayoutInvalidationContext
-
-func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(indexPaths: [NSIndexPath],
-    previousIndexPaths: [NSIndexPath],
-    movementCancelled: Bool) -&gt; UICollectionViewLayoutInvalidationContext
-</code></pre>
+<p><strong>开发工具</strong></p>
 <ul>
-<li><p>第一个函数会在 cells 拖拽过程中被调用</p>
+<li>language: python</li>
+<li>database: sqlite</li>
+</ul>
+<p><strong>细节</strong></p>
+<ul>
+<li><p>设置好微博的环境，其中微博的OpenAPI,使用开源库<a target="_blank" rel="noopener" href="https://github.com/michaelliao/sinaweibopy">sinaweibopy</a></p>
 </li>
-<li><p>第二个函数会在拖拽结束时候被调用。有了这些信息，我们可以使用一点小技巧去实现cell size不被改变的功能。</p>
-<p>  internal override func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],</p>
-<pre><code>  withTargetPosition targetPosition: CGPoint,
-  previousIndexPaths: [NSIndexPath],
-  previousPosition: CGPoint) -&gt; UICollectionViewLayoutInvalidationContext &#123;
-
-  var context = super.invalidationContextForInteractivelyMovingItems(targetIndexPaths,
-      withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths,
-      previousPosition: previousPosition)
-
-  self.delegate?.collectionView!(self.collectionView!, moveItemAtIndexPath: previousIndexPaths[0],
-      toIndexPath: targetIndexPaths[0])
-
-  return context
+<li><p>初始化数据库</p>
+<pre><code>  def initDB ():
+      print &#39;initDB ...&#39;
+      db = sqlite3.connect(sqlite_file)
+      cursor = db.cursor()
+      cursor.execute(&#39;&#39;&#39;CREATE TABLE IF NOT EXISTS
+                        bugs(id INTEGER PRIMARY KEY, bugid TEXT, status TEXT, originator TEXT, product TEXT, title TEXT)&#39;&#39;&#39;)
+      db.commit()
 </code></pre>
-<p>  }</p>
+</li>
+<li><p>获取网站信息，并做相关处理。</p>
+<p>  第一步利用 urllib2 获取<a target="_blank" rel="noopener" href="http://openradar.appspot.com/">openradar</a>主页信息。<br>  第二步对获取到的信息，利用 BeautifulSoap 对<code>html</code>进行解析，得到一个buglist。<br>  第三步，由于网页上面的信息是按时间降序的，而我们是希望最新的bug，在本次最后一个发布，这样这条bug会出现在微博主页时间线的最上头。所以我们这里反转buglist。<br>  第四步，遍历buglist，发布没有发布的bug，并把发布过的bug插入数据库存档。</p>
 </li>
 </ul>
-<p>解决方法很直接。获取当前被拖拽的cell的起始indexPath和目标indexPath,然后调用UICollectionViewDataSource代理方法移动当前正在被拖拽的cell。</p>
-<p>一个可以拖拽的的collectionView带来体验效果真的非常棒～</p>
+<p>项目在Github上面的地址：<a target="_blank" rel="noopener" href="https://github.com/cp0000/radarstream">radarstream</a>。</p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p><strong>To track open radar posts, please follow <a target="_blank" rel="noopener" href="http://weibo.com/p/1005051666350201">@openradarstream</a></strong></p>
 
       
     </div>
@@ -310,7 +262,7 @@ func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(ind
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/63/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/63/">63</a><span class="page-number current">64</span><a class="page-number" href="/page/65/">65</a><span class="space">&hellip;</span><a class="page-number" href="/page/76/">76</a><a class="extend next" rel="next" href="/page/65/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/63/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/63/">63</a><span class="page-number current">64</span><a class="page-number" href="/page/65/">65</a><span class="space">&hellip;</span><a class="page-number" href="/page/77/">77</a><a class="extend next" rel="next" href="/page/65/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -376,7 +328,7 @@ func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(ind
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-count">77</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
