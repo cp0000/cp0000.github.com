@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Disco DiffusionDisco Diffusion是 github 上面一个开源项目，用户通过该项目输入一段文字便可以生成一张和文字有一定相关性的图片，且图片有一定的艺术性。Disco Diffusion 是在OpenAI Guided Diffusion 和 CLIP 两个项目项目上做二次研发。其中 disco 是该项目jupter notebook的名称。 Disco Diffusi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解 Disco Diffusion">
+<meta property="og:url" content="https://cp0000.github.io/2022/06/04/understanding-disco-diffusion/index.html">
+<meta property="og:site_name" content="CP WRITINGS">
+<meta property="og:description" content="Disco DiffusionDisco Diffusion是 github 上面一个开源项目，用户通过该项目输入一段文字便可以生成一张和文字有一定相关性的图片，且图片有一定的艺术性。Disco Diffusion 是在OpenAI Guided Diffusion 和 CLIP 两个项目项目上做二次研发。其中 disco 是该项目jupter notebook的名称。 Disco Diffusi">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://cp0000.github.io/assets/diffusion/diffusion_model.jpg">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_843036_s-xw3TJeR9WNfnML_1653981761?w=879&h=98">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_305068_2DFL5hhfpK9gJXQ7_1653981890?w=790&h=77">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_425102_Z8A6h3KSCqZH8hj2_1653982078?w=332&h=79">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_206692_V-hTpda56gbtg9q5_1653982104?w=408&h=67">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_977653_WNNVTVWg0MDXANzv_1653983638?w=218&h=44">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_207917_n7Z260R-M2kdPvfn_1653983653?w=501&h=78">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_51857_jPEFZjJs-g2O4BmU_1653983853?w=512&h=48">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_59611_TlyyXwnLKbPYoVVk_1653983927?w=704&h=121">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_50656_vi-f_yGrBQj6FDsR_1653988363?w=324&h=56">
+<meta property="og:image" content="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_864209_v8mFcsuc4RgIy6Mr_1653988641?w=980&h=564">
+<meta property="article:published_time" content="2022-06-04T02:47:55.000Z">
+<meta property="article:modified_time" content="2022-06-04T03:11:49.542Z">
+<meta property="article:author" content="Pei Cheng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cp0000.github.io/assets/diffusion/diffusion_model.jpg">
+
+<link rel="canonical" href="https://cp0000.github.io/2022/06/04/understanding-disco-diffusion/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>理解 Disco Diffusion | CP WRITINGS</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-63703524-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CP WRITINGS</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/06/04/understanding-disco-diffusion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Pei Cheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CP WRITINGS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          理解 Disco Diffusion
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-04 10:47:55 / Modified: 11:11:49" itemprop="dateCreated datePublished" datetime="2022-06-04T10:47:55+08:00">2022-06-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Disco-Diffusion"><a href="#Disco-Diffusion" class="headerlink" title="Disco Diffusion"></a>Disco Diffusion</h3><p><a target="_blank" rel="noopener" href="https://github.com/alembics/disco-diffusion">Disco Diffusion</a>是 github 上面一个开源项目，用户通过该项目输入一段文字便可以生成一张和文字有一定相关性的图片，且图片有一定的艺术性。Disco Diffusion 是在OpenAI <a target="_blank" rel="noopener" href="https://github.com/openai/guided-diffusion">Guided Diffusion</a> 和 <a target="_blank" rel="noopener" href="https://github.com/openai/CLIP">CLIP</a> 两个项目项目上做二次研发。其中 disco 是该项目jupter notebook的名称。</p>
+<p>Disco Diffusion项目中的diffusion模型使用的是<a target="_blank" rel="noopener" href="https://github.com/crowsonkb">Katherine Crowson</a>提供的，他利用获得的artstation网站上的数据集，在OpenAI 512x512模型上进行fine-tuned，得到disco diffusion中的diffusion模型。Disco Diffusion项目中还利用OpenAI的另外一篇工作<a target="_blank" rel="noopener" href="https://github.com/openai/CLIP">CLIP</a>，通过CLIP来关联Image和Text，使得生成的图片具有prompt text的语义信息。</p>
+<p><strong>Disco Diffusion演进过程中的主要优化点：</strong></p>
+<ol>
+<li>优化了augmentation，以及把 timestep 从1000压缩到15-100个 timestep</li>
+<li>使用较短的运行时间，并且提升了diffusion的生成质量</li>
+<li>一次性加载多个CLIP模型，多个CLIP模型可以提高生成图accuracy</li>
+</ol>
+<p>要理解Disco Diffusion的工作原理，需要先了解DDPM，Guided Diffusion，以及CLIP几个模型的工作原理。</p>
+<h3 id="Diffusion模型与DDPM"><a href="#Diffusion模型与DDPM" class="headerlink" title="Diffusion模型与DDPM"></a>Diffusion模型与DDPM</h3><p><img src="http://cp0000.github.io/assets/diffusion/diffusion_model.jpg" alt="DDPM"></p>
+<p>扩散模型包括两个过程，从信号逐步到噪声的<strong>扩散（正向）过程/（diffusion/forward process）</strong> 和从噪声逐步到信号的 <strong>逆向过程（reverse process）</strong>。这两年的扩散模型基本都是基于Google的DDPM (<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2006.11239">Denoising Diffusion Probabilistic Model</a>)框架所设计。</p>
+<h3 id="逆向过程"><a href="#逆向过程" class="headerlink" title="逆向过程"></a><strong>逆向过程</strong></h3><p>逆向过程从一张随机高斯噪声图片 x<sub>T</sub> 开始，通过逐步去噪生成最终的结果 x<sub>0</sub>。这个过程是一个Markov Chain，可以被定义为：</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_843036_s-xw3TJeR9WNfnML_1653981761?w=879&h=98"></p>
+<p>这个过程可以理解为，我们根据 xt作为输入，预测高斯分布的均值和方差，再基于预测的分布进行随机采样得到 xt-1 。通过不断的预测和采样过程，最终生成一张真实的图片。</p>
+<h3 id="正向-扩散过程"><a href="#正向-扩散过程" class="headerlink" title="正向/扩散过程"></a><strong>正向/扩散过程</strong></h3><p>正向过程或者说是扩散过程，采用的是一个固定的Markov chain形式，即逐步地向图片添加高斯噪声：</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_305068_2DFL5hhfpK9gJXQ7_1653981890?w=790&h=77"></p>
+<p>在DDPM中，βt是预先设置的定值参数。扩散过程有一个重要的特性，我们可以直接采样任意时刻t下的加噪结果xt。将</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_425102_Z8A6h3KSCqZH8hj2_1653982078?w=332&h=79"></p>
+<p>可以得到</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_206692_V-hTpda56gbtg9q5_1653982104?w=408&h=67"></p>
+<p>这个closed form公式使得我们可以直接获得任意程度的加噪图片，方便后续的训练。</p>
+<h3 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a><strong>模型训练</strong></h3><p>为了实现基于扩散模型的生成，DDPM采用了一个U-Net结构的Autoencoder来对t时刻的噪声进行预测。网络训练时采用的训练目标非常简单：</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_977653_WNNVTVWg0MDXANzv_1653983638?w=218&h=44" alt="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_977653_WNNVTVWg0MDXANzv_1653983638?w=218&amp;h=44"></p>
+<p>此处 ε 是高斯噪声。这里噪声预测网络以加噪图片作为输入，目标是预测所添加的噪声。此训练目标既希望预测的噪声和真实的噪声一致。最终在DDPM中，均值υ的定义为</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_207917_n7Z260R-M2kdPvfn_1653983653?w=501&h=78" alt="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_207917_n7Z260R-M2kdPvfn_1653983653?w=501&amp;h=78"></p>
+<p>在DDPM中，逆向过程中的高斯分布的方差项 采用的是一个常数项。</p>
+<h3 id="Guided-Diffusion-基于类别引导的扩散模型"><a href="#Guided-Diffusion-基于类别引导的扩散模型" class="headerlink" title="Guided Diffusion - 基于类别引导的扩散模型"></a><strong>Guided Diffusion - 基于类别引导的扩散模型</strong></h3><p>通常而言，对于通用图像生成任务，加入类别条件能够比无类别条件生成获得更好的效果，这是因为加入类别条件的时候，实际上是大大减少了生成时的多样性。OpenAI的Guided Diffusion就提出了一种简单有效的类别引导的扩散模型生成方式。</p>
+<p>Guided Diffusion的核心思想是在逆向过程的每一步，用一个分类网络对生成的图片进行分类，再基于分类分数和目标类别之间的交叉熵损失计算梯度，用梯度引导下一步的生成采样。这个方法一个很大的优点是，不需要重新训练扩散模型，只需要在前馈时加入引导既能实现相应的生成效果。</p>
+<h3 id="基于条件的逆向过程"><a href="#基于条件的逆向过程" class="headerlink" title="基于条件的逆向过程"></a><strong>基于条件的逆向过程</strong></h3><p>在DDPM中，无条件的逆向过程可以用 pθ(xt-1|xt)来描述，在加入类别条件y后，逆向过程可以表示为</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_51857_jPEFZjJs-g2O4BmU_1653983853?w=512&h=48" alt="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_51857_jPEFZjJs-g2O4BmU_1653983853?w=512&amp;h=48"></p>
+<p>这里Z是常量。这个公式表示的意思是，基于类别条件的逆向过程，可以由无条件的逆向过程结合生成结果的分类损失来度量，此处pΦ(y|xt-1)表明的即是一个单独训练的分类模型。这里省略具体的推导，最终在guided diffusion 中采用的每一步逆向过程可以用以下式子描述：</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_59611_TlyyXwnLKbPYoVVk_1653983927?w=704&h=121" alt="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_59611_TlyyXwnLKbPYoVVk_1653983927?w=704&amp;h=121"></p>
+<p>这里s也是一个常量。即在每一步过程中，在计算高斯分布的均值时加上方差和分类梯度项的乘积。基于这样的改进，不需要重新训练扩散模型，只需要额外训练一个分离器，就能够有效地在添加类别引导。当然，这样的结构也存在一点小问题，就是会引入比较多的额外计算时间（每一步都要过分类模型并求梯度）。这个问题在no-classifier guidence中有所改进。但总的来说，扩散模型由于每一次逆向过程都要过至少一遍网络，所以总体生成速度通常还是比较慢的。</p>
+<h3 id="扩散模型结构改进"><a href="#扩散模型结构改进" class="headerlink" title="扩散模型结构改进"></a><strong>扩散模型结构改进</strong></h3><p>guided diffusion中，对DDPM中采用的U-Net结构的Autoencoder进行了一些结构上的改进。包括加深网络，增加attention head数量，增加添加attention layer的尺度数量，采用BigGAN的残差模块结构。此外，这篇工作中还采用了一种称为Adaptive Group Normalization（AdaGN）的归一化模块。</p>
+<h3 id="Semantic-Guidence-Diffusion-更多的扩散引导形式（图片-文本）"><a href="#Semantic-Guidence-Diffusion-更多的扩散引导形式（图片-文本）" class="headerlink" title="Semantic Guidence Diffusion- 更多的扩散引导形式（图片/文本）"></a><strong>Semantic Guidence Diffusion- 更多的扩散引导形式（图片/文本）</strong></h3><p>在Guided Diffusion 中，每一步逆向过程里通过引入朝向目标类别的梯度信息，来实现针对性的生成。这个过程其实和基于优化（Optimization）的图像生成算法（即固定网络，直接对图片本身进行优化）有很大的相似之处。这就意味着之前很多基于优化的图像生成算法都可以迁移到扩散模型上。换一句话说，我们可以轻易地通过修改Guided Diffusion中的条件类型，来实现更加丰富、有趣的扩散生成效果。在Semantic Guidence Diffusion （SGD）[5] 中，作者就将类别引导改成了基于参考图引导以及基于文本引导两种形式，通过设计对应的梯度项，实现对应的引导效果，实现了不错的效果。</p>
+<h3 id="文本引导"><a href="#文本引导" class="headerlink" title="文本引导"></a><strong>文本引导</strong></h3><p>基于文本条件的图像生成，即希望生成的图像符合文本的描述。而如何度量一张图片是否和文本描述符合呢？自然的想法当然是采用今年很火爆的CLIP模型，CLIP 模型包含一个图像编码网络EI(x)和文本编码网络 EL(l) ，两个编码网络能够各自将文本和图片编码为1*512 大小的向量，然后我们可以通过余弦距离来度量两者之间的相似度。要将CLIP模型用于扩散模型的逆向过程，作者注意到了一个问题，即CLIP的图像编码网络是没有见过加噪图像的，这会使得度量效果不理想，从而不能提供有效的梯度。因此，作者将 EI 在加噪图像上进行了一定的finetune，得到了适应加噪图像的 E’I。从而，文本引导函数可以定义为：</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_50656_vi-f_yGrBQj6FDsR_1653988363?w=324&h=56"></p>
+<p>即每一步中都基于生成图像与文本之间的相似度来计算梯度。基于这个策略，SGD能生成有效的结果。</p>
+<h3 id="图片引导"><a href="#图片引导" class="headerlink" title="图片引导"></a><strong>图片引导</strong></h3><p>图片引导是指希望生成的图片与一张参考图片相似。我们将参考图记为 x’0，根据前述DDPM中的 q(xt|x0)公式，我们可以根据当前逆向过程的 t 获得对应程度的加噪图片 x’t。通过对比x’t与 xt 引导生成。此处作者提出了三种不同的图片引导函数。</p>
+<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_864209_v8mFcsuc4RgIy6Mr_1653988641?w=980&h=564"></p>
+<h3 id="Classifier-Free-Diffusion-Guidence-无分类器的扩散引导"><a href="#Classifier-Free-Diffusion-Guidence-无分类器的扩散引导" class="headerlink" title="Classifier-Free Diffusion Guidence - 无分类器的扩散引导"></a><strong>Classifier-Free Diffusion Guidence - 无分类器的扩散引导</strong></h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/28/the-molecule-of-more/" rel="prev" title="《贪婪的多巴胺》读书笔记">
+      <i class="fa fa-chevron-left"></i> 《贪婪的多巴胺》读书笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Disco-Diffusion"><span class="nav-number">1.</span> <span class="nav-text">Disco Diffusion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Diffusion%E6%A8%A1%E5%9E%8B%E4%B8%8EDDPM"><span class="nav-number">2.</span> <span class="nav-text">Diffusion模型与DDPM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%86%E5%90%91%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">逆向过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%90%91-%E6%89%A9%E6%95%A3%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">正向&#x2F;扩散过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83"><span class="nav-number">5.</span> <span class="nav-text">模型训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Guided-Diffusion-%E5%9F%BA%E4%BA%8E%E7%B1%BB%E5%88%AB%E5%BC%95%E5%AF%BC%E7%9A%84%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text">Guided Diffusion - 基于类别引导的扩散模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E7%9A%84%E9%80%86%E5%90%91%E8%BF%87%E7%A8%8B"><span class="nav-number">7.</span> <span class="nav-text">基于条件的逆向过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84%E6%94%B9%E8%BF%9B"><span class="nav-number">8.</span> <span class="nav-text">扩散模型结构改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Semantic-Guidence-Diffusion-%E6%9B%B4%E5%A4%9A%E7%9A%84%E6%89%A9%E6%95%A3%E5%BC%95%E5%AF%BC%E5%BD%A2%E5%BC%8F%EF%BC%88%E5%9B%BE%E7%89%87-%E6%96%87%E6%9C%AC%EF%BC%89"><span class="nav-number">9.</span> <span class="nav-text">Semantic Guidence Diffusion- 更多的扩散引导形式（图片&#x2F;文本）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%BC%95%E5%AF%BC"><span class="nav-number">10.</span> <span class="nav-text">文本引导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E5%BC%95%E5%AF%BC"><span class="nav-number">11.</span> <span class="nav-text">图片引导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Classifier-Free-Diffusion-Guidence-%E6%97%A0%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E6%89%A9%E6%95%A3%E5%BC%95%E5%AF%BC"><span class="nav-number">12.</span> <span class="nav-text">Classifier-Free Diffusion Guidence - 无分类器的扩散引导</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Pei Cheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

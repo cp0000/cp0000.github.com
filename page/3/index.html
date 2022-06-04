@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/05/08/debug-and-debugger/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/05/15/bazijizuoweifangfa/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/05/08/debug-and-debugger/" class="post-title-link" itemprop="url">Debug 和 Debugger</a>
+            <a href="/2022/05/15/bazijizuoweifangfa/" class="post-title-link" itemprop="url">《把自己作为方法》读书笔记</a>
         </h2>
 
         <div class="post-meta">
@@ -180,7 +180,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-05-08 01:03:32 / Modified: 17:29:22" itemprop="dateCreated datePublished" datetime="2022-05-08T01:03:32+08:00">2022-05-08</time>
+              <time title="Created: 2022-05-15 16:48:20 / Modified: 18:35:10" itemprop="dateCreated datePublished" datetime="2022-05-15T16:48:20+08:00">2022-05-15</time>
             </span>
 
           
@@ -194,11 +194,59 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Debug-全靠-print"><a href="#Debug-全靠-print" class="headerlink" title="Debug 全靠 print"></a>Debug 全靠 print</h3><p>刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。</p>
-<p>可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。</p>
-<h3 id="学习编程"><a href="#学习编程" class="headerlink" title="学习编程"></a>学习编程</h3><p>我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。</p>
-<p>如果说编辑器，编译器是程序员的朋友，那么debugger可以说是程序员的再生父母。绝大多数程序员离开了debugger是几乎不会写代码的。狭义的debugger指的是程序调试工具，广义的debugger可以指的是好的书籍，资料，人，工具等等能给你有效反馈的事和物。当我在学习一项新技能的时候，最为关键的是要找到靠谱的debugger，然后勤加debug，可能过程听起来会比较累，但根据自身经验来看，这种方式是最为节约时间的方式方法。</p>
-<p> Keep Try and Practice.</p>
+          <p><img src="http://cp0000.github.io/assets/bazijizuoweifangfa.jpeg" alt="把自己作为方法"></p>
+<blockquote>
+<p>现在要通过一切手段来自保，不允许任何人说话。</p>
+</blockquote>
+<p>第一次知道项飙老师是在《得意忘形》的一期播客中听到的，那一期节目，主播请来了淡豹女士录一期节目，淡豹在聊天的过程中提到了人类学家项飙。第二次了解项飙老师是通过《十三邀》，许知远邀请来了项飙老师做节目。那期节目我看了两三遍，特别是他们在温州的那一段聊天，反复观看，觉得项飙老师特有意思。</p>
+<p>《把自己作为方法》是我看的项飙老师的第二部作品，第一部是《浙江村》。《把自己作为方法》这本书主要是提问者吴琦和项飙老师分别在牛津，北京，温州三个地方对谈，过程中吴琦会就一些问题向项飙老师发起的提问。虽然全文都是谈话的形式，但项飙老师对一些问题的看法是很有深度，也很透彻。书中两位在交流的时候，项飙老师的一些回答，会让我很亲切，有一些想法也会让我之前一些模糊的，不成系统的直觉，通过项飙老师以一个比较概括的方式描述出来。</p>
+<p>下面是关于这本书的一些自己的摘录。</p>
+<p>比如关于国内社会的人际关系，工作关系，社会关系，这一段描述：</p>
+<blockquote>
+<p>军训时我就知道，跟排长、连长套关系，决定了下一周基本的物质福利，即使不决定物质福利，<strong>也决定了心理上那种服从感</strong>，是荣耀和尊严的来源，所以心思都花在如何讨好他上面，人就变得非常紧张。</p>
+</blockquote>
+<p>有时候和权威搞好关系，不仅仅是为了物质福利，也是为了精神寄托，心里的服从感是荣耀和尊严的来源。这一句话就大概解释了国内社会的各种乱象，以及我们深处其中的时候为什么有时候自己也会动作变形。自觉的或者不自觉的去需求依附于权威。</p>
+<blockquote>
+<p>不放松是我的一个问题，在我的研究里这是一个很大的障碍。因为不放松，一根筋地往下想，思想的发散性就不太强，创造性就会受到抑制。我调查时也有这个问题，我不太放松，不太能够调笑戏谑，比较欠缺跟大家打成一片的能力，也是我自己不太满意的地方。</p>
+</blockquote>
+<p>关于是否和某个群体打成一片，我有一个记忆犹新的例子。上大学时候，有一次坐长途绿皮火车，春运的火车车厢挤满了人。我所在的车厢有一群农名工，有一个年轻的小伙子他就属于那种很能和大家打成一片的人，过程中我看着他慢慢的，和比他年长很多的民工们打成一片，作为起码有五六个民工围着他坐成一圈，他仿佛就是那帮人的头。而在10个小时之前，其实他和这帮人并不认识。这个小伙子在我看来就是那种非常放松，能和各种人打成一片的人。而这个打成一片的能力或者我更愿意称之为习惯，和性格是有很强的关系。我也是不习惯和别人打成一片的那种人，多数时刻，我都愿意站在群体外围，看着。</p>
+<blockquote>
+<p>偷窃成为一种不道德的行为，前提是私有财产，如果没有私有财产就没有这个问题。</p>
+</blockquote>
+<blockquote>
+<p>我们对腐败官员的揭露，却把大量篇幅放在男女关系上，而对这个人究竟怎么贪污、制度设计哪里有问题、贪污造成的具体后果又讲得很虚幻？</p>
+</blockquote>
+<p>项飙老师比较喜欢Joan Baez的音乐，他人分析项飙喜欢的原因是：</p>
+<blockquote>
+<p>她说你喜欢她是因为她的歌没有reference（引经据典），她讲的东西就是东西本身，不会背后还有东西需要你有额外的知识准备去理解。</p>
+</blockquote>
+<p>关于有文革背景的伤痕文学</p>
+<blockquote>
+<p>女知青被村干部奸污这种故事流传了多少年，完全是不成比例的（out of proportion）。奸污当然是犯罪，但那种故事一再流传，背后是有一定意义的，指向的是农民和城市的关系，是一种知青受难的述说。女知青是最纯洁的，结果在农村里被村干部糟蹋，最美的东西被最丑的东西给毁灭掉，文学的叙事结构是很清楚的，是典型的古希腊意义上的悲剧，效果也非常明显。</p>
+</blockquote>
+<p>关于理解</p>
+<blockquote>
+<p>理解是人的本性的一部分，作为心理机制，一点都不难，如果说理解有难度，其实是一个位置问题，看你愿不愿意把自己摆在对方的位置上。很多情况下人们拒绝这么做，因为有利益在里面。</p>
+</blockquote>
+<blockquote>
+<p>我对知识分子的民粹主义有一种亲近感，比如俄罗斯二月革命等等，我不太知道这是从哪里来的，可能小时候觉得家长权威很重要，所以也形成了对权威的逆反，一切掌握权威的人，我看着都不太舒服。这个心理比较复杂，我没法自己分析，但我相信童年无意识的心态还是能够塑造人情绪上的驱动。我又肯定不会是革命者，因为在很多情况下我比较怯懦，在这个意义上我是比较典型的小资产阶级式的民粹主义。</p>
+</blockquote>
+<p>关于美国反越战运动</p>
+<blockquote>
+<p>美国的孩子们上街是因为他们明天可能就要上战场，会考虑战争的意义，要保护自己的生命</p>
+</blockquote>
+<p>关于78年的高考</p>
+<blockquote>
+<p>对农民来讲，恢复不恢复高考，对当时90%的农民来讲影响不大，但是恢复高考把此前的官僚和城市知识分子一下子拢进来，其实是一个政党和当时社会主义体制下的精英的重新联盟。大学当然是搞精英主义，你看现在回忆恢复高考的人，很多都是干部子弟，从农村回到城市，不仅恢复了原来比较优越的地位，而且用这种途径在文化、道德上使自己的优越正当化、合法化。</p>
+</blockquote>
+<p>关于国内的生活环境</p>
+<blockquote>
+<p>新家庭主义，中国式逼婚，一定要生小孩，一定要买房子，跟这种单一化联系到一起。正因为“悬浮”之后，自己当下的行为本身不能产生意义，就有点原教旨主义，家里那点事儿成了人生唯一的意义寄托。</p>
+</blockquote>
+<blockquote>
+<p>“认命不认输”也是一样。我们为什么会焦虑，最直接的原因就是对今天没有清晰的认识，总觉得自己现在所处的地方不对，和自己认为的有差距。</p>
+</blockquote>
+<p>项飙老师作为人类学家，观点很犀利，描述问题很根本，同时为人又非常自省。</p>
 
       
     </div>
@@ -217,7 +265,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/77/">77</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/78/">78</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -283,7 +331,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
