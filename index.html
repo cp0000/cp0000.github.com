@@ -180,7 +180,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-04 10:47:55 / Modified: 11:11:49" itemprop="dateCreated datePublished" datetime="2022-06-04T10:47:55+08:00">2022-06-04</time>
+              <time title="Created: 2022-06-04 10:47:55 / Modified: 11:22:34" itemprop="dateCreated datePublished" datetime="2022-06-04T10:47:55+08:00">2022-06-04</time>
             </span>
 
           
@@ -205,36 +205,35 @@
 <p>要理解Disco Diffusion的工作原理，需要先了解DDPM，Guided Diffusion，以及CLIP几个模型的工作原理。</p>
 <h3 id="Diffusion模型与DDPM"><a href="#Diffusion模型与DDPM" class="headerlink" title="Diffusion模型与DDPM"></a>Diffusion模型与DDPM</h3><p><img src="http://cp0000.github.io/assets/diffusion/diffusion_model.jpg" alt="DDPM"></p>
 <p>扩散模型包括两个过程，从信号逐步到噪声的<strong>扩散（正向）过程/（diffusion/forward process）</strong> 和从噪声逐步到信号的 <strong>逆向过程（reverse process）</strong>。这两年的扩散模型基本都是基于Google的DDPM (<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2006.11239">Denoising Diffusion Probabilistic Model</a>)框架所设计。</p>
-<h3 id="逆向过程"><a href="#逆向过程" class="headerlink" title="逆向过程"></a><strong>逆向过程</strong></h3><p>逆向过程从一张随机高斯噪声图片 x<sub>T</sub> 开始，通过逐步去噪生成最终的结果 x<sub>0</sub>。这个过程是一个Markov Chain，可以被定义为：</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_843036_s-xw3TJeR9WNfnML_1653981761?w=879&h=98"></p>
-<p>这个过程可以理解为，我们根据 xt作为输入，预测高斯分布的均值和方差，再基于预测的分布进行随机采样得到 xt-1 。通过不断的预测和采样过程，最终生成一张真实的图片。</p>
-<h3 id="正向-扩散过程"><a href="#正向-扩散过程" class="headerlink" title="正向/扩散过程"></a><strong>正向/扩散过程</strong></h3><p>正向过程或者说是扩散过程，采用的是一个固定的Markov chain形式，即逐步地向图片添加高斯噪声：</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_305068_2DFL5hhfpK9gJXQ7_1653981890?w=790&h=77"></p>
-<p>在DDPM中，βt是预先设置的定值参数。扩散过程有一个重要的特性，我们可以直接采样任意时刻t下的加噪结果xt。将</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_425102_Z8A6h3KSCqZH8hj2_1653982078?w=332&h=79"></p>
+<h4 id="逆向过程"><a href="#逆向过程" class="headerlink" title="逆向过程"></a>逆向过程</h4><p>逆向过程从一张随机高斯噪声图片 x<sub>T</sub> 开始，通过逐步去噪生成最终的结果 x<sub>0</sub>。这个过程是一个Markov Chain，可以被定义为：</p>
+<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_01.png"></p>
+<p>这个过程可以理解为，我们根据 x<sub>t</sub> 作为输入，预测高斯分布的均值和方差，再基于预测的分布进行随机采样得到 x<sub>t-1</sub> 。通过不断的预测和采样过程，最终生成一张真实的图片。</p>
+<h4 id="正向-扩散过程"><a href="#正向-扩散过程" class="headerlink" title="正向/扩散过程"></a>正向/扩散过程</h4><p>正向过程或者说是扩散过程，采用的是一个固定的 <code>Markov chain</code> 形式，即逐步地向图片添加高斯噪声：</p>
+<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_02.png"></p>
+<p>在DDPM中，β<sub>t</sub> 是预先设置的定值参数。扩散过程有一个重要的特性，我们可以直接采样任意时刻t下的加噪结果x<sub>t</sub> 。将</p>
+<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_03.png"></p>
 <p>可以得到</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_206692_V-hTpda56gbtg9q5_1653982104?w=408&h=67"></p>
+<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_04.png"></p>
 <p>这个closed form公式使得我们可以直接获得任意程度的加噪图片，方便后续的训练。</p>
-<h3 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a><strong>模型训练</strong></h3><p>为了实现基于扩散模型的生成，DDPM采用了一个U-Net结构的Autoencoder来对t时刻的噪声进行预测。网络训练时采用的训练目标非常简单：</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_977653_WNNVTVWg0MDXANzv_1653983638?w=218&h=44" alt="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_977653_WNNVTVWg0MDXANzv_1653983638?w=218&amp;h=44"></p>
+<h4 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h4><p>为了实现基于扩散模型的生成，DDPM采用了一个U-Net结构的Autoencoder来对t时刻的噪声进行预测。网络训练时采用的训练目标非常简单：</p>
+<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_05.png"></p>
 <p>此处 ε 是高斯噪声。这里噪声预测网络以加噪图片作为输入，目标是预测所添加的噪声。此训练目标既希望预测的噪声和真实的噪声一致。最终在DDPM中，均值υ的定义为</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_207917_n7Z260R-M2kdPvfn_1653983653?w=501&h=78" alt="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_207917_n7Z260R-M2kdPvfn_1653983653?w=501&amp;h=78"></p>
+<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_06.png"></p>
 <p>在DDPM中，逆向过程中的高斯分布的方差项 采用的是一个常数项。</p>
-<h3 id="Guided-Diffusion-基于类别引导的扩散模型"><a href="#Guided-Diffusion-基于类别引导的扩散模型" class="headerlink" title="Guided Diffusion - 基于类别引导的扩散模型"></a><strong>Guided Diffusion - 基于类别引导的扩散模型</strong></h3><p>通常而言，对于通用图像生成任务，加入类别条件能够比无类别条件生成获得更好的效果，这是因为加入类别条件的时候，实际上是大大减少了生成时的多样性。OpenAI的Guided Diffusion就提出了一种简单有效的类别引导的扩散模型生成方式。</p>
+<h3 id="Guided-Diffusion-基于类别引导的扩散模型"><a href="#Guided-Diffusion-基于类别引导的扩散模型" class="headerlink" title="Guided Diffusion - 基于类别引导的扩散模型*"></a>Guided Diffusion - 基于类别引导的扩散模型*</h3><p>通常而言，对于通用图像生成任务，加入类别条件能够比无类别条件生成获得更好的效果，这是因为加入类别条件的时候，实际上是大大减少了生成时的多样性。OpenAI的Guided Diffusion就提出了一种简单有效的类别引导的扩散模型生成方式。</p>
 <p>Guided Diffusion的核心思想是在逆向过程的每一步，用一个分类网络对生成的图片进行分类，再基于分类分数和目标类别之间的交叉熵损失计算梯度，用梯度引导下一步的生成采样。这个方法一个很大的优点是，不需要重新训练扩散模型，只需要在前馈时加入引导既能实现相应的生成效果。</p>
-<h3 id="基于条件的逆向过程"><a href="#基于条件的逆向过程" class="headerlink" title="基于条件的逆向过程"></a><strong>基于条件的逆向过程</strong></h3><p>在DDPM中，无条件的逆向过程可以用 pθ(xt-1|xt)来描述，在加入类别条件y后，逆向过程可以表示为</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_51857_jPEFZjJs-g2O4BmU_1653983853?w=512&h=48" alt="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_51857_jPEFZjJs-g2O4BmU_1653983853?w=512&amp;h=48"></p>
-<p>这里Z是常量。这个公式表示的意思是，基于类别条件的逆向过程，可以由无条件的逆向过程结合生成结果的分类损失来度量，此处pΦ(y|xt-1)表明的即是一个单独训练的分类模型。这里省略具体的推导，最终在guided diffusion 中采用的每一步逆向过程可以用以下式子描述：</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_59611_TlyyXwnLKbPYoVVk_1653983927?w=704&h=121" alt="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_59611_TlyyXwnLKbPYoVVk_1653983927?w=704&amp;h=121"></p>
+<h4 id="基于条件的逆向过程"><a href="#基于条件的逆向过程" class="headerlink" title="基于条件的逆向过程"></a>基于条件的逆向过程</h4><p>在DDPM中，无条件的逆向过程可以用 p<sub>θ</sub>(xt-1|xt) 来描述，在加入类别条件y后，逆向过程可以表示为</p>
+<p><img src="http://cp0000.github.io/assets/diffusion/guide_diffusion_01.png"></p>
+<p>这里Z是常量。这个公式表示的意思是，基于类别条件的逆向过程，可以由无条件的逆向过程结合生成结果的分类损失来度量，此处 p<sub>Φ</sub>(y|xt-1)表明的即是一个单独训练的分类模型。这里省略具体的推导，最终在guided diffusion 中采用的每一步逆向过程可以用以下式子描述：</p>
+<p><img src="http://cp0000.github.io/assets/diffusion/guide_diffusion_02.png"></p>
 <p>这里s也是一个常量。即在每一步过程中，在计算高斯分布的均值时加上方差和分类梯度项的乘积。基于这样的改进，不需要重新训练扩散模型，只需要额外训练一个分离器，就能够有效地在添加类别引导。当然，这样的结构也存在一点小问题，就是会引入比较多的额外计算时间（每一步都要过分类模型并求梯度）。这个问题在no-classifier guidence中有所改进。但总的来说，扩散模型由于每一次逆向过程都要过至少一遍网络，所以总体生成速度通常还是比较慢的。</p>
-<h3 id="扩散模型结构改进"><a href="#扩散模型结构改进" class="headerlink" title="扩散模型结构改进"></a><strong>扩散模型结构改进</strong></h3><p>guided diffusion中，对DDPM中采用的U-Net结构的Autoencoder进行了一些结构上的改进。包括加深网络，增加attention head数量，增加添加attention layer的尺度数量，采用BigGAN的残差模块结构。此外，这篇工作中还采用了一种称为Adaptive Group Normalization（AdaGN）的归一化模块。</p>
-<h3 id="Semantic-Guidence-Diffusion-更多的扩散引导形式（图片-文本）"><a href="#Semantic-Guidence-Diffusion-更多的扩散引导形式（图片-文本）" class="headerlink" title="Semantic Guidence Diffusion- 更多的扩散引导形式（图片/文本）"></a><strong>Semantic Guidence Diffusion- 更多的扩散引导形式（图片/文本）</strong></h3><p>在Guided Diffusion 中，每一步逆向过程里通过引入朝向目标类别的梯度信息，来实现针对性的生成。这个过程其实和基于优化（Optimization）的图像生成算法（即固定网络，直接对图片本身进行优化）有很大的相似之处。这就意味着之前很多基于优化的图像生成算法都可以迁移到扩散模型上。换一句话说，我们可以轻易地通过修改Guided Diffusion中的条件类型，来实现更加丰富、有趣的扩散生成效果。在Semantic Guidence Diffusion （SGD）[5] 中，作者就将类别引导改成了基于参考图引导以及基于文本引导两种形式，通过设计对应的梯度项，实现对应的引导效果，实现了不错的效果。</p>
-<h3 id="文本引导"><a href="#文本引导" class="headerlink" title="文本引导"></a><strong>文本引导</strong></h3><p>基于文本条件的图像生成，即希望生成的图像符合文本的描述。而如何度量一张图片是否和文本描述符合呢？自然的想法当然是采用今年很火爆的CLIP模型，CLIP 模型包含一个图像编码网络EI(x)和文本编码网络 EL(l) ，两个编码网络能够各自将文本和图片编码为1*512 大小的向量，然后我们可以通过余弦距离来度量两者之间的相似度。要将CLIP模型用于扩散模型的逆向过程，作者注意到了一个问题，即CLIP的图像编码网络是没有见过加噪图像的，这会使得度量效果不理想，从而不能提供有效的梯度。因此，作者将 EI 在加噪图像上进行了一定的finetune，得到了适应加噪图像的 E’I。从而，文本引导函数可以定义为：</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_50656_vi-f_yGrBQj6FDsR_1653988363?w=324&h=56"></p>
+<h4 id="扩散模型结构改进"><a href="#扩散模型结构改进" class="headerlink" title="扩散模型结构改进"></a>扩散模型结构改进</h4><p>guided diffusion中，对DDPM中采用的U-Net结构的Autoencoder进行了一些结构上的改进。包括加深网络，增加attention head数量，增加添加attention layer的尺度数量，采用BigGAN的残差模块结构。此外，这篇工作中还采用了一种称为Adaptive Group Normalization（AdaGN）的归一化模块。</p>
+<h3 id="Semantic-Guidence-Diffusion-更多的扩散引导形式（图片-文本）"><a href="#Semantic-Guidence-Diffusion-更多的扩散引导形式（图片-文本）" class="headerlink" title="Semantic Guidence Diffusion- 更多的扩散引导形式（图片/文本）"></a>Semantic Guidence Diffusion- 更多的扩散引导形式（图片/文本）</h3><p>在Guided Diffusion 中，每一步逆向过程里通过引入朝向目标类别的梯度信息，来实现针对性的生成。这个过程其实和基于优化（Optimization）的图像生成算法（即固定网络，直接对图片本身进行优化）有很大的相似之处。这就意味着之前很多基于优化的图像生成算法都可以迁移到扩散模型上。换一句话说，我们可以轻易地通过修改Guided Diffusion中的条件类型，来实现更加丰富、有趣的扩散生成效果。在Semantic Guidence Diffusion （SGD）中，作者就将类别引导改成了基于参考图引导以及基于文本引导两种形式，通过设计对应的梯度项，实现对应的引导效果，实现了不错的效果。</p>
+<h4 id="文本引导"><a href="#文本引导" class="headerlink" title="文本引导"></a>文本引导</h4><p>基于文本条件的图像生成，即希望生成的图像符合文本的描述。而如何度量一张图片是否和文本描述符合呢？自然的想法当然是采用今年很火爆的CLIP模型，CLIP 模型包含一个图像编码网络EI(x)和文本编码网络 EL(l) ，两个编码网络能够各自将文本和图片编码为1*512 大小的向量，然后我们可以通过余弦距离来度量两者之间的相似度。要将CLIP模型用于扩散模型的逆向过程，作者注意到了一个问题，即CLIP的图像编码网络是没有见过加噪图像的，这会使得度量效果不理想，从而不能提供有效的梯度。因此，作者将 EI 在加噪图像上进行了一定的finetune，得到了适应加噪图像的 E’I。从而，文本引导函数可以定义为：</p>
+<p><img src="http://cp0000.github.io/assets/diffusion/guide_diffusion_03.png"></p>
 <p>即每一步中都基于生成图像与文本之间的相似度来计算梯度。基于这个策略，SGD能生成有效的结果。</p>
-<h3 id="图片引导"><a href="#图片引导" class="headerlink" title="图片引导"></a><strong>图片引导</strong></h3><p>图片引导是指希望生成的图片与一张参考图片相似。我们将参考图记为 x’0，根据前述DDPM中的 q(xt|x0)公式，我们可以根据当前逆向过程的 t 获得对应程度的加噪图片 x’t。通过对比x’t与 xt 引导生成。此处作者提出了三种不同的图片引导函数。</p>
-<p><img src="https://wdoc-76491.picgzc.qpic.cn/MTY4ODg1MTQxODI4NTc5NQ_864209_v8mFcsuc4RgIy6Mr_1653988641?w=980&h=564"></p>
-<h3 id="Classifier-Free-Diffusion-Guidence-无分类器的扩散引导"><a href="#Classifier-Free-Diffusion-Guidence-无分类器的扩散引导" class="headerlink" title="Classifier-Free Diffusion Guidence - 无分类器的扩散引导"></a><strong>Classifier-Free Diffusion Guidence - 无分类器的扩散引导</strong></h3>
+<h4 id="图片引导"><a href="#图片引导" class="headerlink" title="图片引导"></a>图片引导</h4><p>图片引导是指希望生成的图片与一张参考图片相似。我们将参考图记为 x’0，根据前述DDPM中的 q(xt|x0)公式，我们可以根据当前逆向过程的 t 获得对应程度的加噪图片 x’t。通过对比x’t与 xt 引导生成。此处作者提出了三种不同的图片引导函数。</p>
+<h4 id="Classifier-Free-Diffusion-Guidence-无分类器的扩散引导"><a href="#Classifier-Free-Diffusion-Guidence-无分类器的扩散引导" class="headerlink" title="Classifier-Free Diffusion Guidence - 无分类器的扩散引导"></a>Classifier-Free Diffusion Guidence - 无分类器的扩散引导</h4>
       
     </div>
 
