@@ -498,7 +498,7 @@ dispatch_async(queue, ^&#123;
 <ul>
 <li>必须用在集合对象上或普通对象的集合属性上</li>
 <li>简单集合运算符有 @avg, @count, @max, @min, @sum</li>
-<li>格式 @”sum.age”或@”集合属性<a href="mailto:&#46;&#x40;&#109;&#x61;&#x78;&#x2e;&#x61;&#103;&#x65;">&#46;&#x40;&#109;&#x61;&#x78;&#x2e;&#x61;&#103;&#x65;</a>“</li>
+<li>格式 @”sum.age”或@”集合属性<a href="mailto:&#x2e;&#x40;&#109;&#x61;&#120;&#x2e;&#97;&#103;&#x65;">&#x2e;&#x40;&#109;&#x61;&#120;&#x2e;&#97;&#103;&#x65;</a>“</li>
 </ul>
 <h4 id="KVC和KVO的keyPath一定是属性么？"><a href="#KVC和KVO的keyPath一定是属性么？" class="headerlink" title="KVC和KVO的keyPath一定是属性么？"></a>KVC和KVO的keyPath一定是属性么？</h4><p>KVO支持实例变量</p>
 <h4 id="如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？"><a href="#如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？" class="headerlink" title="如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？"></a>如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？</h4><h4 id="apple用什么方式实现对一个对象的KVO？"><a href="#apple用什么方式实现对一个对象的KVO？" class="headerlink" title="apple用什么方式实现对一个对象的KVO？"></a>apple用什么方式实现对一个对象的KVO？</h4><p>当你观察一个对象时，一个新的类会被动态创建。这个类继承自该对象的原本的类，并重写了被观察属性的setter方法。重写setter方法会负责在调用原setter方法之前和之后，通知所有观察对象：值的更改。最后通过 isa 混写 （isa-swizzling）把这个对象的 isa 指针（isa指针告诉Runtime系统这个对象的类是什么）指向这个新创建的子类，对象就神奇的变成了新创建的子类的实例。</p>
