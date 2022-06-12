@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2018/11/04/30/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2018/11/06/review-fsrcnn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/11/04/30/" class="post-title-link" itemprop="url">活到30</a>
+            <a href="/2018/11/06/review-fsrcnn/" class="post-title-link" itemprop="url">超分FSRCNN的简介</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-11-04 20:08:40" itemprop="dateCreated datePublished" datetime="2018-11-04T20:08:40+08:00">2018-11-04</time>
+              <time title="Created: 2018-11-06 00:24:40" itemprop="dateCreated datePublished" datetime="2018-11-06T00:24:40+08:00">2018-11-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-04 20:18:39" itemprop="dateModified" datetime="2020-01-04T20:18:39+08:00">2020-01-04</time>
+                <time title="Modified: 2018-11-19 11:57:22" itemprop="dateModified" datetime="2018-11-19T11:57:22+08:00">2018-11-19</time>
               </span>
 
           
@@ -201,23 +201,72 @@
 
       
           <blockquote>
-<p>有一天我做了一个恐怖的梦，梦见我32岁了。然后当我醒来，发现自己只有23岁，就放心了。但是后来我真的从梦里醒来，发现自己确实是32岁了。时间过得很快，20岁是人生的巅峰状态，从那以后我们就开始走下坡路了。 – 电影《before the sunset》</p>
+<p>这是一篇译文，原文<a target="_blank" rel="noopener" href="https://towardsdatascience.com/review-fsrcnn-super-resolution-80ca2ee14da4">Review:FSRCNN(Super Resolution)</a></p>
 </blockquote>
-<p>少年时听长辈说某件事是10年之前发生的了，会觉得：“哇，10年啊，好久之前发生的事情啊”。如今才发现，10年之前发生的事情却仿佛就在眼前。08年的夏天，我刚上完大一，暑假没事在家里待着，每天守着电视看北京奥运会。电视里各种各样的奥运项目让人应接不暇，看着每个运动员健康矫捷美丽的身姿，我心想人应该活的如此健康快乐才是。</p>
-<blockquote>
-<p>你发现每个你遇到的人，都尝试把环境变得更好，赚更多钱，赢得更多尊重，得到更多的赞赏，这真令人精疲力尽。 – 电影《before the sunset》</p>
-</blockquote>
-<p>11年从大学毕业之后，我便入了程序员这个行当；这是一个适合平民百姓，没啥背景出身的人干的行业。在这个行业只要你技术好，为人靠谱，可以靠着这门手艺安身立命。程序员工作中，和机器打交道多过和人打交道，这样想来我算是误打误撞入了一个和我性格挺搭的行业。 七年多的程序员生涯，我有过一些那种恍然大悟，让人分泌多巴胺的快乐时刻。</p>
-<p>只是我最近在思考，程序员工作的意义到底在哪里？可能我所在的行业不是那种基建性质的系统软件开发，程序员在日常生活中，大多数时候做的事情只是担当老板，产品，运营同事们需求的实现者。当中除了如何实现有自己的主见之外，要实现什么完全是听别人的指挥。这听起来是一份没有honor的行当。不过有人会说，其实产品，运营，和其他各种各样形形色色的行业，多数时刻我们都是执行任务的角色。我们受制于人，每天按部就班，小心翼翼的处理事情，保证问题不要出在自己身上。工作的意义对于多数人来讲不过是需要把牛奶和面包放在自家的桌子上，喂养老人，孩子和自己。honor不重要，肚子饿比较重要。所以对饥饿的恐惧感，无形的督促我们每天早起晚归，拼命工作挣钱。</p>
-<blockquote>
-<p>活在当下，我们好像生来就对所有的事情不满。一直想改善自己的状态，一个欲望达成后，下一个有自然浮现。– 电影《before the sunset》</p>
-</blockquote>
-<p>我对死亡最为恐惧是在七八岁的时候。那段日子，晚上关灯睡觉之后，我脑子都会想人要是死去之后，就什么都没有了。不管这世界如何精彩，天上的星星如何闪亮，宇宙如何变化，这一切都和一个死去的人没有一丁点关系。死去，意味着不存在了，你所有的思想，记忆，喜怒哀乐都不复存在了。每每想到此，我就特别的恐惧，恐惧那种不存在。这种恐惧，最近在早晨的梦里又出现了几次, 对不存在的无法接受又萦绕在脑中。不过也许人长大了，也就麻木了，洗漱之后，该上班上班，平日里嘈杂忙碌的生活会帮你忘却这种恐惧。</p>
-<p>人到30，进入而立。有那么一瞬间，会觉得一切只能如此了，就按部就班的安稳地活着吧。只是希望自己在忙着挣钱，忙着处理各种各样生活工作中问题的时候，不要忘了Steve Jobs的这段话：</p>
-<blockquote>
-<p>“Your time is limited, so don’t waste it living someone else’s life. Don’t be trapped by dogma – which is living with the results of other people’s thinking. Don’t let the noise of other’s opinions drown out your own inner voice. And most important, have the courage to follow your heart and intuition. They somehow already know what you truly want to become. Everything else is secondary.” – Steve Jobs</p>
-</blockquote>
-<p><strong>Death is the destination we all share. No one has ever escaped it.</strong></p>
+<p>本文主要用来概述一篇实时超分辨率的实现FSRCNN，全称Fast Super-Resolution Convolutional Neural Network，FSRCNN 发表于2016年的ECCV，目前为止有近300次的引用。<br>FSRCNN有着一个相对浅的网络结构，浅网络层让我们比较好理解每一个网络层的用途。与SRCNN相比，它重建后的图像质量更高。</p>
+<p>对比SRCNN，FSRCNN-s(FSRCNN小模型版本)，FSRCNN-s 有着更好的PSNR（图像质量），更快的处理时长。<br>对比 SRCNN-Ex（SRCNN优质版本）和 FSRCNN，FSRCNN的结果PSNR更好，处理速度更快。<br>所以，来看下FSRCNN是如何达到质量和速度双优的</p>
+<p>下文包含如下内容：</p>
+<ul>
+<li>SRCNN 简述</li>
+<li>FSRCNN 网络架构</li>
+<li>如何利用 1x1 卷积对网络进行压缩和扩大</li>
+<li>如何利用多个 3X3 卷积实现非线性映射</li>
+<li>对比实验</li>
+<li>结论</li>
+</ul>
+<p><img src="https://cdn-images-1.medium.com/max/1000/1*auit3UsBTjbnzZoLDEJUUg.png" alt="Network Architecture: SRCNN (Top) and FSRCNN (Bottom)"></p>
+<p>上图是 SRCNN 和 FSRCNN 的网络架构图。其中 Conv(f,n,c)表示该卷积： 卷积大小为fxf， 有n个过滤器以及c个输入通道。</p>
+<h2 id="1-SRCNN简述"><a href="#1-SRCNN简述" class="headerlink" title="1. SRCNN简述"></a>1. SRCNN简述</h2><p>SRCNN 的处理过程如下：</p>
+<ol>
+<li>对输入图片利用双立方采样做上采样，使得其分辨率为目标分辨率</li>
+<li>然后分别利用 9x9, 1x1, 5x5 的卷积来提高图片质量。其中 1x1 卷积是用来把低分辨率（LR）图像向量非线性映射为高分辨率 (HR) 图像向量.</li>
+</ol>
+<p>计算复杂度为：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*OsUvb3UK7elWkaNIhDpXlA.png"></p>
+<p>计算复杂度和HR图像大小成线性比例，SHR。HR图像越大，复杂度越高。</p>
+<h2 id="2-FSRCNN-网络结构"><a href="#2-FSRCNN-网络结构" class="headerlink" title="2. FSRCNN 网络结构"></a>2. FSRCNN 网络结构</h2><p>FSRCNN 包含如下五个主要处理步骤：</p>
+<ol>
+<li>特征提取：利用一个 5x5 卷积代替 SRCNN 中的双立方差值</li>
+<li>压缩：利用 1x1 卷积把特征层从 d 压缩为 s，其中 s 小于 d</li>
+<li>非线性映射：多个 3x3 网络层代替单个的宽网络层</li>
+<li>扩大： 1x1 卷积把特征层从 s 扩大为 d</li>
+<li>反卷积： 利用 9x9 过滤器重建 HR 图像</li>
+</ol>
+<p>以上结构就是 FSRCNN(d,s,m). 其计算复杂度如下：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*xvdMQu_xpVt5Rong_JANjQ.png"></p>
+<p>可见复杂度和 LR 图像大小成线性比例，SLR，所以它的复杂度小于 SRCNN</p>
+<p>网络中激活函数是 PReLU. PReLU意为带参数的ReLu，目的是比 ReLU 更好。（更多关于 PReLu 的内容， <a target="_blank" rel="noopener" href="https://medium.com/coinmonks/review-prelu-net-the-first-to-surpass-human-level-performance-in-ilsvrc-2015-image-f619dddd5617">请参照</a>）</p>
+<p>代价函数是均方误差（MSE）：<br><img src="https://cdn-images-1.medium.com/max/800/1*CGk1oqKbj76eNuPhYKARsQ.png"></p>
+<h2 id="3-如何利用-1x1-卷积对网络进行压缩和扩大"><a href="#3-如何利用-1x1-卷积对网络进行压缩和扩大" class="headerlink" title="3. 如何利用 1x1 卷积对网络进行压缩和扩大"></a>3. 如何利用 1x1 卷积对网络进行压缩和扩大</h2><p>假设我们在不使用 1x1 卷积的情况下运行 5x5 卷积，如下所示：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*s6_8m_0EpwrzZPunRGgFCQ.png" alt="5x5 卷积"></p>
+<p>计算次数 = (14x14x48)x(5x5x480) = 112.9M</p>
+<p>如果使用 1x1 卷积：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*SJDJyBGM__wRX9wJYIKv8w.png" alt="1x1 卷积"></p>
+<p>1x1 卷积计算次数 = (14x14x16)x(1x1x480) = 1.5M<br>5x5 卷积计算此时 = (14x14x48)x(5x5x16) = 3.8M<br>两者总共计算次数 = 1.5M + 3.8M = 5.3M,比只使用 5x5 足足少了 112.9M 次计算。</p>
+<p>论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.4400">Network-In-Netwrok</a>建议使用 1x1 卷积引入更多的非线性并改善性能，而GoogleNet建议 1x1 卷积有助于在保证效果的同时减小模型大小。(<a target="_blank" rel="noopener" href="https://medium.com/coinmonks/paper-review-of-googlenet-inception-v1-winner-of-ilsvlc-2014-image-classification-c2b3565a64e7">GoogleNet简述</a>)。</p>
+<p>因此在两个卷积层之前使用 1x1 卷积来减少连接（参数）。通过减少参数，我们只需要更少的乘法和加法运算，最终加速网络。这就是 FSRCNN 比 SRCNN 快的原因。</p>
+<h2 id="4-如何利用多个-3x3-卷积实现非线性映射"><a href="#4-如何利用多个-3x3-卷积实现非线性映射" class="headerlink" title="4. 如何利用多个 3x3 卷积实现非线性映射"></a>4. 如何利用多个 3x3 卷积实现非线性映射</h2><p><img src="https://cdn-images-1.medium.com/max/800/1*NMC4KrYIciGdE_FaazxF7w.png" alt="两个 3x3 滤波器可以包含一个 5x5 的滤波器区域"></p>
+<p>如上图所示通过使用2层 3x3 滤波器来覆盖 5x5 滤波器的区域，让参数数量变少。</p>
+<p>1层 5x5 滤波器的参数数量 = 5x5 = 25<br>2层 3x3 滤波器的参数数量 = 3x3+3x3 = 18<br>参数量减少了28%。而更少的参数意味着网络在训练的时候可以更快的收敛，并减少过拟合问题。</p>
+<h2 id="5-对比实验"><a href="#5-对比实验" class="headerlink" title="5. 对比实验"></a>5. 对比实验</h2><p><img src="https://cdn-images-1.medium.com/max/1600/1*c4pkT0SQRxd6N_G8KBQHkA.png" alt="对比实验"></p>
+<ul>
+<li><strong>SCRCNN-Ex:</strong> SRCNN 的优质版本，拥有 57184 个参数</li>
+<li><strong>Transition State 1:</strong> 使用反卷机，有 58976 个参数，获得更高的PSNR</li>
+<li><strong>FSRCNN (56,12,4):</strong> 更小的滤波器，更少的滤波器，有 12464 个参数，更高的PSNR。更重要的参数更少，相对容易收敛。</li>
+</ul>
+<p>下表为每个组件的贡献值：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*Gg5emNKjDs9wcbobOKIxMQ.png" alt="m,sd"></p>
+<p>对比各种参数的结果，选取 m=4, d=56, s=12时，可以兼顾HR图像质量（33.16dB）和模型复杂度（12464参数）。</p>
+<p>最终我们选用 <strong>FSRCNN:FSRCNN (56,12,4),FSRCNN-s:FSRCNN (32,5,1)</strong></p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ul>
+<li>利用91张放大3倍的图片从头开始训练网络，然后利用利用放大2倍和4倍的100张图反卷积微调网络。</li>
+<li>数据增强部分，缩放：0.9，0.8，0.7，旋转：：90，180，270</li>
+</ul>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*zTzSP4Y9R_RlBZwLDtCC7Q.png" alt="所有网络在91张训练集的结果"></p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*kw9miEL54IPgKW1YTodb9w.png" alt="FSRCNN和FSRCNN在91张训练集上的结果"></p>
+<p>从上述结果可以得出：FSRCNN和FSRCNN-s在放大2倍，3倍效果好。当放大4倍的效果比SCN差一点点。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*eVcmO3zw9qO8EDstMWt5Ug.png" alt="放大3倍的效果"></p>
+<p>通过论文中的浅层网络，我们可以了解每种组件的效果，例如1×1卷积和多个3×3卷积。</p>
 
       
     </div>
@@ -236,7 +285,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/78/">78</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/79/">79</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -302,7 +351,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2014/03/01/android-reverse-engineering/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2014/04/10/google-wildcard/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2014/03/01/android-reverse-engineering/" class="post-title-link" itemprop="url">Android reverse engineering</a>
+            <a href="/2014/04/10/google-wildcard/" class="post-title-link" itemprop="url">Google Wildcard</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2014-03-01 00:00:00" itemprop="dateCreated datePublished" datetime="2014-03-01T00:00:00+08:00">2014-03-01</time>
+              <time title="Created: 2014-04-10 00:00:00" itemprop="dateCreated datePublished" datetime="2014-04-10T00:00:00+08:00">2014-04-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-10-06 22:20:21" itemprop="dateModified" datetime="2017-10-06T22:20:21+08:00">2017-10-06</time>
+                <time title="Modified: 2015-06-21 13:51:56" itemprop="dateModified" datetime="2015-06-21T13:51:56+08:00">2015-06-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,105 +209,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h4><ul>
-<li><p>java: android app 编程语言</p>
-</li>
-<li><p>class: 由 java文件通过 Sun JDK 编译而成</p>
-</li>
-<li><p>dex:  Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。</p>
-<p>  ps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）</p>
-</li>
-<li><p>odex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。</p>
-</li>
-<li><p>smali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器</p>
-<p>  ps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。</p>
-</li>
-<li><p>Andoid App 的运行策略：解压apk后运行class.dex</p>
-</li>
-</ul>
-<h4 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h4><ul>
-<li>ant: 编译，生成android 项目的工具；</li>
-<li>apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml</li>
-<li>smali-2.0.3.jar: 把smali 文件转换成 dex文件</li>
-<li>baksmali-2.0.2.jar: 把dex文件转换成smali文件</li>
-<li>dex2jar: dex 转换成 jar</li>
-<li>signapk.jar: 用来签名apk</li>
-<li>eclipse: 大多数android项目的IDE</li>
-<li>adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件；</li>
-<li>JD-GUi:图形界面的Java源代码”.class”文件反编译工具</li>
-</ul>
-<h4 id="DEMO演示"><a href="#DEMO演示" class="headerlink" title="DEMO演示"></a>DEMO演示</h4><ul>
-<li><p>首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；</p>
-</li>
-<li><p>使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；</p>
-</li>
-<li><p>然后开始对这个apk动手脚；</p>
-<pre><code>  apktool d baidu.apk /* 反编译apk */
+          <p>1.双引号</p>
+<p>把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。</p>
+<pre><code>“seo方法图片”
 </code></pre>
-<p>会发现在当前的目录下生成一个baidu 的 folder：</p>
-<pre><code>  staff  48732 Mar  1 19:26 AndroidManifest.xml
-  staff    250 Mar  1 19:26 apktool.yml
-  staff    408 Mar  1 19:26 assets
-  staff    102 Mar  1 20:08 build
-  staff    102 Mar  1 20:08 dist
-  staff    102 Mar  1 19:26 lib
-  staff    884 Mar  1 19:26 res
-  staff    170 Mar  1 19:26 smali
+<p>2.减号</p>
+<p>减号代表搜索不包含减号后面的词的页面。使用这个指令时减号前面必须是空格，减号后面没有空格，紧跟着需要排除的词。</p>
+<pre><code>搜索 -引擎
 </code></pre>
-</li>
-</ul>
-<p>这是baidu  android project的目录结构，有了上面的名词解释，我们知道 代码逻辑都存在了smali这个文件夹下；不过smali有点不好阅读，所以我建议大家还是把smali 翻译成java之后在去阅读 baidu.apk 的源代码；</p>
-<p>我的方法是:unzip apk得到 classes.dex，然后利用dex2jar 得到clases_dex2jar.jar;然后使用JD-GUi打开jar 文件就可以非常愉快的阅读java 代码了；</p>
-<pre><code>    unzip baidu.apk -d baidu_deout;
-    dex2jar.sh baidu_deout/classes.dex
+<p>3.星号</p>
+<p>星号常用的通配符</p>
+<pre><code>搜索*擎
 </code></pre>
-<p>由于是Demo，所以我展示一个简单的hack好了；打开BaseActivity.java 会发现</p>
-<pre><code>if (b)
-  Log.d(&quot;SearchBox&quot;, &quot;=========BaseActivity onStop mLiveActivityNum=&quot; + o);
+<p>4.inurl</p>
+<p>inurl: 指令用于搜索查询词出现在url 中的页面。</p>
+<pre><code>inurl:搜索引擎优化
 </code></pre>
-<p>很明显 b是类似 debug_mode 的开关变量，如果你之前在运行baidu.apk的时候adb logcat 一下，留心一下是没有这个log的，所以在release android.apk 的时候，debug_mode 理应被set成false了；所以我现在想做的事情就是打开debug_mode;因为debug log这种的东西有太多的惊喜；</p>
-<p>接下来的事情就变得非常简单找到 set  debugmode 的位置，设置成true就好了；顺藤摸瓜；在BaseActivity.java  的开头，会发现：</p>
-<pre><code>private static final boolean b = SearchBox.a;
+<p>5.inanchor</p>
+<p>指令返回的结果是导入链接锚文字中包含搜索词的页面。</p>
+<pre><code>inanchor:点击这里
 </code></pre>
-<p>而SearchBox.java 的第一行：</p>
-<pre><code>public static boolean a = dk.a;
+<p>6.intitle</p>
+<p>指令返回的是页面title 中包含关键词的页面。</p>
+<p>7.allintitle</p>
+<p>搜索返回的是页面标题中包含多组关键词的文件。</p>
+<p>8.filetype</p>
+<p>用于搜索特定文件格式。</p>
+<pre><code>filetype:pdf SEO
 </code></pre>
-<p>db.java 的第一行：</p>
-<pre><code>public static boolean a = false;
+<p>9.site</p>
+<p>用来搜索某个域名下的所有文件。</p>
+<pre><code>site:developer.apple.com gcd
 </code></pre>
-<p>事情不能更顺利了，所以只要把 a 的值set 成true就完成打开debugmode的小hack了；</p>
-<p>还记得之前apktool 反编译的文件夹嘛？打开db.smali 文件；会发现：</p>
-<pre><code>const/4 v1, 0x0
-const/4 v0, 0x1
-sput-boolean v1, Lcom/baidu/searchbox/dk;-&gt;a:Z
-</code></pre>
-<p>是的，只要修改成</p>
-<pre><code>sput-boolean v0, Lcom/baidu/searchbox/dk;-&gt;a:Z
-</code></pre>
-<p>就好了；</p>
-<p>修改完smali之后，我们需要做的是重新生成一个apk：</p>
-<pre><code>apktool b baidu
-</code></pre>
-<p>会发现在baidu/dist/目录下生成了一个新的baidu.apk; 这时候如果你选择 </p>
-<pre><code>adb installl －r baidu.apk
-</code></pre>
-<p>会发现提示：Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES]这是由于这个apk没有sign的原因；接下里sign apk；</p>
-<pre><code> java -jar /opt/Android/signapk/signapk.jar /opt/Android/signapk/signapk-key.testkey.x509.pem /opt/Android/signapk/signapk-key.testkey.pk8 CHFR_360.apk CHFR_360-sign.apk
-</code></pre>
-<p>执行成功之后，惊喜的发现在 dist 新生成了 baidu-sign.apk,安装到手机，运行apk，打开adb logcat:</p>
-<pre><code>D/c       (17822): statistic key: 011918
-E/c       (17822): 写入行为统计:&#123;&quot;011918&quot;:[&quot;&quot;]&#125;
-E/c       (17822): 写入widget用户行为统计：&#123;&quot;011918&quot;:[&quot;&quot;]&#125;
-D/c       (17822): statistic key: 011918
-E/c       (17822): 写入行为统计:&#123;&quot;011918&quot;:[&quot;&quot;]&#125;
-E/c       (17822): 写入widget用户行为统计：&#123;&quot;011918&quot;:[&quot;&quot;]&#125;
-</code></pre>
-<p>如果一切正常的话，会发现类似如上的log，当然你仔细看的话，还有更详细且重要的信息，各种的小隐私都被监视…</p>
-<p>Android 项目的逆向工程的文章就到这里；<br>Enjoy it!</p>
-<h4 id="相关参考："><a href="#相关参考：" class="headerlink" title="相关参考："></a>相关参考：</h4><ul>
-<li><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/12732882/reverse-engineering-from-an-apk-file-to-a-project">http://stackoverflow.com/questions/12732882/reverse-engineering-from-an-apk-file-to-a-project</a></li>
-<li><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/13854425/how-to-avoid-reverse-engineering-of-an-apk-file">http://stackoverflow.com/questions/13854425/how-to-avoid-reverse-engineering-of-an-apk-file</a></li>
-</ul>
 
       
     </div>
@@ -326,7 +259,7 @@ E/c       (17822): 写入widget用户行为统计：&#123;&quot;011918&quot;:[&q
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/77/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/77/">77</a><span class="page-number current">78</span>
+    <a class="extend prev" rel="prev" href="/page/77/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/77/">77</a><span class="page-number current">78</span><a class="page-number" href="/page/79/">79</a><a class="extend next" rel="next" href="/page/79/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -392,7 +325,7 @@ E/c       (17822): 写入widget用户行为统计：&#123;&quot;011918&quot;:[&q
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

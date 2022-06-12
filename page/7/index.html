@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/03/28/stylegan/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/04/17/life-under-covid-19/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/03/28/stylegan/" class="post-title-link" itemprop="url">如何实现SnapChat卡通画滤镜（一）：StyleGAN的工作原理</a>
+            <a href="/2022/04/17/life-under-covid-19/" class="post-title-link" itemprop="url">疫情下的生活</a>
         </h2>
 
         <div class="post-meta">
@@ -178,16 +178,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2022-03-28 10:13:27" itemprop="dateCreated datePublished" datetime="2022-03-28T10:13:27+08:00">2022-03-28</time>
+              <time title="Created: 2022-04-17 10:12:15 / Modified: 16:42:27" itemprop="dateCreated datePublished" datetime="2022-04-17T10:12:15+08:00">2022-04-17</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-03-29 16:37:56" itemprop="dateModified" datetime="2022-03-29T16:37:56+08:00">2022-03-29</time>
-              </span>
 
           
 
@@ -200,17 +194,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>这两年随着像Tiktok，SnapChat这一类短视频平台的流行，风格转换类的算法在这类平台上也得到了广泛的应用，深受用户喜爱。比如snapchat中的卡通画人脸，变小孩，变光头等一类滤镜，其视觉效果都非常棒，在社交媒体上也被广泛传播。这类人脸风格化滤镜的底层算法是基于GAN（生成对抗网络）研发而成的。而在GAN被广泛商业化应用的道路上，有两篇非常重要的工作，分别是 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1611.07004">Pix2Pix</a>，和 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04948">StyleGAN</a>，这两篇工作GAN被商业化成为了可能。</p>
-<p>本文主要是介绍两篇工作的一篇 StyleGAN。</p>
-<h4 id="StyleGAN-A-Style-Based-Generator-Architecture-for-Generative-Adversarial-Networks-2018"><a href="#StyleGAN-A-Style-Based-Generator-Architecture-for-Generative-Adversarial-Networks-2018" class="headerlink" title="StyleGAN (A Style-Based Generator Architecture for Generative Adversarial Networks 2018)"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04948">StyleGAN (A Style-Based Generator Architecture for Generative Adversarial Networks 2018)</a></h4><p>StyleGAN是有NVIDIA于2018年提出的，截止2022年3月有3825次引用。</p>
-<p>StyleGAN网络主要分成两个部分，分别是Mapping Network 和 Synthesis Network。结构图如下：</p>
-<img src="http://cp0000.github.io/assets/stylegan/stylegan_v1_network" width="720px" >
-
-
-<p>如上图所示：</p>
+          <blockquote>
+<p>世界上只有一种真正的英雄主义，就是认清了生活的真相后还依然热爱它。 - 罗曼·罗兰</p>
+</blockquote>
+<p>2022年开始的时候，我想上海人民是不会想到22年是这样的一个灾年。新冠奥密克戎3月初开始在上海蔓延，虽然上海市采取”一人新冠，全村封闭”的严格防疫措施；但奈何奥密克戎传播性强，疫情终究还是没有控制住，三月底，奥密克戎感染人数持续走高，全市lock down。</p>
+<p>我自己也是这次疫情的受害者之一，我住的小区所在的街道有阳性病例，导致我们从3.12开始居家封闭，到现在4.17，已经过去了一个多月。期间，社区会把小区各种出口用铁皮焊死，对小区内的居民实施禁足。小区内一开始几次的核酸并无阳性，但巧合的是大概在封闭快到两周的时候的那一次核酸中却出现了阳性案例，我们只好继续封闭，然后就是全市的lockdown。后续小区内每次核酸都会有新增阳性案例，甚至出现了由于阳性病例未及时转移导致整顿楼阳性的情况。</p>
+<p>随着全市的停摆，快递，外卖也随之停摆。居家所需的食品无法正常购买，为了生活，需要花费大量的精力去各种微信群里面参加团购。疫情下的团购体验是很差的，团购的食品价格昂贵，品质一般，部分团购还有各类附加品，比如你想要买蔬菜，就得一起购买配备的价格高昂的酸奶。长久的禁足，加上生活必需品得不到保障，让疫情下的我们情绪低落，不安，甚至是愤怒。</p>
+<p>疫情下的网络世界则更加的两极化，随便翻一个微博，twitter，或者是其他论坛，只要是中文的帖子，下面的回复都充斥着各种极端言论。支持清零的和不支持的互相之间给对方戴帽子；大家几乎都不是摆事实讲道理，合理讨论防疫对策，更多是在发泄情绪，类似“深圳能清零，上海为啥做不到？”，“上海管理这么差，你看上海的官员有几个是上海人”，几乎都是类似这种把事情简单化，地域化的言论。</p>
+<p>就我个人体感来说，我肯定是支持开放的；因为</p>
 <ul>
-<li>Mapping Network：映射网络，它的结构比较简单；由8个全连接层组成，网络输入为 512x1 的向量，输出也是 512x1的向量。</li>
+<li>长时间的禁足无异于坐牢，如此这般被禁锢这么长时间也是头一遭。</li>
+<li>这么长时间，马拉松式的防疫对社会经济活动影响是巨大的，会造成很多人失业，生活水平可以预知的会下降。</li>
+<li>现在的过度防疫，让一些本身需要医疗资源的人得不到及时的救治，丧失了生命。</li>
 </ul>
+<p>但我也不是完全支持突然开放，因为考虑到如果疫情一旦蔓延到中西部地区，就拿我的家乡来说，在医疗资源比较差的情况下，乡村的高龄老人是不是能熬得过这一波奥密克戎病毒，就香港，国外之前的样本来看，很不好说。所以这可能也是我们国家防疫困难的原因之一，地方贫富悬殊，医疗水平差异大。</p>
+<p>疫情之下，各种妖魔鬼怪，离奇轶事层出不群，本该发放给市民的食品出现在商品市场，医务工作者因为防疫政策见死不救，防疫干部因为种种原因选择自杀，还有各种各样搞不清真假的录音，视频。铁皮封门，网络删帖，公众号文章删了又恢复了，甚至lalaland都要被禁，让人哭笑不得。但太阳底下无新鲜事，我知道无数的人，此刻感觉自己正身处漫长的黑夜中，无助的在内心去期盼东方红，太阳升。</p>
+<p>疫情之下，就个体而言，保持一个良好的心情是非常重要的；长时间封闭容易让人抑郁，微博微信不时的传出各种负面新闻让人心情更加沉重。我们在这样的大环境下，能做的其实很少；转发下新闻到朋友圈，能帮上什么实质性的忙嘛？可能起到的最大作用是安慰了我们自己。认清事实的真相的同时，虽无可奈何，但仍要保持对生活的热爱和希望，熬过这个春天。</p>
 
       
     </div>
@@ -229,7 +228,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/78/">78</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/79/">79</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -295,7 +294,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
