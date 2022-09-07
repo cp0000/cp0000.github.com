@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/03/24/mobilenet-intro/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/03/28/stylegan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/03/24/mobilenet-intro/" class="post-title-link" itemprop="url">计算机视觉移动端小网络：MobileNet</a>
+            <a href="/2022/03/28/stylegan/" class="post-title-link" itemprop="url">如何实现SnapChat卡通画滤镜（一）：StyleGAN的工作原理</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2022-03-24 10:48:12" itemprop="dateCreated datePublished" datetime="2022-03-24T10:48:12+08:00">2022-03-24</time>
+              <time title="Created: 2022-03-28 10:13:27" itemprop="dateCreated datePublished" datetime="2022-03-28T10:13:27+08:00">2022-03-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-03-25 18:15:35" itemprop="dateModified" datetime="2022-03-25T18:15:35+08:00">2022-03-25</time>
+                <time title="Modified: 2022-03-29 16:37:56" itemprop="dateModified" datetime="2022-03-29T16:37:56+08:00">2022-03-29</time>
               </span>
 
           
@@ -200,68 +200,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="MobileNet"><a href="#MobileNet" class="headerlink" title="MobileNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1704.04861">MobileNet</a></h4><p>MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.<br>MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。</p>
-<p><strong>深度可分离卷积</strong></p>
-<p>标准卷积如下图：</p>
-<img src="http://cp0000.github.io/assets/vision_net/normal_conv.png" width="720px" >
+          <p>这两年随着像Tiktok，SnapChat这一类短视频平台的流行，风格转换类的算法在这类平台上也得到了广泛的应用，深受用户喜爱。比如snapchat中的卡通画人脸，变小孩，变光头等一类滤镜，其视觉效果都非常棒，在社交媒体上也被广泛传播。这类人脸风格化滤镜的底层算法是基于GAN（生成对抗网络）研发而成的。而在GAN被广泛商业化应用的道路上，有两篇非常重要的工作，分别是 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1611.07004">Pix2Pix</a>，和 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04948">StyleGAN</a>，这两篇工作GAN被商业化成为了可能。</p>
+<p>本文主要是介绍两篇工作的一篇 StyleGAN。</p>
+<h4 id="StyleGAN-A-Style-Based-Generator-Architecture-for-Generative-Adversarial-Networks-2018"><a href="#StyleGAN-A-Style-Based-Generator-Architecture-for-Generative-Adversarial-Networks-2018" class="headerlink" title="StyleGAN (A Style-Based Generator Architecture for Generative Adversarial Networks 2018)"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04948">StyleGAN (A Style-Based Generator Architecture for Generative Adversarial Networks 2018)</a></h4><p>StyleGAN是有NVIDIA于2018年提出的，截止2022年3月有3825次引用。</p>
+<p>StyleGAN网络主要分成两个部分，分别是Mapping Network 和 Synthesis Network。结构图如下：</p>
+<img src="http://cp0000.github.io/assets/stylegan/stylegan_v1_network" width="720px" >
 
-<p>输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。</p>
-<p>深度可分离卷积如下图：</p>
-<img src="http://cp0000.github.io/assets/vision_net/depthwise_conv.png" width="720px" >
 
-<p>深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。</p>
-<p>如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。</p>
-<p>普通卷积和深度可分离卷积的计算量对比如下图：</p>
-<img src="http://cp0000.github.io/assets/vision_net/depthwise_conv_3.png" width="360px" >
-
-<img src="http://cp0000.github.io/assets/vision_net/depthwise_conv_2.png" width="360px" >
-
-<p><strong>MobileNetV1 网络详情</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/mobilenet_v1.png" width="480px" >
-
-<h4 id="MobileNet-V2"><a href="#MobileNet-V2" class="headerlink" title="MobileNet V2"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1801.04381">MobileNet V2</a></h4><p><strong>Linear bottleneck</strong></p>
-<p>对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：</p>
-<img src="http://cp0000.github.io/assets/vision_net/relu.png" width="480px" >
-
-<p>如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。</p>
-<p>以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。</p>
-<img src="http://cp0000.github.io/assets/vision_net/linear_block.png" width="480px" >
-
-<p><strong>Inverted residuals</strong></p>
-<p>经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。</p>
-<p>以下是MoblieNet V2的block结构：</p>
-<img src="http://cp0000.github.io/assets/vision_net/mobilenetv2_block.png" width="480px" >
-
-<p>这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -&gt; conv3x3 -&gt; conv1x1 的模式，但不同在于：</p>
+<p>如上图所示：</p>
 <ul>
-<li>ResNet先降维（0.25 倍），标准卷积，再生维</li>
-<li>MobileNet V2先升维（6倍），深度可分离卷积，再降维</li>
-</ul>
-<p>以下是MobileNetv2 block 和 ResNet residual block的对比：</p>
-<p><strong>MobileNet V2 的网络详情</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/mobilenetv2_detail.png" width="480px" >
-
-
-<h4 id="MobileNet-V3"><a href="#MobileNet-V3" class="headerlink" title="MobileNet V3"></a><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1905.02244.pdf">MobileNet V3</a></h4><p>MobileNet V3的相关技术</p>
-<ul>
-<li>引入了NAS进行网络结构搜索</li>
-<li>引入轻量级注意力模型（SE）</li>
-<li>使用了一种新的激活函数 h-swish(x)</li>
-</ul>
-<p><strong>MobileNet V3 网络结构</strong></p>
-<p>网络的结构如下图，引入SE模块：</p>
-<img src="http://cp0000.github.io/assets/vision_net/se.png" width="480px" >
-
-<p>Pool: average pool 1x1, FC1将通道数减小为1/4，后接一个ReLU函数，FC2将通道数变为原来一样，后接h-sigmoid函数，得到的权重与原来的特质矩阵相乘得到新的特征矩阵。</p>
-<p><strong>hard-swish 函数</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/swish.png" width="640px" >
-
-<p><strong>MobileNet V3 网络详情</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/mobilenetv3_detail.png" width="640px" >
-
-
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
-<li>MobileNet 在目前的移动端小模型上有着广泛的应用，特别是depthwise-conv，pointwise-conv</li>
+<li>Mapping Network：映射网络，它的结构比较简单；由8个全连接层组成，网络输入为 512x1 的向量，输出也是 512x1的向量。</li>
 </ul>
 
       
@@ -281,7 +229,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/81/">81</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/82/">82</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -347,7 +295,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

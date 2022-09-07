@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/02/16/stock-prediction/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/02/23/my-lisenting-podcasts/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/02/16/stock-prediction/" class="post-title-link" itemprop="url">利用深度学习进行股票价格预测</a>
+            <a href="/2022/02/23/my-lisenting-podcasts/" class="post-title-link" itemprop="url">我听的播客</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2022-02-16 00:13:14" itemprop="dateCreated datePublished" datetime="2022-02-16T00:13:14+08:00">2022-02-16</time>
+              <time title="Created: 2022-02-23 12:13:10" itemprop="dateCreated datePublished" datetime="2022-02-23T12:13:10+08:00">2022-02-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-23 11:21:03" itemprop="dateModified" datetime="2022-02-23T11:21:03+08:00">2022-02-23</time>
+                <time title="Modified: 2022-02-24 15:33:03" itemprop="dateModified" datetime="2022-02-24T15:33:03+08:00">2022-02-24</time>
               </span>
 
           
@@ -200,120 +200,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p> 免责声明：这篇文章记录我在做这个mini site project时候的一些知识点，从最终预测的结果来看，效果不太理想。投资有风险，入市需谨慎。</p>
-</blockquote>
-<blockquote>
-<p>本文中的代码多数是参考： <a target="_blank" rel="noopener" href="https://github.com/olof98johansson/StockPrediction.git">https://github.com/olof98johansson/StockPrediction.git</a></p>
-</blockquote>
-<h2 id="股票数据获取和处理"><a href="#股票数据获取和处理" class="headerlink" title="股票数据获取和处理"></a>股票数据获取和处理</h2><h3 id="获取股票数据"><a href="#获取股票数据" class="headerlink" title="获取股票数据"></a>获取股票数据</h3><p>我们这里借助 pandas_datareader 这个库来获取目标股票的信息。比如可以通过如下的代码获取Telsa股票信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pandas_datareader.data as web</span><br><span class="line">df &#x3D; web.DataReader(&quot;TSLA&quot;, data_source&#x3D;&quot;yahoo&quot;)</span><br></pre></td></tr></table></figure>
-<p>数据格式如下：</p>
-<table>
-<thead>
-<tr>
-<th>Date</th>
-<th>High</th>
-<th>Low</th>
-<th>Open</th>
-<th>Close</th>
-<th>Volume</th>
-<th>Adj Close</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2022-02-08</td>
-<td>926.23</td>
-<td>894.80</td>
-<td>905.53</td>
-<td>922.00</td>
-<td>16909700.0</td>
-<td>922.00</td>
-</tr>
-<tr>
-<td>2022-02-09</td>
-<td>946.27</td>
-<td>920.00</td>
-<td>935.00</td>
-<td>932.00</td>
-<td>17419800.0</td>
-<td>932.00</td>
-</tr>
-<tr>
-<td>2022-02-10</td>
-<td>943.81</td>
-<td>896.70</td>
-<td>908.40</td>
-<td>904.55</td>
-<td>22042300.0</td>
-<td>904.55</td>
-</tr>
-<tr>
-<td>2022-02-11</td>
-<td>915.96</td>
-<td>850.70</td>
-<td>909.63</td>
-<td>860.00</td>
-<td>26492700.0</td>
-<td>860.00</td>
-</tr>
-</tbody></table>
-<p>下面对上述获取的股票信息做一些名词解释：</p>
-<ul>
-<li><code>High</code> : 当日最高成交价</li>
-<li><code>Low</code> : 当日最低成交价</li>
-<li><code>Open</code> : 当日开盘价格</li>
-<li><code>Close</code> : 当日收盘价格</li>
-<li><code>Volume</code> : 当日资金总量</li>
-<li><code>Adj Close</code> : 当日股票收盘价调整后的价格。什么是<a target="_blank" rel="noopener" href="https://www.guruin.com/life-tips/1041">Adj Close</a></li>
-</ul>
-<p>除了从Yahoo Finance上获取的股票基础信息之外，我们这里还引入一些金融行业关于股票的一些技术指标：</p>
-<h3 id="技术指标"><a href="#技术指标" class="headerlink" title="技术指标"></a>技术指标</h3><ul>
-<li>ROC ：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8F%98%E5%8A%A8%E7%8E%87/10091242">股票变动率</a></li>
-<li>william_r: <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A8%81%E5%BB%89%E6%8C%87%E6%A8%99">威廉指標</a></li>
-<li>Money flow index : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/MFI%E6%8C%87%E6%A0%87/1690931">资金流量指标</a></li>
-<li>Ulcer index : <a target="_blank" rel="noopener" href="http://abcexchange.io/terms/u/ulcerindex.asp">溃疡指数</a></li>
-<li>Average true range:<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9C%9F%E5%AF%A6%E6%B3%A2%E5%8B%95%E5%B9%85%E5%BA%A6%E5%9D%87%E5%80%BC">真实波动幅度均值</a></li>
-<li>Simple moving average : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A7%BB%E5%8A%A8%E5%B9%B3%E5%9D%87%E7%BA%BF/217887">移动平均线</a></li>
-<li>Exponential moving average : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/EMA/12646151">指数移动平均值</a></li>
-</ul>
-<p>以上就是股票市场里面金融分析师会用的一些技术指标了。这些指标都是可以根据股票价格计算出来的，公式以及其含义也比较简单，不多阐述。</p>
-<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>股票数据属于时间序列数据，时间序列数据一般会有周期性，这里我们可以利用<a target="_blank" rel="noopener" href="https://www.statsmodels.org/stable/index.html">statsmodels API</a>，对股票数据进行分析，这里以<code>TSLA</code>为例：</p>
-<p><img src="http://cp0000.github.io/assets/stock_prediction/TSLA.png" alt="TESLA Stock Analysis"></p>
-<p>从图中的分析结果来看，TESLA股票的确有着显著的周期性。所以这里我们需要处理掉周期性对股票预测时候的影响。这里我们采用差分的方式对股票时间序列数据中的周期性进行去除，以下是去除周期性后的股票价格：</p>
-<p><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_stationary_data.png" alt="TESLA Stock Analysis"></p>
-<p>关于如何去除时间序列数据中包含的趋势和周期性，可以参照这篇文章<a target="_blank" rel="noopener" href="https://machinelearningmastery.com/remove-trends-seasonality-difference-transform-python/">remove-trends-seasonality-difference-transform-python</a></p>
-<p>数据部分处理完成之后，我们就可以训练模型了。</p>
-<h2 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h2><p>首先我们使用经典的序列数据预测模型<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%95%B7%E7%9F%AD%E6%9C%9F%E8%A8%98%E6%86%B6">LSTM</a>。全称 Long Short-Term Memory，中文名称为长短期记忆。</p>
-<p>LSTM是一种特殊的RNN网络，主要是为了解决长序列训练过程中的梯度消失和梯度爆炸的问题，相比普通的RNN，LSTM能够在长序列中有更好的表现。</p>
-<p><img src="http://cp0000.github.io/assets/stock_prediction/lstm_01.jpeg" alt="LSTM"></p>
-<p>而LSTM的内部是通过门控状态来控制传输状态，记住需要长时间记忆的，忘记不重要的信息。</p>
-<p><img src="http://cp0000.github.io/assets/stock_prediction/lstm.jpeg" alt="LSTM"></p>
-<p>关于如何理解LSTM，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">https://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
-<p>以下是利用LSTM对TESLA股价的预测结果<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_lstm_predictions.svg" alt="TESLA LSTM Prediction Results"></p>
-<h2 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h2><p>我们还可以用在语音和图片领域都表现出色的<code>Transformer</code>模型来对股票价格进行预测</p>
-<p>以下是利用Transformer对TESLA股票价格预测结果。<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_transformer_predictions.svg" alt="TESLA Transformer Prediction Results"></p>
-<p>整体预测的准确性上和<code>LSTM</code>差不太多。Transformer小有优势：</p>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>RMSE</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>transformer</td>
-<td>56.239713918089585</td>
-</tr>
-<tr>
-<td>lstm</td>
-<td>56.708656591988834</td>
-</tr>
-</tbody></table>
-<h2 id="模拟交易"><a href="#模拟交易" class="headerlink" title="模拟交易"></a>模拟交易</h2><p>有了预测模型之后，我们可以制定一些简单的交易策略了。这里我们参照 <a target="_blank" rel="noopener" href="https://medium.com/towards-data-science/getting-rich-quick-with-machine-learning-and-stock-market-predictions-696802da94fe">getting-rich-quick-with-machine-learning-and-stock-market-predictions</a>这篇文章里面的交易策略。</p>
-<p>策略也很简单，就是那预测第二天的股票价格和当天的收盘价做比较，高了就买，底了就卖。然后计算测试数据的投资回报率。</p>
-<p>下图是测试的结果<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_transformer_trade.svg" alt="TESLA Trade Results"></p>
-<p>code: <a target="_blank" rel="noopener" href="https://github.com/cp0000/stock_prediction">stock_prediction</a></p>
+          <p>播客本来是一个小众文化产品，这两年互联网的风口好像也吹到了播客这个领域，像QQ音乐，网易云这样的巨头和喜马拉雅，小宇宙这样的创业者也都加入了播客平台的搭建和运营中来。好处是很多之前没人聊的话题，比如足球，会出现一些相关的播客可以让人们去消费，而我也注意到身边开始听播客的人变的越来越多。</p>
+<p>播客是以声音为媒介传递信息的，相比文字和图像，在信息的容量上存在天然的劣势，期待能从播客中能获得非常solid的知识是不现实的。但播客有一个优势是营造一种陪伴的感觉，可以让人在做家务，散步，坐车时收听。</p>
+<p>我大概是从2013年开始听播客，当时收听播客途径主要是通过iPhone上的Podcasts软件，苹果会在这个app中做一些播客的推荐；因为我一直比较喜欢看电影，13，14年通过podcasts我开始听一款叫《电影不无聊》的播客，里面两位主播会聊一些年度好片，一些著名电影人的电影，当时也是让我接触了一些不同的电影。我还买过他们出的一个周边T恤，胸前的logo是一个黑武士。后面不知为何我就没有订阅了，最近查了下他们竟然还在更新，能坚持9年一直做播客，很不容易。</p>
+<p>几乎同时期，作为一个互联网从业人员的我，同样是在Poacasts上发现了《IT公论》，按照IT公论主播李如一的说法，这是一款讨论科技与人文的播客。播客的两位主播李如一和rio那段时间讨论频次最高的话题是关于苹果公司的产品，比如WWDC之后，两位主播会针对硬件，软件的一些update进行一些讨论。后来李如一创办了<a href="ipn.li">IPN</a>，邀请了一些其他主播开播了好几款播客，比如有讲美食的《味之道》，有说美国选举的《选·美》，有三个医生侃大山《太医来了》，关于电影摄影的《硬影像》，和日本文化有关的《灭茶苦茶》，和编程技术相关的《硬核恐慌》，聊字体设计的《字节社》，说故事的《History》,聊流行文化的《流行通信》等等。李如一应该可以说是中文播客的鼻祖，后来一些开播客的主播很多能发现会收到李如一风格的一些影响，无论是播客icon的设计上，盈利方式上，还是内容上。通过听这些播客，拓宽了我的知识边界，让我了解了很多之前不了解的领域，比如建筑，比如设计，比如美国选举，从中也学习了不少。后来不知为何，IT公论就停掉了，而IPN旗下的其他播客也陆陆续续的停更了。但听播客的习惯我算是养成了，后来听到的优秀播客有有比较励志的《得意忘形》，有讲心理咨询和一些七七八八事情的《BYM：blow your mind》，有聊电影，书，话剧，电视剧的《文化土豆》，有关于科技新闻的《硅谷早知道》，《硅谷101》，《声东击西》等。最近听到的高质量播客是孟岩的《无人知晓》，虽然讲的是投资者教育，但有些片段很touch。</p>
+<p>以上就是我听的一些播客，在我看来，李如一的一系列播客无疑是水准最高的，感谢他的创作。</p>
 
       
     </div>
@@ -332,7 +223,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/81/">81</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/82/">82</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -398,7 +289,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

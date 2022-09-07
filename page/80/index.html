@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2014/04/10/google-wildcard/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2014/05/21/regular-expression-beginner/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2014/04/10/google-wildcard/" class="post-title-link" itemprop="url">Google Wildcard</a>
+            <a href="/2014/05/21/regular-expression-beginner/" class="post-title-link" itemprop="url">Regular Expression</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2014-04-10 00:00:00" itemprop="dateCreated datePublished" datetime="2014-04-10T00:00:00+08:00">2014-04-10</time>
+              <time title="Created: 2014-05-21 00:00:00" itemprop="dateCreated datePublished" datetime="2014-05-21T00:00:00+08:00">2014-05-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2015-06-21 13:51:56" itemprop="dateModified" datetime="2015-06-21T13:51:56+08:00">2015-06-21</time>
+                <time title="Modified: 2015-06-21 20:05:50" itemprop="dateModified" datetime="2015-06-21T20:05:50+08:00">2015-06-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,38 +209,161 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>1.双引号</p>
-<p>把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。</p>
-<pre><code>“seo方法图片”
+          <p>#常用的元字符</p>
+<table>
+<thead>
+<tr>
+<th align="left">代码</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><pre><code> | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配
 </code></pre>
-<p>2.减号</p>
-<p>减号代表搜索不包含减号后面的词的页面。使用这个指令时减号前面必须是空格，减号后面没有空格，紧跟着需要排除的词。</p>
-<pre><code>搜索 -引擎
+.      | 匹配除了换行符以外的任意字符<br>\d      | 匹配一位数字(0，或1，或2，或……)<br>\w      | 匹配字母或数字或下划线或汉字<br>\s      | 匹配任意的空白符<br>\b      | 匹配单词的开始或结束<br>^      | 匹配字符串的开始<br>$      | 匹配字符串的结束</li>
+</ul>
+<p>#常用的限定符</p>
+<table>
+<thead>
+<tr>
+<th align="left">代码/语法</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><pre><code>      | 重复零次或更多次
 </code></pre>
-<p>3.星号</p>
-<p>星号常用的通配符</p>
-<pre><code>搜索*擎
+</li>
+</ul>
+<ul>
+<li><pre><code>      | 重复一次或更多次
 </code></pre>
-<p>4.inurl</p>
-<p>inurl: 指令用于搜索查询词出现在url 中的页面。</p>
-<pre><code>inurl:搜索引擎优化
+?           | 重复零次或一次<br>{n}       | 重复n次<br>{n,}      | 重复n次或更多次<br>{n,m}      | 重复n次到m次</li>
+</ul>
+<p>#其他</p>
+<ul>
+<li><strong>字符转义</strong></li>
+</ul>
+<p>如需查找*,+等元字符本身的话，需使用\来取消这些字符的特殊含义；</p>
+<pre><code>\. \*
 </code></pre>
-<p>5.inanchor</p>
-<p>指令返回的结果是导入链接锚文字中包含搜索词的页面。</p>
-<pre><code>inanchor:点击这里
+<ul>
+<li><strong>字符类</strong></li>
+</ul>
+<p>匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：</p>
+<pre><code>[aeiou]:    匹配任何一个英文元音字母；
+[.?!]:        匹配标点符号(.或?或!)
 </code></pre>
-<p>6.intitle</p>
-<p>指令返回的是页面title 中包含关键词的页面。</p>
-<p>7.allintitle</p>
-<p>搜索返回的是页面标题中包含多组关键词的文件。</p>
-<p>8.filetype</p>
-<p>用于搜索特定文件格式。</p>
-<pre><code>filetype:pdf SEO
-</code></pre>
-<p>9.site</p>
-<p>用来搜索某个域名下的所有文件。</p>
-<pre><code>site:developer.apple.com gcd
-</code></pre>
+<p>(?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})</p>
+<ul>
+<li><strong>分枝条件</strong></li>
+</ul>
+<p>分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开</p>
+<ul>
+<li><strong>分组</strong></li>
+</ul>
+<p>用小括号来指定子表达式(也叫做分组）</p>
+<p>e.g. IP地址匹配:  (\d{1,3}.){3}\d{1,3}<br>解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})</p>
+<ul>
+<li><strong>反义</strong></li>
+</ul>
+<p>常用的反义代码</p>
+<table>
+<thead>
+<tr>
+<th align="left">代码/语法</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\W</td>
+<td align="left">匹配任意不是字母，数字，下划线，汉字的字符</td>
+</tr>
+<tr>
+<td align="left">\S</td>
+<td align="left">匹配任意不是空白符的字符</td>
+</tr>
+<tr>
+<td align="left">\D</td>
+<td align="left">匹配任意非数字的字符</td>
+</tr>
+<tr>
+<td align="left">\B</td>
+<td align="left">匹配不是单词开头或结束的位置</td>
+</tr>
+<tr>
+<td align="left">[^x]</td>
+<td align="left">匹配除了x以外的任意字符</td>
+</tr>
+<tr>
+<td align="left">[^aeiou]</td>
+<td align="left">匹配除了aeiou这几个字母以外的任意字符</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>后向引用</strong></p>
+<p>  …</p>
+</li>
+<li><p><strong>零宽断言</strong></p>
+<p>  …</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>负向零宽断言</strong></p>
+<p>  …</p>
+</li>
+<li><p><strong>注释</strong></p>
+<p>  …</p>
+</li>
+<li><p><strong>贪婪与懒惰</strong></p>
+<p>  …</p>
+</li>
+<li><p><strong>处理选项</strong></p>
+<p>  …</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>平衡组/递归匹配</strong></p>
+<p>  …</p>
+</li>
+</ul>
+<p>#Example</p>
+<table>
+<thead>
+<tr>
+<th>RE</th>
+<th>示意</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\bhi\b</td>
+<td>查找单词hi</td>
+</tr>
+<tr>
+<td>.*</td>
+<td>任意数量的不包含换行的字符</td>
+</tr>
+<tr>
+<td>\bhi\b.*\bLucy\b</td>
+<td>先是一个单词hi,然后是任意个任意字符(但不能是换行)，最后是Lucy这个单词</td>
+</tr>
+<tr>
+<td>0\d{2}-\d{8}</td>
+<td>\d后面的{2}({8})的意思是前面\d必须连续重复匹配2次(8次)</td>
+</tr>
+<tr>
+<td>c.d(.+)</td>
+<td>查询到结果类似于c.d((c)a, string)</td>
+</tr>
+<tr>
+<td>((2[0-4]\d</td>
+<td>25[0-5]</td>
+</tr>
+</tbody></table>
+<p>#附录：</p>
+<p>更多信息，请阅读：<a target="_blank" rel="noopener" href="https://deerchao.net/tutorials/regex/regex.htm">https://deerchao.net/tutorials/regex/regex.htm</a></p>
 
       
     </div>
@@ -259,7 +382,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/79/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/79/">79</a><span class="page-number current">80</span><a class="page-number" href="/page/81/">81</a><a class="extend next" rel="next" href="/page/81/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/79/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/79/">79</a><span class="page-number current">80</span><a class="page-number" href="/page/81/">81</a><a class="page-number" href="/page/82/">82</a><a class="extend next" rel="next" href="/page/81/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -325,7 +448,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
