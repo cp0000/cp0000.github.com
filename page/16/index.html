@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/02/12/karamazov/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/02/16/stock-prediction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/02/12/karamazov/" class="post-title-link" itemprop="url">读书笔记：《卡拉马佐夫兄弟》</a>
+            <a href="/2022/02/16/stock-prediction/" class="post-title-link" itemprop="url">利用深度学习进行股票价格预测</a>
         </h2>
 
         <div class="post-meta">
@@ -178,19 +178,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-02-12 14:38:26 / Modified: 17:41:51" itemprop="dateCreated datePublished" datetime="2022-02-12T14:38:26+08:00">2022-02-12</time>
+              <time title="Created: 2022-02-16 00:13:14" itemprop="dateCreated datePublished" datetime="2022-02-16T00:13:14+08:00">2022-02-16</time>
             </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Reading-notes/" itemprop="url" rel="index"><span itemprop="name">Reading notes</span></a>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-02-23 11:21:03" itemprop="dateModified" datetime="2022-02-23T11:21:03+08:00">2022-02-23</time>
+              </span>
 
           
 
@@ -203,35 +200,120 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="http://cp0000.github.io/assets/karamazov.jpeg"></p>
+          <blockquote>
+<p> 免责声明：这篇文章记录我在做这个mini site project时候的一些知识点，从最终预测的结果来看，效果不太理想。投资有风险，入市需谨慎。</p>
+</blockquote>
 <blockquote>
-<p>一粒麦子不落在地里死了，仍旧是一粒：若是死了，就结出许多子粒来。- 《约翰福音》第十二章第二十四节</p>
+<p>本文中的代码多数是参考： <a target="_blank" rel="noopener" href="https://github.com/olof98johansson/StockPrediction.git">https://github.com/olof98johansson/StockPrediction.git</a></p>
 </blockquote>
-<p>农历虎年春节前后，我花了大概30个小时，读完了陀思妥耶夫斯基的著作《卡拉马佐夫兄弟》。22年开始的时候，我自己发愿今年不仅要多读书，而且还要尽量做到每读完一本书之后写一篇读后感。写作读后感的目的是为了让自己能够在读完一本书之后可以反刍全书，以一个更加全局的角度去思考该书，而写作的过程也有可能会让我迸发出对该书的更近一层的思考和理解。</p>
-<p>尝试写《卡拉马佐夫兄弟》的读后感是比较困难的，《卡拉马佐夫兄弟》内容非常翔实，陀思妥耶夫斯基在书中花了很多篇幅去阐述关于宗教的思想内容，这一部分由于生活背景等原因，读起来比较晦涩难懂。</p>
-<p>《卡拉马佐夫兄弟》讲述了一个发生在俄国19世纪的故事，老卡拉马佐夫贪财好色，前后娶了两个妻子，有三个儿子，分别是大儿子米嘉（和第一任妻子所生），二儿子伊万，以及小儿子阿辽沙。米嘉比较随性，属于今朝有酒今朝醉的人格，他和老卡不太对付。老卡通过一些手段让米嘉拿不到米嘉母亲的遗产，为此两人还大打出手，米嘉揍了老头一顿。二儿子伊万为人聪慧，思想比较前卫，全篇另多数人啧啧称道的《宗教大法官》，就是伊万和阿辽沙对话的过程中讲述的一个故事。小儿子阿辽沙是个俄罗斯僧侣，是个心地善念，全书所有人都愿意和他交流的人。书中除了两代四个卡拉马佐夫之外，还有两个重要的女性角色，分别是米嘉的未婚妻卡捷琳娜，和后来成为米嘉情人的格露莘卡，以及真正的杀人凶手，老卡的私生子斯乜尔加科夫。</p>
-<p>《卡拉马佐夫兄弟》讲述的是一个杀父的故事，老卡和米嘉父子二人为了格露莘卡争风吃醋，在一个夜晚米嘉夜闯老卡家，误伤了老卡的仆人，仓皇出逃，老卡当晚在家中遇害，米嘉成为首要嫌疑人，最后米嘉被判弑父有罪，流放西伯利亚；而真相却是当晚财迷心窍的斯乜尔加科夫杀死的老卡。</p>
-<p>在读书的过程中，讲述案件的部分，我读的非常顺畅，甚至是废寝忘食，而在有些地方，读的很困难，比如伊万和阿辽沙那一段对话的前半部分，个人感受是比较晦涩的。还有最后控方律师的陈述，我又觉得是不是有点啰嗦。</p>
-<p>读完书之后，我去网络上看其他书友的书评，发现大家的书评中对《宗教大法官》这一章节的评价很高，几个国外教授的关于《卡》的讲座也是关于这一章节的解析比较多；所以我就又看了一遍，看完第二遍之后，我不能说自己和陀翁产生了很强的连接，只能说我能接受到的是：</p>
-<ol>
-<li>陀翁对民众是有一些失望的  比如这段 <blockquote>
-<p>人们最坚持不懈而又劳神费心的努力，莫过于身为自由人便忙着寻找该对之顶礼膜拜的那个人。但人们寻找的崇拜对象必须是无可争议的、人人都会立即同意对之顶礼膜拜的。因为这些可怜的人关心的不仅仅是找到自己或别人崇拜的对象，而且要找到能让人人都信仰、人人都崇拜的对象，一定得大家一起来。这种共同崇拜的需要乃是人们——无论个别人还是全人类——亘古以来最主要的苦恼。为了共同崇拜，人们自相残杀。他们创造了各自的上帝，便互相挑战：“把你们的上帝扔掉，来崇拜我们的，否则你们和你们的上帝都得死！”直至世界末日都将如此，甚至到上帝统统从世间消失以后依然如此，因为那时还会向偶像下跪。</p>
-</blockquote>
-</li>
-<li>陀翁对统治者也是失望的</li>
-</ol>
-<blockquote>
-<p>“‘他们得到了我们给予的面包，当然会清楚地看到，我们从他们那里把他们用自己的手挣得的面包拿来分给他们，什么奇迹也没有；他们会看到，我们没有把石头变成面包；但是他们会真的感到高兴，原因与其说是面包本身，不如说他们是从我们手中得到的面包！因为他们记得太清楚了，以前没有我们的帮助，他们挣得的面包却在他们手中变成石头，而他们回到了我们这边，石头却在他们手中变成了面包。彻底服从意味着什么——他们的体会实在太深、太深了！人们一天不懂得这道理，便一天得不到幸福。</p>
-</blockquote>
-<p> 这段话表现了统治者的极度狂妄，以及对「他们」的冷血，仿佛「他们」如动物一般。</p>
-<p> 还有这一句</p>
-<blockquote>
-<p>是的，我们将会要他们干活，但在劳作之余我们会把他们的生活安排得和儿童游戏差不多，有儿歌，有合唱，有天真无邪的舞蹈。</p>
-</blockquote>
-<p>这一句放在当代社会也是讽刺感十足，令人后背发凉。因为我们绝大多数人大概率就是那个「他们」，每日忙忙碌碌，辛苦工作买房买车，终其一生精神上也没跳出过「我们」安排的playground。</p>
-<p>这一段确实信息量很大，也非常的抽象，我想陀翁是一个对社会比较悲观的人，「我们」「他们」构成了整个社会，这个社会明显不是一个理想中的样子，至于理想是什么，这可能是人类的终极问题之一吧。</p>
-<p>再说说我个人全书中比较喜欢的章节吧，首先是上尉和他的小儿子伊柳沙，读书的过程中，我对上尉的处境产生了很深的同情，这应该和上尉所处的阶级有关，我很容易和他产生连接。上尉是一个穷困的退伍军人，妻子有一点精神病，两个女儿，一个女儿腿脚不便，一个女儿去彼得堡读书，上尉在当时的俄国社会应该属于城市底层。有一次在街上米嘉当众拧着上尉的胡子打了他一顿，让上尉遭受了很深的羞辱，他的小儿子伊柳沙的自尊心因为这事，受到了很深的伤害。我挺能理解伊柳沙的自尊心，当你的父母身处社会的底层（我并没有对我们父母的不敬，我非常感激他们的付出），作为青少年，你还没有完全感受到社会阶级的压迫，对社会阶级还没有形成很强的无力感，所以你对这种侮辱会非常不服气，会不甘心，会想王侯将相宁有种乎，伊柳沙有很强的报仇欲望，想帮父亲（但也是为了自己）找回尊严。而在阿辽沙给上尉200卢布的时候，上尉先是表现出了喜悦，因为钱对他很重要，家里妻子和女儿都在生病，这钱可能是救命钱。然后他却突然间把钱揉成一团扔在雪里，转身吼着跑走了。这一段对上尉既渴望荣誉，又被生活压迫的无路可逃下拒绝别人“施舍”的扭曲心态描写的让人非常很震撼。是啊，「良心」很重要，没有「面包」却是会死人的，上尉在那种时刻能做出拒绝钱财的举动，让人肃然起敬。在现如今全球这种消费主义时代，大家一切向钱看，那还有什么荣誉可言，不偷不抢不骗，不昧着良心赚黑钱，可能就算是一等一的可以配一朵小红花的好公民了。</p>
-<p>《卡拉马佐夫兄弟》是一部很复杂的书，“外国人有他们的哈姆雷特，而我们目前还只有卡拉马佐夫！”，一千人有一千个卡拉马佐夫，我们每个人对书中的人物，以及作者的观点都会有自己的看法。当下的我还没有完全理解这书的精髓，很多内容在读的过程也只是囫囵吞枣（比如伊万和自己的对话），读了个大概。我想我会过一段时间再读一遍这本书。</p>
+<h2 id="股票数据获取和处理"><a href="#股票数据获取和处理" class="headerlink" title="股票数据获取和处理"></a>股票数据获取和处理</h2><h3 id="获取股票数据"><a href="#获取股票数据" class="headerlink" title="获取股票数据"></a>获取股票数据</h3><p>我们这里借助 pandas_datareader 这个库来获取目标股票的信息。比如可以通过如下的代码获取Telsa股票信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pandas_datareader.data as web</span><br><span class="line">df &#x3D; web.DataReader(&quot;TSLA&quot;, data_source&#x3D;&quot;yahoo&quot;)</span><br></pre></td></tr></table></figure>
+<p>数据格式如下：</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>High</th>
+<th>Low</th>
+<th>Open</th>
+<th>Close</th>
+<th>Volume</th>
+<th>Adj Close</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2022-02-08</td>
+<td>926.23</td>
+<td>894.80</td>
+<td>905.53</td>
+<td>922.00</td>
+<td>16909700.0</td>
+<td>922.00</td>
+</tr>
+<tr>
+<td>2022-02-09</td>
+<td>946.27</td>
+<td>920.00</td>
+<td>935.00</td>
+<td>932.00</td>
+<td>17419800.0</td>
+<td>932.00</td>
+</tr>
+<tr>
+<td>2022-02-10</td>
+<td>943.81</td>
+<td>896.70</td>
+<td>908.40</td>
+<td>904.55</td>
+<td>22042300.0</td>
+<td>904.55</td>
+</tr>
+<tr>
+<td>2022-02-11</td>
+<td>915.96</td>
+<td>850.70</td>
+<td>909.63</td>
+<td>860.00</td>
+<td>26492700.0</td>
+<td>860.00</td>
+</tr>
+</tbody></table>
+<p>下面对上述获取的股票信息做一些名词解释：</p>
+<ul>
+<li><code>High</code> : 当日最高成交价</li>
+<li><code>Low</code> : 当日最低成交价</li>
+<li><code>Open</code> : 当日开盘价格</li>
+<li><code>Close</code> : 当日收盘价格</li>
+<li><code>Volume</code> : 当日资金总量</li>
+<li><code>Adj Close</code> : 当日股票收盘价调整后的价格。什么是<a target="_blank" rel="noopener" href="https://www.guruin.com/life-tips/1041">Adj Close</a></li>
+</ul>
+<p>除了从Yahoo Finance上获取的股票基础信息之外，我们这里还引入一些金融行业关于股票的一些技术指标：</p>
+<h3 id="技术指标"><a href="#技术指标" class="headerlink" title="技术指标"></a>技术指标</h3><ul>
+<li>ROC ：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8F%98%E5%8A%A8%E7%8E%87/10091242">股票变动率</a></li>
+<li>william_r: <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A8%81%E5%BB%89%E6%8C%87%E6%A8%99">威廉指標</a></li>
+<li>Money flow index : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/MFI%E6%8C%87%E6%A0%87/1690931">资金流量指标</a></li>
+<li>Ulcer index : <a target="_blank" rel="noopener" href="http://abcexchange.io/terms/u/ulcerindex.asp">溃疡指数</a></li>
+<li>Average true range:<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9C%9F%E5%AF%A6%E6%B3%A2%E5%8B%95%E5%B9%85%E5%BA%A6%E5%9D%87%E5%80%BC">真实波动幅度均值</a></li>
+<li>Simple moving average : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A7%BB%E5%8A%A8%E5%B9%B3%E5%9D%87%E7%BA%BF/217887">移动平均线</a></li>
+<li>Exponential moving average : <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/EMA/12646151">指数移动平均值</a></li>
+</ul>
+<p>以上就是股票市场里面金融分析师会用的一些技术指标了。这些指标都是可以根据股票价格计算出来的，公式以及其含义也比较简单，不多阐述。</p>
+<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>股票数据属于时间序列数据，时间序列数据一般会有周期性，这里我们可以利用<a target="_blank" rel="noopener" href="https://www.statsmodels.org/stable/index.html">statsmodels API</a>，对股票数据进行分析，这里以<code>TSLA</code>为例：</p>
+<p><img src="http://cp0000.github.io/assets/stock_prediction/TSLA.png" alt="TESLA Stock Analysis"></p>
+<p>从图中的分析结果来看，TESLA股票的确有着显著的周期性。所以这里我们需要处理掉周期性对股票预测时候的影响。这里我们采用差分的方式对股票时间序列数据中的周期性进行去除，以下是去除周期性后的股票价格：</p>
+<p><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_stationary_data.png" alt="TESLA Stock Analysis"></p>
+<p>关于如何去除时间序列数据中包含的趋势和周期性，可以参照这篇文章<a target="_blank" rel="noopener" href="https://machinelearningmastery.com/remove-trends-seasonality-difference-transform-python/">remove-trends-seasonality-difference-transform-python</a></p>
+<p>数据部分处理完成之后，我们就可以训练模型了。</p>
+<h2 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h2><p>首先我们使用经典的序列数据预测模型<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%95%B7%E7%9F%AD%E6%9C%9F%E8%A8%98%E6%86%B6">LSTM</a>。全称 Long Short-Term Memory，中文名称为长短期记忆。</p>
+<p>LSTM是一种特殊的RNN网络，主要是为了解决长序列训练过程中的梯度消失和梯度爆炸的问题，相比普通的RNN，LSTM能够在长序列中有更好的表现。</p>
+<p><img src="http://cp0000.github.io/assets/stock_prediction/lstm_01.jpeg" alt="LSTM"></p>
+<p>而LSTM的内部是通过门控状态来控制传输状态，记住需要长时间记忆的，忘记不重要的信息。</p>
+<p><img src="http://cp0000.github.io/assets/stock_prediction/lstm.jpeg" alt="LSTM"></p>
+<p>关于如何理解LSTM，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">https://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
+<p>以下是利用LSTM对TESLA股价的预测结果<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_lstm_predictions.svg" alt="TESLA LSTM Prediction Results"></p>
+<h2 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h2><p>我们还可以用在语音和图片领域都表现出色的<code>Transformer</code>模型来对股票价格进行预测</p>
+<p>以下是利用Transformer对TESLA股票价格预测结果。<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_transformer_predictions.svg" alt="TESLA Transformer Prediction Results"></p>
+<p>整体预测的准确性上和<code>LSTM</code>差不太多。Transformer小有优势：</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>RMSE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transformer</td>
+<td>56.239713918089585</td>
+</tr>
+<tr>
+<td>lstm</td>
+<td>56.708656591988834</td>
+</tr>
+</tbody></table>
+<h2 id="模拟交易"><a href="#模拟交易" class="headerlink" title="模拟交易"></a>模拟交易</h2><p>有了预测模型之后，我们可以制定一些简单的交易策略了。这里我们参照 <a target="_blank" rel="noopener" href="https://medium.com/towards-data-science/getting-rich-quick-with-machine-learning-and-stock-market-predictions-696802da94fe">getting-rich-quick-with-machine-learning-and-stock-market-predictions</a>这篇文章里面的交易策略。</p>
+<p>策略也很简单，就是那预测第二天的股票价格和当天的收盘价做比较，高了就买，底了就卖。然后计算测试数据的投资回报率。</p>
+<p>下图是测试的结果<br><img src="http://cp0000.github.io/assets/stock_prediction/TSLA_transformer_trade.svg" alt="TESLA Trade Results"></p>
+<p>code: <a target="_blank" rel="noopener" href="https://github.com/cp0000/stock_prediction">stock_prediction</a></p>
 
       
     </div>
@@ -250,7 +332,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/82/">82</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/83/">83</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -316,7 +398,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-count">83</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

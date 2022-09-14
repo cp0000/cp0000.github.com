@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2018/01/03/goals-are-for-losers/">
+    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2018/06/16/audio/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/01/03/goals-are-for-losers/" class="post-title-link" itemprop="url">失败者才设定目标</a>
+            <a href="/2018/06/16/audio/" class="post-title-link" itemprop="url">音频编解码以及音乐GPU实时可视化效果实现</a>
         </h2>
 
         <div class="post-meta">
@@ -178,19 +178,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2018-01-03 19:31:06 / Modified: 21:06:57" itemprop="dateCreated datePublished" datetime="2018-01-03T19:31:06+08:00">2018-01-03</time>
+              <time title="Created: 2018-06-16 10:58:22" itemprop="dateCreated datePublished" datetime="2018-06-16T10:58:22+08:00">2018-06-16</time>
             </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2018-06-19 22:35:24" itemprop="dateModified" datetime="2018-06-19T22:35:24+08:00">2018-06-19</time>
+              </span>
 
           
 
@@ -203,28 +200,146 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Learn-OpenCV"><a href="#Learn-OpenCV" class="headerlink" title="Learn OpenCV"></a>Learn OpenCV</h2><p>因为工作需要，我订阅了 <a target="_blank" rel="noopener" href="http://www.learnopencv.com/">Learn OpenCV</a> 的邮件。<a target="_blank" rel="noopener" href="http://www.learnopencv.com/">Learn OpenCV</a> 可以简单描述成是一个教学<code>OpenCV</code>的网站，网站的作者是 <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/satyamallick/">Satya Mallick</a>,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c++和python 两个版本的source code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。</p>
-<h2 id="Goals-are-for-losers"><a href="#Goals-are-for-losers" class="headerlink" title="Goals are for losers"></a>Goals are for losers</h2><p>最近 <a target="_blank" rel="noopener" href="http://www.learnopencv.com/">Learn OpenCV</a>  发送了一份邮件，标题叫<strong>Goals are for losers</strong>，直译成中文是<strong>目标是为失败者设定的</strong>。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。</p>
-<p>以下是对<code>Goals are for losers</code>这份邮件的翻译：</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在一些音乐播放器上（如上学时候用的播放器<code>千千静听</code>）会有一排 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/%E7%9B%B4%E6%96%B9%E5%9B%BE">直方图</a> 随着音乐节奏忽高忽低的跳动。你会好奇这个直方图的跳动是随着音乐的什么属性来做变换的，貌似有时候和音乐的节奏还挺搭的。要解释清楚这个问题，首先得了解什么声音，以及声音的原理。</p>
+<h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><h3 id="声音的原理"><a href="#声音的原理" class="headerlink" title="声音的原理"></a>声音的原理</h3><p>根据维基百科上所述：声音是一种波动；当演奏乐器、人说话或者敲击桌面时，声音的振动会引起介质——空气分子有节奏的振动，使周围的空气产生疏密变化，形成疏密相间的纵波，这就产生了声波，这种现象会一直延续到振动消失为止。</p>
+<p>声音作为波的一种，频率和振幅就成了描述波的重要属性，频率的大小与我们通常所说的音高对应，而振幅影响声音的大小。声音可以被分解为不同频率不同强度的正弦波的叠加。这种变换（或分解）的过程，称为傅立叶变换(Fourier Transform)。</p>
 <blockquote>
+<p>所以到这里，我们大致明白了音乐播放器上面的直方图其实是声音的频率和振幅的统计图。</p>
 </blockquote>
-<p>随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。</p>
-<blockquote>
-</blockquote>
-<p>假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。</p>
-<blockquote>
-</blockquote>
-<p><strong>目标是一个滞后的衡量标准, 你需要一个主导衡量标准</strong></p>
-<blockquote>
-</blockquote>
-<p>什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。</p>
-<blockquote>
-</blockquote>
-<p>为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。<code>每天花一点时间</code>这种计划是不会起作用的。</p>
-<blockquote>
-</blockquote>
-<p>坚持执行计划，目标自然会达成，否则目标就是幻想。</p>
-<p>我非常同意上述的观点，一定要<strong>为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成</strong>，这样目标才能达成。想来惭愧，我在17年6月份花了 ¥2000.00 参加了<code>FaceAI</code>的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。</p>
+<h3 id="声音的特性"><a href="#声音的特性" class="headerlink" title="声音的特性"></a>声音的特性</h3><ul>
+<li><strong>响度（loudness）</strong>：人主观上感觉声音的大小（俗称音量），由“振幅”（amplitude）和人离声源的距离决定，振幅越大响度越大，人和声源的距离越小，响度越大。（单位：分贝dB）</li>
+<li><strong>音调（pitch）</strong>：声音的高低（高音、低音），由“频率”（frequency）决定，频率越高音调越高（频率单位Hz（hertz），赫兹)，人耳听觉范围 20～20k Hz。20Hz以下称为次声波，20k Hz以上称为超声波）例如，低音端的声音或更高的声音，如细弦声。频率是每秒经过给定点的声波数量，它的测量单位为赫兹。1000Hz表示每秒经过给定点的声波有1000个周期</li>
+<li><strong>音色（Timbre）</strong>：又称音品，波形决定了声音的音色。声音因不同物体材料的特性而具有不同特性，音色本身是一种抽象的东西，但波形是把这个抽象直观的表现。音色不同，波形则不同。典型的音色波形有方波，锯齿波，正弦波，脉冲波等。不同的音色，通过波形，完全可以分辨的。</li>
+<li><strong>乐音</strong>：有规则的让人愉悦的声音。噪音：从物理学的角度看，由发声体作无规则振动时发出的声音；</li>
+</ul>
+<h2 id="音频编解码"><a href="#音频编解码" class="headerlink" title="音频编解码"></a>音频编解码</h2><p>音频的编解码器需要分成硬件，软件两个部分讨论。硬件部分，音频编码器芯片（ADC）会把接收到的声波转换成PCM数据, 由于PCM占用存储资源太大，不利于传输和存储，所以需要利用音频编解码器软件对PCM数据进行压缩，得到如 FLAC/MP3/OGG 的音频文件。当我们播放一段数字音频文件的时候，则需要先进行软解码，也就是对压缩过的音频文件（FLAC/MP3/OGG）先解码成PCM，然后传送解码后的PCM给音频解码器（DAC），解码器将数字信号转换为模拟信号。</p>
+<h3 id="音频硬编码过程"><a href="#音频硬编码过程" class="headerlink" title="音频硬编码过程"></a>音频硬编码过程</h3><p>信号的数字化就是将连续的模拟信号转换成离散的数字信号， 一般需要完成采样、量化和编码三个步骤,如下图所示。</p>
+<p><img src="http://cp0000.github.io/assets/audio/digital_audio_simpli.png" alt="A/D"></p>
+<ul>
+<li>采样是指用每隔一定时间间隔的信号样本值序列来代替原来在时间上连续的信号。</li>
+<li>量化是用有限个幅度近似表示原来在时间上连续变化的幅度值，把模拟信号的连续幅度变为有限数量，有一定时间间隔的离散值。</li>
+<li>编码则是按照一定的规律，把量化后的离散值用二进制数码表示。</li>
+</ul>
+<p>上诉数字化过程称为脉冲编码调制（Pulse Code Modulation，缩写PCM）</p>
+<h3 id="PCM-的码率"><a href="#PCM-的码率" class="headerlink" title="PCM 的码率"></a>PCM 的码率</h3><ul>
+<li>采样率值 × 采样大小值 × 声道数 bps = 码率</li>
+<li>例如: 一个采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的WAV文件，它的数据速率则为 44.1K×16×2 =1411.2 Kbps。这表示存储一秒钟采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的音频信号，需要176.4KB的空间，1分钟则约为10.34M</li>
+</ul>
+<h3 id="MP3"><a href="#MP3" class="headerlink" title="MP3"></a>MP3</h3><p><code>MP3</code>全称是<code>MPEG-1</code>or<code>MPEG-2 Audio Layer III</code>，它被设计来大幅降低音频数据量，它舍弃PCM音讯资料中，对人类听觉不重要的资料，从而达到了压缩成较小的档案。而对于大多数用户的听觉感受来说，MP3的音质与最初的不压缩音频相比没有明显的下降。</p>
+<h2 id="音频处理"><a href="#音频处理" class="headerlink" title="音频处理"></a>音频处理</h2><h3 id="音频傅立叶变换"><a href="#音频傅立叶变换" class="headerlink" title="音频傅立叶变换"></a>音频傅立叶变换</h3><p>了解了声音和音频编解码的基础知识之后，我们可以开始对音频进行相关应用处理了。那如何处理音频呢？首先用<a target="_blank" rel="noopener" href="https://www.audacityteam.org/">Audacity</a>软件打开一段音频，会看到如下图所示的波形图。你会想，这乱糟糟，看起来没啥规律可循的波形的该如何处理。</p>
+<p><img src="http://cp0000.github.io/assets/audio/wave.png" alt="wave"></p>
+<p>就像我们处理图片的时候，会把像素点颜色分解成<code>RGB</code>三个通道（或者YCbCr,Lab 等其他颜色空间）进行处理一样，在处理音频的时候，我们需要对音频的波形进行分解。根据声音的特性，不同物体发出的声音频率范围是不一样的，如下图是不同乐器的频率范围：</p>
+<p><img src="http://cp0000.github.io/assets/audio/imgext.jpeg" alt="frequency"></p>
+<p>所以我们可以把音频从时域转换到频域，然后对分解出来的各个频率进行操作。这里需要借助<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2">傅立叶变换</a>完成音频从时域到频域的转换。</p>
+<p>看不懂傅立叶变换的数学公式也没有关系，只要记住下面这张图就好。</p>
+<p><img src="http://cp0000.github.io/assets/audio/fft2.png" alt="fft"></p>
+<p>如上图，对左边红色的音频时域声波进行傅立叶变换之后，分解成了一系列正弦波。而右边蓝色部分是针对分解的一系列正弦波的统计图，其中横轴是频率，纵轴是振幅。有了这张频谱图，我们可以很方便的处理音频了（如消除某一段频率等等）。</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>有了上面对音频做傅立叶变换后的频率数组，我们可以开始去实现一个音乐实时可视化Demo了。考虑到性能，以及跨平台，我们利用GPU搭配OpenGL编程去实现Demo。实现步骤如下图所示：</p>
+<p><img src="http://cp0000.github.io/assets/audio/visualization.png" alt="visualization"></p>
+<h3 id="获取PCM数据"><a href="#获取PCM数据" class="headerlink" title="获取PCM数据"></a>获取PCM数据</h3><p>在iOS上，利用<code>AVFoundation</code>中的<code>AVAudioEngine</code>获取音乐的<code>pcmbuffer</code>，然后利用<code>Accelerate framework</code>中提供的DSP信号处理api，对<code>pcmbuffer</code>进行傅立叶变换。</p>
+<h4 id="加载音乐"><a href="#加载音乐" class="headerlink" title="加载音乐"></a>加载音乐</h4><pre><code>NSString          * audioPath   = [[NSBundle mainBundle] pathForResource: @&quot;bgm&quot; ofType: @&quot;.mp3&quot;];
+AVAudioEngine     * engine      = [AVAudioEngine new];
+AVAudioFile       * audioFile   = [[AVAudioFile alloc] initForReading: [NSURL fileURLWithPath: audioPath] error: nil];
+
+AVAudioPCMBuffer  * audioPCMBuffer  = [[AVAudioPCMBuffer alloc] initWithPCMFormat: audioFile.processingFormat
+                                                                    frameCapacity: (AVAudioFrameCount)audioFile.length];
+[audioFile readIntoBuffer: audioPCMBuffer error: nil];
+
+AVAudioPlayerNode * audioPlayerNode = [AVAudioPlayerNode new];
+[engine attachNode: audioPlayerNode];
+
+// Connect Nodes
+AVAudioMixerNode *mixerNode = [engine mainMixerNode];
+[engine connect: audioPlayerNode to: mixerNode format: audioFile.processingFormat];
+[audioPlayerNode scheduleBuffer: audioPCMBuffer  completionHandler:^&#123;
+    NSLog(@&quot;scheduleBuffer&quot;);
+&#125;];
+
+// Start engine
+NSError *error;
+[self.engine prepare];
+[self.engine startAndReturnError: &amp;error];
+if (error) &#123;
+    NSLog(@&quot;error:%@&quot;, error);
+&#125;
+</code></pre>
+<h4 id="获取-PCMBuffer"><a href="#获取-PCMBuffer" class="headerlink" title="获取 PCMBuffer"></a>获取 PCMBuffer</h4><pre><code>int bufferSize = 1024;
+[mixerNode installTapOnBus: 0
+                bufferSize: bufferSize
+                    format: [mixerNode outputFormatForBus: 0]
+                   block: ^(AVAudioPCMBuffer * _Nonnull buffer, AVAudioTime * _Nonnull when) &#123;
+    float    * magnitudes  = [FFTHelper performFFT: buffer];
+&#125;];
+</code></pre>
+<h4 id="执行-FFT"><a href="#执行-FFT" class="headerlink" title="执行 FFT"></a>执行 FFT</h4><pre><code>+ (float *)  performFFT: (AVAudioPCMBuffer *) buffer &#123;
+    if (buffer == NULL) &#123;
+        return NULL;
+    &#125;
+    int frameLength = buffer.frameLength;
+    long nOver2 = frameLength / 2;
+    vDSP_Length fftLength = nOver2;
+
+    float * imag = (float *) calloc(frameLength, sizeof(float));
+    DSPSplitComplex splitComplex;
+
+    splitComplex.realp = buffer.floatChannelData[0];
+    splitComplex.imagp = imag;
+
+    int log2n  = (vDSP_Length)(floor(log2((float)frameLength)));
+    int radix   = (FFTRadix)kFFTRadix2;
+    FFTSetup weights = vDSP_create_fftsetup(log2n, radix);
+    vDSP_fft_zip(weights, &amp;splitComplex, 1, log2n, (FFTDirection)FFT_FORWARD);
+    float fftNormFactor = 1.0 / (2 * fftLength);
+    vDSP_vsmul(splitComplex.realp, 1, &amp;fftNormFactor, splitComplex.realp, 1, fftLength);
+    vDSP_vsmul(splitComplex.imagp, 1, &amp;fftNormFactor, splitComplex.imagp, 1, fftLength);
+    
+    float * magnitudes = (float *) calloc(fftLength, sizeof(float));
+    //Convert the fft data to dB
+    vDSP_zvmags(&amp;splitComplex, 1, magnitudes, 1, fftLength);
+    
+    float kAdjust0DB  = 1.5849e-13;
+    //In order to avoid taking log10 of zero, an adjusting factor is added in to make the minimum value equal -128dB
+    vDSP_vsadd(magnitudes, 1, &amp;kAdjust0DB, magnitudes, 1, fftLength);
+    float one = 1;
+    // vDSP_vdbcon: Vector convert to decibels, power, or amplitude.
+    vDSP_vdbcon(magnitudes, 1, &amp;one, magnitudes, 1, fftLength, 0);
+
+    free(imag);
+    vDSP_destroy_fftsetup(weights);
+    return magnitudes;
+&#125;
+</code></pre>
+<h4 id="上传FFT数据到GPU"><a href="#上传FFT数据到GPU" class="headerlink" title="上传FFT数据到GPU"></a>上传<code>FFT</code>数据到<code>GPU</code></h4><p>拿到频谱数据之后，需要利用<code>shader</code>来实现音乐可视化的效果。当中如何把频谱数据上传到<code>GPU</code>是一个问题，因为频谱数据一个长达1k的数组，直接用<code>uniform float[]</code>来上传，性能很差。这里有一个比较tricky的做法是把频谱数据存储到一张空白图片上，然后把图片转换成<code>texture</code>，再上传<code>texture</code>到<code>GPU</code>，这样就可以优化上传频谱数组性能差的问题。</p>
+<pre><code>// Passing the data to the GPU
+-（void）load: (float *) data length: (int) length width: (int) width height: (int) height slot: (GLenum) slot &#123;
+GLuint    texture   = 0;
+GLubyte * raw       = (GLubyte *) malloc (sizeof (GLubyte) * length * 4);
+
+for (int i = 0; i &lt; length; i++) &#123;
+    GLubyte color   = GLubyte(data[i] * 255.0);
+    raw[4*i+0]      = color; // R
+    raw[4*i+1]      = color; // G
+    raw[4*i+2]      = color; // B
+    raw[4*i+3]      = color; // A
+&#125;
+
+glActiveTexture (slot)
+glGenTextures (1, &amp;texture)
+glBindTexture (GLenum (GL_TEXTURE_2D), texture);
+
+glTexParameteri (GLenum (GL_TEXTURE_2D), GLenum (GL_TEXTURE_WRAP_S), GL_REPEAT);
+glTexParameteri (GLenum (GL_TEXTURE_2D), GLenum (GL_TEXTURE_WRAP_T), GL_REPEAT);
+
+glTexParameteri (GLenum (GL_TEXTURE_2D), GLenum (GL_TEXTURE_MAG_FILTER), GL_LINEAR);
+glTexParameteri (GLenum (GL_TEXTURE_2D), GLenum (GL_TEXTURE_MIN_FILTER), GL_LINEAR);
+glTexImage2D (GLenum (GL_TEXTURE_2D), 0, GL_RGBA, GLsizei (width), GLsizei (height), 0, GLenum (GL_RGBA), GLenum (GL_UNSIGNED_BYTE), raw);
+free (raw); raw = NULL;
+</code></pre>
+<p>}</p>
+<h4 id="可视化效果"><a href="#可视化效果" class="headerlink" title="可视化效果"></a>可视化效果</h4><p>最后在<code>shader</code>中解析texture，得到频谱数据，并绘制直方图，就可以做出音乐播放器上的直方图效果啦，如下图：</p>
+<p><img src="http://cp0000.github.io/assets/audio/spectrum2.gif" alt="spectrum"></p>
+<p>效果比较素，更加华丽的一些关于音乐可视化的效果可以翻翻<a target="_blank" rel="noopener" href="http://shadertoy.com/">shadertoy.com</a>，上面有很多绚丽的效果。如下图：</p>
+<p><img src="http://cp0000.github.io/assets/audio/spectrum.gif" alt="shadertoy spectrum"></p>
 <p>以上。</p>
 
       
@@ -244,7 +359,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/42/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><span class="space">&hellip;</span><a class="page-number" href="/page/82/">82</a><a class="extend next" rel="next" href="/page/44/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/42/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><span class="space">&hellip;</span><a class="page-number" href="/page/83/">83</a><a class="extend next" rel="next" href="/page/44/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -310,7 +425,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-count">83</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
