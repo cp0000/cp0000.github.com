@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -87,7 +87,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -206,16 +210,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>这两年随着像Tiktok，SnapChat这一类短视频平台的流行，风格转换类的算法在这类平台上也得到了广泛的应用，深受用户喜爱。比如snapchat中的卡通画人脸，变小孩，变光头等一类滤镜，其视觉效果都非常棒，在社交媒体上也被广泛传播。这类人脸风格化滤镜的底层算法是基于GAN（生成对抗网络）研发而成的。而在GAN被广泛商业化应用的道路上，有两篇非常重要的工作，分别是 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1611.07004">Pix2Pix</a>，和 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04948">StyleGAN</a>，这两篇工作GAN被商业化成为了可能。</p>
+        <p>这两年随着像Tiktok，SnapChat这一类短视频平台的流行，风格转换类的算法在这类平台上也得到了广泛的应用，深受用户喜爱。比如snapchat中的卡通画人脸，变小孩，变光头等一类滤镜，其视觉效果都非常棒，在社交媒体上也被广泛传播。这类人脸风格化滤镜的底层算法是基于GAN（生成对抗网络）研发而成的。而在GAN被广泛商业化应用的道路上，有两篇非常重要的工作，分别是
+<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1611.07004">Pix2Pix</a>，和 <a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04948">StyleGAN</a>，这两篇工作GAN被商业化成为了可能。</p>
 <p>本文主要是介绍两篇工作的一篇 StyleGAN。</p>
-<h4 id="StyleGAN-A-Style-Based-Generator-Architecture-for-Generative-Adversarial-Networks-2018"><a href="#StyleGAN-A-Style-Based-Generator-Architecture-for-Generative-Adversarial-Networks-2018" class="headerlink" title="StyleGAN (A Style-Based Generator Architecture for Generative Adversarial Networks 2018)"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04948">StyleGAN (A Style-Based Generator Architecture for Generative Adversarial Networks 2018)</a></h4><p>StyleGAN是有NVIDIA于2018年提出的，截止2022年3月有3825次引用。</p>
-<p>StyleGAN网络主要分成两个部分，分别是Mapping Network 和 Synthesis Network。结构图如下：</p>
-<img src="http://cp0000.github.io/assets/stylegan/stylegan_v1_network" width="720px" >
-
-
+<h4
+id="stylegan-a-style-based-generator-architecture-for-generative-adversarial-networks-2018"><a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04948">StyleGAN (A Style-Based
+Generator Architecture for Generative Adversarial Networks
+2018)</a></h4>
+<p>StyleGAN是有NVIDIA于2018年提出的，截止2022年3月有3825次引用。</p>
+<p>StyleGAN网络主要分成两个部分，分别是Mapping Network 和 Synthesis
+Network。结构图如下：</p>
+<p><img src="http://cp0000.github.io/assets/stylegan/stylegan_v1_network" width="720px" ></p>
 <p>如上图所示：</p>
 <ul>
-<li>Mapping Network：映射网络，它的结构比较简单；由8个全连接层组成，网络输入为 512x1 的向量，输出也是 512x1的向量。</li>
+<li>Mapping
+Network：映射网络，它的结构比较简单；由8个全连接层组成，网络输入为 512x1
+的向量，输出也是 512x1的向量。</li>
 </ul>
 
     </div>
@@ -297,7 +309,9 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#StyleGAN-A-Style-Based-Generator-Architecture-for-Generative-Adversarial-Networks-2018"><span class="nav-number">1.</span> <span class="nav-text">StyleGAN (A Style-Based Generator Architecture for Generative Adversarial Networks 2018)</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#stylegan-a-style-based-generator-architecture-for-generative-adversarial-networks-2018"><span class="nav-number">1.</span> <span class="nav-text">StyleGAN (A Style-Based
+Generator Architecture for Generative Adversarial Networks
+2018)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -402,6 +416,8 @@
 
 
 
+
+  
 
   
 

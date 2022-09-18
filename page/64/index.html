@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -81,7 +81,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -214,8 +218,10 @@
 <blockquote>
 <p>比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码</p>
 </blockquote>
-<p>那问题来了，我们要如何知道哪个函数是账号登录函数咧？<strong>这就涉及到我们如何去分析一个iOS app</strong></p>
-<h2 id="分析-iOS-app-的两种方法"><a href="#分析-iOS-app-的两种方法" class="headerlink" title="分析 iOS app 的两种方法"></a>分析 iOS app 的两种方法</h2><ul>
+<p>那问题来了，我们要如何知道哪个函数是账号登录函数咧？<strong>这就涉及到我们如何去分析一个iOS
+app</strong></p>
+<h2 id="分析-ios-app-的两种方法">分析 iOS app 的两种方法</h2>
+<ul>
 <li><p>运行时分析</p>
 <ul>
 <li>GDB/LLDB</li>
@@ -223,82 +229,91 @@
 <li>Logify</li>
 <li>weak_classdump</li>
 <li>InspectiveC</li>
-</ul>
-</li>
-</ul>
-<ul>
+</ul></li>
 <li><p>可执行代码分析</p>
 <ul>
 <li>dumpdecrpted</li>
 <li>class_dump,class_dump_z,classdump_dyld</li>
-<li>Disassemblers<ul>
+<li>Disassemblers
+<ul>
 <li>IDA</li>
 <li>Hopper</li>
 <li>otool</li>
-</ul>
-</li>
+</ul></li>
 <li>strings</li>
 <li>nm</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。</p>
 <p>###Cycript</p>
-<p><a target="_blank" rel="noopener" href="http://www.cycript.org/">Cycript</a>最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。</p>
+<p><a
+target="_blank" rel="noopener" href="http://www.cycript.org/">Cycript</a>最重要的特性是，它可以hook住
+iOS／macosx
+上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。</p>
 <p>以下是 Cycript 的用途：</p>
 <ul>
-<li>能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController</li>
+<li>能够hook正在运行的进程，并打印相关信息，如
+appdelegate,rootViewController</li>
 <li>对程序中的类，可以获取到它用过的方法名称</li>
 <li>可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值</li>
 <li>能够执行 method swizzling， 替换某个指定的函数</li>
 <li>可以在运行时调用其他方法</li>
 </ul>
-<h4 id="安装-cycript"><a href="#安装-cycript" class="headerlink" title="安装 cycript"></a>安装 cycript</h4><p>首先利用 Cydia 下载 <code>mobilesubstrate</code> <code>adv-mds</code>;从<a href="www.cycript.org/debs/">官网</a>上面下载最新的包，并通过 <code>scp</code> 把文件拷贝到 iOS 设备上去，利用 <code>dpkg</code> 进行安装：</p>
-<pre><code>dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb
-</code></pre>
+<h4 id="安装-cycript">安装 cycript</h4>
+<p>首先利用 Cydia 下载 <code>mobilesubstrate</code>
+<code>adv-mds</code>;从<a
+href="www.cycript.org/debs/">官网</a>上面下载最新的包，并通过
+<code>scp</code> 把文件拷贝到 iOS 设备上去，利用 <code>dpkg</code>
+进行安装：</p>
+<pre><code>dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb</code></pre>
 <p>安装完成之后，执行 cycript 看是否工作：</p>
-<h4 id="用Cycript进行实时修改"><a href="#用Cycript进行实时修改" class="headerlink" title="用Cycript进行实时修改"></a>用Cycript进行实时修改</h4><p>本文将使用支付宝来进行测试。</p>
+<h4 id="用cycript进行实时修改">用Cycript进行实时修改</h4>
+<p>本文将使用支付宝来进行测试。</p>
 <ul>
-<li>让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程</li>
+<li><p>让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook
+进程</p>
+<pre><code>  chengpeide-iPhone:~ root# ps aux | grep AlipayWallet
+  mobile     629   0.0  9.3   815836  47792   ??  Ss    9:45PM   0:34.79 /var/mobile/Containers/Bundle/Application/FB2E1466-0D87-4FF9-9616-BD4269D61BCF/AlipayWallet.app/AlipayWallet
+  root       678   0.0  0.1   536256    412 s000  U+    9:49PM   0:00.01 grep AlipayWallet
+
+  -rwxr-xr-x 1 root admin 906 Jan 12  2015 cycript
+  chengpeide-iPhone:/cp/Cycript_0.9.502 root# cycript -p 629
+
+  cy# var app = [UIApplication sharedApplication]
+  #&quot;&lt;DFApplication: 0x14df44d0&gt;&quot;
+  cy# app.delegate
+  #&quot;&lt;DFClientDelegate: 0x14ed2d40&gt;&quot;
+  cy# app.keyWindow.rootViewController
+  #&quot;&lt;DFNavigationController: 0x15ac9a00&gt;&quot;
+  cy# var nav = new Instance(0x15ac9a00)
+  #&quot;&lt;DFNavigationController: 0x15ac9a00&gt;&quot;
+  cy# nav.topViewController.childViewControllers
+  @[#&quot;&lt;HPHomeWidgetGroup: 0x160a03d0&gt;&quot;,#&quot;&lt;O2OIndexViewController: 0x15ad6600&gt;&quot;,#&quot;&lt;APContactRecentViewController: 0x15afb600&gt;&quot;,#&quot;&lt;WWAssetsViewController: 0x160a9da0&gt;&quot;]
+  cy# var assetsViewController = new Instance(0x160a9da0)
+  #&quot;&lt;WWAssetsViewController: 0x160a9da0&gt;&quot;
+  cy# [assetsViewController.view subviews]
+  @[#&quot;&lt;UIView: 0x162d8000; frame = (0 0; 0 0); layer = &lt;CALayer: 0x162c85d0&gt;&gt;&quot;,#&quot;&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: &#123;0, -64&#125;; contentSize: &#123;320, 800&#125;&gt;&quot;]
+  cy# var tableView = new Instance (0x15433800)
+  #&quot;&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: &#123;0, -42&#125;; contentSize: &#123;320, 800&#125;&gt;&quot;
+  cy# tableView.backgroundColor = [UIColor redColor]
+  #&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;
+
+  [tableView visibleCells]
+  @[#&quot;&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;&quot;,#&quot;&lt;DoubleInfoCell: 0x1569e800; baseClass = UITableViewCell; frame = (0 300; 320 80); autoresize = W; layer = &lt;CALayer: 0x16486e80&gt;&gt;&quot;,#&quot;&lt;DoubleInfoCell: 0x15452e00; baseClass = UITableViewCell; frame = (0 380; 320 80); autoresize = W; layer = &lt;CALayer: 0x16491a50&gt;&gt;&quot;]
+  cy# var headCell = new Instance (0x16160a40)
+  #&quot;&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;&quot;
+  cy# headCell.backgroundColor = [UIColor redColor]
+  #&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;
+  cy# headCell.contentView.backgroundColor = [UIColor redColor]
+  #&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;</code></pre></li>
 </ul>
-<pre><code>    chengpeide-iPhone:~ root# ps aux | grep AlipayWallet
-    mobile     629   0.0  9.3   815836  47792   ??  Ss    9:45PM   0:34.79 /var/mobile/Containers/Bundle/Application/FB2E1466-0D87-4FF9-9616-BD4269D61BCF/AlipayWallet.app/AlipayWallet
-    root       678   0.0  0.1   536256    412 s000  U+    9:49PM   0:00.01 grep AlipayWallet
-
-    -rwxr-xr-x 1 root admin 906 Jan 12  2015 cycript
-    chengpeide-iPhone:/cp/Cycript_0.9.502 root# cycript -p 629
-
-    cy# var app = [UIApplication sharedApplication]
-    #&quot;&lt;DFApplication: 0x14df44d0&gt;&quot;
-    cy# app.delegate
-    #&quot;&lt;DFClientDelegate: 0x14ed2d40&gt;&quot;
-    cy# app.keyWindow.rootViewController
-    #&quot;&lt;DFNavigationController: 0x15ac9a00&gt;&quot;
-    cy# var nav = new Instance(0x15ac9a00)
-    #&quot;&lt;DFNavigationController: 0x15ac9a00&gt;&quot;
-    cy# nav.topViewController.childViewControllers
-    @[#&quot;&lt;HPHomeWidgetGroup: 0x160a03d0&gt;&quot;,#&quot;&lt;O2OIndexViewController: 0x15ad6600&gt;&quot;,#&quot;&lt;APContactRecentViewController: 0x15afb600&gt;&quot;,#&quot;&lt;WWAssetsViewController: 0x160a9da0&gt;&quot;]
-    cy# var assetsViewController = new Instance(0x160a9da0)
-    #&quot;&lt;WWAssetsViewController: 0x160a9da0&gt;&quot;
-    cy# [assetsViewController.view subviews]
-    @[#&quot;&lt;UIView: 0x162d8000; frame = (0 0; 0 0); layer = &lt;CALayer: 0x162c85d0&gt;&gt;&quot;,#&quot;&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: &#123;0, -64&#125;; contentSize: &#123;320, 800&#125;&gt;&quot;]
-    cy# var tableView = new Instance (0x15433800)
-    #&quot;&lt;UITableView: 0x15433800; frame = (0 0; 320 519); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: 0x1623d1f0&gt;; layer = &lt;CALayer: 0x162c3b10&gt;; contentOffset: &#123;0, -42&#125;; contentSize: &#123;320, 800&#125;&gt;&quot;
-    cy# tableView.backgroundColor = [UIColor redColor]
-    #&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;
-
-    [tableView visibleCells]
-    @[#&quot;&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;&quot;,#&quot;&lt;DoubleInfoCell: 0x1569e800; baseClass = UITableViewCell; frame = (0 300; 320 80); autoresize = W; layer = &lt;CALayer: 0x16486e80&gt;&gt;&quot;,#&quot;&lt;DoubleInfoCell: 0x15452e00; baseClass = UITableViewCell; frame = (0 380; 320 80); autoresize = W; layer = &lt;CALayer: 0x16491a50&gt;&gt;&quot;]
-    cy# var headCell = new Instance (0x16160a40)
-    #&quot;&lt;HeadInfoCell: 0x16160a40; baseClass = UITableViewCell; frame = (0 220; 320 80); autoresize = W; layer = &lt;CALayer: 0x16160e80&gt;&gt;&quot;
-    cy# headCell.backgroundColor = [UIColor redColor]
-    #&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;
-    cy# headCell.contentView.backgroundColor = [UIColor redColor]
-    #&quot;UIDeviceRGBColorSpace 1 0 0 1&quot;
-</code></pre>
 <p>我们可以看到，界面上 tableViewCell 的背景颜色变成了红色。</p>
-<p><img src="http://cp0000.github.io/assets/blue.PNG" alt="shortcut2"></p>
-<p>以上操作的思路大致就是， appdelegate =&gt; keyWindow =&gt; rootViewController =&gt; viewControllers =&gt; view </p>
+<figure>
+<img src="http://cp0000.github.io/assets/blue.PNG" alt="shortcut2" />
+<figcaption aria-hidden="true">shortcut2</figcaption>
+</figure>
+<p>以上操作的思路大致就是， appdelegate =&gt; keyWindow =&gt;
+rootViewController =&gt; viewControllers =&gt; view</p>
 <p>当然你也可以骗骗自己，把余额这个label的text改成巨款，过过眼瘾</p>
 <pre><code>    cy# [tableView subviews]
     @[#&quot;&lt;UIRefreshControl: 0x16482c90; frame = (0 0; 320 60); hidden = YES; autoresize = W; layer = &lt;CALayer: 0x16256370&gt;&gt;&quot;,#&quot;&lt;UITableViewWrapperView: 0x1624cce0; frame = (0 0; 320 519); gestureRecognizers = &lt;NSArray: 0x16098960&gt;; layer = &lt;CALayer: 0x14e12cf0&gt;; contentOffset: &#123;0, 0&#125;; contentSize: &#123;320, 519&#125;&gt;&quot;,#&quot;&lt;UIView: 0x16216d10; frame = (0 780; 320 20); layer = &lt;CALayer: 0x162562c0&gt;&gt;&quot;,#&quot;&lt;WHAccountHeaderView: 0x16217c10; frame = (0 0; 320 180); layer = &lt;CALayer: 0x1637edd0&gt;&gt;&quot;,#&quot;&lt;UIView: 0x17635b80; frame = (0 180; 320 40); autoresize = W; layer = &lt;CALayer: 0x1620d670&gt;&gt;&quot;,#&quot;&lt;UIImageView: 0x161f4740; frame = (0 452.5; 320 2.5); alpha = 0; opaque = NO; autoresize = TM; userInteractionEnabled = NO; layer = &lt;CALayer: 0x161f47c0&gt;&gt;&quot;]
@@ -309,9 +324,11 @@
     cy# var label2= new Instance(0x161082c0)
     #&quot;&lt;UILabel: 0x161082c0; frame = (122 28; 76 41); text = &#39;0.00&#39;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x14f73520&gt;&gt;&quot;
     cy# label2.text=@&quot;10000000000000&quot;
-    @&quot;10000000000000&quot;
-</code></pre>
-<p><img src="http://cp0000.github.io/assets/rich.PNG" alt="shortcut2"></p>
+    @&quot;10000000000000&quot;</code></pre>
+<figure>
+<img src="http://cp0000.github.io/assets/rich.PNG" alt="shortcut2" />
+<figcaption aria-hidden="true">shortcut2</figcaption>
+</figure>
 <p>很好玩，也很有用的工具，cycript。当然cycript还有一些高级用法，后面会介绍。</p>
 
       
@@ -488,6 +505,8 @@
 
 
 
+
+  
 
   
 

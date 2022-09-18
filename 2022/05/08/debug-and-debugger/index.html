@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Debug 全靠 print刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即">
+  <meta name="description" content="Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Debug 和 Debugger">
 <meta property="og:url" content="https://cp0000.github.io/2022/05/08/debug-and-debugger/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="Debug 全靠 print刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即">
+<meta property="og:description" content="Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-05-07T17:03:32.000Z">
 <meta property="article:modified_time" content="2022-05-08T09:29:22.413Z">
@@ -85,7 +85,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -198,11 +202,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="Debug-全靠-print"><a href="#Debug-全靠-print" class="headerlink" title="Debug 全靠 print"></a>Debug 全靠 print</h3><p>刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。</p>
-<p>可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。</p>
-<h3 id="学习编程"><a href="#学习编程" class="headerlink" title="学习编程"></a>学习编程</h3><p>我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。</p>
+        <h3 id="debug-全靠-print">Debug 全靠 print</h3>
+<p>刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android
+ndk develop
+方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote
+debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。</p>
+<p>可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android
+studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。</p>
+<h3 id="学习编程">学习编程</h3>
+<p>我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。</p>
 <p>如果说编辑器，编译器是程序员的朋友，那么debugger可以说是程序员的再生父母。绝大多数程序员离开了debugger是几乎不会写代码的。狭义的debugger指的是程序调试工具，广义的debugger可以指的是好的书籍，资料，人，工具等等能给你有效反馈的事和物。当我在学习一项新技能的时候，最为关键的是要找到靠谱的debugger，然后勤加debug，可能过程听起来会比较累，但根据自身经验来看，这种方式是最为节约时间的方式方法。</p>
-<p> Keep Try and Practice.</p>
+<p>Keep Try and Practice.</p>
 
     </div>
 
@@ -283,7 +293,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug-%E5%85%A8%E9%9D%A0-print"><span class="nav-number">1.</span> <span class="nav-text">Debug 全靠 print</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">学习编程</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#debug-%E5%85%A8%E9%9D%A0-print"><span class="nav-number">1.</span> <span class="nav-text">Debug 全靠 print</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">学习编程</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -388,6 +398,8 @@
 
 
 
+
+  
 
   
 

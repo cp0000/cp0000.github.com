@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering  在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着">
+  <meta name="description" content="iOS 9.0 UICollectionView 拖拽效果实现  原文 UICollectionViews Now Have Easy Reordering  在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UICollectionViews Now Have Easy Reordering （译）">
 <meta property="og:url" content="https://cp0000.github.io/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering  在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着">
+<meta property="og:description" content="iOS 9.0 UICollectionView 拖拽效果实现  原文 UICollectionViews Now Have Easy Reordering  在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://nshint.io/images/uicollectionview-reordering/2.gif">
 <meta property="og:image" content="http://nshint.io/images/uicollectionview-reordering/3.gif">
@@ -88,7 +88,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -216,21 +220,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="iOS-9-0-UICollectionView-拖拽效果实现"><a href="#iOS-9-0-UICollectionView-拖拽效果实现" class="headerlink" title="iOS 9.0 UICollectionView 拖拽效果实现"></a>iOS 9.0 UICollectionView 拖拽效果实现</h1><blockquote>
-<p>原文 <a target="_blank" rel="noopener" href="http://nshint.io/blog/2015/07/16/uicollectionviews-now-have-easy-reordering/">UICollectionViews Now Have Easy Reordering</a></p>
+        <h1 id="ios-9.0-uicollectionview-拖拽效果实现">iOS 9.0 UICollectionView
+拖拽效果实现</h1>
+<blockquote>
+<p>原文 <a
+target="_blank" rel="noopener" href="http://nshint.io/blog/2015/07/16/uicollectionviews-now-have-easy-reordering/">UICollectionViews
+Now Have Easy Reordering</a></p>
 </blockquote>
-<p>在<code>UICollectionView</code> 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 <code>UITableView</code>，它更加容易进行一些自定义的操作。我们组现在在项目中使用 <code>UICollectionView</code> 要多于 <code>UITableView</code>。伴随着 iOS 9 的 release，<code>UICollectionView</code>排序（动态拖拽）更加简单。在这之前，如果想对 <code>UICollectionView</code> 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址<a target="_blank" rel="noopener" href="https://github.com/nshintio/uicollectionview-reordering">uicollectionview-reordering</a>。</p>
-<p>实现拖动排序最简单的办法是使用 <code>UICollectionViewController</code>, 在 <code>UICollectionViewController</code> 中新增了一个属性  <code>installsStandardGestureForInteractiveMovement</code>, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。     我们所需要做的，只要重载下面这个方法就好了.</p>
+<p>在<code>UICollectionView</code>
+刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥
+<code>UITableView</code>，它更加容易进行一些自定义的操作。我们组现在在项目中使用
+<code>UICollectionView</code> 要多于 <code>UITableView</code>。伴随着
+iOS 9 的
+release，<code>UICollectionView</code>排序（动态拖拽）更加简单。在这之前，如果想对
+<code>UICollectionView</code>
+进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的
+API。文章用到的Sample地址<a
+target="_blank" rel="noopener" href="https://github.com/nshintio/uicollectionview-reordering">uicollectionview-reordering</a>。</p>
+<p>实现拖动排序最简单的办法是使用
+<code>UICollectionViewController</code>, 在
+<code>UICollectionViewController</code> 中新增了一个属性
+<code>installsStandardGestureForInteractiveMovement</code>,
+通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。
+我们所需要做的，只要重载下面这个方法就好了.</p>
 <pre><code>override func collectionView(collectionView: UICollectionView,
     moveItemAtIndexPath sourceIndexPath: NSIndexPath,
     toIndexPath destinationIndexPath: NSIndexPath) &#123;
     // move your data order
-&#125;
-</code></pre>
-<p>当程序中重载了<code>moveItemAtIndexPath</code>，collectionView 就认为 cell 是可以移动的。</p>
-<pre><code>![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif)
-</code></pre>
-<p>那如果需要给某一个 <code>UIViewController</code> 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现<code>UICollectionViewDataSource</code>中上面提到的代理方法，还需要重写 <code>installsStandardGestureForInteractiveMovement</code>。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势<code>UILongPressGestureRecognizer</code>，它能够完全满足拖拽需求。</p>
+&#125;</code></pre>
+<p>当程序中重载了<code>moveItemAtIndexPath</code>，collectionView 就认为
+cell 是可以移动的。</p>
+<pre><code>![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif)</code></pre>
+<p>那如果需要给某一个 <code>UIViewController</code> 中 collection view
+实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现<code>UICollectionViewDataSource</code>中上面提到的代理方法，还需要重写
+<code>installsStandardGestureForInteractiveMovement</code>。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势<code>UILongPressGestureRecognizer</code>，它能够完全满足拖拽需求。</p>
 <pre><code>override func viewDidLoad() &#123;
     super.viewDidLoad()
     longPressGesture = UILongPressGestureRecognizer(target: self, action: &quot;handleLongGesture:&quot;)
@@ -253,20 +276,34 @@ func handleLongGesture(gesture: UILongPressGestureRecognizer) &#123;
     default:
         collectionView.cancelInteractiveMovement()
     &#125;
-&#125;
-</code></pre>
-<p>这段代码主要是给 collectionView 添加一个长手势识别器，并根据手势的不同状态调用collectionView的相关方法。</p>
+&#125;</code></pre>
+<p>这段代码主要是给 collectionView
+添加一个长手势识别器，并根据手势的不同状态调用collectionView的相关方法。</p>
 <ul>
-<li><code>beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)</code>: 该方法在开始拖拽某个cell时被调用</li>
-<li><code>updateInteractiveMovementTargetPosition(targetPosition:CGPoint)</code>: 根据手势更新拖拽cell的位置</li>
+<li><code>beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)</code>:
+该方法在开始拖拽某个cell时被调用</li>
+<li><code>updateInteractiveMovementTargetPosition(targetPosition:CGPoint)</code>:
+根据手势更新拖拽cell的位置</li>
 <li><code>endInteractiveMovement()</code>: 手势结束时调用，结束拖拽</li>
-<li><code>cancelInteractiveMovement()</code>: 手势取消时调用，取消拖拽</li>
+<li><code>cancelInteractiveMovement()</code>:
+手势取消时调用，取消拖拽</li>
 </ul>
 <p>这样就实现了需要的拖拽效果：</p>
-<p><img src="http://nshint.io/images/uicollectionview-reordering/2.gif" alt="reordering_collection_view"></p>
-<p>这段代码出来的效果和 <code>UICollectionViewController</code> 是一致的。很厉害吧，但更厉害的是我们可以用上面的方法对自定义的 collection view layout 进行拖拽。下面我们来实现一个简单的瀑布流。</p>
-<p><img src="http://nshint.io/images/uicollectionview-reordering/3.gif" alt="reordering_waterfall"></p>
-<p>昂～，看起来还凑合，但在移动的时候cell的size被改变了呢，如何才能保持cell的size不变呢？ <code>UICollectionViewLayout</code>提供了相关办法可以帮助我们解决这个问题。</p>
+<figure>
+<img src="http://nshint.io/images/uicollectionview-reordering/2.gif"
+alt="reordering_collection_view" />
+<figcaption aria-hidden="true">reordering_collection_view</figcaption>
+</figure>
+<p>这段代码出来的效果和 <code>UICollectionViewController</code>
+是一致的。很厉害吧，但更厉害的是我们可以用上面的方法对自定义的
+collection view layout 进行拖拽。下面我们来实现一个简单的瀑布流。</p>
+<figure>
+<img src="http://nshint.io/images/uicollectionview-reordering/3.gif"
+alt="reordering_waterfall" />
+<figcaption aria-hidden="true">reordering_waterfall</figcaption>
+</figure>
+<p>昂～，看起来还凑合，但在移动的时候cell的size被改变了呢，如何才能保持cell的size不变呢？
+<code>UICollectionViewLayout</code>提供了相关办法可以帮助我们解决这个问题。</p>
 <pre><code>func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],
     withTargetPosition targetPosition: CGPoint,
     previousIndexPaths: [NSIndexPath],
@@ -274,28 +311,25 @@ func handleLongGesture(gesture: UILongPressGestureRecognizer) &#123;
 
 func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(indexPaths: [NSIndexPath],
     previousIndexPaths: [NSIndexPath],
-    movementCancelled: Bool) -&gt; UICollectionViewLayoutInvalidationContext
-</code></pre>
+    movementCancelled: Bool) -&gt; UICollectionViewLayoutInvalidationContext</code></pre>
 <ul>
-<li><p>第一个函数会在 cells 拖拽过程中被调用</p>
-</li>
-<li><p>第二个函数会在拖拽结束时候被调用。有了这些信息，我们可以使用一点小技巧去实现cell size不被改变的功能。</p>
-<p>  internal override func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath],</p>
-<pre><code>  withTargetPosition targetPosition: CGPoint,
-  previousIndexPaths: [NSIndexPath],
-  previousPosition: CGPoint) -&gt; UICollectionViewLayoutInvalidationContext &#123;
-
-  var context = super.invalidationContextForInteractivelyMovingItems(targetIndexPaths,
+<li><p>第一个函数会在 cells 拖拽过程中被调用</p></li>
+<li><p>第二个函数会在拖拽结束时候被调用。有了这些信息，我们可以使用一点小技巧去实现cell
+size不被改变的功能。</p>
+<p>internal override func
+invalidationContextForInteractivelyMovingItems(targetIndexPaths:
+[NSIndexPath], withTargetPosition targetPosition: CGPoint,
+previousIndexPaths: [NSIndexPath], previousPosition: CGPoint) -&gt;
+UICollectionViewLayoutInvalidationContext {</p>
+<pre><code>  var context = super.invalidationContextForInteractivelyMovingItems(targetIndexPaths,
       withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths,
       previousPosition: previousPosition)
 
   self.delegate?.collectionView!(self.collectionView!, moveItemAtIndexPath: previousIndexPaths[0],
       toIndexPath: targetIndexPaths[0])
 
-  return context
-</code></pre>
-<p>  }</p>
-</li>
+  return context</code></pre>
+<p>}</p></li>
 </ul>
 <p>解决方法很直接。获取当前被拖拽的cell的起始indexPath和目标indexPath,然后调用UICollectionViewDataSource代理方法移动当前正在被拖拽的cell。</p>
 <p>一个可以拖拽的的collectionView带来体验效果真的非常棒～</p>
@@ -379,7 +413,8 @@ func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(ind
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS-9-0-UICollectionView-%E6%8B%96%E6%8B%BD%E6%95%88%E6%9E%9C%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">iOS 9.0 UICollectionView 拖拽效果实现</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ios-9.0-uicollectionview-%E6%8B%96%E6%8B%BD%E6%95%88%E6%9E%9C%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">iOS 9.0 UICollectionView
+拖拽效果实现</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -484,6 +519,8 @@ func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(ind
 
 
 
+
+  
 
   
 

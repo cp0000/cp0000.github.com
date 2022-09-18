@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -81,7 +81,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -194,51 +198,111 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Disco-Diffusion"><a href="#Disco-Diffusion" class="headerlink" title="Disco Diffusion"></a>Disco Diffusion</h3><p><a target="_blank" rel="noopener" href="https://github.com/alembics/disco-diffusion">Disco Diffusion</a>是 github 上面一个开源项目，用户通过该项目输入一段文字便可以生成一张和文字有一定相关性的图片，且图片有一定的艺术性。Disco Diffusion 是基于OpenAI <a target="_blank" rel="noopener" href="https://github.com/openai/guided-diffusion">Guided Diffusion</a> 项目基础上做的研发。其中 disco 是该项目jupter notebook的名称。</p>
-<p>Disco Diffusion项目中的diffusion模型使用的是<a target="_blank" rel="noopener" href="https://github.com/crowsonkb">Katherine Crowson</a>提供的，他利用获得的artstation网站上的数据集，在OpenAI 512x512模型上进行fine-tuned，得到disco diffusion中的diffusion模型。Disco Diffusion项目中还利用OpenAI的另外一篇工作<a target="_blank" rel="noopener" href="https://github.com/openai/CLIP">CLIP</a>，通过CLIP来关联Image和Text，使得生成的图片具有prompt text的语义信息。</p>
+          <h3 id="disco-diffusion">Disco Diffusion</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/alembics/disco-diffusion">Disco
+Diffusion</a>是 github
+上面一个开源项目，用户通过该项目输入一段文字便可以生成一张和文字有一定相关性的图片，且图片有一定的艺术性。Disco
+Diffusion 是基于OpenAI <a
+target="_blank" rel="noopener" href="https://github.com/openai/guided-diffusion">Guided Diffusion</a>
+项目基础上做的研发。其中 disco 是该项目jupter notebook的名称。</p>
+<p>Disco Diffusion项目中的diffusion模型使用的是<a
+target="_blank" rel="noopener" href="https://github.com/crowsonkb">Katherine
+Crowson</a>提供的，他利用获得的artstation网站上的数据集，在OpenAI
+512x512模型上进行fine-tuned，得到disco diffusion中的diffusion模型。Disco
+Diffusion项目中还利用OpenAI的另外一篇工作<a
+target="_blank" rel="noopener" href="https://github.com/openai/CLIP">CLIP</a>，通过CLIP来关联Image和Text，使得生成的图片具有prompt
+text的语义信息。</p>
 <p><strong>Disco Diffusion演进过程中的主要优化点：</strong></p>
-<ol>
-<li>优化了augmentation，以及把 timestep 从1000压缩到15-100个 timestep</li>
+<ol type="1">
+<li>优化了augmentation，以及把 timestep 从1000压缩到15-100个
+timestep</li>
 <li>使用较短的运行时间，并且提升了diffusion的生成质量</li>
 <li>一次性加载多个CLIP模型，多个CLIP模型可以提高生成图accuracy</li>
 </ol>
-<p>要理解Disco Diffusion的工作原理，需要先了解DDPM，Guided Diffusion，以及CLIP几个模型的工作原理。</p>
-<h3 id="Diffusion模型与DDPM"><a href="#Diffusion模型与DDPM" class="headerlink" title="Diffusion模型与DDPM"></a>Diffusion模型与DDPM</h3><p><img src="http://cp0000.github.io/assets/diffusion/diffusion_model.jpg" alt="DDPM"></p>
-<p>扩散模型包括两个过程，从信号逐步到噪声的<strong>扩散（正向）过程/（diffusion/forward process）</strong> 和从噪声逐步到信号的 <strong>逆向过程（reverse process）</strong>。这两年的扩散模型基本都是基于Google的DDPM (<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2006.11239">Denoising Diffusion Probabilistic Model</a>)框架所设计。</p>
-<h4 id="逆向过程"><a href="#逆向过程" class="headerlink" title="逆向过程"></a>逆向过程</h4><p>逆向过程从一张随机高斯噪声图片 x<sub>T</sub> 开始，通过逐步去噪生成最终的结果 x<sub>0</sub>。这个过程是一个Markov Chain，可以被定义为：</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_01.png"></p>
-<p>这个过程可以理解为，我们根据 x<sub>t</sub> 作为输入，预测高斯分布的均值和方差，再基于预测的分布进行随机采样得到 x<sub>t-1</sub> 。通过不断的预测和采样过程，最终生成一张真实的图片。</p>
-<h4 id="正向-扩散过程"><a href="#正向-扩散过程" class="headerlink" title="正向/扩散过程"></a>正向/扩散过程</h4><p>扩散过程采用的是一个固定的 <code>Markov chain</code> 形式，过程中逐步向图片添加高斯噪声：</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_02.png"></p>
-<p>在<code>DDPM中</code>，β<sub>t</sub> 是预先设置的定值参数。扩散过程的一个重要特性是可以直接采样任意时刻t下的加噪结果 x<sub>t</sub> 。将</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_03.png"></p>
+<p>要理解Disco Diffusion的工作原理，需要先了解DDPM，Guided
+Diffusion，以及CLIP几个模型的工作原理。</p>
+<h3 id="diffusion模型与ddpm">Diffusion模型与DDPM</h3>
+<figure>
+<img src="http://cp0000.github.io/assets/diffusion/diffusion_model.jpg"
+alt="DDPM" />
+<figcaption aria-hidden="true">DDPM</figcaption>
+</figure>
+<p>扩散模型包括两个过程，从信号逐步到噪声的<strong>扩散（正向）过程/（diffusion/forward
+process）</strong> 和从噪声逐步到信号的 <strong>逆向过程（reverse
+process）</strong>。这两年的扩散模型基本都是基于Google的DDPM (<a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/2006.11239">Denoising Diffusion
+Probabilistic Model</a>)框架所设计。</p>
+<h4 id="逆向过程">逆向过程</h4>
+<p>逆向过程从一张随机高斯噪声图片 x<sub>T</sub>
+开始，通过逐步去噪生成最终的结果 x<sub>0</sub>。这个过程是一个Markov
+Chain，可以被定义为：</p>
+<p><img
+src="http://cp0000.github.io/assets/diffusion/ddpm_01.png" /></p>
+<p>这个过程可以理解为，我们根据 x<sub>t</sub>
+作为输入，预测高斯分布的均值和方差，再基于预测的分布进行随机采样得到 x<sub>t-1</sub> 。通过不断的预测和采样过程，最终生成一张真实的图片。</p>
+<h4 id="正向扩散过程">正向/扩散过程</h4>
+<p>扩散过程采用的是一个固定的 <code>Markov chain</code>
+形式，过程中逐步向图片添加高斯噪声：</p>
+<p><img
+src="http://cp0000.github.io/assets/diffusion/ddpm_02.png" /></p>
+<p>在<code>DDPM中</code>，β<sub>t</sub>
+是预先设置的定值参数。扩散过程的一个重要特性是可以直接采样任意时刻t下的加噪结果
+x<sub>t</sub> 。将</p>
+<p><img
+src="http://cp0000.github.io/assets/diffusion/ddpm_03.png" /></p>
 <p>可以得到</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_04.png"></p>
+<p><img
+src="http://cp0000.github.io/assets/diffusion/ddpm_04.png" /></p>
 <p>这个封闭式的公式使得我们可以直接获得任意程度的加噪图片，方便后续的训练。</p>
-<h4 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h4><p>为了实现基于扩散模型的生成，DDPM采用了一个U-Net结构的Autoencoder来对t时刻的噪声进行预测。网络训练时采用的训练目标非常简单：</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_05.png"></p>
+<h4 id="模型训练">模型训练</h4>
+<p>为了实现基于扩散模型的生成，DDPM采用了一个U-Net结构的Autoencoder来对t时刻的噪声进行预测。网络训练时采用的训练目标非常简单：</p>
+<p><img
+src="http://cp0000.github.io/assets/diffusion/ddpm_05.png" /></p>
 <p>此处<code>ε</code>是高斯噪声。噪声预测网络输入是加噪图片，目标是预测所添加的噪声。训练目标是希望预测的噪声和真实的噪声一致。最终在DDPM中，均值μ的定义为</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/ddpm_06.png"></p>
+<p><img
+src="http://cp0000.github.io/assets/diffusion/ddpm_06.png" /></p>
 <p>在DDPM中，逆向过程中的高斯分布的方差项采用的是一个常数项。</p>
-<h3 id="Guided-Diffusion-基于类别引导的扩散模型"><a href="#Guided-Diffusion-基于类别引导的扩散模型" class="headerlink" title="Guided Diffusion - 基于类别引导的扩散模型"></a>Guided Diffusion - 基于类别引导的扩散模型</h3><p>类似于conditional-GAN，对于通用图像生成任务，加入类别条件能够比无类别条件生成获得更好的效果。因为加入类别条件的时候，实际上是大大减少了生成时的多样性。OpenAI的Guided Diffusion提出一种简单有效的类别引导的扩散模型生成方式。</p>
-<p>Guided Diffusion的核心思想是在逆向过程的每一步，用一个分类网络对生成的图片进行分类，再基于分类分数和目标类别之间的交叉熵损失计算梯度，用梯度引导下一步的生成采样。这个方法一个很大的优点是，不需要重新训练扩散模型，只需要在前馈时加入引导既能实现相应的生成效果。</p>
-<h4 id="基于条件的逆向过程"><a href="#基于条件的逆向过程" class="headerlink" title="基于条件的逆向过程"></a>基于条件的逆向过程</h4><p>在DDPM中，无条件的逆向过程可以用 p<sub>θ</sub>(xt-1|xt) 来描述，在加入类别条件y后，逆向过程可以表示为</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/guide_diffusion_01.png"></p>
-<p>这里Z是常量。这个公式表示的意思是，基于类别条件的逆向过程，可以由无条件的逆向过程结合生成结果的分类损失来度量，此处 p<sub>Φ</sub>(y|xt-1) 表明的即是一个单独训练的分类模型。最终在guided diffusion 中采用的每一步逆向过程可以用以下式子描述：</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/guide_diffusion_02.png"></p>
-<p>这里s是一个常量。在每一步过程中，在计算高斯分布的均值时加上方差和分类梯度项的乘积。基于这样的改进，不需要重新训练扩散模型，只需要额外训练一个分离器，就能够有效地在添加类别引导。该结构存在的一点小问题是会引入额外的计算时间（每一步都要过分类模型并求梯度）。这个问题在no-classifier guidence中有所改进。总的来说，扩散模型由于每一次逆向过程都要过至少一遍网络，所以总体生成速度通常还是比较慢的。</p>
-<h4 id="扩散模型结构改进"><a href="#扩散模型结构改进" class="headerlink" title="扩散模型结构改进"></a>扩散模型结构改进</h4><p>Guided Diffusion中，对DDPM中采用的U-Net结构进行了相关的优化调整：</p>
+<h3 id="guided-diffusion---基于类别引导的扩散模型">Guided Diffusion -
+基于类别引导的扩散模型</h3>
+<p>类似于conditional-GAN，对于通用图像生成任务，加入类别条件能够比无类别条件生成获得更好的效果。因为加入类别条件的时候，实际上是大大减少了生成时的多样性。OpenAI的Guided
+Diffusion提出一种简单有效的类别引导的扩散模型生成方式。</p>
+<p>Guided
+Diffusion的核心思想是在逆向过程的每一步，用一个分类网络对生成的图片进行分类，再基于分类分数和目标类别之间的交叉熵损失计算梯度，用梯度引导下一步的生成采样。这个方法一个很大的优点是，不需要重新训练扩散模型，只需要在前馈时加入引导既能实现相应的生成效果。</p>
+<h4 id="基于条件的逆向过程">基于条件的逆向过程</h4>
+<p>在DDPM中，无条件的逆向过程可以用 p<sub>θ</sub>(xt-1|xt)
+来描述，在加入类别条件y后，逆向过程可以表示为</p>
+<p><img
+src="http://cp0000.github.io/assets/diffusion/guide_diffusion_01.png" /></p>
+<p>这里Z是常量。这个公式表示的意思是，基于类别条件的逆向过程，可以由无条件的逆向过程结合生成结果的分类损失来度量，此处
+p<sub>Φ</sub>(y|xt-1) 表明的即是一个单独训练的分类模型。最终在guided
+diffusion 中采用的每一步逆向过程可以用以下式子描述：</p>
+<p><img
+src="http://cp0000.github.io/assets/diffusion/guide_diffusion_02.png" /></p>
+<p>这里s是一个常量。在每一步过程中，在计算高斯分布的均值时加上方差和分类梯度项的乘积。基于这样的改进，不需要重新训练扩散模型，只需要额外训练一个分离器，就能够有效地在添加类别引导。该结构存在的一点小问题是会引入额外的计算时间（每一步都要过分类模型并求梯度）。这个问题在no-classifier
+guidence中有所改进。总的来说，扩散模型由于每一次逆向过程都要过至少一遍网络，所以总体生成速度通常还是比较慢的。</p>
+<h4 id="扩散模型结构改进">扩散模型结构改进</h4>
+<p>Guided Diffusion中，对DDPM中采用的U-Net结构进行了相关的优化调整：</p>
 <ul>
 <li>在保持模型大小相对一致的情况下增加网络的深度与宽度。</li>
 <li>增加attention-head的数量。</li>
-<li>在 32×32、16×16 和 8×8 分辨率而不是仅在 16×16 分辨率下使用attention机制</li>
+<li>在 32×32、16×16 和 8×8 分辨率而不是仅在 16×16
+分辨率下使用attention机制</li>
 <li>使用BigGAN中残差块对激活进行上采样和下采样。</li>
 <li>Adaptive Group Normalization（AdaGN）的归一化模块</li>
 </ul>
-<h3 id="Disco-Diffusion-1"><a href="#Disco-Diffusion-1" class="headerlink" title="Disco Diffusion"></a>Disco Diffusion</h3><p>在Guided Diffusion 中，每一步逆向过程里通过引入朝向目标类别的梯度信息，来实现针对性的生成。这个过程和基于优化的图像生成算法非常相似。也就意味着之前很多基于优化的图像生成算法都可以迁移到扩散模型上。我们可以通过修改Guided Diffusion中的条件类型，来实现更加丰富有趣的扩散生成效果。</p>
-<p>这里介绍的Disco Diffusion是借鉴了另外一篇GAN的工作，<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2204.08583">VQGAN+CLIP</a>，该工作利用CLIP作为损失函数的一部分，让VQGAN生成带目标文字语义的图片。</p>
-<h4 id="文本引导"><a href="#文本引导" class="headerlink" title="文本引导"></a>文本引导</h4><p><a target="_blank" rel="noopener" href="https://openai.com/blog/clip/">CLIP(Contrastive Language-Image Pre-Training)</a>是一个在各种 图像、文本 pair对上训练的神经网络。CLIP 模型包含一个图像编码网络EI(x)和文本编码网络 EL(l) ，两个编码网络能够各自将文本和图片编码为1*512 大小的向量，然后我们可以通过余弦距离来度量两者之间的相似度。</p>
-<p><img src="http://cp0000.github.io/assets/diffusion/CLIP.jpg"></p>
+<h3 id="disco-diffusion-1">Disco Diffusion</h3>
+<p>在Guided Diffusion
+中，每一步逆向过程里通过引入朝向目标类别的梯度信息，来实现针对性的生成。这个过程和基于优化的图像生成算法非常相似。也就意味着之前很多基于优化的图像生成算法都可以迁移到扩散模型上。我们可以通过修改Guided
+Diffusion中的条件类型，来实现更加丰富有趣的扩散生成效果。</p>
+<p>这里介绍的Disco Diffusion是借鉴了另外一篇GAN的工作，<a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/2204.08583">VQGAN+CLIP</a>，该工作利用CLIP作为损失函数的一部分，让VQGAN生成带目标文字语义的图片。</p>
+<h4 id="文本引导">文本引导</h4>
+<p><a target="_blank" rel="noopener" href="https://openai.com/blog/clip/">CLIP(Contrastive
+Language-Image Pre-Training)</a>是一个在各种 图像、文本
+pair对上训练的神经网络。CLIP
+模型包含一个图像编码网络EI(x)和文本编码网络 EL(l) ，两个编码网络能够各自将文本和图片编码为1*512
+大小的向量，然后我们可以通过余弦距离来度量两者之间的相似度。</p>
+<p><img src="http://cp0000.github.io/assets/diffusion/CLIP.jpg" /></p>
 <p>基于文本条件的图像生成中，就可以利用CLIP来度量一张图片是否和文本描述符合。</p>
 
       
@@ -415,6 +479,8 @@
 
 
 
+
+  
 
   
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文介绍ffmpeg命令行的一些使用方法； 参数主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -fs——超过指定的文件大小时则结束转换。 -ss——从指定时间开始转换。 -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。 -title——设置标题。 -">
+  <meta name="description" content="本文介绍ffmpeg命令行的一些使用方法； ## 参数 ### 主要参数 + -i——设置输入档名。 + -f——设置输出格式。 + -y——若输出文件已存在时则覆盖文件。 + -fs——超过指定的文件大小时则结束转换。 + -ss——从指定时间开始转换。 + -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ffmpeg 使用例程">
 <meta property="og:url" content="https://cp0000.github.io/2016/11/07/ffmpeg-command-example/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="本文介绍ffmpeg命令行的一些使用方法； 参数主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -fs——超过指定的文件大小时则结束转换。 -ss——从指定时间开始转换。 -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。 -title——设置标题。 -">
+<meta property="og:description" content="本文介绍ffmpeg命令行的一些使用方法； ## 参数 ### 主要参数 + -i——设置输入档名。 + -f——设置输出格式。 + -y——若输出文件已存在时则覆盖文件。 + -fs——超过指定的文件大小时则结束转换。 + -ss——从指定时间开始转换。 + -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2016-11-07T13:03:47.000Z">
 <meta property="article:modified_time" content="2017-10-06T14:20:40.000Z">
@@ -85,7 +85,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -213,57 +217,55 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本文介绍<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/FFmpeg">ffmpeg</a>命令行的一些使用方法；</p>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><h3 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h3><ul>
-<li>-i——设置输入档名。</li>
-<li>-f——设置输出格式。</li>
-<li>-y——若输出文件已存在时则覆盖文件。</li>
-<li>-fs——超过指定的文件大小时则结束转换。</li>
-<li>-ss——从指定时间开始转换。</li>
-<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
-<li>-title——设置标题。</li>
-<li>-timestamp——设置时间戳。</li>
-<li>-vsync——增减Frame使影音同步。<h3 id="视频参数"><a href="#视频参数" class="headerlink" title="视频参数"></a>视频参数</h3></li>
-<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
-<li>-r——设置帧率值，默认为25。</li>
-<li>-s——设置画面的宽与高。</li>
-<li>-aspect——设置画面的比例。</li>
-<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
-<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。<h3 id="声音参数"><a href="#声音参数" class="headerlink" title="声音参数"></a>声音参数</h3></li>
-<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
-<li>-ar——设置采样率。</li>
-<li>-ac——设置声音的Channel数。</li>
-<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
-<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
-<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
-</ul>
+        <p>本文介绍<a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/FFmpeg">ffmpeg</a>命令行的一些使用方法；
+## 参数 ### 主要参数 + -i——设置输入档名。 + -f——设置输出格式。 +
+-y——若输出文件已存在时则覆盖文件。 +
+-fs——超过指定的文件大小时则结束转换。 + -ss——从指定时间开始转换。 +
+-t从-ss时间开始转换（如-ss 00:00:01.00 -t
+00:00:10.00即从00:00:01.00开始到00:00:11.00）。 + -title——设置标题。 +
+-timestamp——设置时间戳。 + -vsync——增减Frame使影音同步。 ### 视频参数 +
+-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项） +
+-r——设置帧率值，默认为25。 + -s——设置画面的宽与高。 +
+-aspect——设置画面的比例。 + -vn——不处理视频，于仅针对声音做处理时使用。
++ -vcodec( -c:v
+)——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。 ###
+声音参数 +
+-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）
++ -ar——设置采样率。 + -ac——设置声音的Channel数。 + -acodec ( -c:a )
+——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。 +
+-an——不处理声音，于仅针对视频做处理时使用。 +
+-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</p>
 <p>##例子</p>
 <p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
-<h3 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h3><p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
-<pre><code>ffmpeg -i input.mp4  -strict -2 -vf crop=405:720:420:0  video_out.mp4
-</code></pre>
-<p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
-<h3 id="视频转换成图片"><a href="#视频转换成图片" class="headerlink" title="视频转换成图片"></a>视频转换成图片</h3><pre><code> ffmpeg -i input.mp4 image%3d.png
-</code></pre>
+<h3 id="裁剪视频">裁剪视频</h3>
+<p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
+<pre><code>ffmpeg -i input.mp4  -strict -2 -vf crop=405:720:420:0  video_out.mp4</code></pre>
+<p>其中的crop=405:720:420:0
+裁剪参数，具体含义是：crop=width:height:x:y.其中
+width和height便是裁剪后的尺寸，x:y 表示裁剪区域的左上角坐标。</p>
+<h3 id="视频转换成图片">视频转换成图片</h3>
+<pre><code> ffmpeg -i input.mp4 image%3d.png</code></pre>
 <p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
-<pre><code> ffmpeg -i input.mp4 -r 30  $filename%3d.png  
-</code></pre>
-<p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
-<pre><code>ffprobe &quot;input.mp4&quot; -v 0 -select_streams v  -print_format flat -show_entries stream=r_frame_rate 
-</code></pre>
-<h3 id="剪辑视频"><a href="#剪辑视频" class="headerlink" title="剪辑视频"></a>剪辑视频</h3><p>一段长视频只需要保留其中一段，可用如下命令：</p>
-<pre><code>ffmpeg -i input.mp4 -ss 00:00:21 -t 00:00:10 -acodec aac -vcodec h264 -strict -2 out.mp4
-</code></pre>
-<p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
-<h3 id="调整视频分辨率大小"><a href="#调整视频分辨率大小" class="headerlink" title="调整视频分辨率大小"></a>调整视频分辨率大小</h3><p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
-<pre><code>ffmpeg -i input.mp4 -vf scale=853:480 -acodec aac -vcodec h264 out.mp4
-</code></pre>
+<pre><code> ffmpeg -i input.mp4 -r 30  $filename%3d.png  </code></pre>
+<p>其中 <code>-r 30</code>
+是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
+<pre><code>ffprobe &quot;input.mp4&quot; -v 0 -select_streams v  -print_format flat -show_entries stream=r_frame_rate </code></pre>
+<h3 id="剪辑视频">剪辑视频</h3>
+<p>一段长视频只需要保留其中一段，可用如下命令：</p>
+<pre><code>ffmpeg -i input.mp4 -ss 00:00:21 -t 00:00:10 -acodec aac -vcodec h264 -strict -2 out.mp4</code></pre>
+<p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点），
+<code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
+<h3 id="调整视频分辨率大小">调整视频分辨率大小</h3>
+<p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成
+480p：</p>
+<pre><code>ffmpeg -i input.mp4 -vf scale=853:480 -acodec aac -vcodec h264 out.mp4</code></pre>
 <ul>
-<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
-<li><code>-vcodec h264</code> 指定视频使用 h264 编码。<blockquote>
-<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
-</blockquote>
-</li>
+<li><code>-vf scale=853:480</code> vf
+参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
+<li><code>-vcodec h264</code> 指定视频使用 h264 编码。
+&gt;目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac，
+视频编码是 h264.</li>
 </ul>
 
     </div>
@@ -345,7 +347,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">主要参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">视频参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E9%9F%B3%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">声音参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A3%81%E5%89%AA%E8%A7%86%E9%A2%91"><span class="nav-number">1.4.</span> <span class="nav-text">裁剪视频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E8%BD%AC%E6%8D%A2%E6%88%90%E5%9B%BE%E7%89%87"><span class="nav-number">1.5.</span> <span class="nav-text">视频转换成图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AA%E8%BE%91%E8%A7%86%E9%A2%91"><span class="nav-number">1.6.</span> <span class="nav-text">剪辑视频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E8%A7%86%E9%A2%91%E5%88%86%E8%BE%A8%E7%8E%87%E5%A4%A7%E5%B0%8F"><span class="nav-number">1.7.</span> <span class="nav-text">调整视频分辨率大小</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A3%81%E5%89%AA%E8%A7%86%E9%A2%91"><span class="nav-number">1.</span> <span class="nav-text">裁剪视频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E8%BD%AC%E6%8D%A2%E6%88%90%E5%9B%BE%E7%89%87"><span class="nav-number">2.</span> <span class="nav-text">视频转换成图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AA%E8%BE%91%E8%A7%86%E9%A2%91"><span class="nav-number">3.</span> <span class="nav-text">剪辑视频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E8%A7%86%E9%A2%91%E5%88%86%E8%BE%A8%E7%8E%87%E5%A4%A7%E5%B0%8F"><span class="nav-number">4.</span> <span class="nav-text">调整视频分辨率大小</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -450,6 +452,8 @@
 
 
 
+
+  
 
   
 

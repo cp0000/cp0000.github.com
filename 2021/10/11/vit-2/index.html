@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="2 Transformer的实现和代码解读2.1 Transformer原理分析：  Encoder  图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head Attention, Decoder">
+  <meta name="description" content="2 Transformer的实现和代码解读 2.1 Transformer原理分析：   图1: Transformer   Encoder  图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vision Transformer - Transformer的实现和代码解读">
 <meta property="og:url" content="https://cp0000.github.io/2021/10/11/vit-2/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="2 Transformer的实现和代码解读2.1 Transformer原理分析：  Encoder  图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head Attention, Decoder">
+<meta property="og:description" content="2 Transformer的实现和代码解读 2.1 Transformer原理分析：   图1: Transformer   Encoder  图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://cp0000.github.io/assets/vit/transformer_1.jpeg">
 <meta property="og:image" content="http://cp0000.github.io/assets/vit/normalization.jpeg">
@@ -91,7 +91,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -210,24 +214,58 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="2-Transformer的实现和代码解读"><a href="#2-Transformer的实现和代码解读" class="headerlink" title="2 Transformer的实现和代码解读"></a>2 Transformer的实现和代码解读</h3><h4 id="2-1-Transformer原理分析："><a href="#2-1-Transformer原理分析：" class="headerlink" title="2.1 Transformer原理分析："></a>2.1 Transformer原理分析：</h4><p><img src="http://cp0000.github.io/assets/vit/transformer_1.jpeg" alt="图1: Transformer"></p>
+        <h3 id="transformer的实现和代码解读">2 Transformer的实现和代码解读</h3>
+<h4 id="transformer原理分析">2.1 Transformer原理分析：</h4>
+<figure>
+<img src="http://cp0000.github.io/assets/vit/transformer_1.jpeg"
+alt="图1: Transformer" />
+<figcaption aria-hidden="true">图1: Transformer</figcaption>
+</figure>
 <blockquote>
 <p>Encoder</p>
 </blockquote>
-<p>图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head Attention, Decoder block包含两个Multi-Head Attention(其中有一个用到Masked)。Multi-Head Attention上方还包括一个Add &amp; Norm 层，Add表示残差连接（Residual Connection）用于防止网络退化。Norm 表示Layer Normalization,用于对每一层的激活值进行归一化。比如说在Encoder input处的输入是机器学习，在Decoder Input处的输入是<BOS>,输出是machine。再下一个时刻在Decoder Input处的输入是machine，输出是learning。不断重复直到输出是句点(.)代表翻译结束。</p>
-<p>Encoder: 首先输入 X ∈ R(nx, N)通过一个Input Embedding的转移矩阵 Wx ∈ R(d, nx)变为一个张量，即上文所述的 I ∈ R(d, N)，再加上一个表示位置的Positional Encoding E ∈ R(d, N),得到一个张量。</p>
-<p>进入绿色block，绿色的block会重复N次。绿色Block的第1层是一个上文讲的multi-head的attention。现在一个sequence I ∈ R(d, N)经过一个multi-head 的attention，会得到另外一个sequence O ∈ R(d, N).</p>
-<p>下一个Layer是Add &amp; Norm，这里的意思是：把multi-head的attention的layer的输入 I ∈ R(d, N)和输出O ∈ R(d, N)进行相加以后，再做Layer Normalization。</p>
-<p><img src="http://cp0000.github.io/assets/vit/normalization.jpeg" alt="图2: Normalization"></p>
-<p>Batch Normalization强行让一个batch的数据的某个channel的 μ=0，σ=1，而Layer Normalization让一个数据的所有channel的μ=0，σ=1。</p>
-<p><img src="http://cp0000.github.io/assets/vit/bn_ln.jpeg" alt="图3: BN和LN的对比"></p>
-<p>接着是一个Feed Forward的前馈网络和一个Add &amp; Norm Layer。<br>所以，这一个绿色的block的前2个Layer操作的表达式为：</p>
+<p>图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder
+block。红色圈中的部分为Multi-Head
+Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head
+Attention, Decoder block包含两个Multi-Head
+Attention(其中有一个用到Masked)。Multi-Head Attention上方还包括一个Add
+&amp; Norm 层，Add表示残差连接（Residual
+Connection）用于防止网络退化。Norm 表示Layer
+Normalization,用于对每一层的激活值进行归一化。比如说在Encoder
+input处的输入是机器学习，在Decoder
+Input处的输入是<BOS>,输出是machine。再下一个时刻在Decoder
+Input处的输入是machine，输出是learning。不断重复直到输出是句点(.)代表翻译结束。</p>
+<p>Encoder: 首先输入 X ∈ R(nx, N)通过一个Input Embedding的转移矩阵 Wx ∈
+R(d, nx)变为一个张量，即上文所述的 I ∈ R(d,
+N)，再加上一个表示位置的Positional Encoding E ∈ R(d,
+N),得到一个张量。</p>
+<p>进入绿色block，绿色的block会重复N次。绿色Block的第1层是一个上文讲的multi-head的attention。现在一个sequence
+I ∈ R(d, N)经过一个multi-head 的attention，会得到另外一个sequence O ∈
+R(d, N).</p>
+<p>下一个Layer是Add &amp;
+Norm，这里的意思是：把multi-head的attention的layer的输入 I ∈ R(d,
+N)和输出O ∈ R(d, N)进行相加以后，再做Layer Normalization。</p>
+<figure>
+<img src="http://cp0000.github.io/assets/vit/normalization.jpeg"
+alt="图2: Normalization" />
+<figcaption aria-hidden="true">图2: Normalization</figcaption>
+</figure>
+<p>Batch Normalization强行让一个batch的数据的某个channel的
+μ=0，σ=1，而Layer Normalization让一个数据的所有channel的μ=0，σ=1。</p>
+<figure>
+<img src="http://cp0000.github.io/assets/vit/bn_ln.jpeg"
+alt="图3: BN和LN的对比" />
+<figcaption aria-hidden="true">图3: BN和LN的对比</figcaption>
+</figure>
+<p>接着是一个Feed Forward的前馈网络和一个Add &amp; Norm Layer。
+所以，这一个绿色的block的前2个Layer操作的表达式为：</p>
 <blockquote>
 <p>O1 = LayerNormalization(I + Multi-head Self-Attention(I))</p>
 </blockquote>
 <p>这一个绿色的block的后2个Layer操作的表达式为：</p>
 <blockquote>
-<p>O2 = LayerNormalization(O1 + FeedForwardNetwork(O1))<br>Block(I) = O2</p>
+<p>O2 = LayerNormalization(O1 + FeedForwardNetwork(O1)) Block(I) =
+O2</p>
 </blockquote>
 <p>所以Transformer的Encoder的整体操作为：</p>
 <blockquote>
@@ -236,29 +274,55 @@
 <blockquote>
 <p>Decoder:</p>
 </blockquote>
-<p>现在来看Decoder的部分，输入包括2部分，下方是前一个timestep的输出的embedding，即上文所述的I ∈ R(d,N)，再加上一个表示位置的Positional Encoding E ∈ R(d,N)，得到一个张量，去往后面的操作。它进入了绿色的block，绿色的block会重复N次。</p>
-<p>绿色block里面的内容，首先是Masked Multi-Head Self-attention,masked的意思是使attend on已经产生的sequence,这个很合理，因为还没有产生出来的东西是不存在的，就无法做attention。</p>
-<p><strong>输出是：</strong> 对应 i 位置的输出词的概率分布<br><strong>输入是：</strong> Encoder 的输出和对应 i-1 位置decoder的输出。所以中间的attention不是self-attention,它的key和value来自Encoder，Query来自上一位置Decoder的输出。</p>
-<p><strong>解码：</strong> 这里要特别注意一下，编码可以并行计算，一次性全部Encoding出来，但解码不是一次把所有序列解出来，而是像RNN一样一个一个解出来的，因为要用上一个位置的输入当作attention的query。</p>
-<p>明确了解码过程之后最上面的图就很好懂了，这里主要的不同就是新加的attention多了一个mask，因为训练时的output都是Ground Truth，这样可以确保预测第i个位置时不会接触到未来的信息。</p>
+<p>现在来看Decoder的部分，输入包括2部分，下方是前一个timestep的输出的embedding，即上文所述的I
+∈ R(d,N)，再加上一个表示位置的Positional Encoding E ∈
+R(d,N)，得到一个张量，去往后面的操作。它进入了绿色的block，绿色的block会重复N次。</p>
+<p>绿色block里面的内容，首先是Masked Multi-Head
+Self-attention,masked的意思是使attend
+on已经产生的sequence,这个很合理，因为还没有产生出来的东西是不存在的，就无法做attention。</p>
+<p><strong>输出是：</strong> 对应 i 位置的输出词的概率分布
+<strong>输入是：</strong> Encoder 的输出和对应 i-1
+位置decoder的输出。所以中间的attention不是self-attention,它的key和value来自Encoder，Query来自上一位置Decoder的输出。</p>
+<p><strong>解码：</strong>
+这里要特别注意一下，编码可以并行计算，一次性全部Encoding出来，但解码不是一次把所有序列解出来，而是像RNN一样一个一个解出来的，因为要用上一个位置的输入当作attention的query。</p>
+<p>明确了解码过程之后最上面的图就很好懂了，这里主要的不同就是新加的attention多了一个mask，因为训练时的output都是Ground
+Truth，这样可以确保预测第i个位置时不会接触到未来的信息。</p>
 <ul>
 <li>包含两个Multi-Head Attention层。</li>
 <li>第一个Multi-Head Attention层采用了Masked操作。</li>
-<li>第二个Multi-Head Attention层的key，value矩阵使用Encoder的编码信息矩阵C进行计算，而Query使用上一个Decoder block的输出计算。</li>
+<li>第二个Multi-Head
+Attention层的key，value矩阵使用Encoder的编码信息矩阵C进行计算，而Query使用上一个Decoder
+block的输出计算。</li>
 <li>最后有一个Softmax层计算下一个翻译单词的概率</li>
 </ul>
-<p>下面详细介绍下Masked Multi-Head Self-attention的具体操作，Masked在Scale操作之后，softmax操作之前。</p>
-<p><img src="http://cp0000.github.io/assets/vit/masked.png" alt="图4: Masked在Scale操作之后，softmax操作之前"></p>
-<p>因为在翻译的过程中是顺序翻译的，即翻译完第i个单词，才可以翻译第 i+1 个单词。通过Masked操作可以防止第i个单词知道第i+1个单词之后的信息。下面以“我有一只猫”翻译成“I have a cat”为例，了解一下Masked操作。在Decoder的时候，是需要根据之前的翻译，求解当前最有可能的翻译，如下图所示。首先根据输入“<Begin>”预测出第一个单词为“I”，然后根据输入“<Begin> I”预测下一个单词“have”。</p>
-<p>Decoder 在训练的过程中使用 Teacher Forcing并且并行化训练，即将正确的单词序列（<Beigin> I have a cat）和对应输出(I have a cat <end>) 传递到Decoder。那么在预测第i个输出时，就要将第i+1之后的单词掩盖住，注意Mask操作是在Self-Attention的softmax之前使用的，下面用0 1 2 3 4 5分别表示”<Begin> I have a cat <end>“。</p>
-<p><img src="http://cp0000.github.io/assets/vit/decoder.png" alt="图5: Decoder过程"></p>
+<p>下面详细介绍下Masked Multi-Head
+Self-attention的具体操作，Masked在Scale操作之后，softmax操作之前。</p>
+<figure>
+<img src="http://cp0000.github.io/assets/vit/masked.png"
+alt="图4: Masked在Scale操作之后，softmax操作之前" />
+<figcaption aria-hidden="true">图4:
+Masked在Scale操作之后，softmax操作之前</figcaption>
+</figure>
+<p>因为在翻译的过程中是顺序翻译的，即翻译完第i个单词，才可以翻译第 i+1
+个单词。通过Masked操作可以防止第i个单词知道第i+1个单词之后的信息。下面以“我有一只猫”翻译成“I
+have a
+cat”为例，了解一下Masked操作。在Decoder的时候，是需要根据之前的翻译，求解当前最有可能的翻译，如下图所示。首先根据输入“<Begin>”预测出第一个单词为“I”，然后根据输入“<Begin>
+I”预测下一个单词“have”。</p>
+<p>Decoder 在训练的过程中使用 Teacher
+Forcing并且并行化训练，即将正确的单词序列（<Beigin> I have a
+cat）和对应输出(I have a cat <end>)
+传递到Decoder。那么在预测第i个输出时，就要将第i+1之后的单词掩盖住，注意Mask操作是在Self-Attention的softmax之前使用的，下面用0
+1 2 3 4 5分别表示"<Begin> I have a cat <end>"。</p>
+<figure>
+<img src="http://cp0000.github.io/assets/vit/decoder.png"
+alt="图5: Decoder过程" />
+<figcaption aria-hidden="true">图5: Decoder过程</figcaption>
+</figure>
 <p>注意这里transformer模型训练和测试的方法不同：</p>
-<p><strong>测试时：</strong></p>
-<ol>
-<li>输入<Begin>,解码器输出 I</li>
-<li>输入前面已经解码的<Begin>和I，解码器输出have</li>
-<li>输入已经解码的<Begin>, I, have, a, cat, 解码器输出解码结束标志位<end>,每次解码都会利用前面已经解码输出的所有单词嵌入信息。</li>
-</ol>
+<p><strong>测试时：</strong> 1. 输入<Begin>,解码器输出 I 2.
+输入前面已经解码的<Begin>和I，解码器输出have 3. 输入已经解码的<Begin>,
+I, have, a, cat,
+解码器输出解码结束标志位<end>,每次解码都会利用前面已经解码输出的所有单词嵌入信息。</p>
 
     </div>
 
@@ -339,7 +403,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Transformer%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="nav-number">1.</span> <span class="nav-text">2 Transformer的实现和代码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Transformer%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">2.1 Transformer原理分析：</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#transformer%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="nav-number">1.</span> <span class="nav-text">2 Transformer的实现和代码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transformer%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">2.1 Transformer原理分析：</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -444,6 +508,8 @@
 
 
 
+
+  
 
   
 

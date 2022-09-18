@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="LeNet LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。  LeNet-5是用来处理手写字符的识别问题，总共有7层。其结构如下    LeNet-5的网络细节如下：    AlexNet AlexNet被认为是计算机视觉领域最有影响力的论文之一，它刺激了更多使用卷积神经网络和GPU来加速深度学习的论文出现。截至2022年，AlexNet论文">
+  <meta name="description" content="LeNet  LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。  LeNet-5是用来处理手写字符的识别问题，总共有7层。其结构如下  LeNet-5的网络细节如下：  AlexNet  AlexNet被认为是计算机视觉领域最有影响力的论文之一，它刺激了更多使用卷积神经网络和GPU来加速深度学习的论文出现。截至2022年，AlexNet论文已被">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机视觉经典网络：LeNet，AlexNet, VGG, GoogLeNet, ResNet">
 <meta property="og:url" content="https://cp0000.github.io/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="LeNet LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。  LeNet-5是用来处理手写字符的识别问题，总共有7层。其结构如下    LeNet-5的网络细节如下：    AlexNet AlexNet被认为是计算机视觉领域最有影响力的论文之一，它刺激了更多使用卷积神经网络和GPU来加速深度学习的论文出现。截至2022年，AlexNet论文">
+<meta property="og:description" content="LeNet  LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。  LeNet-5是用来处理手写字符的识别问题，总共有7层。其结构如下  LeNet-5的网络细节如下：  AlexNet  AlexNet被认为是计算机视觉领域最有影响力的论文之一，它刺激了更多使用卷积神经网络和GPU来加速深度学习的论文出现。截至2022年，AlexNet论文已被">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/lenet.png">
 <meta property="og:image" content="http://cp0000.github.io/assets/vision_net/lenet_detail.png">
@@ -98,7 +98,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -211,35 +215,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="LeNet"><a href="#LeNet" class="headerlink" title="LeNet"></a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/LeNet">LeNet</a></h4><blockquote>
-<p>LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。</p>
+        <h4 id="lenet"><a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/LeNet">LeNet</a></h4>
+<blockquote>
+<p>LeNet一般指LeNet-5，是Yann
+LeCun再多次研究后于1998年提出的卷积神经网络结构。</p>
 </blockquote>
 <p>LeNet-5是用来处理手写字符的识别问题，总共有7层。其结构如下</p>
-<img src="http://cp0000.github.io/assets/vision_net/lenet.png" width="720px" >
-
-
+<p><img src="http://cp0000.github.io/assets/vision_net/lenet.png" width="720px" ></p>
 <p>LeNet-5的网络细节如下：</p>
-<img src="http://cp0000.github.io/assets/vision_net/lenet_detail.png" width="360px" >
-
-
-<h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AlexNet">AlexNet</a></h4><blockquote>
+<p><img src="http://cp0000.github.io/assets/vision_net/lenet_detail.png" width="360px" ></p>
+<h4 id="alexnet"><a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AlexNet">AlexNet</a></h4>
+<blockquote>
 <p>AlexNet被认为是计算机视觉领域最有影响力的论文之一，它刺激了更多使用卷积神经网络和GPU来加速深度学习的论文出现。截至2022年，AlexNet论文已被引用超过105287次。</p>
 </blockquote>
-<p><strong>网络设计</strong><br>AlexNet包含八层。前五层是卷基层，之后是最大池化层，最后三层是全连接层。使用<code>ReLU</code>激活函数。</p>
+<p><strong>网络设计</strong>
+AlexNet包含八层。前五层是卷基层，之后是最大池化层，最后三层是全连接层。使用<code>ReLU</code>激活函数。</p>
 <p><strong>网络结构</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/alexnet.png" width="720px" >
-
+<p><img src="http://cp0000.github.io/assets/vision_net/alexnet.png" width="720px" ></p>
 <p>AlexNet的网络细节如下：</p>
-<img src="http://cp0000.github.io/assets/vision_net/alexnet_detail.png" width="360px" >
-
-<h4 id="VGGNet"><a href="#VGGNet" class="headerlink" title="VGGNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">VGGNet</a></h4><p>VGG是牛津的Visual Geometry Group组于2014年提出的网络结构。该网络是在ILSVRC 2014上的相关工作，主要证明了增加网络深度能够在一定程度上影响网络最终的性能。</p>
-<p><strong>VGG原理</strong><br>VGG中，使用3个3x3卷积核来代替7x7卷积核，使用2个3x3卷积核来代替5x5卷积核，这样做的目的是在保证相同感受野的条件下，提升了网络深度。而增加网络深度过程中引入的多层非线性层帮助学习到更复杂的模式，在一定程度上提升了神经网络的效果。</p>
+<p><img src="http://cp0000.github.io/assets/vision_net/alexnet_detail.png" width="360px" ></p>
+<h4 id="vggnet"><a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">VGGNet</a></h4>
+<p>VGG是牛津的Visual Geometry
+Group组于2014年提出的网络结构。该网络是在ILSVRC
+2014上的相关工作，主要证明了增加网络深度能够在一定程度上影响网络最终的性能。</p>
+<p><strong>VGG原理</strong>
+VGG中，使用3个3x3卷积核来代替7x7卷积核，使用2个3x3卷积核来代替5x5卷积核，这样做的目的是在保证相同感受野的条件下，提升了网络深度。而增加网络深度过程中引入的多层非线性层帮助学习到更复杂的模式，在一定程度上提升了神经网络的效果。</p>
 <p><strong>VGG网络结构</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/vggnet.png" width="720px" >
-
+<p><img src="http://cp0000.github.io/assets/vision_net/vggnet.png" width="720px" ></p>
 <p><strong>VGG网路细节</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/vggnet_detail.png" width="720px" >
-
+<p><img src="http://cp0000.github.io/assets/vision_net/vggnet_detail.png" width="720px" ></p>
 <p>上图是VGG各种网络的网络结构。</p>
 <ul>
 <li>VGG16包含了13个卷积层和3个全连层，如上图的网络D。</li>
@@ -248,59 +255,70 @@
 <p><strong>VGG优缺点</strong></p>
 <ul>
 <li>主要贡献是增加了网络深度</li>
-<li>优点：网络结构简洁，整个网络使用同样大小的卷积核尺寸（3x3） 和最大池化尺寸（2x2）。</li>
+<li>优点：网络结构简洁，整个网络使用同样大小的卷积核尺寸（3x3）
+和最大池化尺寸（2x2）。</li>
 <li>缺点：最后三个FC层计算量巨大，耗费更多资源</li>
 </ul>
-<h4 id="GoogLeNet"><a href="#GoogLeNet" class="headerlink" title="GoogLeNet"></a><a target="_blank" rel="noopener" href="https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf">GoogLeNet</a></h4><p>GoogLeNet是Google于2014年推出的基于Inception模块的深度神经网络模型，并在随后的两年中一直改进，形成InceptionV2, InceptionV3,Inception V4等版本。</p>
-<p><strong>Inception-V1</strong><br>Inception是把多个卷积或池化操作，放在一起组装成一个网络模块，设计神经网络时以模块为单位去组成整个网络结构。Inception结构如下图所示：</p>
-<img src="http://cp0000.github.io/assets/vision_net/inception_layer.png" width="480px" >
-
-<p>如上图所示，Inception Module结构组成有四个成分：1x1 conv, 3x3 conv, 5x5 conv, 3x3 maxpooling. 最后对四个成分运算结果进行通道上组合。Inception Module的核心思想是：利用不同大小的卷积核实现不同尺度的感知，最后进行融合，可以得到图像更好的表征。</p>
-<p>另外图中的1x1 conv 有两种，一种蓝色底，一种黄色底，其中黄色底1x1 conv是用来进行压缩降维的。因为使用Inception结构，利用上多尺度卷积后，网络变宽了，计算量变大了；需要减少参数量来减少计算量，所以在Inception v1中加入了黄色底 1x1 conv来进行降维。黄色底1x1 conv 叫做 pointwise conv.</p>
+<h4 id="googlenet"><a
+target="_blank" rel="noopener" href="https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf">GoogLeNet</a></h4>
+<p>GoogLeNet是Google于2014年推出的基于Inception模块的深度神经网络模型，并在随后的两年中一直改进，形成InceptionV2,
+InceptionV3,Inception V4等版本。</p>
+<p><strong>Inception-V1</strong>
+Inception是把多个卷积或池化操作，放在一起组装成一个网络模块，设计神经网络时以模块为单位去组成整个网络结构。Inception结构如下图所示：</p>
+<p><img src="http://cp0000.github.io/assets/vision_net/inception_layer.png" width="480px" ></p>
+<p>如上图所示，Inception Module结构组成有四个成分：1x1 conv, 3x3 conv,
+5x5 conv, 3x3 maxpooling.
+最后对四个成分运算结果进行通道上组合。Inception
+Module的核心思想是：利用不同大小的卷积核实现不同尺度的感知，最后进行融合，可以得到图像更好的表征。</p>
+<p>另外图中的1x1 conv 有两种，一种蓝色底，一种黄色底，其中黄色底1x1
+conv是用来进行压缩降维的。因为使用Inception结构，利用上多尺度卷积后，网络变宽了，计算量变大了；需要减少参数量来减少计算量，所以在Inception
+v1中加入了黄色底 1x1 conv来进行降维。黄色底1x1 conv 叫做 pointwise
+conv.</p>
 <p><strong>GoogLeNet网络结构</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="1280px" >
-
-<p>GoogLNet网络有22层深（加上pool层，有27层深），由于全连接层参数多，计算量大，容易过拟合，所以GoogLNet没有采用LeNet，AlexNet，VGG三层全连接结构，在Inception模块之后使用Average Pool和Dropout方法，同时达到防止过拟合和降维的作用。</p>
-<p>辅助分类器： 为了利用中间层抽象的特征，在某些中间层中添加含有多层的分类器。GoogLNet网络中加入了两个辅助分类器，作用有两点：一是为了避免梯度小时，用于向前传导梯度。反向传播时如果有一层求导为0，链式求导结果为0.二是将中间某一层输出作用作分类，起到模型融合作用。</p>
+<p><img src="http://cp0000.github.io/assets/vision_net/googlenet.png" width="1280px" ></p>
+<p>GoogLNet网络有22层深（加上pool层，有27层深），由于全连接层参数多，计算量大，容易过拟合，所以GoogLNet没有采用LeNet，AlexNet，VGG三层全连接结构，在Inception模块之后使用Average
+Pool和Dropout方法，同时达到防止过拟合和降维的作用。</p>
+<p>辅助分类器：
+为了利用中间层抽象的特征，在某些中间层中添加含有多层的分类器。GoogLNet网络中加入了两个辅助分类器，作用有两点：一是为了避免梯度小时，用于向前传导梯度。反向传播时如果有一层求导为0，链式求导结果为0.二是将中间某一层输出作用作分类，起到模型融合作用。</p>
 <p><strong>GoogLeNet网络细节</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/googlenet_detail.png" width="720px" >
-
-
-
-<h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1512.03385">ResNet</a></h4><p>深度学习网络的深度对最后分类和识别的效果有很大影响，但我们把网络设计的很深时，网络在训练时，梯度消失的现象会越来越明显。为了解决这一问题，何恺明于2015年提出了ResNet，深度残差网络。ResNet，全称Deep residual network，网路中通过引入residual block解决了当CNN网络深度很深时网络学习退化的问题。ResNet的提出是CNN图像史上一件里程碑事件。</p>
+<p><img src="http://cp0000.github.io/assets/vision_net/googlenet_detail.png" width="720px" ></p>
+<h4 id="resnet"><a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/1512.03385">ResNet</a></h4>
+<p>深度学习网络的深度对最后分类和识别的效果有很大影响，但我们把网络设计的很深时，网络在训练时，梯度消失的现象会越来越明显。为了解决这一问题，何恺明于2015年提出了ResNet，深度残差网络。ResNet，全称Deep
+residual network，网路中通过引入residual
+block解决了当CNN网络深度很深时网络学习退化的问题。ResNet的提出是CNN图像史上一件里程碑事件。</p>
 <p><strong>残差块：Residual Block</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/residual_block.png" width="360px" >
-
-<p>非常深的网络很难训练，存在梯度消失和梯度爆炸问题，学习skip connection它可以从某一层获得激活，然后迅速反馈给另外一层甚至更深层，利用skip connection可以构建残差网络ResNet来训练更深的网络，ResNet网络时由残差模块构建的。</p>
+<p><img src="http://cp0000.github.io/assets/vision_net/residual_block.png" width="360px" ></p>
+<p>非常深的网络很难训练，存在梯度消失和梯度爆炸问题，学习skip
+connection它可以从某一层获得激活，然后迅速反馈给另外一层甚至更深层，利用skip
+connection可以构建残差网络ResNet来训练更深的网络，ResNet网络时由残差模块构建的。</p>
 <p><strong>ResNet网络结构</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/resnet.png" width="720px" >
-
-
+<p><img src="http://cp0000.github.io/assets/vision_net/resnet.png" width="720px" ></p>
 <p><strong>ResNet网络细节</strong></p>
-<img src="http://cp0000.github.io/assets/vision_net/resnet_detail.png" width="720px" >
-
-
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
-<li><ol>
-<li>本文梳理了从CNN开山之作 LeNet，到目前被广泛应用在科研，工业界的ResNet。可以看出深度神经网络朝着越来越深的方向发展。</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>AlexNet作为现代CNN网络的开端，奠定了目前使用的CNN网络的基本架构。从AlexNet，到VGG，GooGleNet，再到ResNet，网络均分成5层（以feature map的size来做区分）。且都经过5次下采样，feature map size的大小变换为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">224x224 -&gt; 112x112 -&gt; 56x56 -&gt; 28x28 -&gt; 14x14 -&gt; 7x7</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-<li><ol start="3">
-<li>纵向比较，个人觉得这里面 <code>AlexNet</code>, <code>VGG</code>,<code> ResNet</code> 是三个最具创造性的网络。（LeNet有点确实久远）</li>
-</ol>
-</li>
-<li><ol start="4">
-<li>GoogLeNet 中的 Inception 后续会演化出 Xception，以及我们能在MobileNet中看到一些影子。</li>
-</ol>
-</li>
-<li><ol start="5">
+<p><img src="http://cp0000.github.io/assets/vision_net/resnet_detail.png" width="720px" ></p>
+<h4 id="总结">总结</h4>
+<ul>
+<li><ol type="1">
+<li>本文梳理了从CNN开山之作
+LeNet，到目前被广泛应用在科研，工业界的ResNet。可以看出深度神经网络朝着越来越深的方向发展。</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>AlexNet作为现代CNN网络的开端，奠定了目前使用的CNN网络的基本架构。从AlexNet，到VGG，GooGleNet，再到ResNet，网络均分成5层（以feature
+map的size来做区分）。且都经过5次下采样，feature map size的大小变换为：
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">224x224 -&gt; 112x112 -&gt; 56x56 -&gt; 28x28 -&gt; 14x14 -&gt; 7x7</span><br></pre></td></tr></table></figure></li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>纵向比较，个人觉得这里面 <code>AlexNet</code>,
+<code>VGG</code>,<code>ResNet</code>
+是三个最具创造性的网络。（LeNet有点确实久远）</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>GoogLeNet 中的 Inception 后续会演化出
+Xception，以及我们能在MobileNet中看到一些影子。</li>
+</ol></li>
+<li><ol start="5" type="1">
 <li>从CNN网络的发展，也能看出，技术都是通过不断迭代，一步步演化出来。</li>
-</ol>
-</li>
+</ol></li>
 </ul>
 
     </div>
@@ -382,7 +400,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#LeNet"><span class="nav-number">1.</span> <span class="nav-text">LeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AlexNet"><span class="nav-number">2.</span> <span class="nav-text">AlexNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGNet"><span class="nav-number">3.</span> <span class="nav-text">VGGNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GoogLeNet"><span class="nav-number">4.</span> <span class="nav-text">GoogLeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ResNet"><span class="nav-number">5.</span> <span class="nav-text">ResNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#lenet"><span class="nav-number">1.</span> <span class="nav-text">LeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#alexnet"><span class="nav-number">2.</span> <span class="nav-text">AlexNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vggnet"><span class="nav-number">3.</span> <span class="nav-text">VGGNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#googlenet"><span class="nav-number">4.</span> <span class="nav-text">GoogLeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resnet"><span class="nav-number">5.</span> <span class="nav-text">ResNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -487,6 +505,8 @@
 
 
 
+
+  
 
   
 

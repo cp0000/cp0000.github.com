@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -81,7 +81,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -201,7 +205,9 @@
 
       
           <blockquote>
-<p>这是一篇译文，原文<a target="_blank" rel="noopener" href="https://towardsdatascience.com/review-fcn-semantic-segmentation-eb8c9b50d2d1">Review: FCN (Semantic Segmentation))</a></p>
+<p>这是一篇译文，原文<a
+target="_blank" rel="noopener" href="https://towardsdatascience.com/review-fcn-semantic-segmentation-eb8c9b50d2d1">Review:
+FCN (Semantic Segmentation))</a></p>
 </blockquote>
 <p>本文主要记录用于语义分割的全卷积网络。和分类，检测任务相比，分割是更难的一种任务。</p>
 <ul>
@@ -210,53 +216,118 @@
 <li>分割：为图像中的每个像素分类。</li>
 </ul>
 <p>一个语义分割的例子：</p>
-<iframe width="700" height="393" src="https://www.youtube.com/embed/xr_2dwZDH6U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*jrqv1qX2J1AGMA0g-RU7fg.png" alt="原图，Ground Truth，预测结果，融合结果"></p>
-<p>该论文发表于 2015 CVPR，现在有 6000 次引用。它也是使用FCN进行语义分割的最基础的论文之一。</p>
-<h2 id="本文包括"><a href="#本文包括" class="headerlink" title="本文包括"></a>本文包括</h2><ol>
+<iframe width="700" height="393" src="https://www.youtube.com/embed/xr_2dwZDH6U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/1*jrqv1qX2J1AGMA0g-RU7fg.png"
+alt="原图，Ground Truth，预测结果，融合结果" />
+<figcaption aria-hidden="true">原图，Ground
+Truth，预测结果，融合结果</figcaption>
+</figure>
+<p>该论文发表于 2015 CVPR，现在有 6000
+次引用。它也是使用FCN进行语义分割的最基础的论文之一。</p>
+<h2 id="本文包括">本文包括</h2>
+<ol type="1">
 <li>从图像分类到语义分割</li>
 <li>利用反卷积进行上采样</li>
 <li>融合输出</li>
 <li>结论</li>
 </ol>
-<h2 id="1-从图像分类到语义分割"><a href="#1-从图像分类到语义分割" class="headerlink" title="1.从图像分类到语义分割"></a>1.从图像分类到语义分割</h2><p>传统意义上的分类任务，输入图像会缩小尺寸，并通过卷积层和全连接层，最终输出关于输入图片的标签，如下图：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*ErOVnlmtWYFGpnpvKJImKw.png" alt="分类"></p>
+<h2 id="从图像分类到语义分割">1.从图像分类到语义分割</h2>
+<p>传统意义上的分类任务，输入图像会缩小尺寸，并通过卷积层和全连接层，最终输出关于输入图片的标签，如下图：</p>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/1*ErOVnlmtWYFGpnpvKJImKw.png"
+alt="分类" />
+<figcaption aria-hidden="true">分类</figcaption>
+</figure>
 <p>想象我们把上图中的全连接层替换成 1X1 卷积层：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*11XDuwNHHRE7EB_fu_TzCg.png" alt="所有层都是卷积层
-"></p>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/1*11XDuwNHHRE7EB_fu_TzCg.png"
+alt="所有层都是卷积层" />
+<figcaption aria-hidden="true">所有层都是卷积层</figcaption>
+</figure>
 <p>如果图像没有缩小尺寸，输出将不是单个标签。相反，输出的大小小于输入图像（由于最大池化层）</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*T-tYcj11_qySDHTRhlF9pQ.png" alt="所有层都是卷积层
-"></p>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/1*T-tYcj11_qySDHTRhlF9pQ.png"
+alt="所有层都是卷积层" />
+<figcaption aria-hidden="true">所有层都是卷积层</figcaption>
+</figure>
 <p>如果我们对上面的输出进行上采样，那么我们逐像素输出标签贴图，如下所示：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*LtSSJ9QP0Y9qWG9nz9sb2w.png" alt="上采样
-"><br><img src="https://cdn-images-1.medium.com/max/1600/1*NXNGhfSyzQcKzoOSt-Z0Ng.png" alt="Feature Map"></p>
-<h2 id="2-利用反卷积进行上采样"><a href="#2-利用反卷积进行上采样" class="headerlink" title="2.利用反卷积进行上采样"></a>2.利用反卷积进行上采样</h2><p>卷积是一个使输出尺寸变小的过程。反卷积就是一上采样，使得输出尺寸变大的过程（但不要把反卷积曲解成卷积的逆向操作），反卷积也被称为上卷积和转置卷积。当使用分数步幅时，也被称为分数步幅卷积。</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/0*NBKHZlXvqOg3R6_z.gif" alt="通过反卷积进行上采样(蓝色：输入，绿色：输出)
-"></p>
-<h2 id="3-融合输出"><a href="#3-融合输出" class="headerlink" title="3.融合输出"></a>3.融合输出</h2><p>经过如下图所示的conv7后，输出尺寸很小，然后进行32X 上采样，得到和输入同样大小的输出。但也会把输出标签变得很糙。这个叫 <strong>FCN-32s</strong>:</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*ajovnrcLYRuwlTrM5j-Qng.png" alt="FCN-32s"></p>
+<p><img
+src="https://cdn-images-1.medium.com/max/1600/1*LtSSJ9QP0Y9qWG9nz9sb2w.png"
+alt="上采样" /> <img
+src="https://cdn-images-1.medium.com/max/1600/1*NXNGhfSyzQcKzoOSt-Z0Ng.png"
+alt="Feature Map" /></p>
+<h2 id="利用反卷积进行上采样">2.利用反卷积进行上采样</h2>
+<p>卷积是一个使输出尺寸变小的过程。反卷积就是一上采样，使得输出尺寸变大的过程（但不要把反卷积曲解成卷积的逆向操作），反卷积也被称为上卷积和转置卷积。当使用分数步幅时，也被称为分数步幅卷积。</p>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/0*NBKHZlXvqOg3R6_z.gif"
+alt="通过反卷积进行上采样(蓝色：输入，绿色：输出)" />
+<figcaption
+aria-hidden="true">通过反卷积进行上采样(蓝色：输入，绿色：输出)</figcaption>
+</figure>
+<h2 id="融合输出">3.融合输出</h2>
+<p>经过如下图所示的conv7后，输出尺寸很小，然后进行32X
+上采样，得到和输入同样大小的输出。但也会把输出标签变得很糙。这个叫
+<strong>FCN-32s</strong>:</p>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/1*ajovnrcLYRuwlTrM5j-Qng.png"
+alt="FCN-32s" />
+<figcaption aria-hidden="true">FCN-32s</figcaption>
+</figure>
 <p>这是因为在网络变深的时候能够获得深层次的特征，但如此同时空间位置信息也会丢失。这意味着浅网络可以获得更多的位置信息。如果我们把两种网络合并在一起，我们可以平衡结果。</p>
 <p>为了组合，我们融合输出（通过元素添加）：</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*lUnNaKAjL-Mq10v3tIBtJg.png" alt="融合FCN-16s和FCN-8s"></p>
-<p>**FCN-16s:<strong>的输出是把pool5的输出2倍上采样和pool4融合并进行16次上采样。</strong>FCN-8s:**操作如上图所示，也是类似。</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*tcYqvV0KHjK2ANBGe8GpjQ.png" alt="对比不同的FCNs结果"></p>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/1*lUnNaKAjL-Mq10v3tIBtJg.png"
+alt="融合FCN-16s和FCN-8s" />
+<figcaption aria-hidden="true">融合FCN-16s和FCN-8s</figcaption>
+</figure>
+<p><strong>FCN-16s:</strong>的输出是把pool5的输出2倍上采样和pool4融合并进行16次上采样。<strong>FCN-8s:</strong>操作如上图所示，也是类似。</p>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/1*tcYqvV0KHjK2ANBGe8GpjQ.png"
+alt="对比不同的FCNs结果" />
+<figcaption aria-hidden="true">对比不同的FCNs结果</figcaption>
+</figure>
 <p>FCN-32s由于位置信息丢失结果非常粗糙，而FCN-8s的结果最好。</p>
 <p>这种融合操作实际上就像AlexNet,VGGNet和GoogleNet中使用的增强/整合技术一样，它们通过多个模型结果的叠加，使预测更准确。但在这个任务中，它是针对每个像素去做的，并且它是拿模型中不同层的结果去叠加的。</p>
-<h2 id="4-结果"><a href="#4-结果" class="headerlink" title="4.结果"></a>4.结果</h2><p><img src="https://cdn-images-1.medium.com/max/2000/1*2obgSShyzzBKuds_XxPCoA.png" alt="Pascal VOC 2011 dataset (Left), NYUDv2 Dataset (Middle), SIFT Flow Dataset (Right)
-"></p>
+<h2 id="结果">4.结果</h2>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/2000/1*2obgSShyzzBKuds_XxPCoA.png"
+alt="Pascal VOC 2011 dataset (Left), NYUDv2 Dataset (Middle), SIFT Flow Dataset (Right)" />
+<figcaption aria-hidden="true">Pascal VOC 2011 dataset (Left), NYUDv2
+Dataset (Middle), SIFT Flow Dataset (Right)</figcaption>
+</figure>
 <ul>
 <li>FCN-8s在Pascal VOC 2011数据集上效果最佳</li>
 <li>FCN-16s在NYUDv2数据集上效果最佳</li>
 <li>FCN-16s在SIFT数据集上效果最佳</li>
 </ul>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*fU9El2B2qELtKsD9FsHB-w.png" alt="结果可视化比较
-"></p>
+<figure>
+<img
+src="https://cdn-images-1.medium.com/max/1600/1*fU9El2B2qELtKsD9FsHB-w.png"
+alt="结果可视化比较" />
+<figcaption aria-hidden="true">结果可视化比较</figcaption>
+</figure>
 <p>第四行显示了一个失败案例：网络把船上的救生衣当作了人。</p>
 <p>希望将来能够更多地阅读有关语义分割的深度学习技术。</p>
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
-<li>[2015 CVPR] [FCN] <a target="_blank" rel="noopener" href="https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
-<li>[2017 TPAMI] [FCN] <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/7478072">Fully Convolutional Networks for Semantic Segmentation</a>  </li>
+<h2 id="references">References</h2>
+<ol type="1">
+<li>[2015 CVPR] [FCN] <a
+target="_blank" rel="noopener" href="https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf">Fully
+Convolutional Networks for Semantic Segmentation</a><br />
+</li>
+<li>[2017 TPAMI] [FCN] <a
+target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/7478072">Fully Convolutional
+Networks for Semantic Segmentation</a></li>
 </ol>
 
       
@@ -433,6 +504,8 @@
 
 
 
+
+  
 
   
 

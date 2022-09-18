@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -81,7 +81,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -209,8 +213,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。</p>
-<p>作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。</p>
+          <h2 id="前言">前言</h2>
+<p>好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。</p>
+<p>作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS
+app的总体结构，想一下也会知道它的结构是
+tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件
+Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。</p>
 <p>当然了，逆向工程还有其他更重要的用途，如下：</p>
 <ul>
 <li>分析恶意软件</li>
@@ -218,107 +226,122 @@
 <li>借鉴别人的软件</li>
 <li>破解使用限制</li>
 </ul>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>在开始 iOS 逆向工作之前，得准备一下相关设备</p>
-<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><ul>
+<h2 id="准备工作">准备工作</h2>
+<p>在开始 iOS 逆向工作之前，得准备一下相关设备</p>
+<h3 id="硬件">硬件</h3>
+<ul>
 <li>Mac 电脑</li>
-<li>一台越狱机器 (如何越狱，请访问 <strong><a target="_blank" rel="noopener" href="http://pangu.io/">pangu</a></strong>)</li>
+<li>一台越狱机器 (如何越狱，请访问 <strong><a
+target="_blank" rel="noopener" href="http://pangu.io/">pangu</a></strong>)</li>
 </ul>
-<h3 id="设置环境"><a href="#设置环境" class="headerlink" title="设置环境"></a>设置环境</h3><h4 id="利用Cydia安装相关开发工具，建议安装下表中的全部软件"><a href="#利用Cydia安装相关开发工具，建议安装下表中的全部软件" class="headerlink" title="利用Cydia安装相关开发工具，建议安装下表中的全部软件"></a>利用<code>Cydia</code>安装相关开发工具，建议安装下表中的全部软件</h4><table>
+<h3 id="设置环境">设置环境</h3>
+<h4
+id="利用cydia安装相关开发工具建议安装下表中的全部软件">利用<code>Cydia</code>安装相关开发工具，建议安装下表中的全部软件</h4>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>tool</th>
 <th>description</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>ps</td>
 <td>process status, cpu usage, memory usage</td>
 </tr>
-<tr>
+<tr class="even">
 <td>sysctl</td>
 <td>get or set kernal state</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>netstat</td>
 <td>show network status</td>
 </tr>
-<tr>
+<tr class="even">
 <td>route</td>
 <td>manually manipulate the routing tables</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>renice</td>
 <td>alter priority of running processes</td>
 </tr>
-<tr>
+<tr class="even">
 <td>ifconfig</td>
 <td>configure network interface parameters</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>tcpdump</td>
 <td>dump traffic on a network</td>
 </tr>
-<tr>
+<tr class="even">
 <td>lsof</td>
 <td>list open files</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>otool</td>
 <td>displays specified parts of object files or libraries.</td>
 </tr>
-<tr>
+<tr class="even">
 <td>nm</td>
-<td>displays the name list (symbol table) of each object file in the argument list.</td>
+<td>displays the name list (symbol table) of each object file in the
+argument list.</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>ldid</td>
 <td>signature tool</td>
 </tr>
-<tr>
+<tr class="even">
 <td>gdb</td>
 <td>debug tool</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>lldb</td>
 <td>debug tool</td>
 </tr>
-<tr>
+<tr class="even">
 <td>patch</td>
 <td>patch tool</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>SSH</td>
-<td>is a program for logging into a remote machine and for executing commands on a remote machine.</td>
+<td>is a program for logging into a remote machine and for executing
+commands on a remote machine.</td>
 </tr>
-</tbody></table>
-<h4 id="SSH-to-iPhone"><a href="#SSH-to-iPhone" class="headerlink" title="SSH to iPhone"></a>SSH to iPhone</h4><h5 id="通过-wifi"><a href="#通过-wifi" class="headerlink" title="通过 wifi"></a>通过 wifi</h5><pre><code>ssh root@your.iphone.ip
-</code></pre>
-<p>iOS 系统中的<code>root</code>用户的默认密码是 <code>Alipne</code>.第一次登录的时候请使用这个密码。不过请记得修改<code>root</code>用户的密码，不然这台越狱机器就很不安全了。</p>
+</tbody>
+</table>
+<h4 id="ssh-to-iphone">SSH to iPhone</h4>
+<h5 id="通过-wifi">通过 wifi</h5>
+<pre><code>ssh root@your.iphone.ip</code></pre>
+<p>iOS 系统中的<code>root</code>用户的默认密码是
+<code>Alipne</code>.第一次登录的时候请使用这个密码。不过请记得修改<code>root</code>用户的密码，不然这台越狱机器就很不安全了。</p>
 <p><strong>修改用户密码</strong></p>
 <pre><code>iPhone:~ root# passwd
 Changing password for root
 New password:
 Retype new password:
-iPhone:~ root#
-</code></pre>
-<h5 id="通过-usb"><a href="#通过-usb" class="headerlink" title="通过 usb"></a>通过 usb</h5><p>在wifi不稳定的场景下，建议使用usb来ssh到iPhone上。（我自己也是主要适用usb来进行ssh）</p>
+iPhone:~ root#</code></pre>
+<h5 id="通过-usb">通过 usb</h5>
+<p>在wifi不稳定的场景下，建议使用usb来ssh到iPhone上。（我自己也是主要适用usb来进行ssh）</p>
 <ul>
-<li><p>关于如何使用 usb ssh 到 iPhone上，详情请访问网页 <a target="_blank" rel="noopener" href="http://iphonedevwiki.net/index.php/SSH_Over_USB">SSH over USB</a>。根据网页上面的guide，需要下载：<a target="_blank" rel="noopener" href="https://code.google.com/p/iphonetunnel-usbmuxconnectbyport/downloads/detail?name=itnl_rev8.zip">itnl_rev8.zip</a></p>
-</li>
+<li><p>关于如何使用 usb ssh 到 iPhone上，详情请访问网页 <a
+target="_blank" rel="noopener" href="http://iphonedevwiki.net/index.php/SSH_Over_USB">SSH over
+USB</a>。根据网页上面的guide，需要下载：<a
+target="_blank" rel="noopener" href="https://code.google.com/p/iphonetunnel-usbmuxconnectbyport/downloads/detail?name=itnl_rev8.zip">itnl_rev8.zip</a></p></li>
 <li><p>解压zip包之后，做如下操作：</p>
 <ul>
 <li><p>OS X terminal:</p>
-<pre><code>  sudo path/to/itnl --iport 22 --lport 2222
-</code></pre>
-</li>
+<pre><code>  sudo path/to/itnl --iport 22 --lport 2222</code></pre></li>
 <li><p>iPhone terminal:</p>
-<pre><code>  ssh -p 2222 root@localhost
-</code></pre>
-</li>
+<pre><code>  ssh -p 2222 root@localhost</code></pre></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<p>然后，就成功 ssh 到 iPhone 上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS app了。</p>
+<p>然后，就成功 ssh 到 iPhone
+上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS
+app了。</p>
 
       
     </div>
@@ -494,6 +517,8 @@ iPhone:~ root#
 
 
 
+
+  
 
   
 

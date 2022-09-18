@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -81,7 +81,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -209,12 +213,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp; Pop 的相关知识点。</p>
-<p>在给你的app接入peeking and poping 的功能之前，需要先了解该操作的三个属性， peeking, preview actions, poping。如下图所示：</p>
-<p><img src="http://cp0000.github.io/assets/peekandpop.gif" alt="peek_and_pop"></p>
-<p>用户在 Peeking 图片，视频，网页等内容的时候，能够在不去加载全部内容的情况下获取到更多详细的内容。</p>
+          <p>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp;
+Pop, Force Properties。上篇文章中总结了 Home
+Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp; Pop
+的相关知识点。</p>
+<p>在给你的app接入peeking and poping
+的功能之前，需要先了解该操作的三个属性， peeking, preview actions,
+poping。如下图所示：</p>
+<figure>
+<img src="http://cp0000.github.io/assets/peekandpop.gif"
+alt="peek_and_pop" />
+<figcaption aria-hidden="true">peek_and_pop</figcaption>
+</figure>
+<p>用户在 Peeking
+图片，视频，网页等内容的时候，能够在不去加载全部内容的情况下获取到更多详细的内容。</p>
 <p>##PEEKING</p>
-<p>当用户对某个view做peeking操作时，程序会展现给用户相对应内容的快照。Peek 操作是 3DTouch 中实现起来相对比较复杂的模块。Peek and Pop API 中有一个 <code>UIViewControllerPreviewingDelegate</code>,给指定的view需要注册这个delegate，就可以接收到系统回调过来的3D Touch事件。</p>
+<p>当用户对某个view做peeking操作时，程序会展现给用户相对应内容的快照。Peek
+操作是 3DTouch 中实现起来相对比较复杂的模块。Peek and Pop API 中有一个
+<code>UIViewControllerPreviewingDelegate</code>,给指定的view需要注册这个delegate，就可以接收到系统回调过来的3D
+Touch事件。</p>
 <pre><code>override func viewDidLoad() &#123;
     super.viewDidLoad()
 
@@ -225,19 +242,34 @@
         deallocated.
     */
     registerForPreviewingWithDelegate(self, sourceView: view)
-&#125;
-</code></pre>
-<p>这里有一点需要注意，我们可以在一个 view Controller 中，给多个view注册 Previewing Delegate ，但是我们不能反复去注册同一个view。</p>
+&#125;</code></pre>
+<p>这里有一点需要注意，我们可以在一个 view Controller 中，给多个view注册
+Previewing Delegate ，但是我们不能反复去注册同一个view。</p>
 <blockquote>
-<p>“You can designate more than one source view for a single registered view controller, but you cannot designate a single view as a source view more than once.”</p>
+<p>"You can designate more than one source view for a single registered
+view controller, but you cannot designate a single view as a source view
+more than once.”</p>
 </blockquote>
 <p>Peek的操作过程可以分解成下面三个步骤：</p>
-<p><img src="http://cp0000.github.io/assets/peek_and_pop2.png" alt="peek_and_pop_2"></p>
-<p>Peek的系统回调函数会提供一个关于 source view的context，以及 touch事件的point。以sourceView为 collectionView为例，回调函数中我们需要处理以下三件事情：</p>
+<figure>
+<img src="http://cp0000.github.io/assets/peek_and_pop2.png"
+alt="peek_and_pop_2" />
+<figcaption aria-hidden="true">peek_and_pop_2</figcaption>
+</figure>
+<p>Peek的系统回调函数会提供一个关于 source view的context，以及
+touch事件的point。以sourceView为
+collectionView为例，回调函数中我们需要处理以下三件事情：</p>
 <ul>
-<li>(1) 根据 location 找到被 peeked 的 cell，以及cell的 NSIndexPath</li>
-<li>(2) 设置 previewingContext 的 sourceRect 大小</li>
-<li>(3) alloc 一个 PreViewController，并设置背景图片，title之类的， 然后返回这个 PreviewController</li>
+<li><ol type="1">
+<li>根据 location 找到被 peeked 的 cell，以及cell的 NSIndexPath</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>设置 previewingContext 的 sourceRect 大小</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>alloc 一个 PreViewController，并设置背景图片，title之类的，
+然后返回这个 PreviewController</li>
+</ol></li>
 </ul>
 <p><strong>UICOLLECTIONVIEW 代码片段</strong></p>
 <pre><code>override func viewDidLoad() &#123;
@@ -261,9 +293,14 @@ func previewingContext(previewingContext: UIViewControllerPreviewing, viewContro
     previewingContext.sourceRect = cell.frame
     
     return detailVC
-&#125;
-</code></pre>
-<h2 id="UIPREVIEWACTIONITEMS"><a href="#UIPREVIEWACTIONITEMS" class="headerlink" title="UIPREVIEWACTIONITEMS"></a>UIPREVIEWACTIONITEMS</h2><p>当用户在 PreViewing Controller 的界面，手指往上推，会从屏幕底部弹出一个类似 actionsheet 的界面，这个是 <code>UIPreviewActions</code>。那如何给指定的 preViewController 自定义这些 <code>UIPreviewActions</code>？ 方法很简单，override UIViewController 中的 preViewActionItems() 方法，在该方法中定义好 actionItems 的数组就好了：</p>
+&#125;</code></pre>
+<h2 id="uipreviewactionitems">UIPREVIEWACTIONITEMS</h2>
+<p>当用户在 PreViewing Controller
+的界面，手指往上推，会从屏幕底部弹出一个类似 actionsheet 的界面，这个是
+<code>UIPreviewActions</code>。那如何给指定的 preViewController
+自定义这些 <code>UIPreviewActions</code>？ 方法很简单，override
+UIViewController 中的 preViewActionItems() 方法，在该方法中定义好
+actionItems 的数组就好了：</p>
 <pre><code>override func previewActionItems() -&gt; [UIPreviewActionItem] &#123;
 
     let likeAction = UIPreviewAction(title: &quot;Like&quot;, style: .Default) &#123; (action, viewController) -&gt; Void in
@@ -277,18 +314,19 @@ func previewingContext(previewingContext: UIViewControllerPreviewing, viewContro
     let groupAction = UIPreviewActionGroup (title: &quot;Group&quot;, style: .Default, actions: [likeAction, deleteAction])
     return [likeAction, deleteAction, groupAction]
 
-&#125;
-</code></pre>
-<p>另外苹果还提供了 <code>UIPreviewActionGroup</code>，顾名思义就是把几个UIPreviewActionItem操作放到一起，组成一个组。</p>
-<h2 id="POPPING"><a href="#POPPING" class="headerlink" title="POPPING"></a>POPPING</h2><p>poping 操作处理起来相对简单。在回调函数中</p>
+&#125;</code></pre>
+<p>另外苹果还提供了
+<code>UIPreviewActionGroup</code>，顾名思义就是把几个UIPreviewActionItem操作放到一起，组成一个组。</p>
+<h2 id="popping">POPPING</h2>
+<p>poping 操作处理起来相对简单。在回调函数中</p>
 <pre><code>func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) &#123;
     //Here&#39;s where you commit (pop)
-&#125;
-</code></pre>
+&#125;</code></pre>
 <p>我们需要根据preViewingContext来确定poping的时候需要commit的ViewController就好了。</p>
-<h2 id="WEBVIEW-PEEK-AND-POP"><a href="#WEBVIEW-PEEK-AND-POP" class="headerlink" title="WEBVIEW PEEK AND POP"></a>WEBVIEW PEEK AND POP</h2><p>让 <code>UIWebView</code> 和 <code>WKWebview</code> 支持 Peek&amp;Pop就很简单了：</p>
-<pre><code>webView.allowsLinkPreview = true
-</code></pre>
+<h2 id="webview-peek-and-pop">WEBVIEW PEEK AND POP</h2>
+<p>让 <code>UIWebView</code> 和 <code>WKWebview</code> 支持
+Peek&amp;Pop就很简单了：</p>
+<pre><code>webView.allowsLinkPreview = true</code></pre>
 <p>##结语</p>
 <p>以上。</p>
 
@@ -466,6 +504,8 @@ func previewingContext(previewingContext: UIViewControllerPreviewing, viewContro
 
 
 
+
+  
 
   
 

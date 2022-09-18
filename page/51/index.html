@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -81,7 +81,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -209,74 +213,80 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><table>
+          <h2 id="基本类型">基本类型</h2>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>类型</th>
 <th>说明</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>void</td>
 <td>空类型</td>
 </tr>
-<tr>
+<tr class="even">
 <td>bool</td>
 <td>布尔类型</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>int</td>
 <td>带符号的整数 signed integer</td>
 </tr>
-<tr>
+<tr class="even">
 <td>float</td>
 <td>带符号的浮点数 floating scalar</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>vec2,vec3,vec4</td>
 <td>n维浮点数向量 n-component floating point vector</td>
 </tr>
-<tr>
+<tr class="even">
 <td>bvec2,bvec3,bvec4</td>
 <td>n维整数向量 singed integer vector</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>bvec2,bvec3,bvec4</td>
 <td>n维布尔向量 boolean vector</td>
 </tr>
-<tr>
+<tr class="even">
 <td>ivec2,ivec3,ivec4</td>
 <td>n维整数向量 singed integer vector</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>mat2,mat3,mat4</td>
 <td>2X2,3X3,4X4 浮点数矩阵 float matrix</td>
 </tr>
-<tr>
+<tr class="even">
 <td>sampler2D</td>
-<td>2D 纹理  a 2D texture</td>
+<td>2D 纹理 a 2D texture</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>samplerCube</td>
-<td>盒纹理  cube mapped texture</td>
+<td>盒纹理 cube mapped texture</td>
 </tr>
-</tbody></table>
-<h2 id="基本结构和数组"><a href="#基本结构和数组" class="headerlink" title="基本结构和数组"></a>基本结构和数组</h2><table>
+</tbody>
+</table>
+<h2 id="基本结构和数组">基本结构和数组</h2>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>类型</th>
 <th>说明</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>结构</td>
 <td>struct type-name{} 类似c语言中的结构体</td>
 </tr>
-<tr>
+<tr class="even">
 <td>数组</td>
 <td>float foo3[] glsl 只支持1维数组，数组可以是结构体的成员</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>##内置的特殊变量</p>
 <p>glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成<code>input</code>,<code>output</code>两种类型，<code>input</code>类型，负责向硬件（渲染管线）发送数据，<code>output</code>类型负责向程序回传数据。</p>
 <ul>
@@ -284,249 +294,293 @@
 </ul>
 <p>output 类型的内置变量：</p>
 <table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 27%" />
+<col style="width: 36%" />
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>变量</th>
 <th>说明</th>
 <th>单位</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>highp vec4 gl_Position;</td>
 <td>gl_Position 放置顶点坐标信息</td>
 <td>vec4</td>
 </tr>
-<tr>
+<tr class="even">
 <td>mediump float gl_Pointsize;</td>
 <td>gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效）</td>
 <td>float</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <ul>
 <li>在fragment Shader中：</li>
 </ul>
 <p>input 类型的内置变量：</p>
 <table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 27%" />
+<col style="width: 36%" />
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>变量</th>
 <th>说明</th>
 <th>单位</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>mediump vec4 gl_FragCoord;</td>
 <td>片元在fragmebuffer画面的相对位置</td>
 <td>vec4</td>
 </tr>
-<tr>
+<tr class="even">
 <td>bool gl_FrontFacing</td>
 <td>标志当前图元是不是正面图元的一部分</td>
 <td>bool</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>mediump vec2 gl_PointCoord;</td>
 <td>经过插值计算后的纹理坐标，点的范围是0.0到1.0</td>
 <td>vec2</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>output 类型的内置变量：</p>
 <table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 27%" />
+<col style="width: 36%" />
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>变量</th>
 <th>说明</th>
 <th>单位</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>mediump vec4 gl_FragColor;</td>
 <td>设置当前片点的颜色</td>
 <td>vec4</td>
 </tr>
-<tr>
+<tr class="even">
 <td>mediump vec4 gl_FragData[n];</td>
 <td>设置当前片点的颜色,使用glDrawBuffers数据数组</td>
 <td>vec4</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>##内置函数库</p>
 <p>###通用函数</p>
 <table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>方法</th>
 <th>说明</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>T abs(T x)</td>
 <td>返回x的绝对值</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T sign(T x)</td>
 <td>比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T floor(T x)</td>
 <td>返回 &lt;= x 的最大整数</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T ceil(T x)</td>
 <td>返回 &gt;= x 的最小整数</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T fract(T x)</td>
 <td>返回 x 的小数部分</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T mod(T x,T y) T mod(T x,float y)</td>
 <td>取 x,y 的余数</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T min(T x,T y) T min(T x,float y)</td>
 <td>取 x,y 的最小值</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T max(T x,T y) T max(T x,float y)</td>
 <td>取 x,y 的最大值</td>
 </tr>
-<tr>
-<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal)</td>
+<tr class="odd">
+<td>T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float
+maxVal)</td>
 <td>min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T mix(T x,T y, T a) T mix(T x,T y, float a)</td>
 <td>取 x,y 的线性混合，x(1-a)+ya</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T step(T edge,T x) T step(float edge,T x)</td>
 <td>if x &lt; edge返回0.0， 否则返回1.0</td>
 </tr>
-<tr>
-<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x)</td>
-<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0， 否则返回Hermite插值</td>
+<tr class="even">
+<td>T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float
+edge1,T x)</td>
+<td>if x &lt; edge0返回 0.0，if x &gt; edge1返回1.0，
+否则返回Hermite插值</td>
 </tr>
-</tbody></table>
-<h3 id="角度-amp-三角函数"><a href="#角度-amp-三角函数" class="headerlink" title="角度&amp;三角函数"></a>角度&amp;三角函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+</tbody>
+</table>
+<h3 id="角度三角函数">角度&amp;三角函数</h3>
+<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>方法</th>
 <th>说明</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>T radinans(T degrees)</td>
 <td>角度转弧度</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T degrees(T radians)</td>
 <td>弧度转角度</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T sin(T angle)</td>
 <td>正弦函数</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T cos(T angle)</td>
 <td>余弦函数</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T tan(T angle)</td>
 <td>正切函数</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T asin(T angle)</td>
 <td>反正弦函数</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T acos(T angle)</td>
 <td>反余弦函数</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T atan(T y, T x) T atan(T y_over_x)</td>
 <td>反正切函数</td>
 </tr>
-</tbody></table>
-<h3 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+</tbody>
+</table>
+<h3 id="指数函数">指数函数</h3>
+<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>方法</th>
 <th>说明</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>T pow(T x, T y)</td>
 <td>返回x的y次幂</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T exp(T x)</td>
 <td>返回x的自然指数幂</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T log(T x)</td>
 <td>返回x的自然对数 ln</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T exp2(T x)</td>
 <td>返回2的x次幂</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T log2(T x)</td>
 <td>返回2位低的对数 log2</td>
 </tr>
-<tr>
+<tr class="even">
 <td>T sqrt(T x)</td>
 <td>开根号 √x</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>T inversesqrt(T x)</td>
 <td>先开根号，在取倒数，</td>
 </tr>
-</tbody></table>
-<h3 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h3><p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
+</tbody>
+</table>
+<h3 id="几何函数">几何函数</h3>
+<p>下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.</p>
 <table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>方法</th>
 <th>说明</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>float length(T x)</td>
 <td>返回矢量x的长度</td>
 </tr>
-<tr>
+<tr class="even">
 <td>float distance(T p0,T p1)</td>
 <td>返回p0, p1两点的距离</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>float dot(T x,T y)</td>
 <td>返回x y 的点积</td>
 </tr>
-<tr>
+<tr class="even">
 <td>vec3 cross(vec3 x,vec3 y)</td>
 <td>返回x y 的叉积</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>vec3 normalize(T y)</td>
 <td>对x进行归一化，保持向量方向不变但长度变为1</td>
 </tr>
-<tr>
+<tr class="even">
 <td>vec3 faceforward(T N, T I, T Nref)</td>
 <td>根据 矢量 N 与Nref 调整法向量</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>vec3 reflect(T I, T N)</td>
-<td>返回 I - 2 * dot(N,I) * N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量</td>
+<td>返回 I - 2 * dot(N,I) * N, 结果是入射矢量 I 关于法向量N的
+镜面反射矢量</td>
 </tr>
-<tr>
+<tr class="even">
 <td>vec3 normalize(T I, T N, float eta)</td>
 <td>返回入射矢量I关于法向量N的折射矢量,折射率为eta</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 
       
     </div>
@@ -702,6 +756,8 @@
 
 
 
+
+  
 
   
 
