@@ -190,7 +190,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2018-11-19 11:57:22" itemprop="dateModified" datetime="2018-11-19T11:57:22+08:00">2018-11-19</time>
+                <time title="Modified: 2022-09-25 20:55:44" itemprop="dateModified" datetime="2022-09-25T20:55:44+08:00">2022-09-25</time>
               </span>
 
           
@@ -217,9 +217,15 @@ FSRCNN有着一个相对浅的网络结构，浅网络层让我们比较好理�
 有着更好的PSNR（图像质量），更快的处理时长。 对比
 SRCNN-Ex（SRCNN优质版本）和 FSRCNN，FSRCNN的结果PSNR更好，处理速度更快。
 所以，来看下FSRCNN是如何达到质量和速度双优的</p>
-<p>下文包含如下内容： + SRCNN 简述 + FSRCNN 网络架构 + 如何利用 1x1
-卷积对网络进行压缩和扩大 + 如何利用多个 3X3 卷积实现非线性映射 +
-对比实验 + 结论</p>
+<p>下文包含如下内容：</p>
+<ul>
+<li>SRCNN 简述</li>
+<li>FSRCNN 网络架构</li>
+<li>如何利用 1x1 卷积对网络进行压缩和扩大</li>
+<li>如何利用多个 3X3 卷积实现非线性映射</li>
+<li>对比实验</li>
+<li>结论</li>
+</ul>
 <figure>
 <img
 src="https://cdn-images-1.medium.com/max/1000/1*auit3UsBTjbnzZoLDEJUUg.png"
