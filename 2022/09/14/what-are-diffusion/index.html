@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="什么是Diffusion模型 这是一篇关于 What are Diffusion Models的译文。很多地方借鉴了由浅入深了解Diffusion Model 本文主要是介绍什么是DDPM：Denoising Diffusion Probabilistic Models(DDPM; Ho et al. 2020). Basic Knowledge  Normal Distribution: N(x">
+  <meta name="description" content="什么是Diffusion模型 Hexo render LeTex 数学公式有问题。一篇关于diffusion的推导： what are diffusions? Stable Diffusion 什么是Stable Diffusion?">
 <meta property="og:type" content="article">
 <meta property="og:title" content="什么是Diffusion模型">
 <meta property="og:url" content="https://cp0000.github.io/2022/09/14/what-are-diffusion/index.html">
 <meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="什么是Diffusion模型 这是一篇关于 What are Diffusion Models的译文。很多地方借鉴了由浅入深了解Diffusion Model 本文主要是介绍什么是DDPM：Denoising Diffusion Probabilistic Models(DDPM; Ho et al. 2020). Basic Knowledge  Normal Distribution: N(x">
+<meta property="og:description" content="什么是Diffusion模型 Hexo render LeTex 数学公式有问题。一篇关于diffusion的推导： what are diffusions? Stable Diffusion 什么是Stable Diffusion?">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-09-14T10:59:19.000Z">
-<meta property="article:modified_time" content="2022-09-25T12:56:15.782Z">
+<meta property="article:modified_time" content="2022-09-25T13:34:27.531Z">
 <meta property="article:author" content="Pei Cheng">
 <meta name="twitter:card" content="summary">
 
@@ -194,7 +194,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-09-25 20:56:15" itemprop="dateModified" datetime="2022-09-25T20:56:15+08:00">2022-09-25</time>
+                <time title="Modified: 2022-09-25 21:34:27" itemprop="dateModified" datetime="2022-09-25T21:34:27+08:00">2022-09-25</time>
               </span>
 
           
@@ -209,31 +209,13 @@
 
       
         <h1 id="什么是diffusion模型">什么是Diffusion模型</h1>
-<p>这是一篇关于 <a
-target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What
-are Diffusion Models</a>的译文。很多地方借鉴了<a
-target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/525106459">由浅入深了解Diffusion
-Model</a></p>
-<p>本文主要是介绍什么是DDPM：Denoising Diffusion Probabilistic
-Models(<strong>DDPM</strong>; <a
-target="_blank" rel="noopener" href="https://arxiv.org/abs/2006.11239">Ho et al. 2020</a>).</p>
-<h3 id="basic-knowledge">Basic Knowledge</h3>
-<ul>
-<li><p>Normal Distribution:
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi data-mjx-variant="-tex-calligraphic" mathvariant="script">N</mi></mrow><mo stretchy="false">(</mo><mi>x</mi><mo>;</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><msqrt><mn>2</mn><mi>π</mi></msqrt><mi>σ</mi></mrow></mfrac><mi>exp</mi><mo data-mjx-texclass="NONE">⁡</mo><mrow data-mjx-texclass="INNER"><mo data-mjx-texclass="OPEN">(</mo><mo>−</mo><mfrac><mrow><mo stretchy="false">(</mo><mi>x</mi><mo>−</mo><mi>μ</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo data-mjx-texclass="CLOSE">)</mo></mrow></math></p></li>
-<li><p>Conditional Probability:
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mstyle displaystyle="true" scriptlevel="0"><mi>P</mi><mo stretchy="false">(</mo><mi>A</mi><mo>∣</mo><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mfrac><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo stretchy="false">)</mo></mrow><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow></mstyle></mrow></math></p></li>
-<li></li>
-<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes'
-theorem</a>:
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mstyle displaystyle="true" scriptlevel="0"><mi>P</mi><mo stretchy="false">(</mo><mi>A</mi><mo>∣</mo><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mfrac><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>B</mi><mo>∣</mo><mi>A</mi><mo stretchy="false">)</mo><mi>P</mi><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">)</mo></mrow><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow></mstyle></mrow></math></p></li>
-<li><p>KL divergence:
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>D</mi><mrow><mtext>KL</mtext></mrow></msub><mo stretchy="false">(</mo><mi>q</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mrow><mo stretchy="false">|</mo></mrow><mrow><mo stretchy="false">|</mo></mrow><mi>p</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo>=</mo><msub><mrow><mi mathvariant="double-struck">E</mi></mrow><mrow><mi>q</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow></msub><mi>log</mi><mo data-mjx-texclass="NONE">⁡</mo><mo stretchy="false">[</mo><mi>q</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mrow><mo>/</mo></mrow><mi>p</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></math></p></li>
-</ul>
-<h2 id="ddpm">DDPM</h2>
-<h3 id="forward-diffusion-process"><strong>Forward diffusion
-process</strong></h3>
-<!-- Hexo render LeTex 数学公式有问题。一篇关于diffusion的推导： [what are diffusions?](https://cp0000.notion.site/Diffusion-843f2151db004b8c86c3c82c2b1b1a71) -->
+<p>Hexo render LeTex 数学公式有问题。一篇关于diffusion的推导： <a
+target="_blank" rel="noopener" href="https://cp0000.notion.site/Diffusion-843f2151db004b8c86c3c82c2b1b1a71">what
+are diffusions?</a></p>
+<h2 id="stable-diffusion">Stable Diffusion</h2>
+<p><a
+target="_blank" rel="noopener" href="https://www.notion.so/cp0000/StableDiffusion-d4580dfbcc5e4a639e027b8f0f3e5c87">什么是Stable
+Diffusion?</a></p>
 
     </div>
 
@@ -311,8 +293,7 @@ process</strong></h3>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFdiffusion%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">什么是Diffusion模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#basic-knowledge"><span class="nav-number">1.0.1.</span> <span class="nav-text">Basic Knowledge</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ddpm"><span class="nav-number">1.1.</span> <span class="nav-text">DDPM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#forward-diffusion-process"><span class="nav-number">1.1.1.</span> <span class="nav-text">Forward diffusion
-process</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFdiffusion%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">什么是Diffusion模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#stable-diffusion"><span class="nav-number">1.1.</span> <span class="nav-text">Stable Diffusion</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
