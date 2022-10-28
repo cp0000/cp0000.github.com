@@ -1,247 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="生成对抗网络 Overview 简介 Generative adversarial networks (GANs) 生成对抗网络是机器学习领域最近非常让人兴奋地一项发明。GAN是生成模型：他根据训练数据生成相似的数据。举例来讲，GAN可以生成非常像人脸的照片，尽管生成的人脸不属于世界上任何一个真人，但是人眼真假难分。 下面这些图是GAN生成的。  GAN分成两个部分生成器，判别器，通过生成器来生成">
-<meta property="og:type" content="article">
-<meta property="og:title" content="生成对抗网络">
-<meta property="og:url" content="https://cp0000.github.io/2020/08/30/GAN-introdcution/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="生成对抗网络 Overview 简介 Generative adversarial networks (GANs) 生成对抗网络是机器学习领域最近非常让人兴奋地一项发明。GAN是生成模型：他根据训练数据生成相似的数据。举例来讲，GAN可以生成非常像人脸的照片，尽管生成的人脸不属于世界上任何一个真人，但是人眼真假难分。 下面这些图是GAN生成的。  GAN分成两个部分生成器，判别器，通过生成器来生成">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-08-30T15:57:04.000Z">
-<meta property="article:modified_time" content="2020-08-30T15:58:01.676Z">
-<meta property="article:author" content="Pei Cheng">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://cp0000.github.io/2020/08/30/GAN-introdcution/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>生成对抗网络 | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+      生成对抗网络
     
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2020/08/30/GAN-introdcution/">
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
+<article>
+    <p class="post-meta">
+        <time datetime="2020-08-30 23:57:04 &#43;0000 UTC">
+            2020-08-30
+        </time>
+    </p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          生成对抗网络
-        </h1>
+    <h1>生成对抗网络</h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-08-30 23:57:04 / Modified: 23:58:01" itemprop="dateCreated datePublished" datetime="2020-08-30T23:57:04+08:00">2020-08-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h1 id="生成对抗网络">生成对抗网络</h1>
+    <h1 id="生成对抗网络">生成对抗网络</h1>
 <h2 id="overview">Overview</h2>
 <h3 id="简介">简介</h3>
-<p>Generative adversarial networks (GANs)
-生成对抗网络是机器学习领域最近非常让人兴奋地一项发明。GAN是生成模型：他根据训练数据生成相似的数据。举例来讲，GAN可以生成非常像人脸的照片，尽管生成的人脸不属于世界上任何一个真人，但是人眼真假难分。
-下面这些图是GAN生成的。 <img
-src="https://developers.google.com/machine-learning/gan/images/gan_faces.png"
-alt="图一：Images generated by a GAN created by NVIDIA." /></p>
+<p>Generative adversarial networks (GANs) 生成对抗网络是机器学习领域最近非常让人兴奋地一项发明。GAN是生成模型：他根据训练数据生成相似的数据。举例来讲，GAN可以生成非常像人脸的照片，尽管生成的人脸不属于世界上任何一个真人，但是人眼真假难分。
+下面这些图是GAN生成的。
+<img src="https://developers.google.com/machine-learning/gan/images/gan_faces.png" alt="图一：Images generated by a GAN created by NVIDIA."></p>
 <p>GAN分成两个部分生成器，判别器，通过生成器来生成数据，通过判别器来判别生成器生成的数据。生成器试图去骗过判别器，而判别器试图保持不被骗。</p>
 <h3 id="生成模型">生成模型</h3>
 <p>Background: What is Generative Model?</p>
 <p>”生成对抗网络”中的“生成”是什么意思？“生成”描述的是一类统计模型，与判别器模型形成对比。</p>
-<p>非正式的定义： + <strong>Generative</strong>
-生成模型用来生成新的数据实例 + <strong>Disciminative</strong>
-判别模型用来判别不同类型数据的真实性</p>
+<p>非正式的定义：</p>
+<ul>
+<li><strong>Generative</strong> 生成模型用来生成新的数据实例</li>
+<li><strong>Disciminative</strong> 判别模型用来判别不同类型数据的真实性</li>
+</ul>
 <p>生成模型可以生成新的动物照片，这些照片看起来像真实的动物，而辨别模型可以分辨出一只狗和一只猫。GAN只是生成模型中的一种。</p>
-<p>正式一点的定义：给定一组数据实例 X 和一组标签 Y: +
-<strong>Generative</strong> 生成模型得到联合概率 p(X,Y)，
-如果没有标签，则获得 p(X). + <strong>Discriminative</strong>
-对抗模型得到条件概率 p(Y|X)</p>
+<p>正式一点的定义：给定一组数据实例 X 和一组标签 Y:</p>
+<ul>
+<li><strong>Generative</strong> 生成模型得到联合概率 p(X,Y)， 如果没有标签，则获得 p(X).</li>
+<li><strong>Discriminative</strong> 对抗模型得到条件概率 p(Y|X)</li>
+</ul>
 <p>生成模型包括数据自身的分布，并可以返回一个给定的样本属于这个数据分布的可能性有多大。比如，一个典型的生成模型是预测一个序列中下一个单词（通常比GAN要简单一些），它们给单词序列分配一个概率。</p>
 <p>判别模型忽略给定实例是否可能出现的问题，仅返回该标签应用于该实例的可能性。</p>
 <blockquote>
-<p>A discriminative model ignores the question of whether a given
-instance is likely, and just tells you how likely a label is to apply to
-the instance.</p>
+<p>A discriminative model ignores the question of whether a given instance is likely, and just tells you how likely a label is to apply to the instance.</p>
 </blockquote>
 <p>请注意，这是一个非常笼统的定义。有许多生成模型，GAN只是生成模型的一种。</p>
 <h3 id="modeling-probabilites">Modeling Probabilites</h3>
 <p>这两种模型都不需要返回代表概率的数字。你可以通过模仿数据的分布来建立模型。</p>
 <p>例如，像决策树这样的判别性分类器可以给一个实例打上标签，而不给这个标签分配一个概率。这种分类器仍然是一个模型，因为它预测的标签分布和真实数据的标签分布接近。</p>
-<p>同样，生成式模型可以通过产生令人信服的 "假
-"数据来对分布进行建模，这些数据看起来像是从该分布中提取的。</p>
+<p>同样，生成式模型可以通过产生令人信服的 &ldquo;假 &ldquo;数据来对分布进行建模，这些数据看起来像是从该分布中提取的。</p>
 <h3 id="generative-models-are-hard">Generative Models Are Hard</h3>
 <p>与同类别的判别模型相比，生成模型处理的任务更加困难。生成模型需要能够模拟更多信息。
-图像生成模型可能会捕获到"看起来像船的东西可能会出现在看起来像谁的东西附近"和“眼睛不太可能出现在额头上”这样的相关性。这些都是非常复杂的分布。而相比之下，判别器可能只需要寻找一些明显的模式，就能学会“帆船”或“非帆船”之间的区别。它可能会忽略生成模型在意的许多关联性。</p>
+图像生成模型可能会捕获到&quot;看起来像船的东西可能会出现在看起来像谁的东西附近&quot;和“眼睛不太可能出现在额头上”这样的相关性。这些都是非常复杂的分布。而相比之下，判别器可能只需要寻找一些明显的模式，就能学会“帆船”或“非帆船”之间的区别。它可能会忽略生成模型在意的许多关联性。</p>
 <p>判别模型试图在数据空间中划定边界，生成模型则试图模拟数据在整个空间中的位置。例如，下图显示了手写数字的判别模型和生成模型。
-<img
-src="https://developers.google.com/machine-learning/gan/images/generative_v_discriminative.png"
-alt="图二：Discriminative and generative models of handwritten digits" /></p>
+<img src="https://developers.google.com/machine-learning/gan/images/generative_v_discriminative.png" alt="图二：Discriminative and generative models of handwritten digits"></p>
 <p>判别器试图在数据空间中画一条先来分别手写0和1.如果它画的线正确，在不需要准确的模拟出实例在数据空间中两边的位置，就可以区分0和1.相比之下，生成模型试图生成接近数据空间中真实对应的数字来产生令人信服的1和0。它必须对整个数据空间的分布进行建模。</p>
 <p>GAN提供了一个有效的方法去训练模拟真实数据分布的模型。要弄明白他是怎么工作的我们需要弄清楚GAN的基础架构。</p>
 <h2 id="gan-anatomy">GAN Anatomy</h2>
@@ -252,38 +79,31 @@ alt="图二：Discriminative and generative models of handwritten digits" /></p>
 <li>判别器学习区分生成器的假数据和真实数据。判别器对生成器生成的不可信的结果进行惩罚。</li>
 </ul>
 <p>当开始训练时，生成器生成出看起来明显是假的数据，判别器迅速学习到如何判断生成器的生成数据是假的
-<img
-src="https://developers.google.com/machine-learning/gan/images/bad_gan.svg" /></p>
-<p>当训练继续进行，生成器会生成出可以骗过判别器的数据： <img
-src="https://developers.google.com/machine-learning/gan/images/ok_gan.svg" /></p>
+<img src="https://developers.google.com/machine-learning/gan/images/bad_gan.svg" alt=""></p>
+<p>当训练继续进行，生成器会生成出可以骗过判别器的数据：
+<img src="https://developers.google.com/machine-learning/gan/images/ok_gan.svg" alt=""></p>
 <p>最终，如果生成器训练的很好，判别器会判别不出数据的真假。判别器会开始把假数据判为真，他的精度开始下降。
-<img
-src="https://developers.google.com/machine-learning/gan/images/good_gan.svg" /></p>
-<p>下图是GAN的完整结构图： <img
-src="https://developers.google.com/machine-learning/gan/images/gan_diagram.svg" /></p>
+<img src="https://developers.google.com/machine-learning/gan/images/good_gan.svg" alt=""></p>
+<p>下图是GAN的完整结构图：
+<img src="https://developers.google.com/machine-learning/gan/images/gan_diagram.svg" alt=""></p>
 <p>生成器和判别器都是神经网络。生成器的输出直接当做判别器的输入。通过反向传播，判别器的分类提供一个信号去让生成器更新它的权重。</p>
 <h3 id="discirminator">Discirminator</h3>
 <p><strong>The Discriminator</strong></p>
 <p>GAN中的判别器一般是一个简单的分类器。它试图区分真实数据和生成器生成的数据。它可以使用任何适合的分类网络。
-<img
-src="https://developers.google.com/machine-learning/gan/images/gan_diagram_discriminator.svg"
-alt="图三， Backpropagation in discriminator training" /></p>
+<img src="https://developers.google.com/machine-learning/gan/images/gan_diagram_discriminator.svg" alt="图三， Backpropagation in discriminator training"></p>
 <h4 id="discriminator-training-data">Discriminator Training Data</h4>
 <p>判别器的训练数据有两个来源：</p>
 <ul>
-<li><strong>真数据</strong>
-比如人的真实照片。判别器使用这些数据当做训练时的正样本</li>
-<li><strong>假数据</strong>
-由生成器生成的数据。判别器使用这些数据当做训练时的负样本</li>
+<li><strong>真数据</strong> 比如人的真实照片。判别器使用这些数据当做训练时的正样本</li>
+<li><strong>假数据</strong> 由生成器生成的数据。判别器使用这些数据当做训练时的负样本</li>
 </ul>
 <p>在图三种，两个“样本”框代表这两个输入到判别器的数据源。在判别器训练期间，生成器不进行训练.生成器保持它的weights，生成数据样本给判别器训练。</p>
 <h4 id="traing-the-discriminator">Traing the Discriminator</h4>
 <p>判别器连接了两个损失函数。在判别器训练期间，判别忽略生成器loss，只使用判别器loss。生成器loss在训练生成器的时候使用。</p>
 <p>在判别训练期间：</p>
-<ol type="1">
+<ol>
 <li>判别器用来判别真实数据和生成器的生成数据</li>
-<li>当判别器把真判断为假，或者是把假数据判断为真，判别器 loss
-会惩罚判别器</li>
+<li>当判别器把真判断为假，或者是把假数据判断为真，判别器 loss 会惩罚判别器</li>
 <li>判别器通过判别器loss，反向传播判别网络，更新网络权重</li>
 </ol>
 <h3 id="generator">Generator</h3>
@@ -295,31 +115,39 @@ alt="图三， Backpropagation in discriminator training" /></p>
 <li>生成网络将随机输入转化为数据</li>
 <li>判别网络，用来分类生成数据</li>
 <li>判别器输出</li>
-<li>生成loss，用来惩罚未能骗过判别器的生成器 <img
-src="https://developers.google.com/machine-learning/gan/images/gan_diagram_generator.svg"
-alt="图四， Backpropagation in generator training" /></li>
+<li>生成loss，用来惩罚未能骗过判别器的生成器
+<img src="https://developers.google.com/machine-learning/gan/images/gan_diagram_generator.svg" alt="图四， Backpropagation in generator training"></li>
 </ul>
 <h4 id="random-input">Random Input</h4>
 <p>神经网络需要某种形式的输入.通常我们输入的数据是我们想做的事情，比如我们相对一个样本进行分类或者做一个预测。但是对于一个输出全新数据样本的网络，我们用什么作为输入呢？</p>
 <p>一个最基本的GAN的输入是随机噪声。生成器把噪声转换为有意义的输出。通过引入噪声，我们可以从目标样本中的不同地方采样从而让GAN产生各种各样的数据。</p>
 <p>实验表明，噪声的分布并不重要，所以我们可以选择一些容易采样的东西，比如均匀分布。为方便起见，对噪声进行采样的空间通常比输出空间的维度小。</p>
-<h3 id="using-the-discriminator-to-train-the-generator">Using the
-Discriminator to Train the Generator</h3>
+<h3 id="using-the-discriminator-to-train-the-generator">Using the Discriminator to Train the Generator</h3>
 <p>在训练一个神经网络的过程中，我们改变网络的权重以此来降低目标loss。在GAN的训练里面，生成器并不直接连接到我们的目标loss。生成器的结果输入给判别器，判别器最终产生我们想要的结果。生成器loss对那些被判别判断为假的数据进行惩罚。</p>
-<p>这个额外的网络必须包含在反向传播中。反向传播过程中通过计算权重对输出的影响来调整权重往正确的方向更新
--
-你改变权重，输出会发生怎样的变化。但是一个生成器权重的影响取决于它所送入的判别器权重的影响。所以，反向传播从输出开始，通过判别器回流到生成器。</p>
+<p>这个额外的网络必须包含在反向传播中。反向传播过程中通过计算权重对输出的影响来调整权重往正确的方向更新 - 你改变权重，输出会发生怎样的变化。但是一个生成器权重的影响取决于它所送入的判别器权重的影响。所以，反向传播从输出开始，通过判别器回流到生成器。</p>
 <p>与此同时，在训练生成器的时候我们不希望改变判别器。对于本来就比较难训练的生成器，再加一个移动的目标，无疑让问题更加的困难。
-总结下来我们按照以下步骤训练生成器： 1. 采样随机噪声 2.
-生成器根据随机噪声生成数据 3. 生成数据给判别器，判别器对数据进行分类 4.
-计算判别器分类loss 5. 通过判别器，和生成器进行反推，得到梯度。 6.
-使用梯度来改变生成器的weights
-这里描述是一次典型的生成器迭代，在下一节中，我们将看到如何平衡生成器和判别器的训练。</p>
+总结下来我们按照以下步骤训练生成器：</p>
+<ol>
+<li>采样随机噪声</li>
+<li>生成器根据随机噪声生成数据</li>
+<li>生成数据给判别器，判别器对数据进行分类</li>
+<li>计算判别器分类loss</li>
+<li>通过判别器，和生成器进行反推，得到梯度。</li>
+<li>使用梯度来改变生成器的weights
+这里描述是一次典型的生成器迭代，在下一节中，我们将看到如何平衡生成器和判别器的训练。</li>
+</ol>
 <h3 id="gan-training">GAN Training</h3>
-<p>因为GAN包括了两个独立分开的网络，他训练算法需要解决两个复杂的问题： +
-GAN 需要同时平衡生成器和判别器的训练 + GAN是否收敛不好定义</p>
-<p>GAN的训练是交替进行的： 1. 判别器训练1或多个epochs 2.
-生成器训练1或多个epochs 3. 重复步骤1和2，交替训练生成器和判别器</p>
+<p>因为GAN包括了两个独立分开的网络，他训练算法需要解决两个复杂的问题：</p>
+<ul>
+<li>GAN 需要同时平衡生成器和判别器的训练</li>
+<li>GAN是否收敛不好定义</li>
+</ul>
+<p>GAN的训练是交替进行的：</p>
+<ol>
+<li>判别器训练1或多个epochs</li>
+<li>生成器训练1或多个epochs</li>
+<li>重复步骤1和2，交替训练生成器和判别器</li>
+</ol>
 <p>在训练判别器的时候，我们保持生成器固定。此时，判别器训练过程中试图去分辨出数据的真假，他需要知道如何识别出生成器的缺点。对于判别器来说，识别出一个经过彻底训练的生成器的缺点，和识别出一个未经训练的，输出是随机产生的生成器缺点，两者不是同一个问题。</p>
 <p>同样的，我们在训练生成器的时候保持判别器固定。否则，生成器将试图优化一个移动的目标，这有可能导致问题永远不会收敛。</p>
 <p>正是这种来来回回，使得GAN能够解决原本难以解决的生成问题。我们解决一个简单的分类问题之后，然后去解决更加困难的生成问题。相反，如果你不能训练一个分类器来分辨真实数据和一个初始生成器随机生成数据之间的真假，那么你是没有办法开始训练GAN网络的。</p>
@@ -332,9 +160,7 @@ GAN 需要同时平衡生成器和判别器的训练 + GAN是否收敛不好定�
 那如何通过损失函数来获得真实分布和GAN生成数据分部之间的差别呢？很多人在研究这个领域，并提出了很多方法。我们这里要讲两个常见的GAN损失函数，这两个损失函数都是在TF-GAN里面实现的。</p>
 <ul>
 <li>minimax loss: 这个损失函数在解释GAN的paper中被使用</li>
-<li>Wasserstein loss: TF-GAN Estimators的默认损失函数。在论文<a
-target="_blank" rel="noopener" href="https://arxiv.org/abs/1701.07875">Wasserstein
-GAN</a>中首次被提出来。</li>
+<li>Wasserstein loss: TF-GAN Estimators的默认损失函数。在论文<a href="https://arxiv.org/abs/1701.07875">Wasserstein GAN</a>中首次被提出来。</li>
 </ul>
 <p>TF-GAN 还实现了很多其他的损失函数。</p>
 <h4 id="one-loss-function-or-two">One Loss Function or Two?</h4>
@@ -346,51 +172,49 @@ GAN</a>中首次被提出来。</li>
 <blockquote>
 <p>Ex[log(D(x))] + Ez[log(1 - D(G(z)))]</p>
 </blockquote>
-<p>在这个公式中： + D(x): 判别器对真实数据样本x的概率估计 + Ex:
-所有真实数据的期望值 + G(z) 生成器生成的数据 + D(G(z)):
-判别器对生成数据的的概率估计 + Ez:
-生成器所有随机输入的期望值（实际上，是对所有生成的假数据G(z)的期望值） +
-这个公式是真实数据分布和生成数据分布的交叉熵损失</p>
-<p>生成器不能直接影像函数中的 log(D(x))
-项，所以，对生成器来说，最小化上述损失函数相当于最小化 log(1 -
-D(G(z)))。</p>
-<p>在TF-GAN中，请参加 minimax_discriminator_loss 和
-minimax_generator_loos 来了解这个损失函数的实现。</p>
+<p>在这个公式中：</p>
+<ul>
+<li>D(x): 判别器对真实数据样本x的概率估计</li>
+<li>Ex: 所有真实数据的期望值</li>
+<li>G(z) 生成器生成的数据</li>
+<li>D(G(z)): 判别器对生成数据的的概率估计</li>
+<li>Ez: 生成器所有随机输入的期望值（实际上，是对所有生成的假数据G(z)的期望值）</li>
+<li>这个公式是真实数据分布和生成数据分布的交叉熵损失</li>
+</ul>
+<p>生成器不能直接影像函数中的 log(D(x)) 项，所以，对生成器来说，最小化上述损失函数相当于最小化 log(1 - D(G(z)))。</p>
+<p>在TF-GAN中，请参加 minimax_discriminator_loss 和 minimax_generator_loos 来了解这个损失函数的实现。</p>
 <h4 id="modified-minimax-loss">Modified Minimax Loss</h4>
-<p>最初的GAN论文中指出，在GAN训练的早期阶段，当判别器的工作很容易的时候，上述的最小最大化损失函数会导致GAN卡住。因此，该论文建议修改生成器的损失，是生成器尝试最大化
-logD(G(z))。</p>
+<p>最初的GAN论文中指出，在GAN训练的早期阶段，当判别器的工作很容易的时候，上述的最小最大化损失函数会导致GAN卡住。因此，该论文建议修改生成器的损失，是生成器尝试最大化 logD(G(z))。</p>
 <h4 id="wasserstein-loss">Wasserstein Loss</h4>
 <p>TF-GAN 默认使用 wasserstein loss</p>
-<p>该损失函数是基于GAN（称为"Wasserstein
-GAN"或“WGAN”）的一个修改，在这个方案中，判别器实际上并不对数据实例进行分类。判别器对每一个数据实例输出一个数字。这个数字不必小于1，也不必大于0，所以我们不能用0.5作为门槛来决定一个实例的真假。判别器训练过程中试图让真实数据的输出比假数据的输出值更大。</p>
+<p>该损失函数是基于GAN（称为&quot;Wasserstein GAN&quot;或“WGAN”）的一个修改，在这个方案中，判别器实际上并不对数据实例进行分类。判别器对每一个数据实例输出一个数字。这个数字不必小于1，也不必大于0，所以我们不能用0.5作为门槛来决定一个实例的真假。判别器训练过程中试图让真实数据的输出比假数据的输出值更大。</p>
 <p>因为他不能真正判别出真假，WGAN的判别器应该被称为“评论者”，而不是“判别者”。这种区别在理论上具有很重要的意义，实际上，我们可以将其视为承认损失函数的输入不一定得是概率。</p>
 <p>损失函数本身是很简单的：</p>
 <p><strong>Critic Loss:</strong> <code>D(x) - D(G(z))</code></p>
 <p>判别器试图最大化这个函数。也就是说，他试图最大化判别器对生成器生成数据的输出和判别器对真实数据的输出之间的差别。</p>
-<p><strong>Generator Loss:</strong> <code>D(G(z))</code></p>
+<p><strong>Generator Loss:</strong>  <code>D(G(z))</code></p>
 <p>生成器试图最大化这个函数。也就说，他试图最大化判别器对假数据的输出</p>
-<p>在上述函数中： + D(x) 对真实数据的评价 + G(z) 生成器生成数据 +
-D(G(z)) 对生成数据的评价 + D输出不需要在0到1之间 +
-公式来源于真实分布和生成分布之间的<a
-target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Earth_mover&#39;s_distance">地动距离</a>.</p>
+<p>在上述函数中：</p>
+<ul>
+<li>D(x) 对真实数据的评价</li>
+<li>G(z) 生成器生成数据</li>
+<li>D(G(z)) 对生成数据的评价</li>
+<li>D输出不需要在0到1之间</li>
+<li>公式来源于真实分布和生成分布之间的<a href="https://en.wikipedia.org/wiki/Earth_mover's_distance">地动距离</a>.</li>
+</ul>
 <h4 id="requirements">Requirements</h4>
-<p>Wasserstein
-GAN（或WGAN）的理论依据要求对整个GAN的权重进行剪裁，使其保持在一个约束的范围内。</p>
+<p>Wasserstein GAN（或WGAN）的理论依据要求对整个GAN的权重进行剪裁，使其保持在一个约束的范围内。</p>
 <h4 id="benefits">Benefits</h4>
-<p>Wasserstein
-GANs比基于minimax的GANs更不容易被卡住，并且避免了消失梯度的问题。地动仪距离还有一个优点，那就是它是一个真正的度量：在概率分布空间中对距离的度量。交叉熵不是这个意义上的度量。</p>
+<p>Wasserstein GANs比基于minimax的GANs更不容易被卡住，并且避免了消失梯度的问题。地动仪距离还有一个优点，那就是它是一个真正的度量：在概率分布空间中对距离的度量。交叉熵不是这个意义上的度量。</p>
 <h3 id="real-world-gans">Real World GANs</h3>
 <h4 id="common-problems">Common Problems</h4>
-<p>GAN
-有一些常见的问题，目前这些常见的问题都在被不同的研究者在积极的研究中。虽然这些问题都没有得到彻底解决，我们提到一些人们已经尝试过的事情。</p>
+<p>GAN 有一些常见的问题，目前这些常见的问题都在被不同的研究者在积极的研究中。虽然这些问题都没有得到彻底解决，我们提到一些人们已经尝试过的事情。</p>
 <h5 id="vanishing-gradients">Vanishing Gradients</h5>
 <p>研究表明，如果你的判别器太好，那么生成器训练就会因为梯度消失而失败。实际上，一个最佳的判别器并不能为生成器提供足够的信息来取得进步。</p>
 <h5 id="attempts-to-remedy">Attempts to Remedy</h5>
 <ul>
-<li><strong>Wasserstein loss:</strong> 设计 Wasserstein loss
-的目的是为了在你把判别器训练最佳状态的情况下，防止梯度消失。</li>
-<li><strong>Modified minimax loss:</strong>
-原GAN论文中提出了对最小损失的修改，以处理梯度消失的问题。</li>
+<li><strong>Wasserstein loss:</strong> 设计 Wasserstein loss 的目的是为了在你把判别器训练最佳状态的情况下，防止梯度消失。</li>
+<li><strong>Modified minimax loss:</strong> 原GAN论文中提出了对最小损失的修改，以处理梯度消失的问题。</li>
 </ul>
 <h5 id="mode-collapse">Mode Collapse</h5>
 <p>通常情况下，我们希望GAN网络产生各种各样的输出。例如，当每次给不同的随机输入给人脸生成器，生成器可以生成不同的人脸。</p>
@@ -400,221 +224,32 @@ GANs比基于minimax的GANs更不容易被卡住，并且避免了消失梯度�
 <h5 id="attempts-to-remedy-1">Attempts to Remedy</h5>
 <p>以下方法试图迫使生成器扩大其范围，防止其针对单一固定的判别器进行优化。</p>
 <ul>
-<li><p><strong>Wasserstein loss:</strong> Wasserstein loss
-可以缓解模式崩溃的问题，让你把判别器训练到最佳状态而不用担心梯度消失。如果判别器没有卡在局部最小值，它就会学会拒绝生成器稳定的输出。所以生成器必须尝试新的东西。</p></li>
-<li><p><strong>Unrolled GANs:</strong> Unrolled GAN
-使用的生成器损失函数不仅包含了当前判别器的分类，还包含了未来判别器的输出。因此，生成器不能对单个判别器进行过度优化。</p></li>
+<li>
+<p><strong>Wasserstein loss:</strong> Wasserstein loss 可以缓解模式崩溃的问题，让你把判别器训练到最佳状态而不用担心梯度消失。如果判别器没有卡在局部最小值，它就会学会拒绝生成器稳定的输出。所以生成器必须尝试新的东西。</p>
+</li>
+<li>
+<p><strong>Unrolled GANs:</strong> Unrolled GAN 使用的生成器损失函数不仅包含了当前判别器的分类，还包含了未来判别器的输出。因此，生成器不能对单个判别器进行过度优化。</p>
+</li>
 </ul>
 <h4 id="failure-to-converge">Failure to Converge</h4>
 <p>如前面GAN训练章节中中所述。GAN经常无法收敛。</p>
 <h5 id="attempts-to-remedy-2">Attempts to Remedy</h5>
-<p>研究者试图使用各种形式的正则化来提高GAN收敛性，包括： +
-<strong>Adding noise to discriminator inputs:</strong> 如 <a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/1701.04862.pdf">Toward Principled Methods
-for Training Generative Adversarial Networks.</a> + <strong>Penalizing
-discriminator weights</strong> 如 <a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/1705.09367.pdf">https://arxiv.org/pdf/1705.09367.pdf</a></p>
+<p>研究者试图使用各种形式的正则化来提高GAN收敛性，包括：</p>
+<ul>
+<li><strong>Adding noise to discriminator inputs:</strong> 如 <a href="https://arxiv.org/pdf/1701.04862.pdf"> Toward Principled Methods for Training Generative Adversarial Networks.</a></li>
+<li><strong>Penalizing discriminator weights</strong> 如 <a href="https://arxiv.org/pdf/1705.09367.pdf">https://arxiv.org/pdf/1705.09367.pdf</a></li>
+</ul>
 <h3 id="gan-variations">GAN Variations</h3>
 <p>研究人员不断改进GAN技术以及GAN的用途。以下是GAN的一些变体，让你了解GAN的各种可能性。</p>
 <h4 id="progressive-gans">Progressive GANs</h4>
 <p>在渐进式GAN中，生成器的第一层产生分辨率很低的图像，随后各层增加细节。这种技术使GAN的训练速度比类似的非渐进式GAN更快，并产生更高分辨率的图像。</p>
 <h4 id="conditional-gans">Conditional GANs</h4>
-<p>条件 GAN
-在有标签的数据集上进行训练，需要为每个生成的实例指定标签。例如，一个无条件的MNIST
-GAN将产生随机的数字，而一个有条件的MNIST
-GAN可以指定GAN应该产生哪个数字。</p>
+<p>条件 GAN 在有标签的数据集上进行训练，需要为每个生成的实例指定标签。例如，一个无条件的MNIST GAN将产生随机的数字，而一个有条件的MNIST GAN可以指定GAN应该产生哪个数字。</p>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/07/19/confushion/" rel="prev" title="生活中的困惑">
-      <i class="fa fa-chevron-left"></i> 生活中的困惑
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/11/15/32/" rel="next" title="活到32">
-      活到32 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">生成对抗网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#overview"><span class="nav-number">1.1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">生成模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#modeling-probabilites"><span class="nav-number">1.1.3.</span> <span class="nav-text">Modeling Probabilites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#generative-models-are-hard"><span class="nav-number">1.1.4.</span> <span class="nav-text">Generative Models Are Hard</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gan-anatomy"><span class="nav-number">1.2.</span> <span class="nav-text">GAN Anatomy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#overview-of-gan-structure"><span class="nav-number">1.2.1.</span> <span class="nav-text">Overview of GAN Structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#discirminator"><span class="nav-number">1.2.2.</span> <span class="nav-text">Discirminator</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#discriminator-training-data"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Discriminator Training Data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#traing-the-discriminator"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">Traing the Discriminator</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#generator"><span class="nav-number">1.2.3.</span> <span class="nav-text">Generator</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#random-input"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Random Input</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#using-the-discriminator-to-train-the-generator"><span class="nav-number">1.2.4.</span> <span class="nav-text">Using the
-Discriminator to Train the Generator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gan-training"><span class="nav-number">1.2.5.</span> <span class="nav-text">GAN Training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#convergence"><span class="nav-number">1.2.6.</span> <span class="nav-text">Convergence</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loss-functions"><span class="nav-number">1.2.7.</span> <span class="nav-text">Loss Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#one-loss-function-or-two"><span class="nav-number">1.2.7.1.</span> <span class="nav-text">One Loss Function or Two?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#minimax-loss"><span class="nav-number">1.2.7.2.</span> <span class="nav-text">Minimax Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#modified-minimax-loss"><span class="nav-number">1.2.7.3.</span> <span class="nav-text">Modified Minimax Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wasserstein-loss"><span class="nav-number">1.2.7.4.</span> <span class="nav-text">Wasserstein Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#requirements"><span class="nav-number">1.2.7.5.</span> <span class="nav-text">Requirements</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#benefits"><span class="nav-number">1.2.7.6.</span> <span class="nav-text">Benefits</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#real-world-gans"><span class="nav-number">1.2.8.</span> <span class="nav-text">Real World GANs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#common-problems"><span class="nav-number">1.2.8.1.</span> <span class="nav-text">Common Problems</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#vanishing-gradients"><span class="nav-number">1.2.8.1.1.</span> <span class="nav-text">Vanishing Gradients</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#attempts-to-remedy"><span class="nav-number">1.2.8.1.2.</span> <span class="nav-text">Attempts to Remedy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mode-collapse"><span class="nav-number">1.2.8.1.3.</span> <span class="nav-text">Mode Collapse</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#attempts-to-remedy-1"><span class="nav-number">1.2.8.1.4.</span> <span class="nav-text">Attempts to Remedy</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#failure-to-converge"><span class="nav-number">1.2.8.2.</span> <span class="nav-text">Failure to Converge</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#attempts-to-remedy-2"><span class="nav-number">1.2.8.2.1.</span> <span class="nav-text">Attempts to Remedy</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gan-variations"><span class="nav-number">1.2.9.</span> <span class="nav-text">GAN Variations</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#progressive-gans"><span class="nav-number">1.2.9.1.</span> <span class="nav-text">Progressive GANs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#conditional-gans"><span class="nav-number">1.2.9.2.</span> <span class="nav-text">Conditional GANs</span></a></li></ol></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

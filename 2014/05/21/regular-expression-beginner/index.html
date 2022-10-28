@@ -1,294 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="#常用的元字符    代码 说明     * *前边的内容可以连续重复使用任意次以使整个表达式得到匹配   . 匹配除了换行符以外的任意字符     匹配一位数字(0，或1，或2，或……) | 匹配字母或数字或下划线或汉字 | 匹配任意的空白符 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符    代码&#x2F;语法 说明     * 重复零次或更多次   + 重">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Regular Expression">
-<meta property="og:url" content="https://cp0000.github.io/2014/05/21/regular-expression-beginner/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="#常用的元字符    代码 说明     * *前边的内容可以连续重复使用任意次以使整个表达式得到匹配   . 匹配除了换行符以外的任意字符     匹配一位数字(0，或1，或2，或……) | 匹配字母或数字或下划线或汉字 | 匹配任意的空白符 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符    代码&#x2F;语法 说明     * 重复零次或更多次   + 重">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2014-05-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2015-06-21T12:05:50.000Z">
-<meta property="article:author" content="Pei Cheng">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://cp0000.github.io/2014/05/21/regular-expression-beginner/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>Regular Expression | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+      Regular Expression
     
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2014/05/21/regular-expression-beginner/">
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
+<article>
+    <p class="post-meta">
+        <time datetime="2014-05-21 00:00:00 &#43;0000 UTC">
+            2014-05-21
+        </time>
+    </p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Regular Expression
-        </h1>
+    <h1>Regular Expression</h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2014-05-21 00:00:00" itemprop="dateCreated datePublished" datetime="2014-05-21T00:00:00+08:00">2014-05-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2015-06-21 20:05:50" itemprop="dateModified" datetime="2015-06-21T20:05:50+08:00">2015-06-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>#常用的元字符</p>
+    <p>#常用的元字符</p>
 <table>
 <thead>
-<tr class="header">
-<th style="text-align: left;">代码</th>
-<th style="text-align: left;">说明</th>
+<tr>
+<th style="text-align:left">代码</th>
+<th style="text-align:left">说明</th>
 </tr>
 </thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">*</td>
-<td
-style="text-align: left;">*前边的内容可以连续重复使用任意次以使整个表达式得到匹配</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">匹配除了换行符以外的任意字符</td>
-</tr>
-</tbody>
 </table>
-<p> 匹配一位数字(0，或1，或2，或……) | 匹配字母或数字或下划线或汉字 |
-匹配任意的空白符 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ |
-匹配字符串的结束</p>
+<ul>
+<li>| *前边的内容可以连续重复使用任意次以使整个表达式得到匹配
+. 	 | 匹配除了换行符以外的任意字符
+\d 	 | 匹配一位数字(0，或1，或2，或……)
+\w 	 | 匹配字母或数字或下划线或汉字
+\s 	 | 匹配任意的空白符
+\b 	 | 匹配单词的开始或结束
+^ 	 | 匹配字符串的开始
+$ 	 | 匹配字符串的结束</li>
+</ul>
 <p>#常用的限定符</p>
 <table>
 <thead>
-<tr class="header">
-<th style="text-align: left;">代码/语法</th>
-<th style="text-align: left;">说明</th>
+<tr>
+<th style="text-align:left">代码/语法</th>
+<th style="text-align:left">说明</th>
 </tr>
 </thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">*</td>
-<td style="text-align: left;">重复零次或更多次</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">+</td>
-<td style="text-align: left;">重复一次或更多次</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">?</td>
-<td style="text-align: left;">重复零次或一次</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">{n}</td>
-<td style="text-align: left;">重复n次</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">{n,}</td>
-<td style="text-align: left;">重复n次或更多次</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">{n,m}</td>
-<td style="text-align: left;">重复n次到m次</td>
-</tr>
-</tbody>
 </table>
+<ul>
+<li>
+<pre><code>   | 重复零次或更多次
+</code></pre>
+</li>
+</ul>
+<ul>
+<li>
+<pre><code>   | 重复一次或更多次
+</code></pre>
+</li>
+</ul>
+<p>? 	 	 | 重复零次或一次
+{n}  	 | 重复n次
+{n,} 	 | 重复n次或更多次
+{n,m} 	 | 重复n次到m次</p>
 <p>#其他</p>
 <ul>
 <li><strong>字符转义</strong></li>
 </ul>
-<p>如需查找*,+等元字符本身的话，需使用；</p>
-<pre><code>\. \*</code></pre>
+<p>如需查找*,+等元字符本身的话，需使用\来取消这些字符的特殊含义；</p>
+<pre><code>\. \*
+</code></pre>
 <ul>
 <li><strong>字符类</strong></li>
 </ul>
 <p>匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：</p>
-<pre><code>[aeiou]:    匹配任何一个英文元音字母；
-[.?!]:      匹配标点符号(.或?或!)</code></pre>
-<p>(?0[)
--]?：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字()，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字()</p>
+<pre><code>[aeiou]:	匹配任何一个英文元音字母；
+[.?!]:		匹配标点符号(.或?或!)
+</code></pre>
+<p>(?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})</p>
 <ul>
 <li><strong>分枝条件</strong></li>
 </ul>
@@ -297,272 +100,118 @@ style="text-align: left;">*前边的内容可以连续重复使用任意次以�
 <li><strong>分组</strong></li>
 </ul>
 <p>用小括号来指定子表达式(也叫做分组）</p>
-<p>e.g. IP地址匹配: (.){3}
-解析：匹配1到3位的数字，(.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字()</p>
+<p>e.g. IP地址匹配:  (\d{1,3}.){3}\d{1,3}
+解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})</p>
 <ul>
 <li><strong>反义</strong></li>
 </ul>
 <p>常用的反义代码</p>
 <table>
 <thead>
-<tr class="header">
-<th style="text-align: left;">代码/语法</th>
-<th style="text-align: left;">说明</th>
+<tr>
+<th style="text-align:left">代码/语法</th>
+<th style="text-align:left">说明</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td
-style="text-align: left;">匹配任意不是字母，数字，下划线，汉字的字符</td>
+<tr>
+<td style="text-align:left">\W</td>
+<td style="text-align:left">匹配任意不是字母，数字，下划线，汉字的字符</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">匹配任意不是空白符的字符</td>
+<tr>
+<td style="text-align:left">\S</td>
+<td style="text-align:left">匹配任意不是空白符的字符</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">匹配任意非数字的字符</td>
+<tr>
+<td style="text-align:left">\D</td>
+<td style="text-align:left">匹配任意非数字的字符</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">匹配不是单词开头或结束的位置</td>
+<tr>
+<td style="text-align:left">\B</td>
+<td style="text-align:left">匹配不是单词开头或结束的位置</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">[^x]</td>
-<td style="text-align: left;">匹配除了x以外的任意字符</td>
+<tr>
+<td style="text-align:left">[^x]</td>
+<td style="text-align:left">匹配除了x以外的任意字符</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">[^aeiou]</td>
-<td style="text-align: left;">匹配除了aeiou这几个字母以外的任意字符</td>
+<tr>
+<td style="text-align:left">[^aeiou]</td>
+<td style="text-align:left">匹配除了aeiou这几个字母以外的任意字符</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p><strong>后向引用</strong></p>
-<p>...</p></li>
-<li><p><strong>零宽断言</strong></p>
-<p>...</p></li>
-<li><p><strong>负向零宽断言</strong></p>
-<p>...</p></li>
-<li><p><strong>注释</strong></p>
-<p>...</p></li>
-<li><p><strong>贪婪与懒惰</strong></p>
-<p>...</p></li>
-<li><p><strong>处理选项</strong></p>
-<p>...</p></li>
-<li><p><strong>平衡组/递归匹配</strong></p>
-<p>...</p></li>
+<li>
+<p><strong>后向引用</strong></p>
+<p>&hellip;</p>
+</li>
+<li>
+<p><strong>零宽断言</strong></p>
+<p>&hellip;</p>
+</li>
+<li>
+<p><strong>负向零宽断言</strong></p>
+<p>&hellip;</p>
+</li>
+<li>
+<p><strong>注释</strong></p>
+<p>&hellip;</p>
+</li>
+<li>
+<p><strong>贪婪与懒惰</strong></p>
+<p>&hellip;</p>
+</li>
+<li>
+<p><strong>处理选项</strong></p>
+<p>&hellip;</p>
+</li>
+<li>
+<p><strong>平衡组/递归匹配</strong></p>
+<p>&hellip;</p>
+</li>
 </ul>
 <p>#Example</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>RE</th>
 <th>示意</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>\bhi\b</td>
+<td>查找单词hi</td>
+</tr>
+<tr>
+<td>.*</td>
+<td>任意数量的不包含换行的字符</td>
+</tr>
+<tr>
+<td>\bhi\b.*\bLucy\b</td>
+<td>先是一个单词hi,然后是任意个任意字符(但不能是换行)，最后是Lucy这个单词</td>
+</tr>
+<tr>
+<td>0\d{2}-\d{8}</td>
+<td>\d后面的{2}({8})的意思是前面\d必须连续重复匹配2次(8次)</td>
+</tr>
+<tr>
+<td>c.d(.+)</td>
+<td>查询到结果类似于c.d((c)a, string)</td>
+</tr>
+<tr>
+<td>((2[0-4]\d</td>
+<td>25[0-5]</td>
+</tr>
 </tbody>
 </table>
-<p> 查找单词hi .* | 任意数量的不包含换行的字符 *
-先是一个单词hi,然后是任意个任意字符(但不能是换行)，最后是Lucy这个单词 0-
-| ({8})的意思是前面2次(8次) c.d(.+) | 查询到结果类似于c.d((c)a, string)
-((2[0-4]25[0-5]|[01]?).){3}(2[0-4]25[0-5]|[01]?) | IP地址</p>
 <p>#附录：</p>
-<p>更多信息，请阅读：<a
-target="_blank" rel="noopener" href="https://deerchao.net/tutorials/regex/regex.htm"
-class="uri">https://deerchao.net/tutorials/regex/regex.htm</a></p>
+<p>更多信息，请阅读：<a href="https://deerchao.net/tutorials/regex/regex.htm">https://deerchao.net/tutorials/regex/regex.htm</a></p>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2014/04/10/google-wildcard/" rel="prev" title="Google Wildcard">
-      <i class="fa fa-chevron-left"></i> Google Wildcard
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2014/12/31/2014-movie-list/" rel="next" title="2014电影清单">
-      2014电影清单 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

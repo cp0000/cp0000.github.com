@@ -1,292 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成">
-<meta property="og:type" content="article">
-<meta property="og:title" content="3D-Touch(1) iOS9 Quick Actions Shortcut">
-<meta property="og:url" content="https://cp0000.github.io/2015/09/30/iOS9-Quick-Actions-shortcut/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://cp0000.github.io/assets/static_shortcut.jpg">
-<meta property="og:image" content="http://cp0000.github.io/assets/shortcut2.jpg">
-<meta property="article:published_time" content="2015-09-30T11:24:13.000Z">
-<meta property="article:modified_time" content="2017-10-06T14:21:48.000Z">
-<meta property="article:author" content="Pei Cheng">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://cp0000.github.io/assets/static_shortcut.jpg">
-
-<link rel="canonical" href="https://cp0000.github.io/2015/09/30/iOS9-Quick-Actions-shortcut/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>3D-Touch(1) iOS9 Quick Actions Shortcut | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+      3D-Touch(1) iOS9 Quick Actions Shortcut
     
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/09/30/iOS9-Quick-Actions-shortcut/">
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
+<article>
+    <p class="post-meta">
+        <time datetime="2015-09-30 19:24:13 &#43;0000 UTC">
+            2015-09-30
+        </time>
+    </p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          3D-Touch(1) iOS9 Quick Actions Shortcut
-        </h1>
+    <h1>3D-Touch(1) iOS9 Quick Actions Shortcut</h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2015-09-30 19:24:13" itemprop="dateCreated datePublished" datetime="2015-09-30T19:24:13+08:00">2015-09-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-10-06 22:21:48" itemprop="dateModified" datetime="2017-10-06T22:21:48+08:00">2017-10-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>新的iPhone6s, iPhone6s P 在不久之前的 WWDC
-上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch
-的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch
-API分成三个部分: Quick Actions， peek and pop,以及 Pressure
-Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加
-Quick Actions shortcut 功能。</p>
+    <p>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。</p>
 <h2 id="home-screen-quick-actions">Home Screen Quick Actions</h2>
-<p>通过主屏幕的应用icon，可以用 3D Touch
-呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。</p>
+<p>通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。</p>
 <h3 id="静态快捷键的添加">静态快捷键的添加</h3>
 <p>打开 Info.plist, 在该文件中添加如下键值：</p>
-<figure>
-<img src="http://cp0000.github.io/assets/static_shortcut.jpg"
-alt="static_shortcut" />
-<figcaption aria-hidden="true">static_shortcut</figcaption>
-</figure>
+<p><img src="http://cp0000.github.io/assets/static_shortcut.jpg" alt="static_shortcut"></p>
 <p>添加一个key为<code>UIApplicationShortcutItems</code>的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：</p>
 <ul>
-<li>UIApplicationShortcutItemType (required) :
-快捷标签的唯一字符串标示</li>
-<li>UIApplicationShortcutItemTitle (required):
-快捷标签的标题，会显示在UI上</li>
-<li>UIApplicationShortcutItemSubtitle (optional):
-副标题，会显示在UI上</li>
-<li>UIApplicationShortcutItemIconType (optional):
-系统提供的icon，全部列表 <a
-target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/index.html#//apple_ref/c/tdef/UIApplicationShortcutIconType">UIApplicationShortcutIcon_Class</a></li>
-<li>UIApplicationShortcutItemIconFile (optional):
-自定义icon（如果填写了该项，则系统自动ignore
-UIApplicationShortcutItemIconType）。图片需要时正方形的，35<em>35的倍数（试过100</em>100也是Ok的），并且单色。</li>
+<li>UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示</li>
+<li>UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上</li>
+<li>UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上</li>
+<li>UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 <a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/index.html#//apple_ref/c/tdef/UIApplicationShortcutIconType">UIApplicationShortcutIcon_Class</a></li>
+<li>UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，35<em>35的倍数（试过100</em>100也是Ok的），并且单色。</li>
 <li>UIApplicationShortcutItemUserInfo (optional): 传值用</li>
 </ul>
-<p>详情请<a
-target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36">看这里</a></p>
-<p>当在Info.plist
-中添加好了需要的标签之后。运行程序便可得到以下效果：</p>
-<figure>
-<img src="http://cp0000.github.io/assets/shortcut2.jpg"
-alt="shortcut2" />
-<figcaption aria-hidden="true">shortcut2</figcaption>
-</figure>
-<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节<a
-href="#jump">模拟器上测试Shortcut</a>。 ### 动态标签的添加</p>
+<p>详情请<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36">看这里</a></p>
+<p>当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：</p>
+<p><img src="http://cp0000.github.io/assets/shortcut2.jpg" alt="shortcut2"></p>
+<p>P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节<a href="#jump">模拟器上测试Shortcut</a>。</p>
+<h3 id="动态标签的添加">动态标签的添加</h3>
 <p>所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：</p>
 <ul>
 <li>UIApplicationShortcutItem 3DTouch标签的类</li>
 <li>UIApplicationShortcutIcon 标签中图片Icon的类</li>
 </ul>
 <h3 id="响应标签的行为">响应标签的行为</h3>
-<p>当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9
-中，UIApplicationDelegate 新增了方法：</p>
-<pre><code>- (void) application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler</code></pre>
-<p>当通过标签进入APP时，appdelegate中会回调到这个函数。当你处理完了标签需要做的工作之后，需要执行
-<code>completionHandler</code>。</p>
-<p>这里有一个地方需要特别注意一下，用户按下标签进入应用要分成两种状况：启动APP，APP从后台回到前台。你需要在
-<code>application:didFinishLaunchingWithOptions:</code> 或
-<code>application:willFinishLaunchingWithOptions:</code>
-中的一个去检查字典 <code>launchOptions</code>
-中是否包含了<code>UIApplicationLaunchOptionsShortcutItemKey</code>。如果有这个key，则表示是启动app。你需要在此时设置好APP的view层级，并且为
-application:willFinishLaunchingWithOptions: 返回 false。这样就可以阻止
-<code>application(_:performActionForShortcutItem:completionHandler:)</code>
-被调用，避免标签处理逻辑被处理两次。</p>
-<p>以下是 sample code (Objective_c)，demo 放在github上面<a
-target="_blank" rel="noopener" href="https://github.com/cp0000/shortcutDemo">shortcutDemo</a></p>
-<p>另外苹果官方提供了 swift 的<a
-target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/ios/samplecode/ApplicationShortcuts/Introduction/Intro.html">sample
-code</a></p>
+<p>当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：</p>
+<pre><code>- (void) application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler
+</code></pre>
+<p>当通过标签进入APP时，appdelegate中会回调到这个函数。当你处理完了标签需要做的工作之后，需要执行 <code>completionHandler</code>。</p>
+<p>这里有一个地方需要特别注意一下，用户按下标签进入应用要分成两种状况：启动APP，APP从后台回到前台。你需要在 <code>application:didFinishLaunchingWithOptions:</code> 或 <code>application:willFinishLaunchingWithOptions:</code> 中的一个去检查字典 <code>launchOptions</code> 中是否包含了<code>UIApplicationLaunchOptionsShortcutItemKey</code>。如果有这个key，则表示是启动app。你需要在此时设置好APP的view层级，并且为 application:willFinishLaunchingWithOptions: 返回 false。这样就可以阻止 <code>application(_:performActionForShortcutItem:completionHandler:)</code> 被调用，避免标签处理逻辑被处理两次。</p>
+<p>以下是 sample code (Objective_c)，demo 放在github上面<a href="https://github.com/cp0000/shortcutDemo">shortcutDemo</a></p>
+<p>另外苹果官方提供了 swift 的<a href="https://developer.apple.com/library/prerelease/ios/samplecode/ApplicationShortcuts/Introduction/Intro.html">sample code</a></p>
 <pre><code>#import &quot;AppDelegate.h&quot;
 
 @interface AppDelegate ()
@@ -297,22 +76,22 @@ code</a></p>
 @implementation AppDelegate
 
 - (BOOL) handledShortCutItem: (UIApplicationShortcutItem *) shortcutItem
-&#123;
+{
     BOOL handled = NO;
     if (!shortcutItem.type) return NO;
     if (![shortcutItem.type isKindOfClass:[NSString class]]) return NO;
 
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@&quot;Shortcut Handled&quot; message:shortcutItem.localizedTitle preferredStyle: UIAlertControllerStyleAlert];
-    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@&quot;OK&quot; style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) &#123;
-    &#125;];
+    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@&quot;OK&quot; style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
     [alertController addAction: alertAction];
 
     [self.window.rootViewController presentViewController: alertController animated: YES completion:nil];
 
     return handled;
-&#125;
+}
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 //    Dynamic Shortcuts
     UIApplicationShortcutIcon * addIcon = [UIApplicationShortcutIcon iconWithType: UIApplicationShortcutIconTypeAdd];//Icons should be square, single color,
@@ -322,39 +101,38 @@ code</a></p>
     [UIApplication sharedApplication].shortcutItems = @[addItem];
 
     BOOL shouldPerformAdditionalDelegateHandling    = YES;
-    if (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) &#123;
+    if (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) {
         UIApplicationShortcutItem * shortcutItem = launchOptions[UIApplicationLaunchOptionsShortcutItemKey];
         self.launchedShortcutItem   = shortcutItem;
         // This will block &quot;performActionForShortcutItem:completionHandler&quot; from being called.
         shouldPerformAdditionalDelegateHandling     = NO;
-    &#125;
+    }
     return shouldPerformAdditionalDelegateHandling;
-&#125;
+}
 
-- (void)applicationWillEnterForeground:(UIApplication *)application &#123;
-&#125;
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+}
 
-- (void)applicationDidBecomeActive:(UIApplication *)application &#123;
-    if(!self.launchedShortcutItem) &#123;
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    if(!self.launchedShortcutItem) {
         return;
-    &#125;
+    }
     [self handledShortCutItem: self.launchedShortcutItem];
 
     self.launchedShortcutItem   = nil;
-&#125;
+}
 
 - (void) application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler
-&#123;
+{
     BOOL result = [self handledShortCutItem: shortcutItem];
     completionHandler(result);
-&#125;
+}
 
-@end</code></pre>
-<p><span id="simulator_shortcuts"></span> ### 模拟器上测试Shortcuts
-Xcode7.0 的模拟器是没办法之间触发出 3D Touch
-事件的，好在有人开发出了插件<a
-target="_blank" rel="noopener" href="https://github.com/DeskConnect/SBShortcutMenuSimulator">SBShortcutMenuSimulator</a>.实用也很简单，只需要follow
-readme 中的 usage 便可。以下摘录</p>
+@end
+</code></pre>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<h3 id="模拟器上测试shortcuts">模拟器上测试Shortcuts</h3>
+<p>Xcode7.0 的模拟器是没办法之间触发出 3D Touch 事件的，好在有人开发出了插件<a href="https://github.com/DeskConnect/SBShortcutMenuSimulator">SBShortcutMenuSimulator</a>.实用也很简单，只需要follow readme 中的 usage 便可。以下摘录</p>
 <pre><code>git clone https://github.com/DeskConnect/SBShortcutMenuSimulator.git
 cd SBShortcutMenuSimulator
 make
@@ -362,205 +140,19 @@ make
 xcrun simctl spawn booted launchctl debug system/com.apple.SpringBoard --environment DYLD_INSERT_LIBRARIES=$PWD/SBShortcutMenuSimulator.dylib
 xcrun simctl spawn booted launchctl stop com.apple.SpringBoard
 
-echo &#39;com.apple.mobilecal&#39; | nc 127.0.0.1 8000</code></pre>
-<p>'com.apple.mobilecal'
-替换成你需要测试的app的bundle就可以了，例如我的是
-<code>chengpei.shortcutDemo</code></p>
-<pre><code>echo &#39;chengpei.shortcutDemo&#39; | nc 127.0.0.1 8000</code></pre>
+echo 'com.apple.mobilecal' | nc 127.0.0.1 8000
+</code></pre>
+<p>&lsquo;com.apple.mobilecal&rsquo; 替换成你需要测试的app的bundle就可以了，例如我的是 <code>chengpei.shortcutDemo</code></p>
+<pre><code>echo 'chengpei.shortcutDemo' | nc 127.0.0.1 8000
+</code></pre>
 <p>上面的命令全都在clone的SBShortcutMenuSimulator目录下执行。</p>
 <h3 id="结语">结语</h3>
 <p>以上。</p>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2015/09/03/There-will-be-blood/" rel="prev" title="There Will Be Blood">
-      <i class="fa fa-chevron-left"></i> There Will Be Blood
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2015/10/25/Peek-and-pop/" rel="next" title="3D-Touch(2) PEEK And POP">
-      3D-Touch(2) PEEK And POP <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#home-screen-quick-actions"><span class="nav-number">1.</span> <span class="nav-text">Home Screen Quick Actions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%B7%BB%E5%8A%A0"><span class="nav-number">1.1.</span> <span class="nav-text">静态快捷键的添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E6%A0%87%E7%AD%BE%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.2.</span> <span class="nav-text">响应标签的行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">1.3.</span> <span class="nav-text">结语</span></a></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

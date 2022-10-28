@@ -1,433 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="Learn OpenCV 因为工作需要，我订阅了 Learn OpenCV 的邮件。Learn OpenCV 可以简单描述成是一个教学OpenCV的网站，网站的作者是 Satya Mallick,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c++和python 两个版本的source co">
-<meta property="og:type" content="article">
-<meta property="og:title" content="失败者才设定目标">
-<meta property="og:url" content="https://cp0000.github.io/2018/01/03/goals-are-for-losers/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="Learn OpenCV 因为工作需要，我订阅了 Learn OpenCV 的邮件。Learn OpenCV 可以简单描述成是一个教学OpenCV的网站，网站的作者是 Satya Mallick,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c++和python 两个版本的source co">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2018-01-03T11:31:06.000Z">
-<meta property="article:modified_time" content="2018-01-03T13:06:57.000Z">
-<meta property="article:author" content="Pei Cheng">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://cp0000.github.io/2018/01/03/goals-are-for-losers/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>失败者才设定目标 | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+      失败者才设定目标
     
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2018/01/03/goals-are-for-losers/">
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
+<article>
+    <p class="post-meta">
+        <time datetime="2018-01-03 19:31:06 &#43;0000 UTC">
+            2018-01-03
+        </time>
+    </p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          失败者才设定目标
-        </h1>
+    <h1>失败者才设定目标</h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2018-01-03 19:31:06 / Modified: 21:06:57" itemprop="dateCreated datePublished" datetime="2018-01-03T19:31:06+08:00">2018-01-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h2 id="learn-opencv">Learn OpenCV</h2>
-<p>因为工作需要，我订阅了 <a target="_blank" rel="noopener" href="http://www.learnopencv.com/">Learn
-OpenCV</a> 的邮件。<a target="_blank" rel="noopener" href="http://www.learnopencv.com/">Learn
-OpenCV</a>
-可以简单描述成是一个教学<code>OpenCV</code>的网站，网站的作者是 <a
-target="_blank" rel="noopener" href="https://www.linkedin.com/in/satyamallick/">Satya
-Mallick</a>,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c++和python
-两个版本的source
-code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。</p>
+    <h2 id="learn-opencv">Learn OpenCV</h2>
+<p>因为工作需要，我订阅了 <a href="http://www.learnopencv.com/">Learn OpenCV</a> 的邮件。<a href="http://www.learnopencv.com/">Learn OpenCV</a> 可以简单描述成是一个教学<code>OpenCV</code>的网站，网站的作者是 <a href="https://www.linkedin.com/in/satyamallick/">Satya Mallick</a>,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c++和python 两个版本的source code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。</p>
 <h2 id="goals-are-for-losers">Goals are for losers</h2>
-<p>最近 <a target="_blank" rel="noopener" href="http://www.learnopencv.com/">Learn OpenCV</a>
-发送了一份邮件，标题叫<strong>Goals are for
-losers</strong>，直译成中文是<strong>目标是为失败者设定的</strong>。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。</p>
+<p>最近 <a href="http://www.learnopencv.com/">Learn OpenCV</a>  发送了一份邮件，标题叫<strong>Goals are for losers</strong>，直译成中文是<strong>目标是为失败者设定的</strong>。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。</p>
 <p>以下是对<code>Goals are for losers</code>这份邮件的翻译：</p>
 <blockquote>
-<p>随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。</p>
-<p>假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。</p>
-<p><strong>目标是一个滞后的衡量标准, 你需要一个主导衡量标准</strong></p>
-<p>什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。</p>
-<p>为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。<code>每天花一点时间</code>这种计划是不会起作用的。</p>
-<p>坚持执行计划，目标自然会达成，否则目标就是幻想。</p>
 </blockquote>
-<p>我非常同意上述的观点，一定要<strong>为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成</strong>，这样目标才能达成。想来惭愧，我在17年6月份花了
-¥2000.00
-参加了<code>FaceAI</code>的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。</p>
+<p>随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。</p>
+<blockquote>
+</blockquote>
+<p>假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。</p>
+<blockquote>
+</blockquote>
+<p><strong>目标是一个滞后的衡量标准, 你需要一个主导衡量标准</strong></p>
+<blockquote>
+</blockquote>
+<p>什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。</p>
+<blockquote>
+</blockquote>
+<p>为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。<code>每天花一点时间</code>这种计划是不会起作用的。</p>
+<blockquote>
+</blockquote>
+<p>坚持执行计划，目标自然会达成，否则目标就是幻想。</p>
+<p>我非常同意上述的观点，一定要<strong>为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成</strong>，这样目标才能达成。想来惭愧，我在17年6月份花了 ¥2000.00 参加了<code>FaceAI</code>的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。</p>
 <p>以上。</p>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2017/12/03/my-2017/" rel="prev" title="我的2017">
-      <i class="fa fa-chevron-left"></i> 我的2017
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2018/06/16/audio/" rel="next" title="音频编解码以及音乐GPU实时可视化效果实现">
-      音频编解码以及音乐GPU实时可视化效果实现 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#learn-opencv"><span class="nav-number">1.</span> <span class="nav-text">Learn OpenCV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#goals-are-for-losers"><span class="nav-number">2.</span> <span class="nav-text">Goals are for losers</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tech on CP0000 - 一只特立独行的猪</title>
+    <link>https://cp0000.github.io/categories/tech/</link>
+    <description>Recent content in Tech on CP0000 - 一只特立独行的猪</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 25 Oct 2015 10:36:21 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3D-Touch(2) PEEK And POP</title>
+      <link>https://cp0000.github.io/2015/10/25/peek-and-pop/</link>
+      <pubDate>Sun, 25 Oct 2015 10:36:21 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/10/25/peek-and-pop/</guid>
+      <description>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp;amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp;amp; Pop 的相关知识点。
+在给你的app接入peeking and poping 的功能之前，需要先了解该操作的三个属性， peeking, preview actions, poping。如下图所示：
+用户在 Peeking 图片，视频，网页等内容的时候，能够在不去加载全部内容的情况下获取到更多详细的内容。
+##PEEKING
+当用户对某个view做peeking操作时，程序会展现给用户相对应内容的快照。Peek 操作是 3DTouch 中实现起来相对比较复杂的模块。Peek and Pop API 中有一个 UIViewControllerPreviewingDelegate,给指定的view需要注册这个delegate，就可以接收到系统回调过来的3D Touch事件。
+override func viewDidLoad() { super.viewDidLoad() /* Register for `UIViewControllerPreviewingDelegate` to enable &amp;quot;Peek&amp;quot; and &amp;quot;Pop&amp;quot;. The view controller will be automatically unregistered when it is deallocated. */ registerForPreviewingWithDelegate(self, sourceView: view) } 这里有一点需要注意，我们可以在一个 view Controller 中，给多个view注册 Previewing Delegate ，但是我们不能反复去注册同一个view。</description>
+    </item>
+    
+    <item>
+      <title>3D-Touch(1) iOS9 Quick Actions Shortcut</title>
+      <link>https://cp0000.github.io/2015/09/30/ios9-quick-actions-shortcut/</link>
+      <pubDate>Wed, 30 Sep 2015 19:24:13 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/09/30/ios9-quick-actions-shortcut/</guid>
+      <description>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。
+Home Screen Quick Actions 通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。
+静态快捷键的添加 打开 Info.plist, 在该文件中添加如下键值：
+添加一个key为UIApplicationShortcutItems的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：
+UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示 UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上 UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上 UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 UIApplicationShortcutIcon_Class UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，3535的倍数（试过100100也是Ok的），并且单色。 UIApplicationShortcutItemUserInfo (optional): 传值用 详情请看这里
+当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：
+P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节模拟器上测试Shortcut。
+动态标签的添加 所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：
+UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签中图片Icon的类 响应标签的行为 当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：</description>
+    </item>
+    
+    <item>
+      <title>Openradar Stream</title>
+      <link>https://cp0000.github.io/2015/08/30/openradarstream/</link>
+      <pubDate>Sun, 30 Aug 2015 22:02:42 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/08/30/openradarstream/</guid>
+      <description>写在前面 随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债”上，之前release了太多的feature，遗留了太多的bug，会在这一次修复掉。
+Openradar stream 的来由 和大多数 iOS developers 一样，我也在第一时间安装了 iOS 9 beta版本。满足了尝鲜感之后，随着而来就是 beta 系统的不稳定，以及各种的bug。用 iOS 9 进行开发的过程中，我遇到了许许多多的坑，对于一些系统的bug，会花费掉我很多的时间去debug。然后，我发现了openradar。一个 open database of radars for Apple bug。从openradar 上，你可以看到其他开发者提交的bug，这当然会为你省去很多的时间，帮助你避免很多的坑。
+后来我想我是不是应该做一个自动的脚本，定时的去抓取这个网页上面的信息，然后发到微博上。关注这个微博的人就可以在自己的时间线上面看到最新的bug了。这样做的好处是，一来你了解到bug信息，下次你遇到类似的问题，会联想到之前看过的bug信息，省去大量的时间。二来，刷微博的时候，还顺便学习了新知识，就没那么大的罪恶感了～。为此，我写一个tiny project，auto radarstream。
+具体工作 完成openradarstream，有以下事情需要去做
+前期工作
+申请一个微博账号，并申请微博OpenApi，获取到apikey和apisecret。 获取到微博的 accessToken， expires 开发工具
+language: python database: sqlite 细节
+设置好微博的环境，其中微博的OpenAPI,使用开源库sinaweibopy
+初始化数据库
+def initDB (): print &#39;initDB ...&#39; db = sqlite3.connect(sqlite_file) cursor = db.cursor() cursor.execute(&#39;&#39;&#39;CREATE TABLE IF NOT EXISTS bugs(id INTEGER PRIMARY KEY, bugid TEXT, status TEXT, originator TEXT, product TEXT, title TEXT)&#39;&#39;&#39;) db.</description>
+    </item>
+    
+    <item>
+      <title>UICollectionViews Now Have Easy Reordering （译）</title>
+      <link>https://cp0000.github.io/2015/08/22/uicollectionview-has-easy-reording-on-ios9/</link>
+      <pubDate>Sat, 22 Aug 2015 09:52:28 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/08/22/uicollectionview-has-easy-reording-on-ios9/</guid>
+      <description>iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering
+在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。
+实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.
+override func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。
+![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。
+override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: &amp;quot;handleLongGesture:&amp;quot;) self.</description>
+    </item>
+    
+    <item>
+      <title>Spotlight &amp; MDFind</title>
+      <link>https://cp0000.github.io/2015/08/02/mdfind-note/</link>
+      <pubDate>Sun, 02 Aug 2015 11:31:18 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/08/02/mdfind-note/</guid>
+      <description>Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。
+先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：
+spotlight 帮我找到了包含 _loadBlock 这个字符串的文件。
+想象下，电脑硬盘中存储着如此多的文件，spotlight 是如何如此快速的查询到包涵这个字符串的文件的？
+在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？
+关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 find 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。那答案是什么？
+我们不妨先把目光放到搜索这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。
+那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的indexing的索引服务。那什么是indexing索引服务器，简单来讲： Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。
+当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 Lucene 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。
+mdfind 用 spotlight 的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。关于如何在spotlight界面显示文件的详细路径，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。
+那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？
+Macosx 提供了终端执行命令mdfind，我们可以在 terminal 中使用mdfind来进行索引查询。比如要查询出文件内容中包含字符串 &amp;ldquo;_loadBlock&amp;rdquo;, 在ternimal中输入以下命令即可：
+mdfind &#39;kMDItemTextContent=&amp;quot;_loadBlock&amp;quot;&#39; results:
+/opt/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.h /opt/dev/appstore_cracked/StoreKit_headers/SKStoreProductViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUWebViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUStorePageViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUPreviewOverlayViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.h /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.h /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.h 对比终端查询结果和图一中的结果，会发现有两点出入：
+(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。 (2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下&amp;quot;_loadBlock&amp;quot;在各个文件中的上下文，以下是节选 nsBlocklistService.js
+this._loadBlocklist(); SKStorePageViewController
+CDUnknownBlockType _loadBlock; 看上去问题应该是出在_loadBlock前后是否能跟别的字符串上，修改查询语句</description>
+    </item>
+    
+    <item>
+      <title>Objc Interview Checklist Answers</title>
+      <link>https://cp0000.github.io/2015/07/23/oc-checklist-answers/</link>
+      <pubDate>Thu, 23 Jul 2015 21:12:55 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/07/23/oc-checklist-answers/</guid>
+      <description>@property中有哪些属性关键字？ nonatomic (thread-unsafe) atomic (default, thread safe)
+strong weak assign copy
+getter (custom getter method name) setter (custom setter method name)
+readwrite (default) readonly
+weak属性需要在dealloc中置nil么？ 不需要，runtime会在weak属性在释放的时候，自动把变量至为 nil;
+@synthesize和@dynamic分别有什么作用？ @synthesize 自动生成属性 getter 和 setter 方法. LLVM Compiler 4.0之后，编译器会对@property 属性自动的添加 @synthesize ivar = _ivar,自动帮你生成 getter/setter 方法，以及自动绑定_ivar 实例变量。
+@dynamic 是为了告诉编译器，getter/setter 方法将会在其他地方（父类，runtime）实现，这样可以消除warnnig
+ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？ atomic, assign, readwrite
+用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？ NSString Property:copy or retain
+@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？ 首先 complier 会根据 @interface 中的 @property 属性自动生成一份属性名前加_的实例变量。LLVM Compiler 4.0 之后，会自动添加@synthesize ivar = _ivar。</description>
+    </item>
+    
+    <item>
+      <title>从 NSString Property:copy or retain 到 NSCopying</title>
+      <link>https://cp0000.github.io/2015/07/19/nsstring-property-copy-or-retain/</link>
+      <pubDate>Sun, 19 Jul 2015 11:50:04 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/07/19/nsstring-property-copy-or-retain/</guid>
+      <description>NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。
+为什么会有NSString要用copy来修饰的convention？能否用 strong代替?
+回答这个问题之前，我们先看段代码：
+@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@&amp;quot;apple&amp;quot;]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@&amp;quot;fruitName: %p %@&amp;quot;, fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@&amp;quot;fruitNameCopy: %p %@&amp;quot;, fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@&amp;quot;fruitNameStrong:%p %@&amp;quot;, fruit.fruitNameStrong, fruit.</description>
+    </item>
+    
+    <item>
+      <title>Regular Expression</title>
+      <link>https://cp0000.github.io/2014/05/21/regular-expression-beginner/</link>
+      <pubDate>Wed, 21 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2014/05/21/regular-expression-beginner/</guid>
+      <description>#常用的元字符
+代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，或2，或……) \w | 匹配字母或数字或下划线或汉字 \s | 匹配任意的空白符 \b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符
+代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次
+#其他
+字符转义 如需查找*,+等元字符本身的话，需使用\来取消这些字符的特殊含义；
+\. \* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：
+[aeiou]:	匹配任何一个英文元音字母； [.?!]:	匹配标点符号(.或?或!) (?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})
+分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开
+分组 用小括号来指定子表达式(也叫做分组）
+e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})
+反义 常用的反义代码
+代码/语法 说明 \W 匹配任意不是字母，数字，下划线，汉字的字符 \S 匹配任意不是空白符的字符 \D 匹配任意非数字的字符 \B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用</description>
+    </item>
+    
+    <item>
+      <title>Google Wildcard</title>
+      <link>https://cp0000.github.io/2014/04/10/google-wildcard/</link>
+      <pubDate>Thu, 10 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2014/04/10/google-wildcard/</guid>
+      <description>1.双引号
+把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。
+“seo方法图片” 2.减号
+减号代表搜索不包含减号后面的词的页面。使用这个指令时减号前面必须是空格，减号后面没有空格，紧跟着需要排除的词。
+搜索 -引擎 3.星号
+星号常用的通配符
+搜索*擎 4.inurl
+inurl: 指令用于搜索查询词出现在url 中的页面。
+inurl:搜索引擎优化 5.inanchor
+指令返回的结果是导入链接锚文字中包含搜索词的页面。
+inanchor:点击这里 6.intitle
+指令返回的是页面title 中包含关键词的页面。
+7.allintitle
+搜索返回的是页面标题中包含多组关键词的文件。
+8.filetype
+用于搜索特定文件格式。
+filetype:pdf SEO 9.site
+用来搜索某个域名下的所有文件。
+site:developer.apple.com gcd </description>
+    </item>
+    
+  </channel>
+</rss>

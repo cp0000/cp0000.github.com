@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>
+    
+      什么是Diffusion模型
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css" />
+   <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+<article>
+    <p class="post-meta">
+        <time datetime="0001-01-01 00:00:00 &#43;0000 UTC">
+            0001-01-01
+        </time>
+    </p>
+
+    <h1>什么是Diffusion模型</h1>
+
+    <p>这是一篇关于 <a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What are Diffusion Models</a>的译文。很多地方借鉴了<a href="https://zhuanlan.zhihu.com/p/525106459">由浅入深了解Diffusion Model</a></p>
+<p>本文主要是介绍什么是DDPM：Denoising Diffusion Probabilistic Models(<strong>DDPM</strong>; <a href="https://arxiv.org/abs/2006.11239">Ho et al. 2020</a>).</p>
+<h3 id="basic-knowledge">Basic Knowledge</h3>
+<ul>
+<li>Normal Distribution: $$\mathcal{N}(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(x - \mu)^2}{2\sigma^2} \right)$$</li>
+<li>Conditional Probability:  $${\displaystyle P(A\mid B)={\frac {P(A\cap B)}{P(B)}}}$$</li>
+<li><a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes&rsquo; theorem</a>: $${\displaystyle P(A\mid B)={{P(B\mid A)P(A)} \over {P(B)}}}$$</li>
+<li>KL divergence: $$D_{\text{KL}}(q(x) || p(x)) = \mathbb{E}_{q(x)} \log [q(x) / p(x)]$$</li>
+</ul>
+<h2 id="ddpm">DDPM</h2>
+<h3 id="forward-diffusion-process">Forward diffusion process</h3>
+<p>从给定的真实数据集中采样一个数据样本：${x}_0 \sim q({x})$，我们定义前向扩散过程，在这个过程中，我们逐步向样本中添加少量高斯噪声，产生一系列噪声样本: ${x}_1,\dots,{x}_T$ 步长由方差控制 ${\beta_t \in (0, 1)}_{t=1}^T$</p>
+<p>随着步长$t$的变大，数据样本$\mathbf{x}_0$逐渐失去其特征。 最终，当$T\to\infty$ , $\mathbf{x}_T$等价于各向同性高斯分布。</p>
+<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled.png" alt="Untitled"></p>
+<p>上述过程有一个很好的特性，我们可以使用重参数化技巧以封闭形式在任意时间步$t$采样$\mathbf{x}_t$。</p>
+<p>定义  $\alpha_t = 1 - \beta_t$  and $\bar{\alpha}_t = \prod_{i=1}^t \alpha_i$</p>
+<p>$$\begin{aligned}
+\mathbf{x}_t
+&amp;= \sqrt{\alpha_t}\mathbf{x}_{t-1} + \sqrt{1 - \alpha_t}\boldsymbol{\epsilon}_{t-1} &amp; \text{ ;where } \boldsymbol{\epsilon}_{t-1}, \boldsymbol{\epsilon}_{t-2}, \dots \sim \mathcal{N}(\mathbf{0}, \mathbf{I}) \\
+&amp;= \sqrt{\alpha_t \alpha_{t-1}} \mathbf{x}_{t-2} + \sqrt{1 - \alpha_t \alpha_{t-1}} \bar{\boldsymbol{\epsilon}}_{t-2} &amp; \text{ ;where } \bar{\boldsymbol{\epsilon}}_{t-2} \text{ merges two Gaussians (*).} \\
+&amp;= \dots \\
+&amp;= \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon} \\
+q(\mathbf{x}_t \vert \mathbf{x}_0) &amp;= \mathcal{N}(\mathbf{x}_t; \sqrt{\bar{\alpha}_t} \mathbf{x}_0, (1 - \bar{\alpha}_t)\mathbf{I})
+\end{aligned}$$</p>
+<p>(*) 合并两个高斯分布  $\mathcal{N}(\mathbf{0}, \sigma_1^2\mathbf{I})$和 $\mathcal{N}(\mathbf{0}, \sigma_2^2\mathbf{I})$，得到的新的高斯分布是$\mathcal{N}(\mathbf{0},(\sigma_1^2 + \sigma_2^2)\mathbf{I})$合并后的标准差是：$\sqrt{(1 - \alpha_t) + \alpha_t (1-\alpha_{t-1})} = \sqrt{1 - \alpha_t\alpha_{t-1}}$</p>
+<h3 id="reverse-diffusion-process"><strong>Reverse diffusion process</strong></h3>
+<p>前向过程是扩散（加噪）过程，那么逆向过程就是去噪。如果我们可以反转扩散过程，得到逆转后的分布 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$ ，就可以从标准高斯分布  $\mathbf{x}_T \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ 中还原出原图分布$\mathbf{x}_0$。</p>
+<p>如果$\beta_t$足够小的话，$q(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$也是高斯分布。</p>
+<p>不过我们无法简单得到 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$。因此我们使用深度学习模型 $p_\theta$ 来预测这样一个逆向分布。</p>
+<p>$p_\theta(\mathbf{x}_{0:T}) = p(\mathbf{x}_T) \prod^T_{t=1} p_\theta(\mathbf{x}_{t-1} \vert \mathbf{x}_t) \quad$</p>
+<p>$p_\theta(\mathbf{x}_{t-1} \vert \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \boldsymbol{\mu}_\theta(\mathbf{x}_t, t), \boldsymbol{\Sigma}_\theta(\mathbf{x}_t, t))$</p>
+<p>我们无法得到逆向后的分布 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$，但如果知道$\mathbf{x}_0$，是可以通过贝叶斯公式得到$q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0)$为：</p>
+<p>$q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0) = \mathcal{N}(\mathbf{x}_{t-1}; \color{blue}{\tilde{\boldsymbol{\mu}}}(\mathbf{x}_t, \mathbf{x}_0), \color{red}{\tilde{\beta}_t} \mathbf{I})$</p>
+<p>具体的推导如下：
+$$\begin{aligned}
+q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0)
+&amp;= q(\mathbf{x}_t \vert \mathbf{x}_{t-1}, \mathbf{x}_0) \frac{ q(\mathbf{x}_{t-1} \vert \mathbf{x}_0) }{ q(\mathbf{x}_t \vert \mathbf{x}_0) } \\
+&amp;\propto \exp \Big(-\frac{1}{2} \big(\frac{(\mathbf{x}t - \sqrt{\alpha_t} \mathbf{x}_{t-1})^2}{\beta_t} + \frac{(\mathbf{x}_{t-1} - \sqrt{\bar{\alpha}_{t-1}} \mathbf{x}_0)^2}{1-\bar{\alpha}_{t-1}} - \frac{(\mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x} _0)^2}{1-\bar{\alpha}_t} \big) \Big) \\
+&amp;= \exp \Big(-\frac{1}{2} \big(\frac{\mathbf{x}t^2 - 2\sqrt{\alpha_t} \mathbf{x}_t \color{blue}{\mathbf{x}_{t-1}} \color{black}{+ \alpha_t} \color{red}{\mathbf{x}_{t-1}^2} }{\beta_t} + \frac{ \color{red}{\mathbf{x}_{t-1}^2} \color{black}{- 2 \sqrt{\bar{\alpha}_{t-1}} \mathbf{x}_0} \color{blue}{\mathbf{x}_{t-1}} \color{black}{+ \bar{\alpha}_{t-1} \mathbf{x}_0^2}  }{1-\bar{\alpha}_{t-1}} - \frac{(\mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0)^2}{1-\bar{\alpha}_t} \big) \Big) \\
+&amp;= \exp\Big( -\frac{1}{2} \big( \color{red}{(\frac{\alpha_t}{\beta_t} + \frac{1}{1 - \bar{\alpha}_{t-1}})} \mathbf{x}_{t-1}^2 - \color{blue}{(\frac{2\sqrt{\alpha_t}}{\beta_t} \mathbf{x}_t + \frac{2\sqrt{\bar{\alpha}_{t-1}}}{1 - \bar{\alpha}_{t-1}} \mathbf{x}_0)} \mathbf{x}_{t-1} \color{black}{ + C(\mathbf{x}_t, \mathbf{x}_0) \big) \Big)}
+\end{aligned}$$</p>
+<p>其中第一步贝叶斯公式部分：</p>
+<p>$q(x_{t-1}|x_t, x_0) = q(x_t|x_{t-1}, x_0) \frac{q(x_{t-1}|x_0)}{q(x_{t}| x_0)}$</p>
+<p>$P(A \mid B,C) = \frac{P(B \mid A,C) ; P(A \mid C)}{P(B \mid C)}$</p>
+<ul>
+<li>
+<p>Proof:</p>
+<p>$\begin{aligned}
+P(A\mid B, C) &amp; = \frac{P(A,B,C)}{P(B, C)}
+\\ &amp; =\frac{P(B\mid A,C),P(A, C)}{P(B, C)}
+\\ &amp; =\frac{P(B\mid A,C),P(A\mid C),P(C)}{P(B, C)}
+\\ &amp; =\frac{P(B\mid A,C),P(A\mid C) P(C)}{P(B\mid C) P(C)}
+\\ &amp; =\frac{P(B\mid A,C);P(A\mid C)}{P(B\mid C)}
+\end{aligned}$</p>
+</li>
+</ul>
+<p>一般的高斯密度函数的指数部分应该写为：</p>
+<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled%201.png" alt="Untitled"></p>
+<p>其中 $C(\mathbf{x}_t, \mathbf{x}_0)$是与$\mathbf{x}_{t-1}$ 无关的常数项。按照标准高斯密度函数，均值和方差可以参数化如下（回想一下 $\alpha_t = 1 - \beta_t$ 和  $\bar{\alpha}_t = \prod_{i=1}^T \alpha_i$):</p>
+<p>$$\begin{aligned}
+\tilde{\beta}t
+&amp;= 1/(\frac{\alpha_t}{\beta_t} + \frac{1}{1 - \bar{\alpha}_{t-1}})
+= 1/(\frac{\alpha_t - \bar{\alpha}_t + \beta_t}{\beta_t(1 - \bar{\alpha}_{t-1})})
+= \color{green}{\frac{1 - \bar{\alpha}_{t-1}}{1 - \bar{\alpha}_t} \cdot \beta_t} \\
+\tilde{\boldsymbol{\mu}}_t (\mathbf{x}_t, \mathbf{x}_0)
+&amp;= (\frac{\sqrt{\alpha_t}}{\beta_t} \mathbf{x}_t + \frac{\sqrt{\bar{\alpha}_{t-1} }}{1 - \bar{\alpha}_{t-1}} \mathbf{x}0)/(\frac{\alpha_t}{\beta_t} + \frac{1}{1 - \bar{\alpha}_{t-1}}) \\
+&amp;= (\frac{\sqrt{\alpha_t}}{\beta_t} \mathbf{x}_t + \frac{\sqrt{\bar{\alpha}_{t-1} }}{1 - \bar{\alpha}_{t-1}} \mathbf{x}0) \color{green}{\frac{1 - \bar{\alpha}_{t-1}}{1 - \bar{\alpha}_t} \cdot \beta_t} \\
+&amp;= \frac{\sqrt{\alpha_t}(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t} \mathbf{x}_t + \frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1 - \bar{\alpha}_t} \mathbf{x}_0\\
+\end{aligned}$$</p>
+<p>因为：</p>
+<p>$\begin{aligned}
+\mathbf{x}_t&amp;=\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 -\bar{\alpha}_t}\boldsymbol{\epsilon} \
+\end{aligned}$</p>
+<p>可以整理成：</p>
+<p>$\mathbf{x}_0 = \frac{1}{\sqrt{\bar{\alpha}_t}}(\mathbf{x}_t - \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon}_t)$</p>
+<p>把它带入上述方程得到：</p>
+<p>$$\begin{aligned}
+\tilde{\boldsymbol{\mu}}_t
+&amp;= \frac{\sqrt{\alpha_t}(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t} \mathbf{x}_t + \frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1 - \bar{\alpha}_t} \frac{1}{\sqrt{\bar{\alpha}_t}}(\mathbf{x}_t - \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon}_t) \\
+&amp;= \color{cyan}{\frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \boldsymbol{\epsilon}_t \Big)}
+\end{aligned}$$</p>
+<p>如此DDPM的每一步推断可以总结为：</p>
+<ol>
+<li>每个时间步通过$\mathbf{x}_{t}$和${t}$来预测高斯噪声${\epsilon}_t$，然后根据 $\begin{aligned}
+\tilde{\boldsymbol{\mu}}_t
+&amp;={\frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \boldsymbol{\epsilon}_t \Big)}
+\end{aligned}$得到${\mu}_t$</li>
+<li>DDPM中方差部分$\Sigma_\theta(x_t,t)$与$\tilde{\beta}_t$相关</li>
+<li>根据$q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0) = \mathcal{N}(\mathbf{x}_{t-1}; {\tilde{{\mu}}}(\mathbf{x}_t, \mathbf{x}_0), {\tilde{\beta}_t} \mathbf{I})$， 利用重参数得到${x}_{t-1}$：</li>
+</ol>
+<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled%202.png" alt="Untitled"></p>
+<h3 id="diffusion训练">Diffusion训练</h3>
+<p>如上文所描述的diffusion逆向过程，我们需要训练diffusion模型得到可用的 ${\mu}_\theta(x_{t}, t)$。</p>
+<p>Diffusion的设置设置与 VAE 非常相似，因此我们可以使用变分下限来优化负对数似然：</p>
+<p>$$\begin{aligned}\log p_\theta(\mathbf{x}_0)
+&amp;\leq - \log p_\theta(\mathbf{x}_0) + D\text{KL}(q(\mathbf{x}_{1:T}\vert\mathbf{x}_0) | p_\theta(\mathbf{x}_{1:T}\vert\mathbf{x}_0) ) \\
+&amp;= -\log p_\theta(\mathbf{x}_0) + \mathbb{E}{\mathbf{x}_{1:T}\sim q(\mathbf{x}_{1:T} \vert \mathbf{x}_0)} \Big[ \log\frac{q(\mathbf{x}_{1:T}\vert\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T}) / p_\theta(\mathbf{x}_0)} \Big] \\
+&amp;= -\log p\theta(\mathbf{x}_0) + \mathbb{E}q \Big[ \log\frac{q(\mathbf{x}_{1:T}\vert\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})} + \log p_\theta(\mathbf{x}_0) \Big] \\
+&amp;= \mathbb{E}q \Big[ \log \frac{q(\mathbf{x}_{1:T}\vert\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})} \Big] \_
+\text{Let }L_\text{VLB} \\
+&amp;= \mathbb{E}{q(\mathbf{x}_{0:T})} \Big[ \log \frac{q(\mathbf{x}_{1:T}\vert\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})} \Big] \geq - \mathbb{E}_{q(\mathbf{x}_0)} \log p_\theta(\mathbf{x}_0)
+\end{aligned}$$</p>
+<p>进一步对$L_\text{VLB}$推导，可以得到熵与多个KL散度的累加，推导过程</p>
+<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>
+<p>Notes:</p>
+<ul>
+<li>basic knowledge about logarithms:</li>
+</ul>
+<p>$$
+\begin{aligned} logA + logB = logAB \ logA − logB = logA/B \ logA^n = nlogA
+\end{aligned}
+$$</p>
+<ul>
+<li>
+<p>line 4 → line 5:   Markov property of the forward process, and the Bayes’ rule</p>
+<p>$$
+\begin{aligned}
+q(x_{t}|x_{t-1}) &amp;= q(x_{t}|x_{t-1}, x_0) \
+\end{aligned} \ P(A \mid B,C) = \frac{P(B \mid A,C) ; P(A \mid C)}{P(B \mid C)}
+$$</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>也可以写作：</p>
+<p>$\begin{aligned}
+L_\text{VLB} &amp;= L_T + L_{T-1} + \dots + L_0 \\
+\text{where } L_T &amp;= D_\text{KL}(q(\mathbf{x}_T \vert \mathbf{x}_0) \parallel p_\theta(\mathbf{x}_T)) \\
+L_t &amp;= D_\text{KL}(q(\mathbf{x}_t \vert \mathbf{x}\_{t+1}, \mathbf{x}_0) \parallel p_\theta(\mathbf{x}_t \vert\mathbf{x}\_{t+1})) \text{ for }1 \leq t \leq T-1 \\
+L_0 &amp;= - \log p_\theta(\mathbf{x}_0 \vert \mathbf{x}_1)
+\end{aligned}$</p>
+<p>前向$q$没有可学习参数，${x}_T$是纯噪声，$L_T$可以当作是常数项忽略。而$L_t$则可以看做拉近两个高斯分布 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_{t}, \mathbf{x}_0)$和$p_\theta(\mathbf{x}_{t-1} \vert\mathbf{x}_{t})$, 根据多元高斯分布的KL散度求解：</p>
+<h3 id="参数化l_t">参数化$L_t$</h3>
+<p>我们需要学习一个神经网络来逼近反向扩散过程中的条件概率分布：$p_\theta(\mathbf{x}_{t-1} \vert \mathbf{x}_t) = \mathcal{N}(\mathbf{x}\_{t-1}; {\mu}_\theta(\mathbf{x}_t, t), {\Sigma}_\theta(\mathbf{x}_t, t))$。我们需要训练一个$\boldsymbol{\mu}_\theta$来预测$\tilde{\boldsymbol{\mu}}_t = \frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \boldsymbol{\epsilon}_t \Big)$。因为$\mathbf{x}_t$ 在训练时是当作输入参数，我们可以重新参数化高斯噪声项，以使其根据 timestep $t$的输入$x_t$来预测${\epsilon}_t$：</p>
+<p>$\begin{aligned}
+{\mu}_\theta(\mathbf{x}_t, t) &amp;= \color{cyan}{\frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t) \Big)} \\
+\text{Thus }\mathbf{x}_{t-1} &amp;= \mathcal{N}(\mathbf{x}_{t-1}; \frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}t}} {\epsilon}_\theta(\mathbf{x}_t, t) \Big), {\Sigma}_\theta(\mathbf{x}_t, t))
+\end{aligned}$</p>
+<p>The loss term $L_t$</p>
+<p>$\begin{aligned}
+L_t
+&amp;= \mathbb{E}_{\mathbf{x}_0, {\epsilon}} \Big[\frac{1}{2 | {\Sigma}_\theta(\mathbf{x}_t, t) |^2_2} | \color{blue}{\tilde{{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0)} - \color{green}{{\mu}_\theta(\mathbf{x}_t, t)} |^2 \Big] \\
+&amp;= \mathbb{E}{\mathbf{x}_0, {\epsilon}} \Big[\frac{1}{2  |{\Sigma}_\theta |^2_2} | \color{blue}{\frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} {\epsilon}_t \Big)} - \color{green}{\frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} {{\epsilon}}_\theta(\mathbf{x}_t, t) \Big)} |^2 \Big] \\
+&amp;= \mathbb{E}{\mathbf{x}_0, {\epsilon}} \Big[\frac{ (1 - \alpha_t)^2 }{2 \alpha_t (1 - \bar{\alpha}_t) | {\Sigma}_\theta |^2_2} |{\epsilon}_t - {\epsilon}_\theta(\mathbf{x}_t, t)|^2 \Big] \\
+&amp;= \mathbb{E}{\mathbf{x}_0, {\epsilon}} \Big[\frac{ (1 - \alpha_t)^2 }{2 \alpha_t (1 - \bar{\alpha}_t) | {\Sigma}_\theta |^2_2} |{\epsilon}_t - {\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}{\epsilon}_t, t)|^2 \Big]
+\end{aligned}$</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h3 id="简化-l_t">简化 $L_t$</h3>
+<p>$\begin{aligned}
+L_t^\text{simple}
+&amp;= \mathbb{E}_{t \sim [1, T], \mathbf{x}_0, \boldsymbol{\epsilon}_t} \Big[|\boldsymbol{\epsilon}_t - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)|^2 \Big] \\
+&amp;= \mathbb{E}_{t \sim [1, T], \mathbf{x}_0, \boldsymbol{\epsilon}_t} \Big[|\boldsymbol{\epsilon}_t - \boldsymbol{\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon}_t, t)|^2 \Big]
+\end{aligned}$</p>
+<p>最后的目标函数是：</p>
+<p>$L_\text{simple} = L_t^\text{simple} + C$</p>
+<p>训练过程可以归纳为：</p>
+<ol>
+<li>从真实数据分布中随机sample一个 $x_0$, 从$1…T$随机采样一个$t$.</li>
+<li>从标准高斯分布采样一个噪声 ${\epsilon}_t\sim {\mathcal {N}}(0 ,I)$</li>
+<li>最小化  $\begin{aligned}|{\epsilon}_t - {\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}{\epsilon}_t, t)|\end{aligned}$</li>
+</ol>
+<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled%204.png" alt="Untitled"></p>
+<h3 id="小结">小结</h3>
+<!-- raw HTML omitted -->
+<ol>
+<li>Forward diffusion process: 前向扩散过程，这部分主要是通过重参数化，得到</li>
+</ol>
+<p>$$
+\begin{aligned}
+q(\mathbf{x}_t \vert \mathbf{x}_0) &amp;=\mathcal{N}(\mathbf{x}_t; \sqrt{\bar{\alpha}_t} \mathbf{x}_0, (1 - \bar{\alpha}_t)\mathbf{I})
+\end{aligned}
+$$</p>
+<ol>
+<li>Reverse diffusion process：反向扩散处理（去噪），这部分主要通过利用贝叶斯公式，利用$x_t, x_0$得到$x_{t-1}$</li>
+</ol>
+<p>$$
+q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0) = \mathcal{N}(\mathbf{x}{t-1}; {\tilde{{\mu}}}(\mathbf{x}_t, \mathbf{x}_0), {\tilde{\beta}_t} \mathbf{I}) \\
+\begin{aligned} \tilde{{\mu}}_t &amp;={\frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} {\epsilon}_t \Big)} \text{ ;where } {\epsilon}_{t} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\end{aligned}
+$$</p>
+<ol start="3">
+<li>Diffusion训练，这部分首先利用变分下限来优化负对数似然来得到：</li>
+</ol>
+<p>$\begin{aligned}
+L_\text{VLB} &amp;= L_T + L_{T-1} + \dots + L_0 \\
+\text{where }
+L_t &amp;= D_\text{KL}(q(\mathbf{x}_t \vert \mathbf{x}_{t+1}, \mathbf{x}0) \parallel p_\theta(\mathbf{x}_t \vert\mathbf{x}_{t+1})) \text{ for }1 \leq t \leq T-1 \\
+\end{aligned}$</p>
+<p>然后利用1，2中的结论代入到$L_t$:</p>
+<p>$$\begin{aligned}
+L_t
+&amp;= \mathbb{E}_{\mathbf{x}_0, {\epsilon}} \Big[\frac{1}{2 | {\Sigma}\theta(\mathbf{x}_t, t) |^2_2} | \color{blue}{\tilde{{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0)} - \color{green}{{\mu}\theta(\mathbf{x}_t, t)} |^2 \Big] \\
+&amp;= \mathbb{E}{\mathbf{x}0, {\epsilon}} \Big[\frac{1}{2  |{\Sigma}\theta |^2_2} | \color{blue}{\frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} {\epsilon}_t \Big)} - \color{green}{\frac{1}{\sqrt{\alpha_t}} \Big( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}t}} {{\epsilon}}\theta(\mathbf{x}_t, t) \Big)} |^2 \Big] \\
+&amp;= \mathbb{E}{\mathbf{x}_0, {\epsilon}} \Big[\frac{ (1 - \alpha_t)^2 }{2 \alpha_t (1 - \bar{\alpha}_t) | {\Sigma}\theta |^2_2} |{\epsilon}_t - {\epsilon}_\theta(\mathbf{x}_t, t)|^2 \Big] \\
+&amp;= \mathbb{E}{\mathbf{x}_0, {\epsilon}} \Big[\frac{ (1 - \alpha_t)^2 }{2 \alpha_t (1 - \bar{\alpha}_t) | {\Sigma}\theta |^2_2} |{\epsilon}_t - {\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}{\epsilon}_t, t)|^2 \Big]
+\end{aligned}$$</p>
+<p>在训练的时候loss为：</p>
+<p>$$\begin{aligned}|{\epsilon}_t - {\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}{\epsilon}_t, t)|
+\end{aligned}$$da</p>
+<!-- raw HTML omitted -->
+<h3 id="代码部分">代码部分</h3>
+<p>Training</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f00">def</span> <span style="color:#ff0">forward</span>(self, x_0):
+</span></span><span style="display:flex;"><span>        <span style="color:#87ceeb">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#87ceeb">        Algorithm 1.
+</span></span></span><span style="display:flex;"><span><span style="color:#87ceeb">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        t = torch.randint(self.T, size=(x_0.shape[<span style="color:#f60">0</span>],), device=x_0.device)
+</span></span><span style="display:flex;"><span>        noise = torch.randn_like(x_0)
+</span></span><span style="display:flex;"><span>        x_t = (
+</span></span><span style="display:flex;"><span>            extract(self.sqrt_alphas_bar, t, x_0.shape) * x_0
+</span></span><span style="display:flex;"><span>            + extract(self.sqrt_one_minus_alphas_bar, t, x_0.shape) * noise
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        loss = F.mse_loss(self.model(x_t, t), noise, reduction=<span style="color:#87ceeb">&#34;none&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#f00">return</span> loss
+</span></span></code></pre></div><p>Sampling</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f00">class</span> GaussianDiffusionSampler(nn.Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#f00">def</span> __init__(self, model, beta_1, beta_T, T):
+</span></span><span style="display:flex;"><span>        super().__init__()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self.model = model
+</span></span><span style="display:flex;"><span>        self.T = T
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self.register_buffer(<span style="color:#87ceeb">&#34;betas&#34;</span>, torch.linspace(beta_1, beta_T, T).double())
+</span></span><span style="display:flex;"><span>        alphas = <span style="color:#f60">1.0</span> - self.betas
+</span></span><span style="display:flex;"><span>        alphas_bar = torch.cumprod(alphas, dim=<span style="color:#f60">0</span>)
+</span></span><span style="display:flex;"><span>        alphas_bar_prev = F.pad(alphas_bar, [<span style="color:#f60">1</span>, <span style="color:#f60">0</span>], value=<span style="color:#f60">1</span>)[:T]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self.register_buffer(<span style="color:#87ceeb">&#34;coeff1&#34;</span>, torch.sqrt(<span style="color:#f60">1.0</span> / alphas))
+</span></span><span style="display:flex;"><span>        self.register_buffer(
+</span></span><span style="display:flex;"><span>            <span style="color:#87ceeb">&#34;coeff2&#34;</span>, self.coeff1 * (<span style="color:#f60">1.0</span> - alphas) / torch.sqrt(<span style="color:#f60">1.0</span> - alphas_bar)
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self.register_buffer(
+</span></span><span style="display:flex;"><span>            <span style="color:#87ceeb">&#34;posterior_var&#34;</span>, self.betas * (<span style="color:#f60">1.0</span> - alphas_bar_prev) / (<span style="color:#f60">1.0</span> - alphas_bar)
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f00">def</span> <span style="color:#ff0">predict_xt_prev_mean_from_eps</span>(self, x_t, t, eps):
+</span></span><span style="display:flex;"><span>        <span style="color:#f00">assert</span> x_t.shape == eps.shape
+</span></span><span style="display:flex;"><span>        <span style="color:#f00">return</span> (
+</span></span><span style="display:flex;"><span>            extract(self.coeff1, t, x_t.shape) * x_t
+</span></span><span style="display:flex;"><span>            - extract(self.coeff2, t, x_t.shape) * eps
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f00">def</span> <span style="color:#ff0">p_mean_variance</span>(self, x_t, t):
+</span></span><span style="display:flex;"><span>        <span style="color:#0f0"># below: only log_variance is used in the KL computations</span>
+</span></span><span style="display:flex;"><span>        var = torch.cat([self.posterior_var[<span style="color:#f60">1</span>:<span style="color:#f60">2</span>], self.betas[<span style="color:#f60">1</span>:]])
+</span></span><span style="display:flex;"><span>        var = extract(var, t, x_t.shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        eps = self.model(x_t, t)
+</span></span><span style="display:flex;"><span>        xt_prev_mean = self.predict_xt_prev_mean_from_eps(x_t, t, eps=eps)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f00">return</span> xt_prev_mean, var
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f00">def</span> <span style="color:#ff0">forward</span>(self, x_T):
+</span></span><span style="display:flex;"><span>        <span style="color:#87ceeb">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#87ceeb">        Algorithm 2.
+</span></span></span><span style="display:flex;"><span><span style="color:#87ceeb">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        x_t = x_T
+</span></span><span style="display:flex;"><span>        <span style="color:#f00">for</span> time_step in reversed(range(self.T)):
+</span></span><span style="display:flex;"><span>            print(time_step)
+</span></span><span style="display:flex;"><span>            t = (
+</span></span><span style="display:flex;"><span>                x_t.new_ones(
+</span></span><span style="display:flex;"><span>                    [
+</span></span><span style="display:flex;"><span>                        x_T.shape[<span style="color:#f60">0</span>],
+</span></span><span style="display:flex;"><span>                    ],
+</span></span><span style="display:flex;"><span>                    dtype=torch.long,
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>                * time_step
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            mean, var = self.p_mean_variance(x_t=x_t, t=t)
+</span></span><span style="display:flex;"><span>            <span style="color:#0f0"># no noise when t == 0</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f00">if</span> time_step &gt; <span style="color:#f60">0</span>:
+</span></span><span style="display:flex;"><span>                noise = torch.randn_like(x_t)
+</span></span><span style="display:flex;"><span>            <span style="color:#f00">else</span>:
+</span></span><span style="display:flex;"><span>                noise = <span style="color:#f60">0</span>
+</span></span><span style="display:flex;"><span>            x_t = mean + torch.sqrt(var) * noise
+</span></span><span style="display:flex;"><span>            <span style="color:#f00">assert</span> torch.isnan(x_t).int().sum() == <span style="color:#f60">0</span>, <span style="color:#87ceeb">&#34;nan in tensor.&#34;</span>
+</span></span><span style="display:flex;"><span>        x_0 = x_t
+</span></span><span style="display:flex;"><span>        <span style="color:#f00">return</span> torch.clip(x_0, -<span style="color:#f60">1</span>, <span style="color:#f60">1</span>)
+</span></span></code></pre></div>
+</article>
+
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
+</html>

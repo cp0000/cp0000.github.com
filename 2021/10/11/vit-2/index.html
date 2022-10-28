@@ -1,262 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="2 Transformer的实现和代码解读 2.1 Transformer原理分析：   图1: Transformer   Encoder  图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Vision Transformer - Transformer的实现和代码解读">
-<meta property="og:url" content="https://cp0000.github.io/2021/10/11/vit-2/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="2 Transformer的实现和代码解读 2.1 Transformer原理分析：   图1: Transformer   Encoder  图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://cp0000.github.io/assets/vit/transformer_1.jpeg">
-<meta property="og:image" content="http://cp0000.github.io/assets/vit/normalization.jpeg">
-<meta property="og:image" content="http://cp0000.github.io/assets/vit/bn_ln.jpeg">
-<meta property="og:image" content="http://cp0000.github.io/assets/vit/masked.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vit/decoder.png">
-<meta property="article:published_time" content="2021-10-11T13:05:48.000Z">
-<meta property="article:modified_time" content="2021-10-17T16:52:06.848Z">
-<meta property="article:author" content="Pei Cheng">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://cp0000.github.io/assets/vit/transformer_1.jpeg">
-
-<link rel="canonical" href="https://cp0000.github.io/2021/10/11/vit-2/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>Vision Transformer - Transformer的实现和代码解读 | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+      Vision Transformer - Transformer的实现和代码解读
     
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2021/10/11/vit-2/">
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
+<article>
+    <p class="post-meta">
+        <time datetime="2021-10-11 21:05:48 &#43;0000 UTC">
+            2021-10-11
+        </time>
+    </p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Vision Transformer - Transformer的实现和代码解读
-        </h1>
+    <h1>Vision Transformer - Transformer的实现和代码解读</h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-10-11 21:05:48" itemprop="dateCreated datePublished" datetime="2021-10-11T21:05:48+08:00">2021-10-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-10-18 00:52:06" itemprop="dateModified" datetime="2021-10-18T00:52:06+08:00">2021-10-18</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h3 id="transformer的实现和代码解读">2 Transformer的实现和代码解读</h3>
-<h4 id="transformer原理分析">2.1 Transformer原理分析：</h4>
-<figure>
-<img src="http://cp0000.github.io/assets/vit/transformer_1.jpeg"
-alt="图1: Transformer" />
-<figcaption aria-hidden="true">图1: Transformer</figcaption>
-</figure>
+    <h3 id="2-transformer的实现和代码解读">2 Transformer的实现和代码解读</h3>
+<h4 id="21-transformer原理分析">2.1 Transformer原理分析：</h4>
+<p><img src="http://cp0000.github.io/assets/vit/transformer_1.jpeg" alt="图1: Transformer"></p>
 <blockquote>
 <p>Encoder</p>
 </blockquote>
-<p>图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder
-block。红色圈中的部分为Multi-Head
-Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head
-Attention, Decoder block包含两个Multi-Head
-Attention(其中有一个用到Masked)。Multi-Head Attention上方还包括一个Add
-&amp; Norm 层，Add表示残差连接（Residual
-Connection）用于防止网络退化。Norm 表示Layer
-Normalization,用于对每一层的激活值进行归一化。比如说在Encoder
-input处的输入是机器学习，在Decoder
-Input处的输入是<BOS>,输出是machine。再下一个时刻在Decoder
-Input处的输入是machine，输出是learning。不断重复直到输出是句点(.)代表翻译结束。</p>
-<p>Encoder: 首先输入 X ∈ R(nx, N)通过一个Input Embedding的转移矩阵 Wx ∈
-R(d, nx)变为一个张量，即上文所述的 I ∈ R(d,
-N)，再加上一个表示位置的Positional Encoding E ∈ R(d,
-N),得到一个张量。</p>
-<p>进入绿色block，绿色的block会重复N次。绿色Block的第1层是一个上文讲的multi-head的attention。现在一个sequence
-I ∈ R(d, N)经过一个multi-head 的attention，会得到另外一个sequence O ∈
-R(d, N).</p>
-<p>下一个Layer是Add &amp;
-Norm，这里的意思是：把multi-head的attention的layer的输入 I ∈ R(d,
-N)和输出O ∈ R(d, N)进行相加以后，再做Layer Normalization。</p>
-<figure>
-<img src="http://cp0000.github.io/assets/vit/normalization.jpeg"
-alt="图2: Normalization" />
-<figcaption aria-hidden="true">图2: Normalization</figcaption>
-</figure>
-<p>Batch Normalization强行让一个batch的数据的某个channel的
-μ=0，σ=1，而Layer Normalization让一个数据的所有channel的μ=0，σ=1。</p>
-<figure>
-<img src="http://cp0000.github.io/assets/vit/bn_ln.jpeg"
-alt="图3: BN和LN的对比" />
-<figcaption aria-hidden="true">图3: BN和LN的对比</figcaption>
-</figure>
+<p>图1是一个seq2seq的模型，左侧为Encoder block,右侧为Decoder block。红色圈中的部分为Multi-Head Attention,是由多个Self-Attention组成的。Encoder block包含一个Multi-Head Attention, Decoder block包含两个Multi-Head Attention(其中有一个用到Masked)。Multi-Head Attention上方还包括一个Add &amp; Norm 层，Add表示残差连接（Residual Connection）用于防止网络退化。Norm 表示Layer Normalization,用于对每一层的激活值进行归一化。比如说在Encoder input处的输入是机器学习，在Decoder Input处的输入是<!-- raw HTML omitted -->,输出是machine。再下一个时刻在Decoder Input处的输入是machine，输出是learning。不断重复直到输出是句点(.)代表翻译结束。</p>
+<p>Encoder: 首先输入 X ∈ R(nx, N)通过一个Input Embedding的转移矩阵 Wx ∈ R(d, nx)变为一个张量，即上文所述的 I ∈ R(d, N)，再加上一个表示位置的Positional Encoding E ∈ R(d, N),得到一个张量。</p>
+<p>进入绿色block，绿色的block会重复N次。绿色Block的第1层是一个上文讲的multi-head的attention。现在一个sequence I ∈ R(d, N)经过一个multi-head 的attention，会得到另外一个sequence O ∈ R(d, N).</p>
+<p>下一个Layer是Add &amp; Norm，这里的意思是：把multi-head的attention的layer的输入 I ∈ R(d, N)和输出O ∈ R(d, N)进行相加以后，再做Layer Normalization。</p>
+<p><img src="http://cp0000.github.io/assets/vit/normalization.jpeg" alt="图2: Normalization"></p>
+<p>Batch Normalization强行让一个batch的数据的某个channel的 μ=0，σ=1，而Layer Normalization让一个数据的所有channel的μ=0，σ=1。</p>
+<p><img src="http://cp0000.github.io/assets/vit/bn_ln.jpeg" alt="图3: BN和LN的对比"></p>
 <p>接着是一个Feed Forward的前馈网络和一个Add &amp; Norm Layer。
 所以，这一个绿色的block的前2个Layer操作的表达式为：</p>
 <blockquote>
@@ -264,8 +53,8 @@ alt="图3: BN和LN的对比" />
 </blockquote>
 <p>这一个绿色的block的后2个Layer操作的表达式为：</p>
 <blockquote>
-<p>O2 = LayerNormalization(O1 + FeedForwardNetwork(O1)) Block(I) =
-O2</p>
+<p>O2 = LayerNormalization(O1 + FeedForwardNetwork(O1))
+Block(I) = O2</p>
 </blockquote>
 <p>所以Transformer的Encoder的整体操作为：</p>
 <blockquote>
@@ -274,246 +63,35 @@ O2</p>
 <blockquote>
 <p>Decoder:</p>
 </blockquote>
-<p>现在来看Decoder的部分，输入包括2部分，下方是前一个timestep的输出的embedding，即上文所述的I
-∈ R(d,N)，再加上一个表示位置的Positional Encoding E ∈
-R(d,N)，得到一个张量，去往后面的操作。它进入了绿色的block，绿色的block会重复N次。</p>
-<p>绿色block里面的内容，首先是Masked Multi-Head
-Self-attention,masked的意思是使attend
-on已经产生的sequence,这个很合理，因为还没有产生出来的东西是不存在的，就无法做attention。</p>
+<p>现在来看Decoder的部分，输入包括2部分，下方是前一个timestep的输出的embedding，即上文所述的I ∈ R(d,N)，再加上一个表示位置的Positional Encoding E ∈ R(d,N)，得到一个张量，去往后面的操作。它进入了绿色的block，绿色的block会重复N次。</p>
+<p>绿色block里面的内容，首先是Masked Multi-Head Self-attention,masked的意思是使attend on已经产生的sequence,这个很合理，因为还没有产生出来的东西是不存在的，就无法做attention。</p>
 <p><strong>输出是：</strong> 对应 i 位置的输出词的概率分布
-<strong>输入是：</strong> Encoder 的输出和对应 i-1
-位置decoder的输出。所以中间的attention不是self-attention,它的key和value来自Encoder，Query来自上一位置Decoder的输出。</p>
-<p><strong>解码：</strong>
-这里要特别注意一下，编码可以并行计算，一次性全部Encoding出来，但解码不是一次把所有序列解出来，而是像RNN一样一个一个解出来的，因为要用上一个位置的输入当作attention的query。</p>
-<p>明确了解码过程之后最上面的图就很好懂了，这里主要的不同就是新加的attention多了一个mask，因为训练时的output都是Ground
-Truth，这样可以确保预测第i个位置时不会接触到未来的信息。</p>
+<strong>输入是：</strong> Encoder 的输出和对应 i-1 位置decoder的输出。所以中间的attention不是self-attention,它的key和value来自Encoder，Query来自上一位置Decoder的输出。</p>
+<p><strong>解码：</strong> 这里要特别注意一下，编码可以并行计算，一次性全部Encoding出来，但解码不是一次把所有序列解出来，而是像RNN一样一个一个解出来的，因为要用上一个位置的输入当作attention的query。</p>
+<p>明确了解码过程之后最上面的图就很好懂了，这里主要的不同就是新加的attention多了一个mask，因为训练时的output都是Ground Truth，这样可以确保预测第i个位置时不会接触到未来的信息。</p>
 <ul>
 <li>包含两个Multi-Head Attention层。</li>
 <li>第一个Multi-Head Attention层采用了Masked操作。</li>
-<li>第二个Multi-Head
-Attention层的key，value矩阵使用Encoder的编码信息矩阵C进行计算，而Query使用上一个Decoder
-block的输出计算。</li>
+<li>第二个Multi-Head Attention层的key，value矩阵使用Encoder的编码信息矩阵C进行计算，而Query使用上一个Decoder block的输出计算。</li>
 <li>最后有一个Softmax层计算下一个翻译单词的概率</li>
 </ul>
-<p>下面详细介绍下Masked Multi-Head
-Self-attention的具体操作，Masked在Scale操作之后，softmax操作之前。</p>
-<figure>
-<img src="http://cp0000.github.io/assets/vit/masked.png"
-alt="图4: Masked在Scale操作之后，softmax操作之前" />
-<figcaption aria-hidden="true">图4:
-Masked在Scale操作之后，softmax操作之前</figcaption>
-</figure>
-<p>因为在翻译的过程中是顺序翻译的，即翻译完第i个单词，才可以翻译第 i+1
-个单词。通过Masked操作可以防止第i个单词知道第i+1个单词之后的信息。下面以“我有一只猫”翻译成“I
-have a
-cat”为例，了解一下Masked操作。在Decoder的时候，是需要根据之前的翻译，求解当前最有可能的翻译，如下图所示。首先根据输入“<Begin>”预测出第一个单词为“I”，然后根据输入“<Begin>
-I”预测下一个单词“have”。</p>
-<p>Decoder 在训练的过程中使用 Teacher
-Forcing并且并行化训练，即将正确的单词序列（<Beigin> I have a
-cat）和对应输出(I have a cat <end>)
-传递到Decoder。那么在预测第i个输出时，就要将第i+1之后的单词掩盖住，注意Mask操作是在Self-Attention的softmax之前使用的，下面用0
-1 2 3 4 5分别表示"<Begin> I have a cat <end>"。</p>
-<figure>
-<img src="http://cp0000.github.io/assets/vit/decoder.png"
-alt="图5: Decoder过程" />
-<figcaption aria-hidden="true">图5: Decoder过程</figcaption>
-</figure>
+<p>下面详细介绍下Masked Multi-Head Self-attention的具体操作，Masked在Scale操作之后，softmax操作之前。</p>
+<p><img src="http://cp0000.github.io/assets/vit/masked.png" alt="图4: Masked在Scale操作之后，softmax操作之前"></p>
+<p>因为在翻译的过程中是顺序翻译的，即翻译完第i个单词，才可以翻译第 i+1 个单词。通过Masked操作可以防止第i个单词知道第i+1个单词之后的信息。下面以“我有一只猫”翻译成“I have a cat”为例，了解一下Masked操作。在Decoder的时候，是需要根据之前的翻译，求解当前最有可能的翻译，如下图所示。首先根据输入“<!-- raw HTML omitted -->”预测出第一个单词为“I”，然后根据输入“<!-- raw HTML omitted --> I”预测下一个单词“have”。</p>
+<p>Decoder 在训练的过程中使用 Teacher Forcing并且并行化训练，即将正确的单词序列（<!-- raw HTML omitted --> I have a cat）和对应输出(I have a cat <!-- raw HTML omitted -->) 传递到Decoder。那么在预测第i个输出时，就要将第i+1之后的单词掩盖住，注意Mask操作是在Self-Attention的softmax之前使用的，下面用0 1 2 3 4 5分别表示&quot;<!-- raw HTML omitted --> I have a cat <!-- raw HTML omitted -->&quot;。</p>
+<p><img src="http://cp0000.github.io/assets/vit/decoder.png" alt="图5: Decoder过程"></p>
 <p>注意这里transformer模型训练和测试的方法不同：</p>
-<p><strong>测试时：</strong> 1. 输入<Begin>,解码器输出 I 2.
-输入前面已经解码的<Begin>和I，解码器输出have 3. 输入已经解码的<Begin>,
-I, have, a, cat,
-解码器输出解码结束标志位<end>,每次解码都会利用前面已经解码输出的所有单词嵌入信息。</p>
+<p><strong>测试时：</strong></p>
+<ol>
+<li>输入<!-- raw HTML omitted -->,解码器输出 I</li>
+<li>输入前面已经解码的<!-- raw HTML omitted -->和I，解码器输出have</li>
+<li>输入已经解码的<!-- raw HTML omitted -->, I, have, a, cat, 解码器输出解码结束标志位<!-- raw HTML omitted -->,每次解码都会利用前面已经解码输出的所有单词嵌入信息。</li>
+</ol>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2021/10/10/vit/" rel="prev" title="Vision Transformer - Self-Attention">
-      <i class="fa fa-chevron-left"></i> Vision Transformer - Self-Attention
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/10/27/33/" rel="next" title="活到33">
-      活到33 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#transformer%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="nav-number">1.</span> <span class="nav-text">2 Transformer的实现和代码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transformer%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">2.1 Transformer原理分析：</span></a></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

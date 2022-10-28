@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on CP0000 - 一只特立独行的猪</title>
+    <link>https://cp0000.github.io/categories/</link>
+    <description>Recent content in Categories on CP0000 - 一只特立独行的猪</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 12 Feb 2022 14:38:26 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reading notes</title>
+      <link>https://cp0000.github.io/categories/reading-notes/</link>
+      <pubDate>Sat, 12 Feb 2022 14:38:26 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/categories/reading-notes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Life</title>
+      <link>https://cp0000.github.io/categories/life/</link>
+      <pubDate>Sun, 15 Nov 2020 23:11:58 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/categories/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tech</title>
+      <link>https://cp0000.github.io/categories/tech/</link>
+      <pubDate>Sun, 25 Oct 2015 10:36:21 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/categories/tech/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Movie</title>
+      <link>https://cp0000.github.io/categories/movie/</link>
+      <pubDate>Thu, 03 Sep 2015 23:47:22 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/categories/movie/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sports</title>
+      <link>https://cp0000.github.io/categories/sports/</link>
+      <pubDate>Sun, 07 Jun 2015 09:41:30 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/categories/sports/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

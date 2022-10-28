@@ -1,225 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="技术从业人员的五个级别 书中开篇介绍一项技术领域的从业人员，大体可以分成五个级别：新手，高级新手，胜任者，精通者，专家。从名次表面就很好理解这五个级别所代表的意思。有意思的地方在于现在国内的大型互联网公司内部，技术人员的职级分类也是如此：初级工程师，工程师，高级工程师，资深工程师，专家。文中列举了一些各个级别的人的一些有意思的特征，如新手非常在乎他们是否成功，新手不是特别想要学习，他们只是想要一">
-<meta property="og:type" content="article">
-<meta property="og:title" content="《程序员的思维训练》读书笔记">
-<meta property="og:url" content="https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="技术从业人员的五个级别 书中开篇介绍一项技术领域的从业人员，大体可以分成五个级别：新手，高级新手，胜任者，精通者，专家。从名次表面就很好理解这五个级别所代表的意思。有意思的地方在于现在国内的大型互联网公司内部，技术人员的职级分类也是如此：初级工程师，工程师，高级工程师，资深工程师，专家。文中列举了一些各个级别的人的一些有意思的特征，如新手非常在乎他们是否成功，新手不是特别想要学习，他们只是想要一">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img1.doubanio.com/lpic/s4548399.jpg">
-<meta property="article:published_time" content="2016-06-11T08:21:36.000Z">
-<meta property="article:modified_time" content="2017-10-06T14:25:23.000Z">
-<meta property="article:author" content="Pei Cheng">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img1.doubanio.com/lpic/s4548399.jpg">
-
-<link rel="canonical" href="https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>《程序员的思维训练》读书笔记 | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          《程序员的思维训练》读书笔记
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-06-11 16:21:36" itemprop="dateCreated datePublished" datetime="2016-06-11T16:21:36+08:00">2016-06-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-10-06 22:25:23" itemprop="dateModified" datetime="2017-10-06T22:25:23+08:00">2017-10-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Reading-notes/" itemprop="url" rel="index"><span itemprop="name">Reading notes</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
       
-        <p><img src="https://img1.doubanio.com/lpic/s4548399.jpg"  style="width: 120px;"/></p>
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+<article>
+    <p class="post-meta">
+        <time datetime="0001-01-01 00:00:00 &#43;0000 UTC">
+            0001-01-01
+        </time>
+    </p>
+
+    <h1></h1>
+
+    <h2 id="tags">title: 《程序员的思维训练》读书笔记
+author: cp
+categories: Reading notes
+date: 2016-06-11 16:21:36
+tags:</h2>
+<!-- raw HTML omitted -->
 <h2 id="技术从业人员的五个级别">技术从业人员的五个级别</h2>
 <p>书中开篇介绍一项技术领域的从业人员，大体可以分成五个级别：新手，高级新手，胜任者，精通者，专家。从名次表面就很好理解这五个级别所代表的意思。有意思的地方在于现在国内的大型互联网公司内部，技术人员的职级分类也是如此：初级工程师，工程师，高级工程师，资深工程师，专家。文中列举了一些各个级别的人的一些有意思的特征，如新手非常在乎他们是否成功，新手不是特别想要学习，他们只是想要一个立竿见影的效果，如果出错，他们非常容易慌乱。高级新手能够根据过去的经验，逐步在正确的情景中采纳建议，但他们不想要全局思维。胜任者是可以独立解决问题，并开始考虑如何解决新的问题，胜任者的工作更多的是基于谨慎的计划和过去的经验，如果没有更多的经验，在解决问题时，他们难以确定关注哪些细节。精通者能够纠正以往不好的工作表现，他们会反思以前是如何做的，并修改其做法，期望下一次表现得更好，如此，自我改进就会出现。专家根据直觉工作，而不需要理由，专家的数量很少，大概占总人数的1%～5%。</p>
 <p>而要想而从新手一步一步升级成为专家，自身要发生如下三个重要变化才行：</p>
@@ -229,7 +48,7 @@
 <li>最后，从问题的旁观者转变为问题涉及的系统本身的一部分。</li>
 </ul>
 <p>然后，令人沮丧的是，研究表明，大多数人的大多数技能，在他们生命的大多数时间里，从没有高于第二阶段高级新手，这里的大多数指的是70%的人。</p>
-<h2 id="大脑的两种思考模式l-r">大脑的两种思考模式（L &amp; R）</h2>
+<h2 id="大脑的两种思考模式l--r">大脑的两种思考模式（L &amp; R）</h2>
 <p>书中第二部分介绍了大脑两种思考模式，L模式－线性模式，R模式－富模式。R型对直觉。L型让你细致工作并实现目标。要想获得最佳性能，需要两种模式协同工作。</p>
 <p>L型提供以下9种能力：</p>
 <ul>
@@ -257,9 +76,8 @@
 <li>非线性</li>
 </ul>
 <p>R型是非语言的，注重整体的，直觉的，跳跃的，这些特点似乎更适合艺术家。但R型的类比和整体思考方式对软件架构和设计非常有价值，好的设计就是由这些组成的。R型还负责综合，而综合是一项非常强大的学习技术。乃至于麻省理工学院媒体实验室创始人建议，真正想要了解一只青蛙，传统的解剖不是办法，更好的方式是构造一直青蛙。（联想到软件开发中，如果想真正搞透某个模块，重造轮子应该是最好的方式）。</p>
-<p>接着书中谈到相对于L型，为何R型也如此重要。一家公司的产品是否能够成功，R型思维起到很重要因素。因为R型管理美学，而商品化意味着美学品味的竞争。<strong>作者强调产品的设计胜于功能，是否有吸引力很重要。</strong>好的设计，会给用户带来积极的情感，而积极的情感对学习和创造思维非常关键。处于“高兴”的状态可以扩展你的思维过程，激活更多的大脑物质（意味着用户从产品获取到快感，成就感，自然就会愿意使用产品）。</p>
-<p>当然了，美学不仅仅指的是用户界面,产品的Logo，也包括代码和注释的布局，变量名的选择和桌面的整理，还有其他领域的方方面面。（此时，想起了乔布斯的那句“It's
-all about the taste"）</p>
+<p>接着书中谈到相对于L型，为何R型也如此重要。一家公司的产品是否能够成功，R型思维起到很重要因素。因为R型管理美学，而商品化意味着美学品味的竞争。**作者强调产品的设计胜于功能，是否有吸引力很重要。**好的设计，会给用户带来积极的情感，而积极的情感对学习和创造思维非常关键。处于“高兴”的状态可以扩展你的思维过程，激活更多的大脑物质（意味着用户从产品获取到快感，成就感，自然就会愿意使用产品）。</p>
+<p>当然了，美学不仅仅指的是用户界面,产品的Logo，也包括代码和注释的布局，变量名的选择和桌面的整理，还有其他领域的方方面面。（此时，想起了乔布斯的那句“It&rsquo;s all about the taste&quot;）</p>
 <p>##如何利用L型和R型协同工作##
 然后书中第四章介绍了如何利用右脑，也就是如何促成R型到L型的转换。其中我觉得很有意思的是酒醉写作，酒醒修改。因为酒醉的时候，你拥有自由的创造空间，不受“常识”或者“实用”束缚，可以尽情发挥自己的创造力或随后抛掉那些荒诞的东西。</p>
 <p>下面是举了几个关于 L 型和 R 型协调工作的其它几种方式：</p>
@@ -279,9 +97,7 @@ all about the taste"）</p>
 <li>随机的方法，没有目标和反馈，往往会导致随机的结果</li>
 </ul>
 <p>那如何在现实中使学习更有效率？需要使用SMART目标和实用投资计划管理目标和计划。</p>
-<p>SMART
-代表具体的，可度量的，可实现的，相关的和时间可控的（Specific，Measurable,Achievable,Relevant,and
-Time-boxed）。</p>
+<p>SMART 代表具体的，可度量的，可实现的，相关的和时间可控的（Specific，Measurable,Achievable,Relevant,and Time-boxed）。</p>
 <ul>
 <li>具体的：一个目标任务应该是具体的。也就是说，只说“我想学习swift”是不够的。应该把事情具体化，例如“我想要用Swift编写一个记账软件”</li>
 <li>可度量的：如何知道你何时完成？为了努力实现目标任务，不管采用什么办法，你必须能够度量它。可度量的与具体的相辅相成。很难度量笼统抽象的事物，但是很容易度量具体和详细的事物，只要使用确切的数字即可。如果你认为无法度量自己的目标任务，那么可能它还不够具体。“写一部小说就像在黑夜里开车。你只能看到车灯照亮的部分，但是你却可以走完整个旅程”。你不必看清你去往何处。不必看清你的目的地和沿途的一切。你只需看清面前的一两米即可。</li>
@@ -314,202 +130,15 @@ Time-boxed）。</p>
 </ul>
 <p>最后，选择开始做什么并不特别重要，重要的是主动尝试学习到的知识，做出改变。</p>
 <blockquote>
-<p>不管你能做什么，或者期望自己能做什么，现在就开始做。勇敢可以给人智慧，力量和神奇。现在就开始做吧。
-－－歌德</p>
+<p>不管你能做什么，或者期望自己能做什么，现在就开始做。勇敢可以给人智慧，力量和神奇。现在就开始做吧。 －－歌德</p>
 </blockquote>
 <p>以上是我读书过程中做的一些书摘。作为一个软件从业人员，我对文中作者的很多观点都很是赞同，对这本书也有点相见恨晚的味道。读这本书的时候，最重要的环节就是尝试去做书中提到的种种实践；就像我们在研究一门新的技术的时候，重要的一环是用新技术去解决某个问题。这种学习方式是我从业以来一直惯用的方式。
 很好的一本书，值得推荐给别人去看，不论这个人是不是程序员。</p>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2016/03/06/iOS-reverse-engineering-03/" rel="prev" title="iOS逆向工程-0x02－Hacking on B612">
-      <i class="fa fa-chevron-left"></i> iOS逆向工程-0x02－Hacking on B612
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2016/07/30/shanghai-4-years/" rel="next" title="五年，四年">
-      五年，四年 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BB%8E%E4%B8%9A%E4%BA%BA%E5%91%98%E7%9A%84%E4%BA%94%E4%B8%AA%E7%BA%A7%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">技术从业人员的五个级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E8%84%91%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%80%9D%E8%80%83%E6%A8%A1%E5%BC%8Fl-r"><span class="nav-number">2.</span> <span class="nav-text">大脑的两种思考模式（L &amp; R）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E5%8F%98"><span class="nav-number">3.</span> <span class="nav-text">改变</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

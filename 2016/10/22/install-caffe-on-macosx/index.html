@@ -1,302 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。 硬软件环境 &gt; 电脑：iMac 系统：OX EI Caption 版本10.11.4 Homebrew 官方推荐使用Homebrew来管理依赖项的下载，安装。 ##Anaconda Python Anacond">
-<meta property="og:type" content="article">
-<meta property="og:title" content="如何在Macosx上安装caffe">
-<meta property="og:url" content="https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。 硬软件环境 &gt; 电脑：iMac 系统：OX EI Caption 版本10.11.4 Homebrew 官方推荐使用Homebrew来管理依赖项的下载，安装。 ##Anaconda Python Anacond">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-10-22T04:55:05.000Z">
-<meta property="article:modified_time" content="2019-03-02T09:54:42.000Z">
-<meta property="article:author" content="Pei Cheng">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>如何在Macosx上安装caffe | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          如何在Macosx上安装caffe
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-22 12:55:05" itemprop="dateCreated datePublished" datetime="2016-10-22T12:55:05+08:00">2016-10-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-03-02 17:54:42" itemprop="dateModified" datetime="2019-03-02T17:54:42+08:00">2019-03-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
       
-        <p>在macosx上面安装深度学习框架<a
-target="_blank" rel="noopener" href="http://caffe.berkeleyvision.org/">caffe</a>是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。</p>
-<p><strong>硬软件环境</strong> &gt; 电脑：iMac 系统：OX EI Caption
-版本10.11.4</p>
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+<article>
+    <p class="post-meta">
+        <time datetime="0001-01-01 00:00:00 &#43;0000 UTC">
+            0001-01-01
+        </time>
+    </p>
+
+    <h1></h1>
+
+    <h2 id="tags">title: 如何在Macosx上安装caffe
+date: 2016-10-22 12:55:05
+categories: Tech
+tags:</h2>
+<p>在macosx上面安装深度学习框架<a href="http://caffe.berkeleyvision.org/">caffe</a>是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。</p>
+<p><strong>硬软件环境</strong></p>
+<blockquote>
+</blockquote>
+<pre><code>电脑：iMac
+系统：OX EI Caption 版本10.11.4
+</code></pre>
 <h2 id="homebrew">Homebrew</h2>
-<p>官方推荐使用<a
-target="_blank" rel="noopener" href="http://brew.sh">Homebrew</a>来管理依赖项的下载，安装。</p>
+<p>官方推荐使用<a href="http://brew.sh">Homebrew</a>来管理依赖项的下载，安装。</p>
 <p>##Anaconda Python
-Anaconda是python的一个常用的科学计算发行版，自带包管理器conda。从
-https://store.continuum.io/cshop/anaconda/ 下载并安装Anaconda
-Python。安装成功之后,记得在PATH添加ananconda执行文件的路径：</p>
-<pre><code>export PATH=~/anaconda/bin:$PATH</code></pre>
+Anaconda是python的一个常用的科学计算发行版，自带包管理器conda。从 <a href="https://store.continuum.io/cshop/anaconda/">https://store.continuum.io/cshop/anaconda/</a> 下载并安装Anaconda Python。安装成功之后,记得在PATH添加ananconda执行文件的路径：</p>
+<pre><code>export PATH=~/anaconda/bin:$PATH
+</code></pre>
 <h2 id="cuda">CUDA</h2>
-<p>从 https://developer.nvidia.com/cuda-downloads 下载并安装CUDA 8.0
-(for OSX)<br />
-从 http://www.nvidia.com/object/mac-driver-archive.html
-下载并安装最新的CUDA独立驱动。
+<p>从 <a href="https://developer.nvidia.com/cuda-downloads">https://developer.nvidia.com/cuda-downloads</a> 下载并安装CUDA 8.0 (for OSX)<br>
+从 <a href="http://www.nvidia.com/object/mac-driver-archive.html">http://www.nvidia.com/object/mac-driver-archive.html</a> 下载并安装最新的CUDA独立驱动。
 同样我们把驱动的可执行文件路径添加到PATH环境变量中(注意下载安装的CUDA的版本号)：</p>
 <pre><code>export PATH=/Developer/NVIDIA/CUDA-8.0/bin/$PATH
-export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-8.0/lib:$DYLD_LIBRARY_PATH</code></pre>
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-8.0/lib:$DYLD_LIBRARY_PATH
+</code></pre>
 <h2 id="blas">BLAS</h2>
-<p>网上搜索到的教程中都是使用<a
-target="_blank" rel="noopener" href="https://software.intel.com/en-us/intel-mkl">Intel
-MKL</a>，查看网站会发现intel-mkl收费很贵，所以我安装的时候选择了<a
-href="www.openblas.net/">OpenBLAS</a></p>
-<pre><code>brew install openblas</code></pre>
+<p>网上搜索到的教程中都是使用<a href="https://software.intel.com/en-us/intel-mkl">Intel MKL</a>，查看网站会发现intel-mkl收费很贵，所以我安装的时候选择了<a href="www.openblas.net/">OpenBLAS</a></p>
+<pre><code>brew install openblas
+</code></pre>
 <blockquote>
-<p>关于 intel-mkl 和 openblas
-的优劣，没有做过比较。在校大学生可通过学校邮箱在页面
-https://software.intel.com/en-us/qualify-for-free-software/student
-申请安装包。</p>
+<p>关于 intel-mkl 和 openblas 的优劣，没有做过比较。在校大学生可通过学校邮箱在页面 <a href="https://software.intel.com/en-us/qualify-for-free-software/student">https://software.intel.com/en-us/qualify-for-free-software/student</a> 申请安装包。</p>
 </blockquote>
 <p>##cuDNN</p>
-<p>从 https://developer.nvidia.com/cudnn
-页面下载并安装cuDNN库,安装过程如下：</p>
+<p>从 <a href="https://developer.nvidia.com/cudnn">https://developer.nvidia.com/cudnn</a> 页面下载并安装cuDNN库,安装过程如下：</p>
 <pre><code>tar -xzvf cudnn-8.0-osx-x64-v5.1.tgz
 cd cuda
 sudo cp lib/* /usr/local/cuda/lib
-sudo cp include/cudnn.h /usr/local/cuda/include/</code></pre>
+sudo cp include/cudnn.h /usr/local/cuda/include/
+</code></pre>
 <p>##安装依赖项 via Homebrew</p>
 <p>首先我们需要修改下homebrew安装 opencv 时需要用到的opencv.rb文件</p>
-<pre><code>brew edit opencv</code></pre>
+<pre><code>brew edit opencv
+</code></pre>
 <p>将下面两行：</p>
-<pre><code>args &lt;&lt; &quot;-DPYTHON_LIBRARY=#&#123;py_lib&#125;/libpython2.7.#&#123;dylib&#125;&quot;
-args &lt;&lt; &quot;-DPYTHON_INCLUDE_DIR=#&#123;py_prefix&#125;/include/python2.7&quot;</code></pre>
+<pre><code>args &lt;&lt; &quot;-DPYTHON_LIBRARY=#{py_lib}/libpython2.7.#{dylib}&quot;
+args &lt;&lt; &quot;-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7&quot;
+</code></pre>
 <p>替换为：</p>
-<pre><code>args &lt;&lt; &quot;-DPYTHON_LIBRARY=#&#123;py_prefix&#125;/lib/libpython2.7.dylib&quot;
-args &lt;&lt; &quot;-DPYTHON_INCLUDE_DIR=#&#123;py_prefix&#125;/include/python2.7&quot;</code></pre>
+<pre><code>args &lt;&lt; &quot;-DPYTHON_LIBRARY=#{py_prefix}/lib/libpython2.7.dylib&quot;
+args &lt;&lt; &quot;-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7&quot;
+</code></pre>
 <p>然后开始安装依赖项：</p>
 <pre><code>brew install --fresh -vd snappy leveldb gflags glog szip lmdb homebrew/science/opencv
 brew install --build-from-source --with-python --fresh -vd protobuf
 brew install --build-from-source --fresh -vd boost boost-python
-brew install hdf5</code></pre>
+brew install hdf5
+</code></pre>
 <blockquote>
-<p>安装过程有点漫长，可能会出现一些错误，需要耐心的修复掉。<br />
-如果你把电脑升级到最新的 macOS Sierra
-10.12，会由于新系统不内置QTKit导致opencv编译失败。</p>
+<p>安装过程有点漫长，可能会出现一些错误，需要耐心的修复掉。<br>
+如果你把电脑升级到最新的 macOS Sierra 10.12，会由于新系统不内置QTKit导致opencv编译失败。</p>
 </blockquote>
 <p>##下载Caffe代码</p>
 <pre><code>git clone https://github.com/BVLC/caff.git
 cd caffe
-cp Makefile.config.example Makefile.config</code></pre>
+cp Makefile.config.example Makefile.config
+</code></pre>
 <p>##Makefile.config</p>
 <p>修改Makefile.config</p>
 <pre><code>BLAS:=open
 BLAS_INCLUDE := $(shell brew --prefix openblas)/include
-BLAS_LIB := $(shell brew --prefix openblas)/lib</code></pre>
+BLAS_LIB := $(shell brew --prefix openblas)/lib
+</code></pre>
 <p>取消CUDDNN的注释</p>
-<pre><code>USE_CUDNN := 1</code></pre>
+<pre><code>USE_CUDNN := 1
+</code></pre>
 <p>检查设置Python路径</p>
 <pre><code># NOTE: this is required only if you will compile the python interface.
 # We need to be able to find Python.h and numpy/arrayobject.h.
 # PYTHON_INCLUDE := /usr/include/python2.7 \
-#       /usr/lib/python2.7/dist-packages/numpy/core/include
+# 		/usr/lib/python2.7/dist-packages/numpy/core/include
 # Anaconda Python distribution is quite popular. Include path:
-# Verify anaconda location, sometimes it&#39;s in root.
+# Verify anaconda location, sometimes it's in root.
 # ANACONDA_HOME := $(HOME)/anaconda
 # PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
-        # $(ANACONDA_HOME)/include/python2.7 \
-        # $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
+		# $(ANACONDA_HOME)/include/python2.7 \
+		# $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
 
 ANACONDA_HOME := $(HOME)/anaconda
 PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
@@ -314,209 +135,32 @@ $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
 PYTHON_LIB := $(ANACONDA_HOME)/lib
 
 # Homebrew installs numpy in a non standard path (keg only)
-PYTHON_INCLUDE += $(dir $(shell python -c &#39;import numpy.core; print(numpy.core.__file__)&#39;))/include
-PYTHON_LIB += $(shell brew --prefix numpy)/lib</code></pre>
+PYTHON_INCLUDE += $(dir $(shell python -c 'import numpy.core; print(numpy.core.__file__)'))/include
+PYTHON_LIB += $(shell brew --prefix numpy)/lib
+</code></pre>
 <p>##环境变量</p>
-<pre><code>export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/cuda/lib:/Users/cp/anaconda/lib:/usr/local/lib:/usr/local/Cellar/:/usr/local/cuda/lib:~/anaconda/lib:/usr/local/lib:/usr/lib:$DYLD_FALLBACK_LIBRARY_PATH</code></pre>
-<p>##编译caffe make clean make all -j8 make runtest</p>
+<pre><code>export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/cuda/lib:/Users/cp/anaconda/lib:/usr/local/lib:/usr/local/Cellar/:/usr/local/cuda/lib:~/anaconda/lib:/usr/local/lib:/usr/lib:$DYLD_FALLBACK_LIBRARY_PATH
+</code></pre>
+<p>##编译caffe
+make clean
+make all -j8
+make runtest</p>
 <p>runtest 相对会花些时间</p>
 <pre><code>make pycaffe
-make distribute</code></pre>
+make distribute
+</code></pre>
 <p>就大功告成了</p>
-<p>##References: + http://caffe.berkeleyvision.org/installation.html +
-https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29 +
-http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/</p>
+<p>##References:</p>
+<ul>
+<li><a href="http://caffe.berkeleyvision.org/installation.html">http://caffe.berkeleyvision.org/installation.html</a></li>
+<li><a href="https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29">https://github.com/BVLC/caffe/wiki/Installation-%28OSX%29</a></li>
+<li><a href="http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/">http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/</a></li>
+</ul>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2016/09/25/2016-1st-half/" rel="prev" title="2016上半年电影，美剧，以及书 清单">
-      <i class="fa fa-chevron-left"></i> 2016上半年电影，美剧，以及书 清单
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2016/10/26/28/" rel="next" title="活到28">
-      活到28 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#homebrew"><span class="nav-number">1.</span> <span class="nav-text">Homebrew</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda"><span class="nav-number">2.</span> <span class="nav-text">CUDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#blas"><span class="nav-number">3.</span> <span class="nav-text">BLAS</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

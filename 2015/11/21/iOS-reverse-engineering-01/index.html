@@ -1,229 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。 作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController">
-<meta property="og:type" content="article">
-<meta property="og:title" content="iOS逆向工程-0x00－用途以及准备工作">
-<meta property="og:url" content="https://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。 作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2015-11-21T02:46:07.000Z">
-<meta property="article:modified_time" content="2017-10-06T14:21:27.000Z">
-<meta property="article:author" content="Pei Cheng">
-<meta property="article:tag" content="iOS Reverse Engineering">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>iOS逆向工程-0x00－用途以及准备工作 | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          iOS逆向工程-0x00－用途以及准备工作
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2015-11-21 10:46:07" itemprop="dateCreated datePublished" datetime="2015-11-21T10:46:07+08:00">2015-11-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-10-06 22:21:27" itemprop="dateModified" datetime="2017-10-06T22:21:27+08:00">2017-10-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
       
-        <h2 id="前言">前言</h2>
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+<article>
+    <p class="post-meta">
+        <time datetime="0001-01-01 00:00:00 &#43;0000 UTC">
+            0001-01-01
+        </time>
+    </p>
+
+    <h1></h1>
+
+    <h2 id="tags-ios-reverse-engineering">title: iOS逆向工程-0x00－用途以及准备工作
+date: 2015-11-21 10:46:07
+categories: Tech
+tags: iOS Reverse Engineering</h2>
+<h2 id="前言">前言</h2>
 <p>好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。</p>
-<p>作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS
-app的总体结构，想一下也会知道它的结构是
-tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件
-Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。</p>
+<p>作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。</p>
 <p>当然了，逆向工程还有其他更重要的用途，如下：</p>
 <ul>
 <li>分析恶意软件</li>
@@ -236,311 +52,120 @@ Castro。要想知道这些软件的一些设计细节，就得用上逆向工�
 <h3 id="硬件">硬件</h3>
 <ul>
 <li>Mac 电脑</li>
-<li>一台越狱机器 (如何越狱，请访问 <strong><a
-target="_blank" rel="noopener" href="http://pangu.io/">pangu</a></strong>)</li>
+<li>一台越狱机器 (如何越狱，请访问 <strong><a href="http://pangu.io/">pangu</a></strong>)</li>
 </ul>
 <h3 id="设置环境">设置环境</h3>
-<h4
-id="利用cydia安装相关开发工具建议安装下表中的全部软件">利用<code>Cydia</code>安装相关开发工具，建议安装下表中的全部软件</h4>
+<h4 id="利用cydia安装相关开发工具建议安装下表中的全部软件">利用<code>Cydia</code>安装相关开发工具，建议安装下表中的全部软件</h4>
 <table>
-<colgroup>
-<col style="width: 27%" />
-<col style="width: 72%" />
-</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>tool</th>
 <th>description</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>ps</td>
 <td>process status, cpu usage, memory usage</td>
 </tr>
-<tr class="even">
+<tr>
 <td>sysctl</td>
 <td>get or set kernal state</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>netstat</td>
 <td>show network status</td>
 </tr>
-<tr class="even">
+<tr>
 <td>route</td>
 <td>manually manipulate the routing tables</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>renice</td>
 <td>alter priority of running processes</td>
 </tr>
-<tr class="even">
+<tr>
 <td>ifconfig</td>
 <td>configure network interface parameters</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>tcpdump</td>
 <td>dump traffic on a network</td>
 </tr>
-<tr class="even">
+<tr>
 <td>lsof</td>
 <td>list open files</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>otool</td>
 <td>displays specified parts of object files or libraries.</td>
 </tr>
-<tr class="even">
+<tr>
 <td>nm</td>
-<td>displays the name list (symbol table) of each object file in the
-argument list.</td>
+<td>displays the name list (symbol table) of each object file in the argument list.</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ldid</td>
 <td>signature tool</td>
 </tr>
-<tr class="even">
+<tr>
 <td>gdb</td>
 <td>debug tool</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>lldb</td>
 <td>debug tool</td>
 </tr>
-<tr class="even">
+<tr>
 <td>patch</td>
 <td>patch tool</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>SSH</td>
-<td>is a program for logging into a remote machine and for executing
-commands on a remote machine.</td>
+<td>is a program for logging into a remote machine and for executing commands on a remote machine.</td>
 </tr>
 </tbody>
 </table>
 <h4 id="ssh-to-iphone">SSH to iPhone</h4>
 <h5 id="通过-wifi">通过 wifi</h5>
-<pre><code>ssh root@your.iphone.ip</code></pre>
-<p>iOS 系统中的<code>root</code>用户的默认密码是
-<code>Alipne</code>.第一次登录的时候请使用这个密码。不过请记得修改<code>root</code>用户的密码，不然这台越狱机器就很不安全了。</p>
+<pre><code>ssh root@your.iphone.ip
+</code></pre>
+<p>iOS 系统中的<code>root</code>用户的默认密码是 <code>Alipne</code>.第一次登录的时候请使用这个密码。不过请记得修改<code>root</code>用户的密码，不然这台越狱机器就很不安全了。</p>
 <p><strong>修改用户密码</strong></p>
 <pre><code>iPhone:~ root# passwd
 Changing password for root
 New password:
 Retype new password:
-iPhone:~ root#</code></pre>
+iPhone:~ root#
+</code></pre>
 <h5 id="通过-usb">通过 usb</h5>
 <p>在wifi不稳定的场景下，建议使用usb来ssh到iPhone上。（我自己也是主要适用usb来进行ssh）</p>
 <ul>
-<li><p>关于如何使用 usb ssh 到 iPhone上，详情请访问网页 <a
-target="_blank" rel="noopener" href="http://iphonedevwiki.net/index.php/SSH_Over_USB">SSH over
-USB</a>。根据网页上面的guide，需要下载：<a
-target="_blank" rel="noopener" href="https://code.google.com/p/iphonetunnel-usbmuxconnectbyport/downloads/detail?name=itnl_rev8.zip">itnl_rev8.zip</a></p></li>
-<li><p>解压zip包之后，做如下操作：</p>
+<li>
+<p>关于如何使用 usb ssh 到 iPhone上，详情请访问网页 <a href="http://iphonedevwiki.net/index.php/SSH_Over_USB">SSH over USB</a>。根据网页上面的guide，需要下载：<a href="https://code.google.com/p/iphonetunnel-usbmuxconnectbyport/downloads/detail?name=itnl_rev8.zip">itnl_rev8.zip</a></p>
+</li>
+<li>
+<p>解压zip包之后，做如下操作：</p>
 <ul>
-<li><p>OS X terminal:</p>
-<pre><code>  sudo path/to/itnl --iport 22 --lport 2222</code></pre></li>
-<li><p>iPhone terminal:</p>
-<pre><code>  ssh -p 2222 root@localhost</code></pre></li>
-</ul></li>
+<li>
+<p>OS X terminal:</p>
+<pre><code>  sudo path/to/itnl --iport 22 --lport 2222
+</code></pre>
+</li>
+<li>
+<p>iPhone terminal:</p>
+<pre><code>  ssh -p 2222 root@localhost
+</code></pre>
+</li>
 </ul>
-<p>然后，就成功 ssh 到 iPhone
-上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS
-app了。</p>
+</li>
+</ul>
+<p>然后，就成功 ssh 到 iPhone 上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS app了。</p>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/iOS-Reverse-Engineering/" rel="tag"># iOS Reverse Engineering</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2015/10/27/27/" rel="prev" title="活到二十七">
-      <i class="fa fa-chevron-left"></i> 活到二十七
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2015/11/30/iOS-reverse-engineering-02/" rel="next" title="iOS逆向工程-0x01－工具篇-Cycript">
-      iOS逆向工程-0x01－工具篇-Cycript <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="nav-number">2.2.</span> <span class="nav-text">设置环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8cydia%E5%AE%89%E8%A3%85%E7%9B%B8%E5%85%B3%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E5%BB%BA%E8%AE%AE%E5%AE%89%E8%A3%85%E4%B8%8B%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%85%A8%E9%83%A8%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.2.1.</span> <span class="nav-text">利用Cydia安装相关开发工具，建议安装下表中的全部软件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ssh-to-iphone"><span class="nav-number">2.2.2.</span> <span class="nav-text">SSH to iPhone</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-wifi"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">通过 wifi</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-usb"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">通过 usb</span></a></li></ol></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

@@ -1,273 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。 深度可分离卷积 标准卷积如下图：  输入一个 12x12x3 的featuremap，">
-<meta property="og:type" content="article">
-<meta property="og:title" content="计算机视觉移动端小网络：MobileNet">
-<meta property="og:url" content="https://cp0000.github.io/2022/03/24/mobilenet-intro/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。 深度可分离卷积 标准卷积如下图：  输入一个 12x12x3 的featuremap，">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/normal_conv.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/depthwise_conv.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/depthwise_conv_3.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/depthwise_conv_2.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenet_v1.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/relu.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/linear_block.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenetv2_block.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenetv2_detail.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/se.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/swish.png">
-<meta property="og:image" content="http://cp0000.github.io/assets/vision_net/mobilenetv3_detail.png">
-<meta property="article:published_time" content="2022-03-24T02:48:12.000Z">
-<meta property="article:modified_time" content="2022-03-25T10:15:35.107Z">
-<meta property="article:author" content="Pei Cheng">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://cp0000.github.io/assets/vision_net/normal_conv.png">
-
-<link rel="canonical" href="https://cp0000.github.io/2022/03/24/mobilenet-intro/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>计算机视觉移动端小网络：MobileNet | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+      计算机视觉移动端小网络：MobileNet
     
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2022/03/24/mobilenet-intro/">
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
+<article>
+    <p class="post-meta">
+        <time datetime="2022-03-24 10:48:12 &#43;0000 UTC">
+            2022-03-24
+        </time>
+    </p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          计算机视觉移动端小网络：MobileNet
-        </h1>
+    <h1>计算机视觉移动端小网络：MobileNet</h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-03-24 10:48:12" itemprop="dateCreated datePublished" datetime="2022-03-24T10:48:12+08:00">2022-03-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-03-25 18:15:35" itemprop="dateModified" datetime="2022-03-25T18:15:35+08:00">2022-03-25</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h4 id="mobilenet"><a
-target="_blank" rel="noopener" href="https://arxiv.org/abs/1704.04861">MobileNet</a></h4>
-<p>MobileNets: Efficient Convolutional Neural Networks for Mobile Vison
-Applications.
+    <h4 id="mobilenethttpsarxivorgabs170404861"><a href="https://arxiv.org/abs/1704.04861">MobileNet</a></h4>
+<p>MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.
 MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。</p>
 <p><strong>深度可分离卷积</strong></p>
 <p>标准卷积如下图：</p>
-<p><img src="http://cp0000.github.io/assets/vision_net/normal_conv.png" width="720px" ></p>
-<p>输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1
-的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到
-8x8x256 个输出featuremap。</p>
+<!-- raw HTML omitted -->
+<p>输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。</p>
 <p>深度可分离卷积如下图：</p>
-<p><img src="http://cp0000.github.io/assets/vision_net/depthwise_conv.png" width="720px" ></p>
+<!-- raw HTML omitted -->
 <p>深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。</p>
-<p>如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3
-的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3
-的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256
-的输出featuremap。</p>
+<p>如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。</p>
 <p>普通卷积和深度可分离卷积的计算量对比如下图：</p>
-<p><img src="http://cp0000.github.io/assets/vision_net/depthwise_conv_3.png" width="360px" ></p>
-<p><img src="http://cp0000.github.io/assets/vision_net/depthwise_conv_2.png" width="360px" ></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 <p><strong>MobileNetV1 网络详情</strong></p>
-<p><img src="http://cp0000.github.io/assets/vision_net/mobilenet_v1.png" width="480px" ></p>
-<h4 id="mobilenet-v2"><a
-target="_blank" rel="noopener" href="https://arxiv.org/abs/1801.04381">MobileNet V2</a></h4>
+<!-- raw HTML omitted -->
+<h4 id="mobilenet-v2httpsarxivorgabs180104381"><a href="https://arxiv.org/abs/1801.04381">MobileNet V2</a></h4>
 <p><strong>Linear bottleneck</strong></p>
 <p>对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：</p>
-<p><img src="http://cp0000.github.io/assets/vision_net/relu.png" width="480px" ></p>
+<!-- raw HTML omitted -->
 <p>如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。</p>
 <p>以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。</p>
-<p><img src="http://cp0000.github.io/assets/vision_net/linear_block.png" width="480px" ></p>
+<!-- raw HTML omitted -->
 <p><strong>Inverted residuals</strong></p>
-<p>经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual
-block的shortcut结构。</p>
+<p>经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。</p>
 <p>以下是MoblieNet V2的block结构：</p>
-<p><img src="http://cp0000.github.io/assets/vision_net/mobilenetv2_block.png" width="480px" ></p>
-<p>这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1
--&gt; conv3x3 -&gt; conv1x1 的模式，但不同在于：</p>
+<!-- raw HTML omitted -->
+<p>这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -&gt; conv3x3 -&gt; conv1x1 的模式，但不同在于：</p>
 <ul>
 <li>ResNet先降维（0.25 倍），标准卷积，再生维</li>
 <li>MobileNet V2先升维（6倍），深度可分离卷积，再降维</li>
 </ul>
 <p>以下是MobileNetv2 block 和 ResNet residual block的对比：</p>
 <p><strong>MobileNet V2 的网络详情</strong></p>
-<p><img src="http://cp0000.github.io/assets/vision_net/mobilenetv2_detail.png" width="480px" ></p>
-<h4 id="mobilenet-v3"><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/1905.02244.pdf">MobileNet V3</a></h4>
+<!-- raw HTML omitted -->
+<h4 id="mobilenet-v3httpsarxivorgpdf190502244pdf"><a href="https://arxiv.org/pdf/1905.02244.pdf">MobileNet V3</a></h4>
 <p>MobileNet V3的相关技术</p>
 <ul>
 <li>引入了NAS进行网络结构搜索</li>
@@ -276,209 +77,21 @@ target="_blank" rel="noopener" href="https://arxiv.org/pdf/1905.02244.pdf">Mobil
 </ul>
 <p><strong>MobileNet V3 网络结构</strong></p>
 <p>网络的结构如下图，引入SE模块：</p>
-<p><img src="http://cp0000.github.io/assets/vision_net/se.png" width="480px" ></p>
-<p>Pool: average pool 1x1,
-FC1将通道数减小为1/4，后接一个ReLU函数，FC2将通道数变为原来一样，后接h-sigmoid函数，得到的权重与原来的特质矩阵相乘得到新的特征矩阵。</p>
+<!-- raw HTML omitted -->
+<p>Pool: average pool 1x1, FC1将通道数减小为1/4，后接一个ReLU函数，FC2将通道数变为原来一样，后接h-sigmoid函数，得到的权重与原来的特质矩阵相乘得到新的特征矩阵。</p>
 <p><strong>hard-swish 函数</strong></p>
-<p><img src="http://cp0000.github.io/assets/vision_net/swish.png" width="640px" ></p>
+<!-- raw HTML omitted -->
 <p><strong>MobileNet V3 网络详情</strong></p>
-<p><img src="http://cp0000.github.io/assets/vision_net/mobilenetv3_detail.png" width="640px" ></p>
+<!-- raw HTML omitted -->
 <h4 id="总结">总结</h4>
 <ul>
-<li>MobileNet
-在目前的移动端小模型上有着广泛的应用，特别是depthwise-conv，pointwise-conv</li>
+<li>MobileNet 在目前的移动端小模型上有着广泛的应用，特别是depthwise-conv，pointwise-conv</li>
 </ul>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/" rel="prev" title="计算机视觉经典网络：LeNet，AlexNet, VGG, GoogLeNet, ResNet">
-      <i class="fa fa-chevron-left"></i> 计算机视觉经典网络：LeNet，AlexNet, VGG, GoogLeNet, ResNet
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/03/28/stylegan/" rel="next" title="如何实现SnapChat卡通画滤镜（一）：StyleGAN的工作原理">
-      如何实现SnapChat卡通画滤镜（一）：StyleGAN的工作原理 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#mobilenet"><span class="nav-number">1.</span> <span class="nav-text">MobileNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mobilenet-v2"><span class="nav-number">2.</span> <span class="nav-text">MobileNet V2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mobilenet-v3"><span class="nav-number">3.</span> <span class="nav-text">MobileNet V3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>

@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2015s on CP0000 - 一只特立独行的猪</title>
+    <link>https://cp0000.github.io/2015/</link>
+    <description>Recent content in 2015s on CP0000 - 一只特立独行的猪</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 27 Oct 2015 00:05:53 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/2015/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>活到二十七</title>
+      <link>https://cp0000.github.io/2015/10/27/27/</link>
+      <pubDate>Tue, 27 Oct 2015 00:05:53 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/10/27/27/</guid>
+      <description>“Many people die at 25 and aren&amp;rsquo;t buried until 75.”(很多人25岁就死了，但是要75岁才被埋进土里)－－这是美国政治家，科学家富兰克林的名句。
+这里的死当然不是生理上的死亡，我的理解是指一个人的生活进入了静止的状态；早上8点起床，吃着相同的早餐，走着每天上下班的路去公司，开始一天忙碌的办公司生活，日复一日，循环至死。
+今天是我二七岁的生日，想来我自己不也是如此嘛？每天的日子趋于静止，今天像是昨天的拷贝。
+稍微观察下，生活中大家见面的时候，都会寒暄一句“最近在忙啥？”。想来这句话却很有意思，它鲜活的表现出了我们是一个好像不忙点啥，日子就没法过下去的种族。也是，我们身边的每个人每天都显得很忙；大家忙着挣钱，忙着找女人，忙着玩游戏，忙着去八卦，忙着娱乐，一刻都不得闲；但其实我觉得是人们害怕闲。因为一当闲下来，我们会不知道干嘛，进而觉得无聊，产生厌烦，最后感到孤独。
+我也是如此，为了让自己忙起来，我写博客，不停的往Wunderlist中加todos，看amazon上面的畅销书。坦白讲，长长的 TODO list 会让我产生一种心安。
+记得大二的时候，当时的我，一个中二青年，被乔布斯在斯坦福大学上的毕业演讲的震撼住了。其中有一段是
+Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven&amp;rsquo;t found it yet, keep looking. Don&amp;rsquo;t settle.</description>
+    </item>
+    
+    <item>
+      <title>3D-Touch(2) PEEK And POP</title>
+      <link>https://cp0000.github.io/2015/10/25/peek-and-pop/</link>
+      <pubDate>Sun, 25 Oct 2015 10:36:21 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/10/25/peek-and-pop/</guid>
+      <description>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp;amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp;amp; Pop 的相关知识点。
+在给你的app接入peeking and poping 的功能之前，需要先了解该操作的三个属性， peeking, preview actions, poping。如下图所示：
+用户在 Peeking 图片，视频，网页等内容的时候，能够在不去加载全部内容的情况下获取到更多详细的内容。
+##PEEKING
+当用户对某个view做peeking操作时，程序会展现给用户相对应内容的快照。Peek 操作是 3DTouch 中实现起来相对比较复杂的模块。Peek and Pop API 中有一个 UIViewControllerPreviewingDelegate,给指定的view需要注册这个delegate，就可以接收到系统回调过来的3D Touch事件。
+override func viewDidLoad() { super.viewDidLoad() /* Register for `UIViewControllerPreviewingDelegate` to enable &amp;quot;Peek&amp;quot; and &amp;quot;Pop&amp;quot;. The view controller will be automatically unregistered when it is deallocated. */ registerForPreviewingWithDelegate(self, sourceView: view) } 这里有一点需要注意，我们可以在一个 view Controller 中，给多个view注册 Previewing Delegate ，但是我们不能反复去注册同一个view。</description>
+    </item>
+    
+    <item>
+      <title>3D-Touch(1) iOS9 Quick Actions Shortcut</title>
+      <link>https://cp0000.github.io/2015/09/30/ios9-quick-actions-shortcut/</link>
+      <pubDate>Wed, 30 Sep 2015 19:24:13 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/09/30/ios9-quick-actions-shortcut/</guid>
+      <description>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。
+Home Screen Quick Actions 通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。
+静态快捷键的添加 打开 Info.plist, 在该文件中添加如下键值：
+添加一个key为UIApplicationShortcutItems的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：
+UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示 UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上 UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上 UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 UIApplicationShortcutIcon_Class UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，3535的倍数（试过100100也是Ok的），并且单色。 UIApplicationShortcutItemUserInfo (optional): 传值用 详情请看这里
+当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：
+P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节模拟器上测试Shortcut。
+动态标签的添加 所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：
+UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签中图片Icon的类 响应标签的行为 当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：</description>
+    </item>
+    
+    <item>
+      <title>There Will Be Blood</title>
+      <link>https://cp0000.github.io/2015/09/03/there-will-be-blood/</link>
+      <pubDate>Thu, 03 Sep 2015 23:47:22 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/09/03/there-will-be-blood/</guid>
+      <description>如果你喜欢《老无所依》，去看《血色将至》
+如果你喜欢西部片，去看《血色将至》
+如果你喜欢电影，去看《血色将至》
+电影讲述的是一个银矿勘探者如何通过自身的艰苦奋斗最终成为石油大亨的故事。在观看影片的过程中，主角丹尼尔身上的所表现出来的气质，和我们今天所传扬的创业者身上的气质有着极大相似之处。（当然这些创业者的气质我也是从书中，网络中得来）。其中有两个场景给我映像极其深刻。
+场景一：丹尼尔刚刚开发的新油井发生不幸发生意外，井喷了。丹尼尔的儿子 H.W 在井喷中意外受伤。丹尼尔把受伤的儿子抱到安全地带之后，在明知道儿子因伤至聋，极其需要爸爸的情况下，毅然丢下了儿子，跑去事故现场救灾。当身边的伙伴皱着眉头看着大火的时候，丹尼尔却笑着说：你干嘛要愁眉头，井喷证明了下面埋藏着无穷的石油，我们要发财了。此时，他已经把H.W的情况抛之脑后，心里所想全部是采油的事情。当伙伴问他H.W怎么样了，他才想起来儿子情况很不好。影片此后的镜头就是海报中的场景，丹尼尔指挥者工人用炸药把油井炸封起来。
+第二个场景是，为了运输开采出来的石油。丹尼尔决心建一条油管通往大海。但油管铺设遇到了需要通过一块没有弄到租借权的土地。为了能够租下这块地，丹尼尔忍辱负重跑去教堂接受小人Eli神父洗礼。洗礼过程中Eli出于对丹尼尔的嫉妒狠狠的打了几个丹尼尔耳光（个人觉得Eli是在嫉妒丹尼尔，嫉妒他给小镇带来了繁荣，嫉妒他的石油生意）。但此时的丹尼尔并不在意被Eli侮辱，他只在意这块地终于租下来了，石油管道的铺设有谱了，自己的石油生意真的要做起来了。（这里有个细节，在还没有和土地主人谈妥之前，丹尼尔已经在那块地上面打桩测量油管路线。这一情节，也表明了丹尼尔对自己能够说明别人把地租给他的强大自信）
+这两个场景都表现出了，丹尼尔对石油开采的极度专注和极大热情。开采过程的任何困难，挫折对于丹尼尔来说都不是问题，井喷不怕，火灾不怕，被小人侮辱无所谓。他眼中只关心和石油相关的事情，他探索油田，建筑油井，铺设油管，一切都是为了自己的石油生意。在生意路上遇到的问题，丹尼尔唯一做的就是自信满满的去解决它。
+如果从资本家，企业家的角度来看丹尼尔，他无意是成功创业家的典范。创业后辈们无疑可以从他的事迹中汲取到很多的经验和养分。而他对当地石油的开采，无疑也提高当地人民的生活水平。
+但这部电影不是单单讲述一个成功企业家的创业故事，还描述了丹尼尔作为一个人与这个上世界其它人的关系和情感。
+我想绝大多数人应该都会害怕孤独吧，开心没人分享，失落无人倾诉。丹尼尔人生就是如此，影片开篇十几分钟跟默片一般，没有一句台词，镜头中只有丹尼尔一个人胡子拉渣的孤独的在矿井中勘探。有了油井，挣了初始资本之后，丹尼尔则每次都会带着H.W去做和卖家谈买卖。美国是一个清教徒国家，大家信上帝，非常重视家庭，大部分都会买亲情的帐。当在H.W变聋之后，为了专注工作，丹尼尔又能冷酷地把儿子从自己身边送走，寄养在别处。不过每个人都渴望亲情，渴望被别人所理解，丹尼尔内心深处也是如此。冒牌弟弟Henry的到来，让他在一段时间好似找到了久违的亲情。但可惜这个Henry是冒牌的，丹尼尔发现真相之后，开枪直接打死了冒牌的Henry，尽管冒牌Henry是唯一能和丹尼尔说得上话的人。
+野心，孤独，对权力的欲望，虚伪，憎恶，不信任，丧失人性，这是丹尼尔作为人的一面。但与此同时，他却又是成功的资本家，他成功创业的事迹又会被当今的社会所传颂。或许按中国人的智慧，这就叫是非功过三七开吧。
+熙熙皆为利来，攘攘皆为利往。丹尼尔这样的人在当代中国应该很受崇拜吧，应该会。
+最后，摘录片中我喜欢的一段台词，也是丹尼尔唯一一次吐露自己心声的一段对话
+亨利： ……你为什么离家出走？我知道你和父亲的关系不好。
+丹尼尔：
+我替地质调查局工作，去了堪萨斯。
+我没法留在家里，不可能。
+我不喜欢解释自己的行为。
+…… 丹尼尔：
+你是个愤怒的人吗，亨利？
+亨利： 愤怒什么？
+丹尼尔：
+你嫉妒吗？你会嫉妒别人吗？
+亨利： 我想不会。不嫉妒。
+丹尼尔：
+我有一颗争强好胜的心。
+我不想看到别人成功。
+我憎恨大多数人。
+亨利：
+我已经没有那种心气了……
+辛苦工作却总不能成功――所有的失败让我……我就不在乎了。
+丹尼尔： 我心里有，你心里就也有。
+有时候我注视着人群，看不到任何值得我爱的东西。
+我只想挣到足够的钱好让我远离所有的人。
+……
+丹尼尔：
+我不想提那些事。
+我看到人们最丑陋的一面，亨利。
+我能得到我所要的一切，根本用不着去看那些丑陋背后还有什么。
+经过这么多年，我的仇恨一点一滴越积越深。
+你来这儿，给了我喘息的机会。我自己一个人坚持不下去……同这些人纠缠。
+英文版
+Plainview: Are you an angry man. Henry?
+Henry Brands: About what?
+Plainview: Are you envious? D&amp;rsquo;you get envious?
+Henry Brands: I don&amp;rsquo;t think so.</description>
+    </item>
+    
+    <item>
+      <title>Openradar Stream</title>
+      <link>https://cp0000.github.io/2015/08/30/openradarstream/</link>
+      <pubDate>Sun, 30 Aug 2015 22:02:42 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/08/30/openradarstream/</guid>
+      <description>写在前面 随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债”上，之前release了太多的feature，遗留了太多的bug，会在这一次修复掉。
+Openradar stream 的来由 和大多数 iOS developers 一样，我也在第一时间安装了 iOS 9 beta版本。满足了尝鲜感之后，随着而来就是 beta 系统的不稳定，以及各种的bug。用 iOS 9 进行开发的过程中，我遇到了许许多多的坑，对于一些系统的bug，会花费掉我很多的时间去debug。然后，我发现了openradar。一个 open database of radars for Apple bug。从openradar 上，你可以看到其他开发者提交的bug，这当然会为你省去很多的时间，帮助你避免很多的坑。
+后来我想我是不是应该做一个自动的脚本，定时的去抓取这个网页上面的信息，然后发到微博上。关注这个微博的人就可以在自己的时间线上面看到最新的bug了。这样做的好处是，一来你了解到bug信息，下次你遇到类似的问题，会联想到之前看过的bug信息，省去大量的时间。二来，刷微博的时候，还顺便学习了新知识，就没那么大的罪恶感了～。为此，我写一个tiny project，auto radarstream。
+具体工作 完成openradarstream，有以下事情需要去做
+前期工作
+申请一个微博账号，并申请微博OpenApi，获取到apikey和apisecret。 获取到微博的 accessToken， expires 开发工具
+language: python database: sqlite 细节
+设置好微博的环境，其中微博的OpenAPI,使用开源库sinaweibopy
+初始化数据库
+def initDB (): print &#39;initDB ...&#39; db = sqlite3.connect(sqlite_file) cursor = db.cursor() cursor.execute(&#39;&#39;&#39;CREATE TABLE IF NOT EXISTS bugs(id INTEGER PRIMARY KEY, bugid TEXT, status TEXT, originator TEXT, product TEXT, title TEXT)&#39;&#39;&#39;) db.</description>
+    </item>
+    
+    <item>
+      <title>UICollectionViews Now Have Easy Reordering （译）</title>
+      <link>https://cp0000.github.io/2015/08/22/uicollectionview-has-easy-reording-on-ios9/</link>
+      <pubDate>Sat, 22 Aug 2015 09:52:28 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/08/22/uicollectionview-has-easy-reording-on-ios9/</guid>
+      <description>iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering
+在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。
+实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.
+override func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。
+![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。
+override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: &amp;quot;handleLongGesture:&amp;quot;) self.</description>
+    </item>
+    
+    <item>
+      <title>Spotlight &amp; MDFind</title>
+      <link>https://cp0000.github.io/2015/08/02/mdfind-note/</link>
+      <pubDate>Sun, 02 Aug 2015 11:31:18 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/08/02/mdfind-note/</guid>
+      <description>Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。
+先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：
+spotlight 帮我找到了包含 _loadBlock 这个字符串的文件。
+想象下，电脑硬盘中存储着如此多的文件，spotlight 是如何如此快速的查询到包涵这个字符串的文件的？
+在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？
+关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 find 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。那答案是什么？
+我们不妨先把目光放到搜索这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。
+那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的indexing的索引服务。那什么是indexing索引服务器，简单来讲： Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。
+当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 Lucene 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。
+mdfind 用 spotlight 的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。关于如何在spotlight界面显示文件的详细路径，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。
+那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？
+Macosx 提供了终端执行命令mdfind，我们可以在 terminal 中使用mdfind来进行索引查询。比如要查询出文件内容中包含字符串 &amp;ldquo;_loadBlock&amp;rdquo;, 在ternimal中输入以下命令即可：
+mdfind &#39;kMDItemTextContent=&amp;quot;_loadBlock&amp;quot;&#39; results:
+/opt/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.h /opt/dev/appstore_cracked/StoreKit_headers/SKStoreProductViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUWebViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUStorePageViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUPreviewOverlayViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.h /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.h /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.h 对比终端查询结果和图一中的结果，会发现有两点出入：
+(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。 (2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下&amp;quot;_loadBlock&amp;quot;在各个文件中的上下文，以下是节选 nsBlocklistService.js
+this._loadBlocklist(); SKStorePageViewController
+CDUnknownBlockType _loadBlock; 看上去问题应该是出在_loadBlock前后是否能跟别的字符串上，修改查询语句</description>
+    </item>
+    
+    <item>
+      <title>Objc Interview Checklist Answers</title>
+      <link>https://cp0000.github.io/2015/07/23/oc-checklist-answers/</link>
+      <pubDate>Thu, 23 Jul 2015 21:12:55 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/07/23/oc-checklist-answers/</guid>
+      <description>@property中有哪些属性关键字？ nonatomic (thread-unsafe) atomic (default, thread safe)
+strong weak assign copy
+getter (custom getter method name) setter (custom setter method name)
+readwrite (default) readonly
+weak属性需要在dealloc中置nil么？ 不需要，runtime会在weak属性在释放的时候，自动把变量至为 nil;
+@synthesize和@dynamic分别有什么作用？ @synthesize 自动生成属性 getter 和 setter 方法. LLVM Compiler 4.0之后，编译器会对@property 属性自动的添加 @synthesize ivar = _ivar,自动帮你生成 getter/setter 方法，以及自动绑定_ivar 实例变量。
+@dynamic 是为了告诉编译器，getter/setter 方法将会在其他地方（父类，runtime）实现，这样可以消除warnnig
+ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？ atomic, assign, readwrite
+用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？ NSString Property:copy or retain
+@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？ 首先 complier 会根据 @interface 中的 @property 属性自动生成一份属性名前加_的实例变量。LLVM Compiler 4.0 之后，会自动添加@synthesize ivar = _ivar。</description>
+    </item>
+    
+    <item>
+      <title>从 NSString Property:copy or retain 到 NSCopying</title>
+      <link>https://cp0000.github.io/2015/07/19/nsstring-property-copy-or-retain/</link>
+      <pubDate>Sun, 19 Jul 2015 11:50:04 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/07/19/nsstring-property-copy-or-retain/</guid>
+      <description>NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。
+为什么会有NSString要用copy来修饰的convention？能否用 strong代替?
+回答这个问题之前，我们先看段代码：
+@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@&amp;quot;apple&amp;quot;]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@&amp;quot;fruitName: %p %@&amp;quot;, fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@&amp;quot;fruitNameCopy: %p %@&amp;quot;, fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@&amp;quot;fruitNameStrong:%p %@&amp;quot;, fruit.fruitNameStrong, fruit.</description>
+    </item>
+    
+    <item>
+      <title>2015上半年看过的电影</title>
+      <link>https://cp0000.github.io/2015/07/13/movie-list-been-watched-2015-1st/</link>
+      <pubDate>Mon, 13 Jul 2015 22:40:09 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/07/13/movie-list-been-watched-2015-1st/</guid>
+      <description>中国
+一步之遥 United States
+Chirldhood Nebraska August Osage County American Sniper Birdman 2001: A Space Odyssey Driving Miss Daisy The Maze Runner Big Hero 6 Lost In Translation Fast &amp;amp; Furious 7 Japan
+Seven Samurai Little Forest Natsu Aki The Little House Our Mother Korea
+Snowpiercer </description>
+    </item>
+    
+    <item>
+      <title>砸火车的人</title>
+      <link>https://cp0000.github.io/2015/07/05/za-huo-che-de-ren/</link>
+      <pubDate>Sun, 05 Jul 2015 14:52:27 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/07/05/za-huo-che-de-ren/</guid>
+      <description>罗素在《幸福之路》一书中有一节是讨论关于厌烦与兴奋的。里面说到现代人对比我们的祖先更少厌烦，但却更怕厌烦。我们进行听音乐，玩电子游戏，看电影，或许都是为了消除厌烦吧。甚至有时候，我觉得读书也是消除厌烦，而不是为了获取知识。
+我一直把自己当作一个喜欢读书的人来对待，但事实上我读过的书很少。
+当然需要说明的是，我这里指的书籍是剔除了上学时候的教科书，工作之后的专业书籍。对我而言，这些书大都有一些不得不去读的意味，为了升学，为了升职，为了生存。要从这类书籍中要获取到乐趣是不太容易的。所以我这里读的书指的是一些“闲书”，纯粹因个人喜好而去看的书。
+为了消除厌烦，我们总是希望能够从同样喜欢读书且品味没那么糟糕的人口中获得一些推荐的书籍，以备我们无聊的时候可以用来打发时间。记得上大学的时候，我总是喜欢推荐一本叫《追风筝的人》的书给其他人以换取其他人的推荐。书很薄，读起来很流畅，不会觉的累，故事精彩缺让人回味无穷。今天我抄袭此书的名字，取名这篇文章叫《砸火车的人》，来回忆一段同样是年少时发生的一件不光彩的事迹。
+我一直是一个本分，胆子不大的人。小时候，可能是由于年纪原因，我也算是村庄里面孩子的头头。我们几个人早上一起上学，放学一起玩弹珠，打打扑克。映像中聚众打架，偷庄稼这种事情可能也就干过一两次。我们阵容很小，稳定的阵容只有我，弟弟，黑皮，还有几个经常一起玩，但是不是固定阵容的。黑皮那个时候跟我们玩的最好，上小学的时候我们总是在一起玩，砸火车的事情也是我们一起干的。
+有段时间，黑皮说他跟其他人一起去村子旁边的火车道上砸过火车，很好玩。我当时一是好奇心作祟，二是自尊心要强，于是说我们也要去砸火车。 于是在某个无所事事的周末下午，我，弟弟，黑皮加上另外两三个人，不记得是谁了。一道去了村旁边的火车道上准备砸火车。来到火车道上，我们在旁边埋伏好，过了一伙儿，一列货车就缓缓驶了过来。等火车头经过我们的时候，黑皮立马从地上捡起石头砸向火车头，剩下的人看此情况，于是也都纷纷捡起石头砸向火车。不一会儿，火车就开走了，我们玩的很开心，有时候你很难搞清楚为啥我们对搞破坏是如此的感兴趣。然而出乎意料的事情发生了，火车在不远去停了下来，尽然倒退了。我们几个当时年纪都很小，我最大，也才上小学三年级，一下子就慌了。火车里面的人是要回来逮捕我们，怎么办。慌乱中，我们往旁边的山头上跑，在一个沟渠里面躲了起来。自然，9岁小孩的毛把戏，是逃不过这帮开火车大人的眼睛的。他们很快就把我们揪了出来。我记得当时自己全身都在发抖，很害怕。那帮家伙要把我们拎上火车，然后带走。至于去哪里，天知道。我只记得我拼命的说火车头不是我砸的，不是我砸的，我没有砸前面的火车头。事态发展的太快，然后矛头不知怎么着就指向了黑皮，我和其他几个人都说是他砸的，出卖了黑皮，为了保全自己；但那个时候火车里面的人搞错了，以为我们说的是我弟弟，便拉着我弟弟要上火车；我很害怕，不知该怎么办，但是我没敢上去阻止，只是在旁边大声说不是我弟弟，是黑皮，毫无保留的把黑皮卖掉了。然后黑皮被他们拖上了火车，就要被带走了。被火车带走，对于一个9岁的孩子来说，可能跟死亡也没啥区别吧。
+幸好这个时候在田里面干活的农人都赶了过来，大伙儿一起劝说火车上的那帮家伙，大概是些小孩子不懂事之类的，好说歹说黑皮终于没有被带走，算是幸免于难。不过火车上的那帮家伙还是把黑皮的名字，家庭地址，学校记了下来，后面还把这件事通报到学校，黑皮被批评了一番。
+每次回想起这件事情，我都为自己的不道义感到害臊。</description>
+    </item>
+    
+    <item>
+      <title>网球以及德约科维奇</title>
+      <link>https://cp0000.github.io/2015/06/07/tennis/</link>
+      <pubDate>Sun, 07 Jun 2015 09:41:30 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/06/07/tennis/</guid>
+      <description>我是从何时开始看网球的？应该是08年的澳网，那年我大一，放寒假在家过年，某个下午无聊的翻看体育台，无意中被澳网的比赛吸引住了，从此便养成了看网球比赛的习惯。
+四大满贯中澳网的赛程赶巧在中国农历新年附近，而且比赛地墨尔本和北京在经度上只相差两个时区，这样比赛时间基本上都在国内白天下午进行。对于中国观众来说观看澳网比赛还是非常方便的。这也是为何四大满贯中我最中意澳网。当然了，还有另外一个原因，澳网是德约科维奇成绩最好的大满贯赛事。
+07,08年的时候，世界第一是瑞士天王费德勒，那个时候费天王还正值当打之年，对网坛有着非同寻常的统治力。极度优雅的反手，关键时刻稳定的Ace球，一切看起来都那么的完美，对那种刚刚开始看网球的人应该都有着无比寻常的吸引力。不过我还是最中意小德 ，因为我不是那种非常强烈的 Glory Hunter，我更中意那种有朝气的事务。小德在08年的时候，常年排名在世界第三，也会被戏称三德子。不过，在看他的比赛的时候，你还是能够感受他身体里面迸发出来的求胜欲，你会觉得他会变的很强的人，未来看起来应该会很有搞头的样子。就像我最钟爱的球队是阿森纳一样，从我2007年开始看阿森纳比赛之后，这7，8年，阿森纳不是英超里面最强的队伍。不过你可以感受到温格对这支队伍的发展规划，阿森纳的比赛，球场上踢出来的足球能让你感到很舒服，球员也已年轻队员为主，朝气蓬勃。
+关于小德的比赛映像最深的是2012年他跟纳达尔那场耗时6个小时的澳网决赛。比赛中，双方表现出来的技战力，韧性，决心都是令人惊叹的。双方你来我往，每一个回合的挥拍，我都看的心欲破膛。普通人的生活，绝大多数时刻都沉浸在茶米油盐酱醋茶的琐碎里，或许能享受一份闲适，但也可能缺少那种能让人肾上腺素极度分泌的紧张时刻。这也是网球比赛，或者说体育比赛的魅力吧。他能在某一段时间，能让人忘却现实生活中的烦忧，沉浸在此刻的比赛中。顺便插一句，或许这也是为何年轻人喜爱电子竞技类游戏的原因吧。那场比赛德约最终赢得了冠军，我想那是他为自己带上天王皇冠的一场比赛。赢取比赛后，他疯狂的撕掉了自己的球衣，冲着球场外怒吼，像一头雄狮。
+这场比赛，就我而言，是德约目前职业生涯最好的一场比赛，对于纳达尔来说，或许是最不愿追忆的比赛。纳达尔打得足够好，表现出了超强的韧性，有机会赢得冠军的，但他却输了比赛，给自己的人生留了一个很大的遗憾。但人生中，能够获得这样的一场比赛也是非常幸运的。不是每个人都有机会去在这样的舞台上为自己去打这样一场重要的比赛的。
+昨天晚上，德约在15年的法网半决赛中五盘大战中赢了穆雷，来到了法网决赛，冲击属于他人生的全满贯。祝他好运！</description>
+    </item>
+    
+    <item>
+      <title>奶奶</title>
+      <link>https://cp0000.github.io/2015/04/05/nainai/</link>
+      <pubDate>Sun, 05 Apr 2015 10:35:36 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/04/05/nainai/</guid>
+      <description>我和弟弟从小是被奶奶带大的，直到我们前后出去念大学，才从奶奶身边离开。我们跟奶奶很亲。
+奶奶是一个典型的农村妇女，她有三个儿子，两个女儿，另外还有一对继子，继女。二姑，也就是奶奶的大女儿，在二十年前患乳腺癌去世了。二姑走的时候，奶奶很伤心。每逢清明，她总是叮嘱我们记得给二姑烧纸。而爷爷，在我还未出生的时候就已经过世了。从奶奶口中得知爷爷是个脾气非常暴躁的人。爷爷过世的时候，我爸爸20岁不到，小叔叔15不到。至于奶奶和爷爷感情如何，奶奶没跟我们说过，我也未曾问起。
+奶奶年轻时候生活的年代极其困难，这使得她养成了非常节约的习惯。小时候，家里面条件非常困难，我爸爸是木匠，每年都要外出务工，挣养家糊口的钱。每当我们想买些乱七八糟的的东西，奶奶都会告诫我们爸爸挣钱不容易，在外面打工很辛苦，不能乱花钱。奶奶会想办法帮我们家节约开支，隔断时间会让我和弟弟记日常支出的账，这个习惯我坚持到现在。
+上学时，奶奶每天早起，给我们做饭，让我们吃完去上学。奶奶做的菜，口味偏咸。我最爱吃她煮的鱼，和红薯粉条。冬天的周末，三个人围着煤炉，吃热气腾腾的鱼，这算是少年时最开心的光景。
+刚上大学的时候，爸爸打电话跟我说，你第一次一个人出远门，跟奶奶又生活了那么久，奶奶在家很想你，你要多打电话给她。这之后我养成了每个周末都会打电话给奶奶的习惯。电话内容大多数时候是我询问一下她的身体情况，奶奶跟我说一下她周遭发生的家长里短，让我在外头要注意安全之类的。有时候，我忘记打了，后来补打的时候，奶奶都会很担心的说：你怎么礼拜天没打电话。以为我出了什么事情。而我每次出门上学的时候，她都会包红包给我。这些红包，我没花，保留了下来留作纪念，弟弟也是如此。我们也是在最近才得知彼此做了相同的事情。
+工作之后，只能在逢年过节的时候回趟家，看望一下奶奶。在家里，我和弟弟最喜欢做的事情就是坐在奶奶房门前的走廊上，陪着奶奶一起晒太阳。大多时候，弟弟陪着奶奶聊天，我只是呆坐在旁边，默默的听着。
+近些年，奶奶一直说她自己身体不行了，估计时间不多了，还说假如真的走了，也不要回来，耽误了工作。每每听到她说这些，我们孙子辈都不太高兴，跟她说不要老是说死字。弟弟说，在今年春节的时候，他跟奶奶说，奶奶90岁的时候，他30岁，那时候，他也应该成家立业了。他说奶奶当时听到他这么说的时候很开心，还把这些话说给其他人听。而我也曾经幻想过能够带着自己建立的家庭回去探望她。
+她今年86岁，近些年的日子过的孤单且并不顺心，时常生病。我在外头时不时会担心她的健康，偶尔还会做噩梦，梦见她走了，每次都会半夜吓醒，然后庆幸还好这只是个梦。今年3月18号的午后，农历的正月二十八，奶奶终于还是离开了我们。奶奶走的时候，我在从上海回桐城的路上，得知消息后我抬头朝家的方向望了望。
+回家做丧事的时候，有段路，只有爸爸，弟弟，我三个人。爸爸说了句：奶奶走之后，整个人空空的，感觉生活没有意思。我“嗯”了一声。
+奶奶走了半个多月，我们都非常想念她。
+15年清明</description>
+    </item>
+    
+    <item>
+      <title>读书笔记：《一个自杀者的传说》</title>
+      <link>https://cp0000.github.io/2015/03/15/legend-of-a-suicide/</link>
+      <pubDate>Sun, 15 Mar 2015 15:13:30 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/03/15/legend-of-a-suicide/</guid>
+      <description>某一个巧合我得知了这本美国的畅销书《Legend of a suicide》,中文译作《一个自杀者的传说》，不得不肯定这本书光书名就有着很大的吸引力，让人远远就觉得该书讲述的故事应该不会太烂。
+书中的前三个短片小说，基本上是在介绍他的父亲，母亲。从这些小故事我们大致知道，父亲是一名爱出海打鱼的牙医，经济状况应该很不错，有着自己的一家诊所。后来父亲出现婚外情，父母离婚，父亲重新结婚，后面却又再次离婚，导致精神状态非常的差。母亲这边虽然会和新的男人认识，却没有想再次步入婚姻的念头。书中所有的文字都很冷，没有哪怕一丝丝的温情在里头。
+全书最为精彩的故事是中篇小说《苏宽岛》。父亲由于不堪现实生活中的糟糕状况，买了阿拉斯加上一座无人居住的小岛，然后邀请12的儿子罗伊一起跟他去小岛上生活一段时间。然而在儿子眼里看起来很坚强的父亲，非常缺乏野外生存的经验，加上心理状况不稳定，导致他们的生活条件日益恶劣，父子间的交流也没有想象中变的通畅起来，反而是越来越疏远。
+从踏入岛上的第一天，他们把所有的精力都花在如何生存下去上，捕鱼，熏鱼，搭建木屋，以及筹备过冬的粮食，劳碌的日子可以避免沉默带来的尴尬。当中有一次父子两人远足，父亲直接踏进悬崖，试图自杀，罗伊费劲力气，以及极度的恐惧找到垂死的父亲，把他扛回小屋子中。事后，两人却没有对此事进行过真诚的交流。冬天来了之后，两人只能在屋子里吃着之前准备好的过冬的熏鱼，看书打发时间。但父亲此时却没法耐受住这种生活，三番四次的用无线电联系他的第二个前妻罗达，却听到罗达已经嫁人。崩溃的父亲把对着自己脑袋的枪丢给了从外面回来撞见这一幕的罗伊。然后独自一人跑了出去，却听到一声枪声从小屋传来，罗伊用枪打爆了自己的脑袋。这是全书最为令人震惊的转折，在我还在想象父亲最终会如何把自己作死，罗伊却用手枪打爆了自己的头颅。书名中的那个自杀者尽然是儿子，不是父亲。
+岛上的孤独加上父亲糟糕的精神状态摧毁了罗伊，超出一个12岁少年能够承受的阴郁。罗伊父亲最后的结局也很悲惨，父亲费劲力气，终于把罗伊的尸体带回罗伊妈妈的身边。却被警方怀疑是他杀死了自己的儿子。他最后决定逃出美国，如是搭上一只渔船逃路，在船上，他被船长和副手扔进了大海，在孤独，冰冷的海水中死去了。
+在想办法把儿子的尸体弄回母亲身边的路上，有一大段关于父亲内心世界的描写，作者直面人性内心，精彩异常。
+阴冷的天气，荒无人烟的孤岛，和每一个看起来都那么孤独的灵魂。或许是由于我们有互联网，手机，电子游戏，动漫；如此这些东西可以让我们一直沉浸在一种不知所谓的忙碌中，让我们没有机会去直面那样子的孤独。这或许会让我们生活的更容易些吧。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://cp0000.github.io/2015/11/21/ios-reverse-engineering-01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/11/21/ios-reverse-engineering-01/</guid>
+      <description>title: iOS逆向工程-0x00－用途以及准备工作 date: 2015-11-21 10:46:07 categories: Tech tags: iOS Reverse Engineering 前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
+作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
+当然了，逆向工程还有其他更重要的用途，如下：
+分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
+硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</guid>
+      <description>title: iOS逆向工程-0x01－工具篇-Cycript date: 2015-11-30 22:00:07 categories: Tech tags: iOS Reverse Engineering 对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。
+当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。
+比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码
+那问题来了，我们要如何知道哪个函数是账号登录函数咧？这就涉及到我们如何去分析一个iOS app
+分析 iOS app 的两种方法 运行时分析
+GDB/LLDB Cycript Logify weak_classdump InspectiveC 可执行代码分析
+dumpdecrpted class_dump,class_dump_z,classdump_dyld Disassemblers IDA Hopper otool strings nm 先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。
+###Cycript
+Cycript最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。
+以下是 Cycript 的用途：
+能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController 对程序中的类，可以获取到它用过的方法名称 可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值 能够执行 method swizzling， 替换某个指定的函数 可以在运行时调用其他方法 安装 cycript 首先利用 Cydia 下载 mobilesubstrate adv-mds;从官网上面下载最新的包，并通过 scp 把文件拷贝到 iOS 设备上去，利用 dpkg 进行安装：
+dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb 安装完成之后，执行 cycript 看是否工作：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://cp0000.github.io/2015/12/27/2015-2nd-movie-list/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/12/27/2015-2nd-movie-list/</guid>
+      <description>title: 2015下半年电影清单 date: 2015-12-27 22:16:11 categories: Movie tags: 中国大陆
+港囧 (2015) 西游记之大圣归来 (2015) ✔ 寻龙诀 (2015) ✔ 中国香港
+暗战 暗戰 (1999) ✔ 中国台湾
+我的少女时代 我的少女時代 (2015)✔ 欧美
+蚁人 Ant-Man (2015) ✔ 小黄人大眼萌 Minions (2015) 碟中谍5：神秘国度 Mission: Impossible - Rogue Nation (2015) ✔ 模仿游戏 The Imitation Game (2014) ✔ 侏罗纪世界 Jurassic World (2015) ✔ 角斗士 Gladiator (2000)✔ 血色将至 There Will Be Blood (2007)✔✔✔ 穿条纹睡衣的男孩 The Boy in the Striped Pajamas (2008) 爆裂鼓手 Whiplash (2014) ✔✔ 杀手没有假期 In Bruges (2008) 疯狂的麦克斯4：狂暴之路 （Mad Max: Fury Road）✔ 万物理论 The Theory of Everything (2014) ✔ 年轻气盛 Youth (2015) ✔ 头脑特工队 Inside Out (2015) 007：幽灵党 Spectre (2015) ✔ 明日世界 Tomorrowland (2015) 超能查派 Chappie (2015) 日本</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://cp0000.github.io/2015/12/31/2015-summary/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/12/31/2015-summary/</guid>
+      <description>title: 2015 年终总结 date: 2015-12-31 11:10:31 categories: Life tags: 上海的冬天不是很好过，屋里屋外都很冷。忙碌中，不觉间，这一年已经来到了12月31号，15年就快要结束了。这两年自己也算养成了在一年结束的时候写一篇年終总结的习惯，好让自己来和这一年说再见。
+15年对自己影响最大的事情是奶奶的过世。奶奶的逝去的那一阵子，让我恍惚间有了一种了无牵挂的感觉。那段时间，我觉得自己从此无依无靠；没有了任何牵挂，也无了任何寄托。自己可以随风漂泊去任何地方了。
+每当我遇到自己恐惧的事情，会想到奶奶；想到奶奶临终前独自面对死亡，我自己头上的这点小事，真的不算个事。从我能记事开始，和奶奶生活的这二十多年，感觉时间很平静的就流逝了，我对奶奶也没有特别的故事可以回忆。只是有时候走在路上，躺在床上，会突然很想念她老人家。
+其他的事情需要记录的并不多；15年我常去健身房，由于我从小有点驼背，加上工作性质，长期呆在电脑前，导致现在颈背状况很差，有时候会感觉特别痛。本来希望能通过健身矫正把这个毛病改掉，然而15年收效微微，但16年还是要坚持，相信正确的方法可以帮助自己克服掉这个长期以来的毛病。
+另外就是今年终于把自己的博客写起来了，博客这个事情，自己老早就开通了，但能保持一个月至少两篇算是15年坚持下来的习惯；博文质量还有待提高，16年自己会坚持写作的。可以说坚持写作给予我的反馈是很棒的，会有一种特别的满足感。看着自己的文字，我能确切的知道，自己不是在混日子，自己平日里是有在思考的，自己是可以用文字把自己的想法，技巧，知识记录下来的，这一点让我感到安心。
+整理这篇总结的时候，已经是2016年了，2016年希望自己能过的更随性，更自由一些。
+2015年过去了，我很怀念它。</description>
+    </item>
+    
+  </channel>
+</rss>

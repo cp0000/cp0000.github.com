@@ -1,262 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cp0000.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。 先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：   loadBlock  spotlight 帮我找到了包含 _loadBlock 这个字符串的文件。 想象下，电脑硬盘中存储着如此多的文件，spotlight 是如何如此快速的查">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Spotlight &amp; MDFind">
-<meta property="og:url" content="https://cp0000.github.io/2015/08/02/mdfind-note/index.html">
-<meta property="og:site_name" content="CP WRITINGS">
-<meta property="og:description" content="Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。 先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：   loadBlock  spotlight 帮我找到了包含 _loadBlock 这个字符串的文件。 想象下，电脑硬盘中存储着如此多的文件，spotlight 是如何如此快速的查">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://cp0000.github.io/assets/loadBlock.png">
-<meta property="article:published_time" content="2015-08-02T03:31:18.000Z">
-<meta property="article:modified_time" content="2015-11-07T15:47:32.000Z">
-<meta property="article:author" content="Pei Cheng">
-<meta property="article:tag" content="mac power user">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://cp0000.github.io/assets/loadBlock.png">
-
-<link rel="canonical" href="https://cp0000.github.io/2015/08/02/mdfind-note/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>Spotlight & MDFind | CP WRITINGS</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63703524-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-63703524-1');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CP WRITINGS</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一只特立独行的猪</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  <title>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+      Spotlight &amp; MDFind
     
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cp0000.github.io/2015/08/02/mdfind-note/">
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Pei Cheng">
-      <meta itemprop="description" content="">
-    </span>
+<article>
+    <p class="post-meta">
+        <time datetime="2015-08-02 11:31:18 &#43;0000 UTC">
+            2015-08-02
+        </time>
+    </p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CP WRITINGS">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Spotlight & MDFind
-        </h1>
+    <h1>Spotlight &amp; MDFind</h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2015-08-02 11:31:18" itemprop="dateCreated datePublished" datetime="2015-08-02T11:31:18+08:00">2015-08-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2015-11-07 23:47:32" itemprop="dateModified" datetime="2015-11-07T23:47:32+08:00">2015-11-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h4 id="indexing-服务">Indexing 服务</h4>
-<p>Maocx 系统的搜索服务 <code>spotlight</code>
-想必大家都用过。它可以很便捷的帮我们找到想要的文件。</p>
-<p>先举个例子，在 spotlight 中输入 _loadBlock，
-我的电脑会出现以下结果：</p>
-<figure>
-<img src="http://cp0000.github.io/assets/loadBlock.png"
-alt="loadBlock" />
-<figcaption aria-hidden="true">loadBlock</figcaption>
-</figure>
-<p>spotlight 帮我找到了包含 <code>_loadBlock</code>
-这个字符串的文件。</p>
-<p>想象下，电脑硬盘中存储着如此多的文件，<strong>spotlight
-是如何如此快速的查询到包涵这个字符串的文件的？</strong></p>
-<p>在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？<br />
-关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用
-<code>find</code>
-的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。<strong>那答案是什么？</strong></p>
-<p>我们不妨先把目光放到<code>搜索</code>这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。<br />
-那 Macosx
-的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx
-实现了自己的<code>indexing</code>的索引服务。那什么是<code>indexing</code>索引服务器，简单来讲：
-Macosx
-系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。</p>
-<p>当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐
-<a target="_blank" rel="noopener" href="https://lucene.apache.org/">Lucene</a>
-给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。</p>
+    <h4 id="indexing-服务">Indexing 服务</h4>
+<p>Maocx 系统的搜索服务 <code>spotlight</code> 想必大家都用过。它可以很便捷的帮我们找到想要的文件。</p>
+<p>先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：</p>
+<p><img src="http://cp0000.github.io/assets/loadBlock.png" alt="loadBlock"></p>
+<p>spotlight 帮我找到了包含 <code>_loadBlock</code> 这个字符串的文件。</p>
+<p>想象下，电脑硬盘中存储着如此多的文件，<strong>spotlight 是如何如此快速的查询到包涵这个字符串的文件的？</strong></p>
+<p>在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？<br>
+关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 <code>find</code> 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。<strong>那答案是什么？</strong></p>
+<p>我们不妨先把目光放到<code>搜索</code>这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。<br>
+那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的<code>indexing</code>的索引服务。那什么是<code>indexing</code>索引服务器，简单来讲： Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。</p>
+<p>当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 <a href="https://lucene.apache.org/">Lucene</a> 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。</p>
 <h4 id="mdfind">mdfind</h4>
-<p>用 spotlight
-的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。<strong>关于如何在spotlight界面显示文件的详细路径</strong>，这里有个小
-tips，具体操作是：选中某个搜索结果，长按 command
-键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。</p>
+<p>用 spotlight 的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。<strong>关于如何在spotlight界面显示文件的详细路径</strong>，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。</p>
 <p><strong>那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？</strong></p>
-<p>Macosx 提供了终端执行命令<code>mdfind</code>，我们可以在 terminal
-中使用<code>mdfind</code>来进行索引查询。比如要查询出文件内容中包含字符串
-"_loadBlock", 在ternimal中输入以下命令即可：</p>
-<pre><code>mdfind &#39;kMDItemTextContent=&quot;_loadBlock&quot;&#39; </code></pre>
+<p>Macosx 提供了终端执行命令<code>mdfind</code>，我们可以在 terminal 中使用<code>mdfind</code>来进行索引查询。比如要查询出文件内容中包含字符串 &ldquo;_loadBlock&rdquo;, 在ternimal中输入以下命令即可：</p>
+<pre><code>mdfind 'kMDItemTextContent=&quot;_loadBlock&quot;' 
+</code></pre>
 <p>results:</p>
 <pre><code>/opt/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.h
 /opt/dev/appstore_cracked/StoreKit_headers/SKStoreProductViewController.h
@@ -265,222 +58,31 @@ tips，具体操作是：选中某个搜索结果，长按 command
 /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUPreviewOverlayViewController.h
 /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.h
 /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.h
-/opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.h</code></pre>
+/opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.h
+</code></pre>
 <p>对比终端查询结果和图一中的结果，会发现有两点出入：</p>
 <ul>
-<li><ol type="1">
-<li>图一中的 PrivateFrameworks, Frameworks
-整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks,
-Frameworks目录下的文件从查询结果中剔除掉了。</li>
-</ol></li>
-<li><ol start="2" type="1">
-<li>图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下"_loadBlock"在各个文件中的上下文，以下是节选</li>
-</ol></li>
+<li>(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。</li>
+<li>(2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下&quot;_loadBlock&quot;在各个文件中的上下文，以下是节选</li>
 </ul>
 <p>nsBlocklistService.js</p>
-<pre><code>this._loadBlocklist();</code></pre>
+<pre><code>this._loadBlocklist();
+</code></pre>
 <p>SKStorePageViewController</p>
-<pre><code>CDUnknownBlockType _loadBlock;</code></pre>
+<pre><code>CDUnknownBlockType _loadBlock;
+</code></pre>
 <p>看上去问题应该是出在<code>_loadBlock</code>前后是否能跟别的字符串上，修改查询语句</p>
-<pre><code>mdfind &#39;kMDItemTextContent=&quot;_loadBlock*&quot;&#39; </code></pre>
+<pre><code>mdfind 'kMDItemTextContent=&quot;_loadBlock*&quot;' 
+</code></pre>
 <p>果然可以查询到结果</p>
-<pre><code>/Project/mozilla-central/toolkit/mozapps/extensions/nsBlocklistService.js</code></pre>
-<p>关于 mdfind 的一些常用查询语法，可参考 <a
-target="_blank" rel="noopener" href="http://osxnotes.net/spotlight.html"><code>osxnotes</code></a>，这里列举了大量的例子。</p>
+<pre><code>/Project/mozilla-central/toolkit/mozapps/extensions/nsBlocklistService.js
+</code></pre>
+<p>关于 mdfind 的一些常用查询语法，可参考 <a href="http://osxnotes.net/spotlight.html"><code>osxnotes</code></a>，这里列举了大量的例子。</p>
 
-    </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/mac-power-user/" rel="tag"># mac power user</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2015/07/23/oc-checklist-answers/" rel="prev" title="Objc Interview Checklist Answers">
-      <i class="fa fa-chevron-left"></i> Objc Interview Checklist Answers
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2015/08/22/UICollectionView-Has-Easy-Reording-On-iOS9/" rel="next" title="UICollectionViews Now Have Easy Reordering （译）">
-      UICollectionViews Now Have Easy Reordering （译） <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#indexing-%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">Indexing 服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mdfind"><span class="nav-number">2.</span> <span class="nav-text">mdfind</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Pei Cheng</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">83</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pei Cheng</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-</body>
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
 </html>
