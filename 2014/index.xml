@@ -5,6 +5,7 @@
     <link>https://cp0000.github.io/2014/</link>
     <description>Recent content in 2014s on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
+    <copyright>CP0000</copyright>
     <lastBuildDate>Wed, 31 Dec 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/2014/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2014电影清单</title>
@@ -12,12 +13,7 @@
       <pubDate>Wed, 31 Dec 2014 00:00:00 +0000</pubDate>
       
       <guid>https://cp0000.github.io/2014/12/31/2014-movie-list/</guid>
-      <description>日本
-萤火之森 Hotarubi no mori e 萤火虫之墓 Grave of the Firefiles 魔女宅急便 Kikis Delivery Service 穿越时空的少女 The Girl Who Leapt Through Time 寿司之神 Jiro Dreams Of Sushi 七武士 Seven Samurai 告白 Kokuhaku 如父如子 Soshite Chichi ni Naru 中国
-后会无期 天注定 韩国
-辩护人 法国
-普罗旺斯的夏天 Avis de mistral 两天一夜 Deux jours une nuit 英美
-狙击电话亭 Phone Booth 猩球崛起2：黎明之战 Dawn of the Planet of the Apes 星际穿越 Interstellar 彗星來的那一夜 Coherence 黑镜2014圣诞特辑 BlackMinor for 2014 christmas 消失的爱人 Gone Girl 内布拉斯加 Nebraska 大地惊雷 True Grit 重新开始 Begin Again 美国队长2 寒冬战士 Captain America:The WinterSoldier 为奴十二年 12 Years A Slave 爱在午夜降临前 Before Midnight 阅后即焚 Burn After Reading 云图 Cloud Atlas 卡特教练 Coach Carter 撞车 Crash 明日边缘 Edge of Tomorrow 特种部队2：全面反击 G.</description>
+      <description>日本 萤火之森 Hotarubi no mori e 萤火虫之墓 Grave of the Firefiles 魔女宅急便 Kikis Delivery Service 穿越时空的少女 The Girl Who Leapt Through Time 寿司之神 Jiro Dreams Of Sushi 七武士 Seven Samurai 告白 Kokuhaku 如父如子 Soshite Chichi ni Naru 中国 后会无期</description>
     </item>
     
     <item>
@@ -26,17 +22,7 @@
       <pubDate>Fri, 22 Aug 2014 15:28:23 +0000</pubDate>
       
       <guid>https://cp0000.github.io/2014/03/01/android-reverse-engineering/</guid>
-      <description>名词解释 java: android app 编程语言
-class: 由 java文件通过 Sun JDK 编译而成
-dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。
-ps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）
-odex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。
-smali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器
-ps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。
-Andoid App 的运行策略：解压apk后运行class.dex
-工具介绍 ant: 编译，生成android 项目的工具； apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml smali-2.0.3.jar: 把smali 文件转换成 dex文件 baksmali-2.0.2.jar: 把dex文件转换成smali文件 dex2jar: dex 转换成 jar signapk.jar: 用来签名apk eclipse: 大多数android项目的IDE adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件； JD-GUi:图形界面的Java源代码”.class”文件反编译工具 DEMO演示 首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；
-使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；
-然后开始对这个apk动手脚；</description>
+      <description>名词解释 java: android app 编程语言 class: 由 java文件通过 Sun JDK 编译而成 dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比</description>
     </item>
     
     <item>
@@ -45,18 +31,7 @@ Andoid App 的运行策略：解压apk后运行class.dex
       <pubDate>Wed, 21 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://cp0000.github.io/2014/05/21/regular-expression-beginner/</guid>
-      <description>#常用的元字符
-代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，或2，或……) \w | 匹配字母或数字或下划线或汉字 \s | 匹配任意的空白符 \b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符
-代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次
-#其他
-字符转义 如需查找*,+等元字符本身的话，需使用\来取消这些字符的特殊含义；
-\. \* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：
-[aeiou]:	匹配任何一个英文元音字母； [.?!]:	匹配标点符号(.或?或!) (?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})
-分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开
-分组 用小括号来指定子表达式(也叫做分组）
-e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})
-反义 常用的反义代码
-代码/语法 说明 \W 匹配任意不是字母，数字，下划线，汉字的字符 \S 匹配任意不是空白符的字符 \D 匹配任意非数字的字符 \B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用</description>
+      <description>#常用的元字符 代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，</description>
     </item>
     
     <item>
@@ -65,25 +40,7 @@ e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数�
       <pubDate>Thu, 10 Apr 2014 00:00:00 +0000</pubDate>
       
       <guid>https://cp0000.github.io/2014/04/10/google-wildcard/</guid>
-      <description>1.双引号
-把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。
-“seo方法图片” 2.减号
-减号代表搜索不包含减号后面的词的页面。使用这个指令时减号前面必须是空格，减号后面没有空格，紧跟着需要排除的词。
-搜索 -引擎 3.星号
-星号常用的通配符
-搜索*擎 4.inurl
-inurl: 指令用于搜索查询词出现在url 中的页面。
-inurl:搜索引擎优化 5.inanchor
-指令返回的结果是导入链接锚文字中包含搜索词的页面。
-inanchor:点击这里 6.intitle
-指令返回的是页面title 中包含关键词的页面。
-7.allintitle
-搜索返回的是页面标题中包含多组关键词的文件。
-8.filetype
-用于搜索特定文件格式。
-filetype:pdf SEO 9.site
-用来搜索某个域名下的所有文件。
-site:developer.apple.com gcd </description>
+      <description>1.双引号 把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。 “seo方法图</description>
     </item>
     
   </channel>
