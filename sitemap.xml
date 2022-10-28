@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://cp0000.github.io/test/</loc>
-    <lastmod>2022-10-28T18:07:33+08:00</lastmod>
-  </url><url>
     <loc>https://cp0000.github.io/2022/</loc>
-    <lastmod>2022-09-03T11:07:34+00:00</lastmod>
+    <lastmod>2022-09-14T00:05:53+00:00</lastmod>
+  </url><url>
+    <loc>https://cp0000.github.io/2022/09/14/what_is_diffusion/</loc>
+    <lastmod>2022-09-14T00:05:53+00:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/2022/09/03/the-psychology-of-money/</loc>
     <lastmod>2022-09-03T11:07:34+00:00</lastmod>
@@ -290,7 +290,5 @@
     <loc>https://cp0000.github.io/2017/10/04/opengl-lighting/</loc>
   </url><url>
     <loc>https://cp0000.github.io/2016/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2022/09/14/what_is_diffusion/</loc>
   </url>
 </urlset>

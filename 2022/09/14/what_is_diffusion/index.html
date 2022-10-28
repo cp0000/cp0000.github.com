@@ -47,8 +47,8 @@
 
 <article>
     <p class="post-meta">
-        <time datetime="0001-01-01 00:00:00 &#43;0000 UTC">
-            0001-01-01
+        <time datetime="2022-09-14 00:05:53 &#43;0000 UTC">
+            2022-09-14
         </time>
     </p>
 
@@ -111,7 +111,7 @@ P(A\mid B, C) &amp; = \frac{P(A,B,C)}{P(B, C)}
 </li>
 </ul>
 <p>一般的高斯密度函数的指数部分应该写为：</p>
-<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled%201.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/diffusion/Untitled%201.png" alt="Untitled"></p>
 <p>其中 $C(\mathbf{x}_t, \mathbf{x}_0)$是与$\mathbf{x}_{t-1}$ 无关的常数项。按照标准高斯密度函数，均值和方差可以参数化如下（回想一下 $\alpha_t = 1 - \beta_t$ 和  $\bar{\alpha}_t = \prod_{i=1}^T \alpha_i$):</p>
 <p>$$\begin{aligned}
 \tilde{\beta}t
@@ -157,7 +157,7 @@ P(A\mid B, C) &amp; = \frac{P(A,B,C)}{P(B, C)}
 &amp;= \mathbb{E}{q(\mathbf{x}_{0:T})} \Big[ \log \frac{q(\mathbf{x}_{1:T}\vert\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})} \Big] \geq - \mathbb{E}_{q(\mathbf{x}_0)} \log p_\theta(\mathbf{x}_0)
 \end{aligned}$$</p>
 <p>进一步对$L_\text{VLB}$推导，可以得到熵与多个KL散度的累加，推导过程</p>
-<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled%203.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/diffusion/Untitled%203.png" alt="Untitled"></p>
 <ul>
 <li>
 <p>Notes:</p>
@@ -218,7 +218,7 @@ L_t^\text{simple}
 <li>从标准高斯分布采样一个噪声 ${\epsilon}_t\sim {\mathcal {N}}(0 ,I)$</li>
 <li>最小化  $\begin{aligned}|{\epsilon}_t - {\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}{\epsilon}_t, t)|\end{aligned}$</li>
 </ol>
-<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled%204.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/diffusion/Untitled%204.png" alt="Untitled"></p>
 <h3 id="小结">小结</h3>
 <!-- raw HTML omitted -->
 <ol>
@@ -253,8 +253,8 @@ L_t
 &amp;= \mathbb{E}{\mathbf{x}_0, {\epsilon}} \Big[\frac{ (1 - \alpha_t)^2 }{2 \alpha_t (1 - \bar{\alpha}_t) | {\Sigma}\theta |^2_2} |{\epsilon}_t - {\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}{\epsilon}_t, t)|^2 \Big]
 \end{aligned}$$</p>
 <p>在训练的时候loss为：</p>
-<p>$$\begin{aligned}|{\epsilon}_t - {\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}{\epsilon}_t, t)|
-\end{aligned}$$da</p>
+<p>\begin{aligned}|{\epsilon}_t - {\epsilon}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}{\epsilon}_t, t)|
+\end{aligned}</p>
 <!-- raw HTML omitted -->
 <h3 id="代码部分">代码部分</h3>
 <p>Training</p>
