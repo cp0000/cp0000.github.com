@@ -67,7 +67,7 @@
 <h3 id="forward-diffusion-process">Forward diffusion process</h3>
 <p>从给定的真实数据集中采样一个数据样本：${x}_0 \sim q({x})$，我们定义前向扩散过程，在这个过程中，我们逐步向样本中添加少量高斯噪声，产生一系列噪声样本: ${x}_1,\dots,{x}_T$ 步长由方差控制 ${\beta_t \in (0, 1)}_{t=1}^T$</p>
 <p>随着步长$t$的变大，数据样本$\mathbf{x}_0$逐渐失去其特征。 最终，当$T\to\infty$ , $\mathbf{x}_T$等价于各向同性高斯分布。</p>
-<p><img src="%E4%BB%80%E4%B9%88%E6%98%AFDiffusion%E6%A8%A1%E5%9E%8B%20843f2151db004b8c86c3c82c2b1b1a71/Untitled.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/diffusion/Untitled.png" alt="Untitled"></p>
 <p>上述过程有一个很好的特性，我们可以使用重参数化技巧以封闭形式在任意时间步$t$采样$\mathbf{x}_t$。</p>
 <p>定义  $\alpha_t = 1 - \beta_t$  and $\bar{\alpha}_t = \prod_{i=1}^t \alpha_i$</p>
 <p>$$\begin{aligned}
