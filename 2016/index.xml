@@ -5,86 +5,87 @@
     <link>https://cp0000.github.io/2016/</link>
     <description>Recent content in 2016s on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
-    <copyright>CP0000</copyright><atom:link href="https://cp0000.github.io/2016/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>CP0000</copyright>
+    <lastBuildDate>Sun, 18 Dec 2016 14:37:53 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/2016/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title></title>
-      <link>https://cp0000.github.io/2016/03/06/ios-reverse-engineering-03/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2016/03/06/ios-reverse-engineering-03/</guid>
-      <description>title: iOS逆向工程-0x02－Hacking on B612 date: 2016-03-06 11:32:44 categories: Tech tags: iOS Reverse Engineering 前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/</guid>
-      <description>title: 《程序员的思维训练》读书笔记 author: cp categories: Reading notes date: 2016-06-11 16:21:36 tags: 技术从业人员的五个级别 书中开篇介绍一项技术领域的从业人员，大体可以分成五个级别：新手，高级新</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2016/07/30/shanghai-4-years/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2016/07/30/shanghai-4-years/</guid>
-      <description>title: 五年，四年 date: 2016-07-30 14:35:05 categories: Life tags: 2012年端午节前的一个礼拜，我买了张从南宁到上海的火车票,只身一人来到上海。 两个礼拜前我从广州的一家公司辞职。这家</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2016/09/25/2016-1st-half/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2016/09/25/2016-1st-half/</guid>
-      <description>title: 2016上半年电影，美剧，以及书 清单 date: 2016-09-25 23:05:21 author: cp categories: Movie tags: 电影 中国 饮食男女 喜宴 推手 李安“父亲”三部曲；在三部电影里面，饰演男主角的郎雄，都给人一</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/</guid>
-      <description>title: 如何在Macosx上安装caffe date: 2016-10-22 12:55:05 categories: Tech tags: 在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2016/10/26/28/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2016/10/26/28/</guid>
-      <description>title: &amp;ldquo;活到28&amp;rdquo; date: 2016-10-26 23:49:23 categories: Life tags: 信则有，不信则无-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的我思故我在式的思</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2016/11/07/ffmpeg-command-example/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2016/11/07/ffmpeg-command-example/</guid>
-      <description>title: ffmpeg 使用例程 date: 2016-11-07 21:03:47 author: cp categories: Tech tags: 本文介绍ffmpeg命令行的一些使用方法； 参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2016/12/11/2016-summary/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2016/12/11/2016-summary/</guid>
-      <description>title: 2016年度总结 date: 2016-12-11 14:56:52 tags: 娱乐 年度电影 海街日记 年度歌曲 热河 年度美剧 Game of Thrones 年度书籍 最好的告别 年度Podcast 太医来了 年度电视节目 晓松奇谈 体育</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>OpenGL ES 2.0 3D基础（1）－矩阵</title>
       <link>https://cp0000.github.io/2016/12/18/opengl-3d-matrix/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 18 Dec 2016 14:37:53 +0000</pubDate>
       
       <guid>https://cp0000.github.io/2016/12/18/opengl-3d-matrix/</guid>
-      <description>title: OpenGL ES 2.0 3D基础（1）－矩阵 date: 2016-12-18 14:37:53 categories: Tech author: cp tags: Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵</description>
+      <description>Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维</description>
+    </item>
+    
+    <item>
+      <title>2016年度总结</title>
+      <link>https://cp0000.github.io/2016/12/11/2016-summary/</link>
+      <pubDate>Sun, 11 Dec 2016 14:56:52 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2016/12/11/2016-summary/</guid>
+      <description>娱乐 年度电影 海街日记 年度歌曲 热河 年度美剧 Game of Thrones 年度书籍 最好的告别 年度Podcast 太医来了 年度电视节目 晓松奇谈 体育 年度NBA比赛 15-16赛</description>
+    </item>
+    
+    <item>
+      <title>ffmpeg 使用例程</title>
+      <link>https://cp0000.github.io/2016/11/07/ffmpeg-command-example/</link>
+      <pubDate>Mon, 07 Nov 2016 21:03:47 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2016/11/07/ffmpeg-command-example/</guid>
+      <description>本文介绍ffmpeg命令行的一些使用方法； 参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -f</description>
+    </item>
+    
+    <item>
+      <title>活到28</title>
+      <link>https://cp0000.github.io/2016/10/26/28/</link>
+      <pubDate>Wed, 26 Oct 2016 23:49:23 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2016/10/26/28/</guid>
+      <description>信则有，不信则无-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的我思故我在式的思维模式，但不可否认在特定条件下，这句话会对一个人起</description>
+    </item>
+    
+    <item>
+      <title>如何在Macosx上安装caffe</title>
+      <link>https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/</link>
+      <pubDate>Sat, 22 Oct 2016 12:55:05 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/</guid>
+      <description>在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些</description>
+    </item>
+    
+    <item>
+      <title>2016上半年电影，美剧，以及书 清单</title>
+      <link>https://cp0000.github.io/2016/09/25/2016-1st-half/</link>
+      <pubDate>Sun, 25 Sep 2016 23:05:21 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2016/09/25/2016-1st-half/</guid>
+      <description>电影 中国 饮食男女 喜宴 推手 李安“父亲”三部曲；在三部电影里面，饰演男主角的郎雄，都给人一种很亲切的感觉，让人很喜爱这老头儿。最喜欢《饮食男女》</description>
+    </item>
+    
+    <item>
+      <title>五年，四年</title>
+      <link>https://cp0000.github.io/2016/07/30/shanghai-4-years/</link>
+      <pubDate>Sat, 30 Jul 2016 14:35:05 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2016/07/30/shanghai-4-years/</guid>
+      <description>2012年端午节前的一个礼拜，我买了张从南宁到上海的火车票,只身一人来到上海。 两个礼拜前我从广州的一家公司辞职。这家广州公司在南宁有一个更小</description>
+    </item>
+    
+    <item>
+      <title>《程序员的思维训练》读书笔记</title>
+      <link>https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/</link>
+      <pubDate>Sat, 11 Jun 2016 16:21:36 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/</guid>
+      <description>技术从业人员的五个级别 书中开篇介绍一项技术领域的从业人员，大体可以分成五个级别：新手，高级新手，胜任者，精通者，专家。从名次表面就很好理解这</description>
+    </item>
+    
+    <item>
+      <title>iOS逆向工程-0x02－Hacking on B612</title>
+      <link>https://cp0000.github.io/2016/03/06/ios-reverse-engineering-03/</link>
+      <pubDate>Sun, 06 Mar 2016 11:32:44 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2016/03/06/ios-reverse-engineering-03/</guid>
+      <description>前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向</description>
     </item>
     
   </channel>

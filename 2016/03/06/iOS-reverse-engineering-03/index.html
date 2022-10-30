@@ -6,7 +6,7 @@
 
   <title>
     
-      
+      iOS逆向工程-0x02－Hacking on B612
     
   </title>
 
@@ -26,18 +26,14 @@
 
 <article>
     <p class="post-meta">
-        <time datetime="0001-01-01 00:00:00 &#43;0000 UTC">
-            0001-01-01
+        <time datetime="2016-03-06 11:32:44 &#43;0000 UTC">
+            2016-03-06
         </time>
     </p>
 
-    <h1></h1>
+    <h1>iOS逆向工程-0x02－Hacking on B612</h1>
 
-    <h2 id="tags-ios-reverse-engineering">title: iOS逆向工程-0x02－Hacking on B612
-date: 2016-03-06 11:32:44
-categories: Tech
-tags: iOS Reverse Engineering</h2>
-<p>前面两篇iOS逆向的文章（<a href="http://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/">iOS逆向工程-0x00－用途以及准备工作</a>,<a href="http://cp0000.github.io/2015/11/30/iOS-reverse-engineering-02/">iOS逆向工程-0x01－工具篇-Cycript</a>）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。</p>
+    <p>前面两篇iOS逆向的文章（<a href="http://cp0000.github.io/2015/11/21/iOS-reverse-engineering-01/">iOS逆向工程-0x00－用途以及准备工作</a>,<a href="http://cp0000.github.io/2015/11/30/iOS-reverse-engineering-02/">iOS逆向工程-0x01－工具篇-Cycript</a>）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。</p>
 <p><a href="https://itunes.apple.com/us/app/b612-selfie-from-the-heart/id904209370?mt=8">B612</a>是Line公司出品的一款非常棒的拍照软件。它的界面，交互，用起来非常顺手。app中的滤镜效果很赞，用户简单几步操作就可以生成一张很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。</p>
 <p>从AppStore上面下载B612的IPA文件，把文件的后缀名从 .IPA 修改成 .zip。解压zip文件之后，在Payload中有一个b612.app的文件，这里我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。经过以上几步操作我们就拿到了 B612 app的 bundle 文件信息。</p>
 <p>在使用B612的过程中，app会展列一个滤镜列表给用户进行选择（如下图）：</p>
