@@ -8,12 +8,12 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Wed, 14 Sep 2022 00:05:53 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/2022/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>什么是Diffusion模型</title>
+      <title>AI绘画：什么是Diffusion模型</title>
       <link>https://cp0000.github.io/2022/09/14/what_is_diffusion/</link>
       <pubDate>Wed, 14 Sep 2022 00:05:53 +0000</pubDate>
       
       <guid>https://cp0000.github.io/2022/09/14/what_is_diffusion/</guid>
-      <description>这是一篇关于 What are Diffusion Models的译文。很多地方借鉴了由浅入深了解Diffusion Model 本文主要是介绍什么是DDPM：Denoising Diffusion Probabilistic Models(DDPM; Ho</description>
+      <description>这是一篇关于 What are Diffusion Models 的译文。很多地方借鉴了由浅入深了解Diffusion Model 一文。 本文主要介绍什么是DDPM：Denoising Diffusion Probabilistic Models(DDPM; Ho et al. 2020).</description>
     </item>
     
     <item>

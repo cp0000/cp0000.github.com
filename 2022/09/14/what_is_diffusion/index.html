@@ -6,7 +6,7 @@
 
   <title>
     
-      什么是Diffusion模型
+      AI绘画：什么是Diffusion模型
     
   </title>
 
@@ -39,7 +39,45 @@
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
 </head>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
 <body a="auto">
         <main class="page-content" aria-label="Content">
             <div class="w">
@@ -52,10 +90,12 @@
         </time>
     </p>
 
-    <h1>什么是Diffusion模型</h1>
+    <h1>AI绘画：什么是Diffusion模型</h1>
 
-    <p>这是一篇关于 <a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What are Diffusion Models</a>的译文。很多地方借鉴了<a href="https://zhuanlan.zhihu.com/p/525106459">由浅入深了解Diffusion Model</a></p>
-<p>本文主要是介绍什么是DDPM：Denoising Diffusion Probabilistic Models(<strong>DDPM</strong>; <a href="https://arxiv.org/abs/2006.11239">Ho et al. 2020</a>).</p>
+    <blockquote>
+<p>这是一篇关于 <a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What are Diffusion Models</a> 的译文。很多地方借鉴了<a href="https://zhuanlan.zhihu.com/p/525106459">由浅入深了解Diffusion Model</a> 一文。</p>
+</blockquote>
+<p>本文主要介绍什么是DDPM：Denoising Diffusion Probabilistic Models(<strong>DDPM</strong>; <a href="https://arxiv.org/abs/2006.11239">Ho et al. 2020</a>).</p>
 <h3 id="basic-knowledge">Basic Knowledge</h3>
 <ul>
 <li>Normal Distribution: $$\mathcal{N}(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(x - \mu)^2}{2\sigma^2} \right)$$</li>
@@ -65,8 +105,8 @@
 </ul>
 <h2 id="ddpm">DDPM</h2>
 <h3 id="forward-diffusion-process">Forward diffusion process</h3>
-<p>从给定的真实数据集中采样一个数据样本：${x}_0 \sim q({x})$，我们定义前向扩散过程，在这个过程中，我们逐步向样本中添加少量高斯噪声，产生一系列噪声样本: ${x}_1,\dots,{x}_T$ 步长由方差控制 ${\beta_t \in (0, 1)}_{t=1}^T$</p>
-<p>随着步长$t$的变大，数据样本$\mathbf{x}_0$逐渐失去其特征。 最终，当$T\to\infty$ , $\mathbf{x}_T$等价于各向同性高斯分布。</p>
+<p>从给定的真实数据集中采样一个数据样本：${x}_0 \sim q({x})$; 在前向扩散过程中，我们逐步向样本中添加少量高斯噪声，产生一系列噪声样本: ${x}_1,\dots,{x}_T$;步长 $t$ 由方差控制 ${\beta_t\in (0, 1)}_{t=1}^T$</p>
+<p>随着步长$t$的变大，数据样本$\mathbf{x}_0$逐渐失去其自身特征。 最终，当$T\to\infty$ , $\mathbf{x}_T$等价于各向同性高斯分布。</p>
 <p><img src="http://cp0000.github.io/assets/diffusion/Untitled.png" alt="Untitled"></p>
 <p>上述过程有一个很好的特性，我们可以使用重参数化技巧以封闭形式在任意时间步$t$采样$\mathbf{x}_t$。</p>
 <p>定义  $\alpha_t = 1 - \beta_t$  and $\bar{\alpha}_t = \prod_{i=1}^t \alpha_i$</p>
@@ -78,9 +118,9 @@
 &amp;= \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\boldsymbol{\epsilon} \\
 q(\mathbf{x}_t \vert \mathbf{x}_0) &amp;= \mathcal{N}(\mathbf{x}_t; \sqrt{\bar{\alpha}_t} \mathbf{x}_0, (1 - \bar{\alpha}_t)\mathbf{I})
 \end{aligned}$$</p>
-<p>(*) 合并两个高斯分布  $\mathcal{N}(\mathbf{0}, \sigma_1^2\mathbf{I})$和 $\mathcal{N}(\mathbf{0}, \sigma_2^2\mathbf{I})$，得到的新的高斯分布是$\mathcal{N}(\mathbf{0},(\sigma_1^2 + \sigma_2^2)\mathbf{I})$合并后的标准差是：$\sqrt{(1 - \alpha_t) + \alpha_t (1-\alpha_{t-1})} = \sqrt{1 - \alpha_t\alpha_{t-1}}$</p>
+<p>(*) 合并两个高斯分布  $\mathcal{N}(\mathbf{0}, \sigma_1^2\mathbf{I})$和 $\mathcal{N}(\mathbf{0}, \sigma_2^2\mathbf{I})$，得到的新的高斯分布是$\mathcal{N}(\mathbf{0},(\sigma_1^2 + \sigma_2^2)\mathbf{I})$，合并后的标准差是：$\sqrt{(1 - \alpha_t) + \alpha_t (1-\alpha_{t-1})} = \sqrt{1 - \alpha_t\alpha_{t-1}}$</p>
 <h3 id="reverse-diffusion-process"><strong>Reverse diffusion process</strong></h3>
-<p>前向过程是扩散（加噪）过程，那么逆向过程就是去噪。如果我们可以反转扩散过程，得到逆转后的分布 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$ ，就可以从标准高斯分布  $\mathbf{x}_T \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ 中还原出原图分布$\mathbf{x}_0$。</p>
+<p>前向过程是扩散（加噪）过程，逆向过程就是去噪。如果我们可以反转扩散过程，得到逆转后的分布 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$ ，就可以从标准高斯分布  $\mathbf{x}_T \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ 中还原出原图分布$\mathbf{x}_0$。</p>
 <p>如果$\beta_t$足够小的话，$q(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$也是高斯分布。</p>
 <p>不过我们无法简单得到 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$。因此我们使用深度学习模型 $p_\theta$ 来预测这样一个逆向分布。</p>
 <p>$p_\theta(\mathbf{x}_{0:T}) = p(\mathbf{x}_T) \prod^T_{t=1} p_\theta(\mathbf{x}_{t-1} \vert \mathbf{x}_t) \quad$</p>
