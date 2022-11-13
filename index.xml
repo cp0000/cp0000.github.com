@@ -8,12 +8,30 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Thu, 25 Aug 2022 21:30:04 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>活到34</title>
+      <link>https://cp0000.github.io/post/34/</link>
+      <pubDate>Sun, 13 Nov 2022 20:31:41 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/post/34/</guid>
+      <description>莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。 料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也</description>
+    </item>
+    
+    <item>
+      <title>AI绘画：什么是AIGC，以及AIGC相关算法介绍</title>
+      <link>https://cp0000.github.io/posts/ai_generate_content/</link>
+      <pubDate>Mon, 31 Oct 2022 17:21:09 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/ai_generate_content/</guid>
+      <description>2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要</description>
+    </item>
+    
+    <item>
       <title>什么是StableDiffusion</title>
-      <link>https://cp0000.github.io/what_is_stable_diffusion/</link>
+      <link>https://cp0000.github.io/posts/what_is_stable_diffusion/</link>
       <pubDate>Fri, 28 Oct 2022 19:36:31 +0800</pubDate>
       
-      <guid>https://cp0000.github.io/what_is_stable_diffusion/</guid>
-      <description>stable diffusion是在 High-Resolution Image Synthesis with Latent Diffusion Models 这篇论文的基础上研究而成的。 Latent diffusion： 基于扩散模型的图像生成领域发展迅速，扩散模型生成的图</description>
+      <guid>https://cp0000.github.io/posts/what_is_stable_diffusion/</guid>
+      <description>Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。 接下来先介绍下 Latent</description>
     </item>
     
     <item>
@@ -22,7 +40,7 @@
       <pubDate>Wed, 14 Sep 2022 00:05:53 +0000</pubDate>
       
       <guid>https://cp0000.github.io/2022/09/14/what_is_diffusion/</guid>
-      <description>这是一篇关于 What are Diffusion Models 的译文。很多地方借鉴了由浅入深了解Diffusion Model 一文。 本文主要介绍什么是DDPM：Denoising Diffusion Probabilistic Models(DDPM; Ho et al. 2020).</description>
+      <description>这是一篇关于 What are Diffusion Models 的译文。很多地方借鉴了由浅入深了解Diffusion Model 一文。 2022年最火的AI算法要属AIGC：（AI-generat</description>
     </item>
     
     <item>
@@ -167,24 +185,6 @@
       
       <guid>https://cp0000.github.io/2022/02/12/karamazov/</guid>
       <description>一粒麦子不落在地里死了，仍旧是一粒：若是死了，就结出许多子粒来。- 《约翰福音》第十二章第二十四节 农历虎年春节前后，我花了大概30个小时，读完</description>
-    </item>
-    
-    <item>
-      <title>《也许你该找个人聊聊》读后感</title>
-      <link>https://cp0000.github.io/2022/01/08/maybe-you-should-talk-to-someone/</link>
-      <pubDate>Sat, 08 Jan 2022 22:53:15 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2022/01/08/maybe-you-should-talk-to-someone/</guid>
-      <description>《也许你该找个人聊聊》是一本关于心理学的书，作者是一名心理咨询师，通过描写自己从业中遇到的四个患者的经历，以及作者自身的心理咨询经历，为我们</description>
-    </item>
-    
-    <item>
-      <title>我的2021</title>
-      <link>https://cp0000.github.io/2021/12/27/my-2021/</link>
-      <pubDate>Mon, 27 Dec 2021 15:33:23 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2021/12/27/my-2021/</guid>
-      <description>2021改变了很多又什么都没有 今天是2021年12月27号，再过4天，2021年就结束了，我们将迎来2022年。一年又过去了，回顾2021年</description>
     </item>
     
   </channel>

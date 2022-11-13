@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="" class="han-init"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>
+    
+      什么是StableDiffusion
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css" />
+   <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+<article>
+    <p class="post-meta">
+        <time datetime="2022-10-28 19:36:31 &#43;0800 CST">
+            2022-10-28
+        </time>
+    </p>
+
+    <h1>什么是StableDiffusion</h1>
+
+    <p>Stable Diffusion是由 <a href="https://stability.ai/">stability.ai</a> 于2022.8.22 <a href="https://stability.ai/blog/stable-diffusion-public-release">开源</a>的Text2Image模型。Stable Diffusion 项目整体是基于 <a href="https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html">Latent Diffusion</a> 框架研发而成。</p>
+<p>接下来先介绍下  <a href="https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html">Latent Diffusion</a></p>
+<p>Motivation</p>
+<ol>
+<li>基于扩散模型的图像生成领域发展迅速，扩散模型生成的图像真实度高，质量好。但是基于像素空间的扩散模型对GPU资源的要求非常高。</li>
+</ol>
+<blockquote>
+<p>training the most powerful DMs often takes hundreds of GPU days (e.g. 150 1000 V100 days in and repeated evaluations on a noisy version of the input space render also inference expensive, so that producing 50k samples takes approximately 5 days on a single A100 GPU.</p>
+</blockquote>
+<ol>
+<li>Latent diffusion 模型提出在latent space做diffusion的过程，latent space相较pixel space，在大小上有了很大的压缩（latent diffusion中，从512x512x3 压缩到 64x64xk）</li>
+<li>设计了一种基于cross-attention的通用条件生成控制机制，能够实现多模态的训练。</li>
+</ol>
+<p><img src="http://cp0000.github.io/assets/stablediffusion/Untitled.png" alt="Untitled"></p>
+<p>上图横轴是隐变量每个维度压缩的bit率，纵轴是模型的失真率。模型在学习的过程中，随着压缩率变大，刚开始模型的损失下降很快，后面下降很慢，但仍然在优化。模型首先学习到的是sematic（语义）部分的压缩/转换，然后学习到的是perceptual(细节)部分的压缩/转换。</p>
+<p>Latent diffusion的网络结构</p>
+<p><img src="http://cp0000.github.io/assets/stablediffusion/Untitled%201.png" alt="Untitled"></p>
+<p>上图中，LDM网络分成三个主要分布，分别是 VAE的 Pixel Space， Diffusion的Latent Space以及条件输入部分（文本/图像输入）</p>
+<p>Loss:</p>
+<p>$L_{D M}=\mathbb{E}{x, \epsilon \sim \mathcal{N}(0,1),t}\left[\left|\epsilon-\epsilon_{\theta}\left(x_{t}, t\right)\right|_{2}^{2}\right]$</p>
+<p>$L_{L D M}:=\mathbb{E}_{\mathcal{E}(x), \epsilon \sim \mathcal{N}(0,1), t}\left[\left|\epsilon-\epsilon_{\theta}\left({{\color{Red} z_{t}} } , t\right)\right|_{2}^{2}\right]$</p>
+<p>$Attention  (Q, K, V)=\operatorname{softmax}\left(\frac{Q K^{T}}{\sqrt{d}}\right) \cdot V ,$ .</p>
+<p>with $Q=W_{Q}^{(i)} \cdot \varphi_{i}\left(z_{t}\right), K=W_{K}^{(i)} \cdot \tau_{\theta}(y), V=W_{V}^{(i)} \cdot \tau_{\theta}(y$)</p>
+<p>$\varphi_{i}\left(z_{t}\right)\in \mathbb{R}^{N \times d_{\epsilon}^{i}}$: Unet $\epsilon_{\theta}$ 的中间表示。</p>
+<p>$\tau_{\theta}(y) \in \mathbb{R}^{M \times d_{\tau}}$ : 将条件 $y$ 投影到中间表示。</p>
+<p>$W_{V}^{(i)} \in \mathbb{R}^{d \times d_{\epsilon}^{i}}, W_{Q}^{(i)} \in \mathbb{R}^{d \times d_{\tau}} &amp; W_{K}^{(i)} \in \mathbb{R}^{d \times d_{\tau}}$ 是可学习的投影矩阵。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>-&gt;cross_attention
+</span></span><span style="display:flex;"><span>	-&gt;q = self.to_q(x)
+</span></span><span style="display:flex;"><span>	-&gt;k = self.to_k(context)
+</span></span><span style="display:flex;"><span>	-&gt;v = self.to_v(context)
+</span></span><span style="display:flex;"><span>		-&gt;sim = einsnum(<span style="color:#87ceeb">&#39;b i d, b j d -&gt; b i j&#39;</span>, q, k)
+</span></span><span style="display:flex;"><span>		-&gt;attn = sim.softmax(dim=<span style="color:#f60">1</span>)
+</span></span><span style="display:flex;"><span>		-&gt;out = einsum(<span style="color:#87ceeb">&#39;b i j, b j d -&gt; b i d&#39;</span>, attn, v)
+</span></span><span style="display:flex;"><span>-&gt; <span style="color:#f00">return</span> nn.linear(out)
+</span></span></code></pre></div><p>$L_{L D M}:=\mathbb{E}_{\mathcal{E}(x), y, \epsilon \sim \mathcal{N}(0,1), t}\left[\left|\epsilon-\epsilon{\theta}\left(z_{t}, t, \tau_{\theta}(y)\right)\right|_{2}^{2}\right]$</p>
+<p>代码解析：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>python scripts/txt2img.py --prompt <span style="color:#87ceeb">&#34;a photograph of an astronaut riding a horse&#34;</span> --plms
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>First Stage Model: 
+</span></span><span style="display:flex;"><span>	AutoencodeKL
+</span></span><span style="display:flex;"><span>	encoder
+</span></span><span style="display:flex;"><span>		self.encoder -&gt; self.quant_conv -&gt; DiagonalGaussianDistribution ?
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>get_learned_conditioning??
+</span></span><span style="display:flex;"><span>	decoder
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>cond = model.get_learned_conditioning(prompts)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>samples_ddim = plms.sample(...)
+</span></span><span style="display:flex;"><span>		-&gt;plms_samping()
+</span></span><span style="display:flex;"><span>		-&gt;get_model_output()
+</span></span><span style="display:flex;"><span>		-&gt;apply_model()
+</span></span><span style="display:flex;"><span>		-&gt;DiffusionWarpper(unet_config, conditioning_key)
+</span></span><span style="display:flex;"><span>		-&gt;self.diffusion_model(x, t, c_crossattn)
+</span></span><span style="display:flex;"><span>	  -&gt;opeanimodel UNetMode(x, timestep=t, context=cc)
+</span></span><span style="display:flex;"><span>			-&gt;self.inputblocks()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				-&gt;cross_attention
+</span></span><span style="display:flex;"><span>					-&gt;q = self.to_q(x)
+</span></span><span style="display:flex;"><span>					-&gt;k = self.to_k(context)
+</span></span><span style="display:flex;"><span>					-&gt;v = self.to_v(context)
+</span></span><span style="display:flex;"><span>						-&gt;sim = einsnum(<span style="color:#87ceeb">&#39;b i d, b j d -&gt; b i j&#39;</span>, q, k)
+</span></span><span style="display:flex;"><span>						-&gt;attn = sim.softmax(dim=<span style="color:#f60">1</span>)
+</span></span><span style="display:flex;"><span>						-&gt;out = einsum(<span style="color:#87ceeb">&#39;b i j, b j d -&gt; b i d&#39;</span>, attn, v)
+</span></span><span style="display:flex;"><span>				-&gt;<span style="color:#f00">return</span> nn.linear(out)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			-&gt;self.middlle_block()
+</span></span><span style="display:flex;"><span>			-&gt;self.output_blocks()
+</span></span><span style="display:flex;"><span>		-&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>img = torch.randn(shape, device=device)
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>x_samples_ddim = model.decode_first_stage(samples_ddim)
+</span></span></code></pre></div><p>一些参数</p>
+<table>
+<thead>
+<tr>
+<th>ImageSize</th>
+<th>512x512</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database</td>
+<td>LAION-5B</td>
+</tr>
+<tr>
+<td>TextEncoder</td>
+<td>CLIP ViT-L/14</td>
+</tr>
+<tr>
+<td>UNet(diffusion)</td>
+<td>860M</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body></html>
