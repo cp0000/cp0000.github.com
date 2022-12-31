@@ -6,7 +6,16 @@
     <description>Recent content in Posts on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Mon, 31 Oct 2022 17:21:09 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 31 Dec 2022 18:33:20 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的2022</title>
+      <link>https://cp0000.github.io/posts/my_2022/</link>
+      <pubDate>Sat, 31 Dec 2022 18:33:20 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/my_2022/</guid>
+      <description>生活的本质是变化，而人类的本性是抗拒变化。 - 《也许你该找个人聊聊》 新冠之年 2022是被新冠支配的一年。年初，上海封城三个月，那段时间的焦虑与</description>
+    </item>
+    
     <item>
       <title>AI绘画：什么是AIGC，以及AIGC相关算法介绍</title>
       <link>https://cp0000.github.io/posts/ai_generate_content/</link>

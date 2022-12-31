@@ -2,6 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://cp0000.github.io/posts/</loc>
+    <lastmod>2022-12-31T18:33:20+08:00</lastmod>
+  </url><url>
+    <loc>https://cp0000.github.io/posts/my_2022/</loc>
+    <lastmod>2022-12-31T18:33:20+08:00</lastmod>
+  </url><url>
     <loc>https://cp0000.github.io/post/</loc>
     <lastmod>2022-11-13T20:31:41+08:00</lastmod>
   </url><url>
@@ -9,9 +15,6 @@
     <lastmod>2022-11-13T20:31:41+08:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/posts/ai_generate_content/</loc>
-    <lastmod>2022-10-31T17:21:09+08:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/posts/</loc>
     <lastmod>2022-10-31T17:21:09+08:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/posts/what_is_stable_diffusion/</loc>
