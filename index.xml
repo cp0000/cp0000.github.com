@@ -8,6 +8,24 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Thu, 25 Aug 2022 21:30:04 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>关于投资</title>
+      <link>https://cp0000.github.io/posts/my_investment/</link>
+      <pubDate>Wed, 29 Mar 2023 19:41:20 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/my_investment/</guid>
+      <description>工具 学生时代，没有任何的储蓄，对投资理财没有任何概念。工作之后，早期收入比较少，没有意识需要去做投资。我想可能很多人和我一样，第一次亲手操作</description>
+    </item>
+    
+    <item>
+      <title>2023年春节</title>
+      <link>https://cp0000.github.io/posts/2023_chinese_new_year/</link>
+      <pubDate>Sun, 29 Jan 2023 22:37:24 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/2023_chinese_new_year/</guid>
+      <description>2023年春节是自新冠疫情爆发以来的第一个社会面开放的中国新年，还没回家之前，听说回家过年的人很多。我这次选择了开车回家，从上海到安徽，40</description>
+    </item>
+    
+    <item>
       <title>我的2022</title>
       <link>https://cp0000.github.io/posts/my_2022/</link>
       <pubDate>Sat, 31 Dec 2022 18:33:20 +0800</pubDate>
@@ -167,24 +185,6 @@
       
       <guid>https://cp0000.github.io/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/</guid>
       <description>LeNet LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。 LeNet-5是用来处理手写字符的识别</description>
-    </item>
-    
-    <item>
-      <title>我听的播客</title>
-      <link>https://cp0000.github.io/2022/02/23/my-lisenting-podcasts/</link>
-      <pubDate>Wed, 23 Feb 2022 12:13:10 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2022/02/23/my-lisenting-podcasts/</guid>
-      <description>播客本来是一个小众文化产品，这两年互联网的风口好像也吹到了播客这个领域，像QQ音乐，网易云这样的巨头和喜马拉雅，小宇宙这样的创业者也都加入了</description>
-    </item>
-    
-    <item>
-      <title>利用深度学习进行股票价格预测</title>
-      <link>https://cp0000.github.io/2022/02/16/stock-prediction/</link>
-      <pubDate>Wed, 16 Feb 2022 00:13:14 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2022/02/16/stock-prediction/</guid>
-      <description>免责声明：这篇文章记录我在做这个mini site project时候的一些知识点，从最终预测的结果来看，效果不太理想。投资有风险，入市需谨慎。 本文中</description>
     </item>
     
   </channel>
