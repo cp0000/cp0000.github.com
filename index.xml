@@ -17,15 +17,6 @@
     </item>
     
     <item>
-      <title>关于投资</title>
-      <link>https://cp0000.github.io/posts/my_investment/</link>
-      <pubDate>Wed, 29 Mar 2023 19:41:20 +0800</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/my_investment/</guid>
-      <description>工具 学生时代，没有任何的储蓄，对投资理财没有任何概念。工作之后，早期收入比较少，没有意识需要去做投资。我想可能很多人和我一样，第一次亲手操作</description>
-    </item>
-    
-    <item>
       <title>2023年春节</title>
       <link>https://cp0000.github.io/posts/2023_chinese_new_year/</link>
       <pubDate>Sun, 29 Jan 2023 22:37:24 +0800</pubDate>
@@ -185,6 +176,15 @@
       
       <guid>https://cp0000.github.io/2022/03/24/mobilenet-intro/</guid>
       <description>MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离</description>
+    </item>
+    
+    <item>
+      <title>计算机视觉经典网络：LeNet，AlexNet, VGG, GoogLeNet, ResNet</title>
+      <link>https://cp0000.github.io/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/</link>
+      <pubDate>Tue, 22 Mar 2022 11:15:28 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/</guid>
+      <description>LeNet LeNet一般指LeNet-5，是Yann LeCun再多次研究后于1998年提出的卷积神经网络结构。 LeNet-5是用来处理手写字符的识别</description>
     </item>
     
   </channel>
