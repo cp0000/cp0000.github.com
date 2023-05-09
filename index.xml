@@ -8,6 +8,24 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Thu, 25 Aug 2022 21:30:04 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Text to Image Diffusion Models in Generative AI a Survey</title>
+      <link>https://cp0000.github.io/posts/text-to-image-diffusion-models-in-generative-ai-a-survey/</link>
+      <pubDate>Tue, 09 May 2023 17:38:22 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/text-to-image-diffusion-models-in-generative-ai-a-survey/</guid>
+      <description>Text-to-image Diffusion Models in Generative AI:A Survey 本文是关于 Text-to-image Diffusion Models in Generative AI:A Survey 的翻译和摘要。 自2021年2月 OpenAI 推出 DALL- E 之后，文生图进入了AI研究人员和大众的视野。伴随着22年 DALL-E 2，</description>
+    </item>
+    
+    <item>
+      <title>生成式AI中的文生图扩散模型的小结</title>
+      <link>https://cp0000.github.io/2023/05/09/text-to-image_survey/</link>
+      <pubDate>Sat, 06 May 2023 15:58:14 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/2023/05/09/text-to-image_survey/</guid>
+      <description>Text-to-image Diffusion Models in Generative AI:A Survey 本文是关于 Text-to-image Diffusion Models in Generative AI:A Survey 的翻译和摘要。 自2021年2月 OpenAI 推出 DALL- E 之后，文生图进入了AI研究人员和大众的视野。伴随着22年 DALL-E 2，</description>
+    </item>
+    
+    <item>
       <title>读书笔记：《认知觉醒：开启自我改变的原动力》</title>
       <link>https://cp0000.github.io/2023/04/23/cognitive_awakening/</link>
       <pubDate>Sun, 23 Apr 2023 22:08:46 +0800</pubDate>
@@ -167,24 +185,6 @@
       
       <guid>https://cp0000.github.io/2022/04/17/life-under-covid-19/</guid>
       <description>世界上只有一种真正的英雄主义，就是认清了生活的真相后还依然热爱它。 - 罗曼·罗兰 2022年开始的时候，我想上海人民是不会想到22年是这样的一个</description>
-    </item>
-    
-    <item>
-      <title>如何实现SnapChat卡通画滤镜（一）：StyleGAN的工作原理</title>
-      <link>https://cp0000.github.io/2022/03/28/stylegan/</link>
-      <pubDate>Mon, 28 Mar 2022 10:13:27 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2022/03/28/stylegan/</guid>
-      <description>这两年随着像Tiktok，SnapChat这一类短视频平台的流行，风格转换类的算法在这类平台上也得到了广泛的应用，深受用户喜爱。比如snap</description>
-    </item>
-    
-    <item>
-      <title>计算机视觉移动端小网络：MobileNet</title>
-      <link>https://cp0000.github.io/2022/03/24/mobilenet-intro/</link>
-      <pubDate>Thu, 24 Mar 2022 10:48:12 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2022/03/24/mobilenet-intro/</guid>
-      <description>MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离</description>
     </item>
     
   </channel>

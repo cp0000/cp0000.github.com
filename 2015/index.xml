@@ -6,7 +6,25 @@
     <description>Recent content in 2015s on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Tue, 27 Oct 2015 00:05:53 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/2015/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 31 Dec 2015 11:10:31 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/2015/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2015 年终总结</title>
+      <link>https://cp0000.github.io/2015/12/31/2015-summary/</link>
+      <pubDate>Thu, 31 Dec 2015 11:10:31 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/12/31/2015-summary/</guid>
+      <description>上海的冬天不是很好过，屋里屋外都很冷。忙碌中，不觉间，这一年已经来到了12月31号，15年就快要结束了。这两年自己也算养成了在一年结束的时候</description>
+    </item>
+    
+    <item>
+      <title>iOS逆向工程-0x01－工具篇-Cycript</title>
+      <link>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</link>
+      <pubDate>Mon, 30 Nov 2015 22:00:07 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</guid>
+      <description>对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以</description>
+    </item>
+    
     <item>
       <title>活到二十七</title>
       <link>https://cp0000.github.io/2015/10/27/27/</link>
@@ -139,16 +157,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://cp0000.github.io/2015/11/21/ios-reverse-engineering-01/</guid>
-      <description>title: iOS逆向工程-0x00－用途以及准备工作 date: 2015-11-21 10:46:07 categories: Tech tags: iOS Reverse Engineering 前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</guid>
-      <description>title: iOS逆向工程-0x01－工具篇-Cycript date: 2015-11-30 22:00:07 categories: Tech tags: iOS Reverse Engineering 对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向</description>
+      <description>title: iOS逆向工程-0x00－用途以及准备工作 date: 2015-11-21 10:46:07 categories: Tech 前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，</description>
     </item>
     
     <item>
@@ -158,15 +167,6 @@
       
       <guid>https://cp0000.github.io/2015/12/27/2015-2nd-movie-list/</guid>
       <description>title: 2015下半年电影清单 date: 2015-12-27 22:16:11 categories: Movie tags: 中国大陆 港囧 (2015) 西游记之大圣归来 (2015) ✔ 寻龙诀 (2015) ✔ 中国香港 暗战 暗戰 (1999) ✔ 中国台湾 我的少女时代 我的少女時代 (201</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://cp0000.github.io/2015/12/31/2015-summary/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2015/12/31/2015-summary/</guid>
-      <description>title: 2015 年终总结 date: 2015-12-31 11:10:31 categories: Life tags: 上海的冬天不是很好过，屋里屋外都很冷。忙碌中，不觉间，这一年已经来到了12月31号，15年就快要结束了。这两年自己也</description>
     </item>
     
   </channel>

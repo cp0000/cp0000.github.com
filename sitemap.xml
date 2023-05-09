@@ -2,8 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://cp0000.github.io/posts/</loc>
+    <lastmod>2023-05-09T17:38:22+08:00</lastmod>
+  </url><url>
+    <loc>https://cp0000.github.io/posts/text-to-image-diffusion-models-in-generative-ai-a-survey/</loc>
+    <lastmod>2023-05-09T17:38:22+08:00</lastmod>
+  </url><url>
     <loc>https://cp0000.github.io/2023/</loc>
-    <lastmod>2023-04-23T22:08:46+08:00</lastmod>
+    <lastmod>2023-05-06T15:58:14+08:00</lastmod>
+  </url><url>
+    <loc>https://cp0000.github.io/2023/05/09/text-to-image_survey/</loc>
+    <lastmod>2023-05-06T15:58:14+08:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/2023/04/23/cognitive_awakening/</loc>
     <lastmod>2023-04-23T22:08:46+08:00</lastmod>
@@ -12,9 +21,6 @@
     <lastmod>2023-03-29T19:41:20+08:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/posts/2023_chinese_new_year/</loc>
-    <lastmod>2023-01-29T22:37:24+08:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/posts/</loc>
     <lastmod>2023-01-29T22:37:24+08:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/posts/my_2022/</loc>
@@ -128,13 +134,7 @@
     <loc>https://cp0000.github.io/2021/05/04/no-decency/</loc>
     <lastmod>2021-05-04T15:13:26+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/tags/</loc>
-    <lastmod>2021-01-10T20:38:38+00:00</lastmod>
-  </url><url>
     <loc>https://cp0000.github.io/2021/01/10/my2020/</loc>
-    <lastmod>2021-01-10T20:38:38+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/blog/%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2021-01-10T20:38:38+00:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/2020/</loc>
@@ -169,9 +169,6 @@
   </url><url>
     <loc>https://cp0000.github.io/2019/11/20/31/</loc>
     <lastmod>2019-11-20T00:05:53+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/blog/tech/</loc>
-    <lastmod>2019-03-31T14:41:59+00:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/2019/03/31/logistic-regression/</loc>
     <lastmod>2019-03-31T14:41:59+00:00</lastmod>
@@ -242,14 +239,17 @@
     <loc>https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/</loc>
     <lastmod>2016-06-11T16:21:36+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/blog/ios-reverse-engineering/</loc>
-    <lastmod>2016-03-06T11:32:44+00:00</lastmod>
-  </url><url>
     <loc>https://cp0000.github.io/2016/03/06/ios-reverse-engineering-03/</loc>
     <lastmod>2016-03-06T11:32:44+00:00</lastmod>
   </url><url>
+    <loc>https://cp0000.github.io/2015/12/31/2015-summary/</loc>
+    <lastmod>2015-12-31T11:10:31+00:00</lastmod>
+  </url><url>
     <loc>https://cp0000.github.io/2015/</loc>
-    <lastmod>2015-10-27T00:05:53+00:00</lastmod>
+    <lastmod>2015-12-31T11:10:31+00:00</lastmod>
+  </url><url>
+    <loc>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</loc>
+    <lastmod>2015-11-30T22:00:07+00:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/2015/10/27/27/</loc>
     <lastmod>2015-10-27T00:05:53+00:00</lastmod>
@@ -268,9 +268,6 @@
   </url><url>
     <loc>https://cp0000.github.io/2015/08/22/uicollectionview-has-easy-reording-on-ios9/</loc>
     <lastmod>2015-08-22T09:52:28+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/blog/mac-power-user/</loc>
-    <lastmod>2015-08-02T11:31:18+00:00</lastmod>
   </url><url>
     <loc>https://cp0000.github.io/2015/08/02/mdfind-note/</loc>
     <lastmod>2015-08-02T11:31:18+00:00</lastmod>
@@ -316,11 +313,7 @@
   </url><url>
     <loc>https://cp0000.github.io/2015/11/21/ios-reverse-engineering-01/</loc>
   </url><url>
-    <loc>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</loc>
-  </url><url>
     <loc>https://cp0000.github.io/2015/12/27/2015-2nd-movie-list/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2015/12/31/2015-summary/</loc>
   </url><url>
     <loc>https://cp0000.github.io/2017/01/29/becoming-steve-jobs/</loc>
   </url><url>
@@ -333,5 +326,7 @@
     <loc>https://cp0000.github.io/2017/08/06/shoe-dog/</loc>
   </url><url>
     <loc>https://cp0000.github.io/2017/10/04/opengl-lighting/</loc>
+  </url><url>
+    <loc>https://cp0000.github.io/tags/</loc>
   </url>
 </urlset>
