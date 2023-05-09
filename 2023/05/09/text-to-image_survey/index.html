@@ -16,7 +16,28 @@
   
   
   <link rel="stylesheet" href="/css/main.css" />
-  
+   <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
   
 <script type="application/javascript">
@@ -80,7 +101,6 @@ if (!doNotTrack) {
 <p><strong>文生图大模型</strong>分成两个不同的技术流派，一种是以 DALL-E 为首的基于transformer框架的自回归模型，一种是以 DDPM 为首的 diffusion 模型。共同点是两种方案都需要海量的数据，以及比较大网络参数模型。</p>
 <p>下图是有些主流模型的训练数据量和网络参数大小对比：</p>
 <p><img src="http://cp0000.github.io/assets/text2image/Untitled.png" alt="图二"></p>
-<p>图二</p>
 <h3 id="自回归模型">自回归模型</h3>
 <p>图一中蓝色部分是属于基于 transformer 的自回归模型，从当前的发展趋势来看是明显不如 Diffusion 模型一派。这里简单对 DALL-E 做一个介绍。</p>
 <p><strong>DALL-E 的网络结构如下：</strong></p>
@@ -91,21 +111,21 @@ if (!doNotTrack) {
 <p>不同的地方在于有些在文本输入的地方加入一个预训练的语言模型，对文本做embedding</p>
 </blockquote>
 <p><strong>Parti 网络结构图：</strong></p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%202.png" alt="图四"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%202.jpg" alt="图四"></p>
 <h3 id="扩散模型"><strong>扩散模型</strong></h3>
 <p>扩散模型，也称作扩散概率模型。扩散模型第一次被大家关注到是通过论文 <a href="https://arxiv.org/abs/2006.11239">Denoising Diffusion Probabilistic Models</a>，缩写是 DDPM。DDPM 的生成结果在多样性，和真实性上表现很好，不过 DDPM 在量化指标上并没有超过 GAN。而 OpenAI 在21年5月发表的论文 <a href="https://arxiv.org/abs/2105.05233">Diffusion Models Beat GANs on Image Synthesis</a>，论文在 DDPM 的基础上做了一系列的改动，让Diffusion模型生成结果的各项指标第一次让超过了GAN。</p>
 <p>DDPM 的出现得益于两个前期的工作尝试：2019年的<a href="https://arxiv.org/abs/2006.09011">基于分数的生成模型</a> 和<a href="https://arxiv.org/abs/1503.03585">2015的扩散概率模型DPM</a>。</p>
 <p><strong>Diffusion Probabilistic Models (DPM).</strong></p>
 <p>生成式模型本质上是一组概率分布。如下图，我们利用左边的训练数据集 $p_{data}$，去构建右边的生成式模型。在概率分布中，所谓的生成式模型就是找出一个分布 $p_θ$ 使得它离 $p_{data}$ 距离最近，这样从 $p_θ$ 上采样新样本时，其结果就会和训练集中数据分布相似。</p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%203.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%203.png" alt="图五"></p>
 <p>但图像的维度很高，$p_{data}$ 的形式非常复杂，很难遍历整个空间，而我们能观测到的数据也是有限的。直接利用 $p_{data}$ 去构建 $p_θ$ 是非常困难的。</p>
 <p>为了解决上述问题，DPM  定义了一个前向(推理)过程，其核心贡献是：**将复杂数据分布转换为一个简单的分布。**具体来说，我们对训练数据 $p_{data}$ 不断加高斯噪声，使得它最终变成一个纯噪声分布 $N(0, I)$。</p>
 <p>这里举一个瑞士卷例子，瑞士卷初始形状为一个二维联合概率分布 $p(x, y)$，通过扩散过程 $q$ ，在样本点上加噪声扰动，使得瑞士卷不断向外扩散，最终变成一个完全无序的噪声分布。</p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%204.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%204.png" alt="图六"></p>
 <p>而把上述扩散过程进行反转，利用神经网络去学习右边噪声到左边瑞士卷的映射。利用学习到映射可以将一个噪声分布 $N(0, I)$ 不断去噪，生成新的符合训练集整体分布特征的的样本。</p>
 <p><strong>DDPM 如何进行图像合成的？</strong></p>
 <p>DDPM 是参数化的马尔可夫链，在前向的时候，把噪声通过训练好的模型转换成图像。</p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%205.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%205.png" alt="图七"></p>
 <p><strong>Classifier-free guidance</strong></p>
 <p>DDPM 后续发展有两个非常重要的节点</p>
 <p>（1）<a href="https://arxiv.org/abs/2105.05233">Diffusion Models Beat GANs on Image Synthesis</a> ; 这个工作在量化指标上（如 FID） 第一次超过了 GAN 网络。这篇文章来自于OpenAI，作者发现通过在 diffusion 网络生成过程中，加入一个类别 label，会让模型结果得到显著提升。当然这篇工作，需要训练一个辅助分类器，且 diffusion 网络无法很好的生成分类器不支持的类别图像。</p>
@@ -120,18 +140,18 @@ $\tilde{ε}_θ(z_λ, c) = (1 + w)ε_θ(z_λ, c) − wε_θ(z_λ)$</p>
 <p><strong>Imagen</strong></p>
 <p>Google 于22年5月发表了 Imagen (<a href="https://arxiv.org/pdf/2205.11487.pdf">Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding</a>) 模型，其效果是很不错的。</p>
 <p>Imagen 网络结构下图所示。</p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%201.jpeg" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%201.jpeg" alt="图八"></p>
 <p>和 GLIDE 不同的地方在于，Imagen 中对文本的处理采用的是类似 T5 这种大模型，在训练的过程中利用T5对文本提取embedding，然后把文本 embedding 送给 diffusion 进行图像生成。过程中文本模型是锁死的，不参与训练。而 GLIDE 中，文本的 embedding 网络是一起参与训练。</p>
 <p>用预训练的文本模型的好处，如 BERT，GPT， T5 这次文本模型，他是 Text-only 模型，其数据量获取难度远小于 CLIP 那种需要 image-text paired对数据，量级也会比后者大得多。</p>
 <p>另外 Imagen 论文中提到，对比增加语言模型（T5）的大小比扩大 Imagen 中的扩散模型大小更能提高图像保真度和图像-文本对齐。</p>
 <p><strong>Stable Diffusion： 隐空间生成里程碑工作</strong></p>
 <p>Stable Diffusion 是基于 <a href="https://arxiv.org/abs/2112.10752">High-Resolution Image Synthesis with Latent Diffusion Models</a> 研发出来的。</p>
 <p>Stable Diffusion 网络结构如下图所示：</p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%202.jpeg" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%202.jpeg" alt="图九"></p>
 <p>Stable Diffusion 网络可以分成三个部分，左边的第一部分，通过一个 VQVAE 网络，先把图像编码到 latent space。中间部分是一个 diffusion 模型，在 latent 空间做diffusion。右边是 condition 部分，比如文本，通过预训练模型CLIP，提取出embedding后，利用 cross attention 机制嵌入到中间的 diffusion 过程。</p>
 <p>需要注意的是 Stable Diffusion 的 latent 空间一般为 4x64x64, 大小要小于像素空间，在 Diffusion 特有的机制下，对计算量的减少是显著的。</p>
 <p><strong>DALL-E 2</strong></p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%203.jpeg" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%203.jpeg" alt="图十"></p>
 <p>DALL-E 2 是 OpenAI 22年4月发布一个新的文生图模型，OpenAI 在 DALL-E 2中改用了 Diffusion模型作为生成网络基架。 DALL-E 2 模型分成两个部分，第一部分，利用 CLIP 网络，对一组 Text-Image 训练集中的文本和图片分别提取 TextEmbedding 和 ImageEmbedding。训练一个 Prior 模型，这个Prior模型，负责把 TextEmbedding 映射到 ImageEmbedding。利用映射得到的ImageEmbedding过一个同样是Diffusion结构的Decoder得到图像。</p>
 <p>DALL-E 2 论文中提到，如果没有 Prior 模型，网络生成质量会大幅下降。</p>
 <p><strong>Diffusion 生成效果优化</strong></p>
@@ -147,7 +167,7 @@ $\tilde{ε}_θ(z_λ, c) = (1 + w)ε_θ(z_λ, c) − wε_θ(z_λ)$</p>
 <p>Dreambooth：<a href="https://arxiv.org/abs/2208.12242">DreamBooth: Fine Tuning Text-to-Image Diffusion Models for Subject-Driven Generation</a></p>
 <p>Lora：<a href="https://arxiv.org/abs/2106.09685">LoRA: Low-Rank Adaptation of Large Language Models</a></p>
 <p>三者都是为了让 Diffusion 具备生成一类新概念的能力。下面这张图很好的展示三者之间的差别：</p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%206.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%206.jpg" alt="Untitled"></p>
 <p>Textual Inversion：在text embedding 部分注册一个特别词，比如 ‘sks’, 网络训练的过程中，是优化 sks 对应的 embedding。</p>
 <p>Dreambooth: 和 textual inversion 一样，也定义一个sks单词，但是在训练过程中是优化整个 diffusion 网络。</p>
 <p>LoRA： 也需要定义一个 sks 单词，LoRA会给网络主干部分加一个 addition 网络，相当于一个外挂，训练过程中只优化addition网络。</p>
@@ -157,8 +177,8 @@ $\tilde{ε}_θ(z_λ, c) = (1 + w)ε_θ(z_λ, c) − wε_θ(z_λ)$</p>
 <p>ControlNet 的网络结构如下，他是在 Stable Diffusion 基础上完成的。下图左边是原生的 Stable Diffusion 网络结构，右边是 ControlNet。右边的网络是 condition，网络结构整体层级和 Stable Diffusion 是一样的，其中 Encoder部分直接复用 Stable Diffusion 的 Encoder 结构和weights，Condition的特征会通过 conv 叠加会 SD 的 Decoder 特征上，进而达到控制图像生成的目的。</p>
 <p>ControlNet 相比较于 Stable Diffusion，丰富了 Condition 的种类，V1 版本一共支持 9 类，包括 Canny, Sketch, Human Pose, Semantic, Depth, Normal Map 等。</p>
 <p>ControlNet 的效果是非常惊人的，在开源社区得到了非常广泛的使用。</p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%207.png" alt="Untitled"></p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%204.jpeg" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%207.png" alt="图十一"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%204.jpeg" alt="图十二"></p>
 <p><strong>应用</strong></p>
 <p>从2021年1月 OpenAI 第一次推出 DALL-E，把文生图带入大众的视野，但现在，经过两年半的发展，文生图领域已经发生了翻天覆地的发展了。</p>
 <p>一方面，以 midjourney 为代表的商业公司，提供文生图的订阅服务。midjourney 的生成在迭代了几个版本，特别是 v4 之后，效果非常惊艳，很多设计师拿它来提高工作效率。</p>
