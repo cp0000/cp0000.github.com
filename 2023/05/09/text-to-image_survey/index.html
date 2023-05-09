@@ -6,7 +6,7 @@
 
   <title>
     
-      生成式AI中的文生图扩散模型的小结
+      文生图扩散模型
     
   </title>
 
@@ -69,15 +69,14 @@ if (!doNotTrack) {
         </time>
     </p>
 
-    <h1>生成式AI中的文生图扩散模型的小结</h1>
+    <h1>文生图扩散模型</h1>
 
-    <h1 id="text-to-image-diffusion-models-in-generative-aia-survey">Text-to-image Diffusion Models in Generative AI:A Survey</h1>
+    <h1 id="text-to-image-diffusion-models-in-generative-ai-a-survey">Text-to-image Diffusion Models in Generative AI: A Survey</h1>
 <p>本文是关于 <a href="https://arxiv.org/abs/2303.07909">Text-to-image Diffusion Models in Generative AI:A Survey</a> 的翻译和摘要。</p>
 <p>自2021年2月 OpenAI 推出 DALL- E 之后，文生图进入了AI研究人员和大众的视野。伴随着22年 DALL-E 2， Imagen 等 paper 的发布，文生图模型的生成效果突破了临界点，达到了可商用的程度，商业价值的提升也让其热度不断攀升。</p>
 <p>开源社区推出的StableDiffusion让广大的开发者可以基于该模型做各种各样的 finetune 和修改，创造出了非常多效果惊人的模型。</p>
 <p>文生图算法的研究是计算机视觉中的一个经典问题。如下图所示，在21年之前，这一领域前几年是通过GAN（对抗式生成网络）网络框架来进行相关探索。21年，OpenAI release了DALL-E，正式把文生图算法带入大模型领域。</p>
 <p><img src="http://cp0000.github.io/assets/text2image/Untitled.jpeg" alt="图一"></p>
-<p>图一</p>
 <p><strong>文生图大模型</strong>分成两个不同的技术流派，一种是以 DALL-E 为首的基于transformer框架的自回归模型，一种是以 DDPM 为首的 diffusion 模型。共同点是两种方案都需要海量的数据，以及比较大网络参数模型。</p>
 <p>下图是有些主流模型的训练数据量和网络参数大小对比：</p>
 <p><img src="http://cp0000.github.io/assets/text2image/Untitled.png" alt="图二"></p>
@@ -85,14 +84,14 @@ if (!doNotTrack) {
 <h3 id="自回归模型">自回归模型</h3>
 <p>图一中蓝色部分是属于基于 transformer 的自回归模型，从当前的发展趋势来看是明显不如 Diffusion 模型一派。这里简单对 DALL-E 做一个介绍。</p>
 <p><strong>DALL-E 的网络结构如下：</strong></p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%201.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%201.png" alt="图三"></p>
 <p>DALL-E 的核心思想是，文本 token(256) 和图像 token(1024) concat 成一个数据序列，通过Transformer进行自回归。</p>
 <p>国内的CogView，Google 的 Parti 都属于这一类。</p>
 <blockquote>
 <p>不同的地方在于有些在文本输入的地方加入一个预训练的语言模型，对文本做embedding</p>
 </blockquote>
 <p><strong>Parti 网络结构图：</strong></p>
-<p><img src="http://cp0000.github.io/assets/text2image/Untitled%202.png" alt="Untitled"></p>
+<p><img src="http://cp0000.github.io/assets/text2image/Untitled%202.png" alt="图四"></p>
 <h3 id="扩散模型"><strong>扩散模型</strong></h3>
 <p>扩散模型，也称作扩散概率模型。扩散模型第一次被大家关注到是通过论文 <a href="https://arxiv.org/abs/2006.11239">Denoising Diffusion Probabilistic Models</a>，缩写是 DDPM。DDPM 的生成结果在多样性，和真实性上表现很好，不过 DDPM 在量化指标上并没有超过 GAN。而 OpenAI 在21年5月发表的论文 <a href="https://arxiv.org/abs/2105.05233">Diffusion Models Beat GANs on Image Synthesis</a>，论文在 DDPM 的基础上做了一系列的改动，让Diffusion模型生成结果的各项指标第一次让超过了GAN。</p>
 <p>DDPM 的出现得益于两个前期的工作尝试：2019年的<a href="https://arxiv.org/abs/2006.09011">基于分数的生成模型</a> 和<a href="https://arxiv.org/abs/1503.03585">2015的扩散概率模型DPM</a>。</p>
