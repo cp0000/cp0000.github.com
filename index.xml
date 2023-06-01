@@ -8,6 +8,15 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Thu, 25 Aug 2022 21:30:04 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Review Imagen</title>
+      <link>https://cp0000.github.io/2023/06/01/review_imagen/</link>
+      <pubDate>Thu, 01 Jun 2023 20:17:11 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/2023/06/01/review_imagen/</guid>
+      <description>Review Imagen: Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding Imagen 是 Google 在 22 年 5 月 发表的一篇关于文生图任务的论文。Imagen 主体框架基于 Diffusion 模型。和其他文生图（比如 DALLE-2，Sta</description>
+    </item>
+    
+    <item>
       <title>文生图扩散模型</title>
       <link>https://cp0000.github.io/2023/05/09/text-to-image-diffusion-survey/</link>
       <pubDate>Tue, 09 May 2023 15:58:14 +0800</pubDate>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/2022/04/17/life-under-covid-19/</guid>
       <description>世界上只有一种真正的英雄主义，就是认清了生活的真相后还依然热爱它。 - 罗曼·罗兰 2022年开始的时候，我想上海人民是不会想到22年是这样的一个</description>
-    </item>
-    
-    <item>
-      <title>如何实现SnapChat卡通画滤镜（一）：StyleGAN的工作原理</title>
-      <link>https://cp0000.github.io/2022/03/28/stylegan/</link>
-      <pubDate>Mon, 28 Mar 2022 10:13:27 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/2022/03/28/stylegan/</guid>
-      <description>这两年随着像Tiktok，SnapChat这一类短视频平台的流行，风格转换类的算法在这类平台上也得到了广泛的应用，深受用户喜爱。比如snap</description>
     </item>
     
   </channel>

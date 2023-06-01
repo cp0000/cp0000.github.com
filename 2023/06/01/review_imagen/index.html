@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="" class=""><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>
+    
+      Review Imagen
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+<article>
+    <p class="post-meta">
+        <time datetime="2023-06-01 20:17:11 &#43;0800 CST">
+            2023-06-01
+        </time>
+    </p>
+
+    <h1>Review Imagen</h1>
+
+    <h1 id="review-imagen-photorealistic-text-to-image-diffusion-models">Review Imagen: Photorealistic Text-to-Image Diffusion Models</h1>
+<p>with Deep Language Understanding</p>
+<p>Imagen 是 Google 在 22 年 5 月 发表的一篇关于文生图任务的论文。Imagen 主体框架基于 Diffusion 模型。和其他文生图（比如 DALLE-2，Stable Diffusion）任务不同的地方是：</p>
+<ol>
+<li>Imagen 使用大语言模型 T5-XXL 模型。Imagen 发现用语言大模型作为condition，相较于文本图像对比模型 CLIP ，在文生图任务上效果更好。</li>
+<li>Imagen 基于像素空间生成图像。DALLE-2,  Latent Diffusion 是基于 Latent 空间生成图像。</li>
+</ol>
+<p>Imagen 的效果如下：</p>
+<p><img src="http://cp0000.github.io/assets/imagen/Untitled.jpeg" alt="Untitled"></p>
+<p>Imagen的核心贡献：</p>
+<ol>
+<li>利用预训练大语言模型提取文本的 embedding 作为 condition 对文生图任务非常有效。并且实验表明增加语言模型的大小比增加 diffusion模型大小要更加有效。</li>
+<li>动态阈值，改进 diffusion 采样过程。动态阈值使得在生成时可以利用大的引导权重，使得生成的图片更加真实和逼真。</li>
+<li>Diffusion 模型框架采用 Efficient U-Net</li>
+</ol>
+<p><strong>Large guidance weight samples:</strong></p>
+<p>增大 classifier-free guidance 的权重可以改善生成图像-文本对齐，但是会破坏图像的保真度，产生高饱和度，和不自然的现象。实验发现这是由于高 <code>cfg</code> 权重会导致训练-测试不匹配。在采样步骤 $t$ 时，被预测的 $\hat{\mathbf{x}}_{0}^{t}$ 必须在训练数据 $x$的相同范围内，即[-1, 1]之间，但我们发现高 <code>cfg</code> 权重，会导致预测的 $x$ 超出这个范围。扩散模型在采样过程中会连续应用其自身的输出，当中某一步出现这类 训练-测试不匹配的情况，会导致生成的图像不自然，甚至有时图像中的损坏区域会发散。</p>
+<p>为了解决这个问题，Imagen 提出静态阈值和动态阈值。</p>
+<p><strong>静态阈值法</strong>：在 diffusion 模型预测 $x0$ 的过程中，将元素逐个剪切到 [-1, 1] 范围内。前向推理过程中，在使用比较大的<code>cfg</code>时，利用静态阈值法是必不可少的，它可有效防止生成空白图像。但当 <code>cfg</code> 很大时，静态阈值法仍会导致图像过度饱和和细节不足。</p>
+<p><strong>动态阈值法</strong>：在每个采样步骤中，我们将 $s$  设置为 $\hat{\mathbf{x}}<em>{0}^{t}$ 中某个百分位的绝对像素值，如果  $s&gt;1$，则将 $\hat{\mathbf{x}}</em>{0}^{t}$ 阈值化到范围[−s，s]，然后除以 $s$。动态阈值将饱和像素（靠近-1和1的像素）向内推，从而在每个步骤中防止像素饱和。动态阈值可以显著提高照片逼真度和图像文本对齐度，特别是在使用非常大的引导权重时。</p>
+<p><strong>Robust cascaded diffusion models : 级联扩散模型</strong></p>
+<p>Imagen 的模型结构如下：</p>
+<p><img src="http://cp0000.github.io/assets/imagen/Untitled%201.jpeg" alt="Untitled"></p>
+<p>Imagen 采用多分辨率级联扩散模型来完成高分辨率的图像生成工作。具体来说，网络分成三个部分，是一个 64x64 的基础模型，以及256x256, 1024x1024 两个超分模型；</p>
+<p>Imagen论文实验发现，级联扩散模型在生成高保真度的图像方面非常有效。</p>
+<p><strong>网络结构上：</strong></p>
+<p>三种不同分辨率的 diffusion 模型均采用的是 UNet 结构。网络通过一个池化的文本 embedding 与 diffusion timestep embedding 相加，通过 cross-attention 的方式把文本信息注入到 diffusion 网络中。（这里64x64， 256x256, 1024x1024 三个网络都会做 cross-attention 的操作）</p>
+<p>文中发现在<code>attention</code>和<code>pooling</code>层中对 text embedding 采用 layer normalization 可以显著提高性能。</p>
+<p>另外为了加速，imagen 在 256x256, 1024x1024 两个模型中，把 self-attention 层去掉。</p>
+<p><strong>文生图模型测评：</strong></p>
+<ol>
+<li>文生图测评一般是从 CLIP score 和 FID score 两个维度来定量测试。Imagen 在这个 COCO 测试集上两个维度均达到 SOTA 的效果。</li>
+<li>生成类任务一般还需要做一些定性的测试，利用类似 user- study 的方式测评生成结果整体质量。Imagen 设计了两种问题，让测试员去回答：
+<ol>
+<li>“哪张图片更加真实” -目的是测量图像生成质量。</li>
+<li>“哪张图片更符合语义” - 目的是测量图像文本一致性。</li>
+</ol>
+</li>
+</ol>
+<p><strong>DrawBench</strong></p>
+<p>COCO 数据集有一定的局限性，无法很好的测评出不同模型的差异。Imagen 提出一个新的文本集合，叫 DrawBench.</p>
+<p>DrawBench 包含11类 prompts，来测试模型的不同能力。例如颜色，数量，空间关系，场景中的文本，以及对象之间的异常交互。</p>
+<p><strong>Experiments</strong></p>
+<p>模型大小</p>
+<table>
+<thead>
+<tr>
+<th>64x64</th>
+<th>256x256</th>
+<th>1024x1024</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B</td>
+<td>600M</td>
+<td>400M</td>
+</tr>
+</tbody>
+</table>
+<p>模型训练：三个模型迭代步数是一致的：batch size 2048，训练 2.5M steps 。</p>
+<p><strong>COCO 上的测评结果：</strong></p>
+<p><img src="http://cp0000.github.io/assets/imagen/Untitled%202.jpeg" alt="Untitled"></p>
+<p><strong>DrawBench 上的测评结果：</strong></p>
+<p>Imagen 结果和 DALL-E, DALL-E 2, Latent Diffusion, VQ-GAN对比，均有优势。</p>
+<p><img src="http://cp0000.github.io/assets/imagen/Untitled%203.jpeg" alt="Untitled"></p>
+<p><strong>对 Imagen 的分析：</strong></p>
+<ol>
+<li>增加 text encoder 模型大小是非常有效的。</li>
+<li>增加 text encoder 模型大小比增加 diffusion 模型大小有用。</li>
+<li>cfg 动态阈值非常重要。</li>
+<li>在 DrawBench 测评集上，对比 T5-XXL 和 CLIP 的生成图片结果，人们选择 T5-XXL.</li>
+<li>噪声增强非常重要。</li>
+<li>文本潜入方法很重要。（cross-attention 的方法，效果是最好的）</li>
+<li>Efficient U-Net 很重要。 内存更少，收敛速度更快，这在大模型训练中非常重要。</li>
+</ol>
+
+</article>
+
+            </div>
+        </main>
+	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
+    </body>
+</html>
