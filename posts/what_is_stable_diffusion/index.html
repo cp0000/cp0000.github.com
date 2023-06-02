@@ -7,11 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>什么是StableDiffusion | </title>
 <meta name="keywords" content="">
-<meta name="description" content="Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。
-接下来先介绍下 Latent Diffusion
-Motivation
-基于扩散模型的图像生成领域发展迅速，扩散模型生成的图像真实度高，质量好。但是基于像素空间的扩散模型对GPU资源的要求非常高。 training the most powerful DMs often takes hundreds of GPU days (e.g. 150 1000 V100 days in and repeated evaluations on a noisy version of the input space render also inference expensive, so that producing 50k samples takes approximately 5 days on a single A100 GPU.
-Latent diffusion 模型提出在latent space做diffusion的过程，latent space相较pixel space，在大小上有了很大的压缩（latent diffusion中，从512x512x3 压缩到 64x64xk） 设计了一种基于cross-attention的通用条件生成控制机制，能够实现多模态的训练。 上图横轴是隐变量每个维度压缩的bit率，纵轴是模型的失真率。模型在学习的过程中，随着压缩率变大，刚开始模型的损失下降很快，后面下降很慢，但仍然在优化。模型首先学习到的是sematic（语义）部分的压缩/转换，然后学习到的是perceptual(细节)部分的压缩/转换。">
+<meta name="description" content="Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。 接下来先介绍下 Latent">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/what_is_stable_diffusion/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -60,12 +56,69 @@ Latent diffusion 模型提出在latent space做diffusion的过程，latent space
         }
 
     </style>
-</noscript><meta property="og:title" content="什么是StableDiffusion" />
-<meta property="og:description" content="Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。
-接下来先介绍下 Latent Diffusion
-Motivation
-基于扩散模型的图像生成领域发展迅速，扩散模型生成的图像真实度高，质量好。但是基于像素空间的扩散模型对GPU资源的要求非常高。 training the most powerful DMs often takes hundreds of GPU days (e.g. 150 1000 V100 days in and repeated evaluations on a noisy version of the input space render also inference expensive, so that producing 50k samples takes approximately 5 days on a single A100 GPU.
-Latent diffusion 模型提出在latent space做diffusion的过程，latent space相较pixel space，在大小上有了很大的压缩（latent diffusion中，从512x512x3 压缩到 64x64xk） 设计了一种基于cross-attention的通用条件生成控制机制，能够实现多模态的训练。 上图横轴是隐变量每个维度压缩的bit率，纵轴是模型的失真率。模型在学习的过程中，随着压缩率变大，刚开始模型的损失下降很快，后面下降很慢，但仍然在优化。模型首先学习到的是sematic（语义）部分的压缩/转换，然后学习到的是perceptual(细节)部分的压缩/转换。" />
+</noscript> <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ 
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="什么是StableDiffusion" />
+<meta property="og:description" content="Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。 接下来先介绍下 Latent" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/what_is_stable_diffusion/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-28T19:36:31+08:00" />
@@ -73,11 +126,7 @@ Latent diffusion 模型提出在latent space做diffusion的过程，latent space
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="什么是StableDiffusion"/>
-<meta name="twitter:description" content="Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。
-接下来先介绍下 Latent Diffusion
-Motivation
-基于扩散模型的图像生成领域发展迅速，扩散模型生成的图像真实度高，质量好。但是基于像素空间的扩散模型对GPU资源的要求非常高。 training the most powerful DMs often takes hundreds of GPU days (e.g. 150 1000 V100 days in and repeated evaluations on a noisy version of the input space render also inference expensive, so that producing 50k samples takes approximately 5 days on a single A100 GPU.
-Latent diffusion 模型提出在latent space做diffusion的过程，latent space相较pixel space，在大小上有了很大的压缩（latent diffusion中，从512x512x3 压缩到 64x64xk） 设计了一种基于cross-attention的通用条件生成控制机制，能够实现多模态的训练。 上图横轴是隐变量每个维度压缩的bit率，纵轴是模型的失真率。模型在学习的过程中，随着压缩率变大，刚开始模型的损失下降很快，后面下降很慢，但仍然在优化。模型首先学习到的是sematic（语义）部分的压缩/转换，然后学习到的是perceptual(细节)部分的压缩/转换。"/>
+<meta name="twitter:description" content="Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。 接下来先介绍下 Latent"/>
 
 
 <script type="application/ld+json">
@@ -106,12 +155,12 @@ Latent diffusion 模型提出在latent space做diffusion的过程，latent space
   "@type": "BlogPosting",
   "headline": "什么是StableDiffusion",
   "name": "什么是StableDiffusion",
-  "description": "Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。\n接下来先介绍下 Latent Diffusion\nMotivation\n基于扩散模型的图像生成领域发展迅速，扩散模型生成的图像真实度高，质量好。但是基于像素空间的扩散模型对GPU资源的要求非常高。 training the most powerful DMs often takes hundreds of GPU days (e.g. 150 1000 V100 days in and repeated evaluations on a noisy version of the input space render also inference expensive, so that producing 50k samples takes approximately 5 days on a single A100 GPU.\nLatent diffusion 模型提出在latent space做diffusion的过程，latent space相较pixel space，在大小上有了很大的压缩（latent diffusion中，从512x512x3 压缩到 64x64xk） 设计了一种基于cross-attention的通用条件生成控制机制，能够实现多模态的训练。 上图横轴是隐变量每个维度压缩的bit率，纵轴是模型的失真率。模型在学习的过程中，随着压缩率变大，刚开始模型的损失下降很快，后面下降很慢，但仍然在优化。模型首先学习到的是sematic（语义）部分的压缩/转换，然后学习到的是perceptual(细节)部分的压缩/转换。",
+  "description": "Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。 接下来先介绍下 Latent",
   "keywords": [
     
   ],
   "articleBody": "Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。\n接下来先介绍下 Latent Diffusion\nMotivation\n基于扩散模型的图像生成领域发展迅速，扩散模型生成的图像真实度高，质量好。但是基于像素空间的扩散模型对GPU资源的要求非常高。 training the most powerful DMs often takes hundreds of GPU days (e.g. 150 1000 V100 days in and repeated evaluations on a noisy version of the input space render also inference expensive, so that producing 50k samples takes approximately 5 days on a single A100 GPU.\nLatent diffusion 模型提出在latent space做diffusion的过程，latent space相较pixel space，在大小上有了很大的压缩（latent diffusion中，从512x512x3 压缩到 64x64xk） 设计了一种基于cross-attention的通用条件生成控制机制，能够实现多模态的训练。 上图横轴是隐变量每个维度压缩的bit率，纵轴是模型的失真率。模型在学习的过程中，随着压缩率变大，刚开始模型的损失下降很快，后面下降很慢，但仍然在优化。模型首先学习到的是sematic（语义）部分的压缩/转换，然后学习到的是perceptual(细节)部分的压缩/转换。\nLatent diffusion的网络结构\n上图中，LDM网络分成三个主要分布，分别是 VAE的 Pixel Space， Diffusion的Latent Space以及条件输入部分（文本/图像输入）\nLoss:\n$L_{D M}=\\mathbb{E}{x, \\epsilon \\sim \\mathcal{N}(0,1),t}\\left[\\left|\\epsilon-\\epsilon_{\\theta}\\left(x_{t}, t\\right)\\right|_{2}^{2}\\right]$\n$L_{L D M}:=\\mathbb{E}_{\\mathcal{E}(x), \\epsilon \\sim \\mathcal{N}(0,1), t}\\left[\\left|\\epsilon-\\epsilon_{\\theta}\\left({{\\color{Red} z_{t}} } , t\\right)\\right|_{2}^{2}\\right]$\n$Attention (Q, K, V)=\\operatorname{softmax}\\left(\\frac{Q K^{T}}{\\sqrt{d}}\\right) \\cdot V ,$ .\nwith $Q=W_{Q}^{(i)} \\cdot \\varphi_{i}\\left(z_{t}\\right), K=W_{K}^{(i)} \\cdot \\tau_{\\theta}(y), V=W_{V}^{(i)} \\cdot \\tau_{\\theta}(y$)\n$\\varphi_{i}\\left(z_{t}\\right)\\in \\mathbb{R}^{N \\times d_{\\epsilon}^{i}}$: Unet $\\epsilon_{\\theta}$ 的中间表示。\n$\\tau_{\\theta}(y) \\in \\mathbb{R}^{M \\times d_{\\tau}}$ : 将条件 $y$ 投影到中间表示。\n$W_{V}^{(i)} \\in \\mathbb{R}^{d \\times d_{\\epsilon}^{i}}, W_{Q}^{(i)} \\in \\mathbb{R}^{d \\times d_{\\tau}} \u0026 W_{K}^{(i)} \\in \\mathbb{R}^{d \\times d_{\\tau}}$ 是可学习的投影矩阵。\n-\u003ecross_attention -\u003eq = self.to_q(x) -\u003ek = self.to_k(context) -\u003ev = self.to_v(context) -\u003esim = einsnum('b i d, b j d -\u003e b i j', q, k) -\u003eattn = sim.softmax(dim=1) -\u003eout = einsum('b i j, b j d -\u003e b i d', attn, v) -\u003e return nn.linear(out) $L_{L D M}:=\\mathbb{E}_{\\mathcal{E}(x), y, \\epsilon \\sim \\mathcal{N}(0,1), t}\\left[\\left|\\epsilon-\\epsilon{\\theta}\\left(z_{t}, t, \\tau_{\\theta}(y)\\right)\\right|_{2}^{2}\\right]$\n代码解析：\npython scripts/txt2img.py --prompt \"a photograph of an astronaut riding a horse\" --plms First Stage Model: AutoencodeKL encoder self.encoder -\u003e self.quant_conv -\u003e DiagonalGaussianDistribution ? get_learned_conditioning?? decoder cond = model.get_learned_conditioning(prompts) samples_ddim = plms.sample(...) -\u003eplms_samping() -\u003eget_model_output() -\u003eapply_model() -\u003eDiffusionWarpper(unet_config, conditioning_key) -\u003eself.diffusion_model(x, t, c_crossattn) -\u003eopeanimodel UNetMode(x, timestep=t, context=cc) -\u003eself.inputblocks() -\u003ecross_attention -\u003eq = self.to_q(x) -\u003ek = self.to_k(context) -\u003ev = self.to_v(context) -\u003esim = einsnum('b i d, b j d -\u003e b i j', q, k) -\u003eattn = sim.softmax(dim=1) -\u003eout = einsum('b i j, b j d -\u003e b i d', attn, v) -\u003ereturn nn.linear(out) -\u003eself.middlle_block() -\u003eself.output_blocks() -\u003e img = torch.randn(shape, device=device) x_samples_ddim = model.decode_first_stage(samples_ddim) 一些参数\nImageSize 512x512 Database LAION-5B TextEncoder CLIP ViT-L/14 UNet(diffusion) 860M ",
-  "wordCount" : "312",
+  "wordCount" : "812",
   "inLanguage": "en",
   "datePublished": "2022-10-28T19:36:31+08:00",
   "dateModified": "2022-10-28T19:36:31+08:00",
@@ -293,7 +342,7 @@ Latent diffusion 模型提出在latent space做diffusion的过程，latent space
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -360,6 +409,9 @@ Latent diffusion 模型提出在latent space做diffusion的过程，latent space
     })
 
 </script>
+
+
+
 </body>
 
 </html>

@@ -7,10 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Learning OpenGL：GLSL Shader 手册 | </title>
 <meta name="keywords" content="">
-<meta name="description" content="基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维整数向量 singed integer vector mat2,mat3,mat4 2X2,3X3,4X4 浮点数矩阵 float matrix sampler2D 2D 纹理 a 2D texture samplerCube 盒纹理 cube mapped texture 基本结构和数组 类型 说明 结构 struct type-name{} 类似c语言中的结构体 数组 float foo3[] glsl 只支持1维数组，数组可以是结构体的成员 ##内置的特殊变量
-glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成input,output两种类型，input类型，负责向硬件（渲染管线）发送数据，output类型负责向程序回传数据。
-在vertex shader中 output 类型的内置变量：
-变量 说明 单位 highp vec4 gl_Position; gl_Position 放置顶点坐标信息 vec4 mediump float gl_Pointsize; gl_PointSize 需要绘制点的大小（只在gl.">
+<meta name="description" content="基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维">
 <meta name="author" content="cp">
 <link rel="canonical" href="/posts/glsl-dictionary/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -59,11 +56,48 @@ glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成i
         }
 
     </style>
-</noscript><meta property="og:title" content="Learning OpenGL：GLSL Shader 手册" />
-<meta property="og:description" content="基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维整数向量 singed integer vector mat2,mat3,mat4 2X2,3X3,4X4 浮点数矩阵 float matrix sampler2D 2D 纹理 a 2D texture samplerCube 盒纹理 cube mapped texture 基本结构和数组 类型 说明 结构 struct type-name{} 类似c语言中的结构体 数组 float foo3[] glsl 只支持1维数组，数组可以是结构体的成员 ##内置的特殊变量
-glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成input,output两种类型，input类型，负责向硬件（渲染管线）发送数据，output类型负责向程序回传数据。
-在vertex shader中 output 类型的内置变量：
-变量 说明 单位 highp vec4 gl_Position; gl_Position 放置顶点坐标信息 vec4 mediump float gl_Pointsize; gl_PointSize 需要绘制点的大小（只在gl." />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="Learning OpenGL：GLSL Shader 手册" />
+<meta property="og:description" content="基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/glsl-dictionary/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-02-26T14:26:08+00:00" />
@@ -71,10 +105,7 @@ glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成i
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Learning OpenGL：GLSL Shader 手册"/>
-<meta name="twitter:description" content="基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维整数向量 singed integer vector mat2,mat3,mat4 2X2,3X3,4X4 浮点数矩阵 float matrix sampler2D 2D 纹理 a 2D texture samplerCube 盒纹理 cube mapped texture 基本结构和数组 类型 说明 结构 struct type-name{} 类似c语言中的结构体 数组 float foo3[] glsl 只支持1维数组，数组可以是结构体的成员 ##内置的特殊变量
-glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成input,output两种类型，input类型，负责向硬件（渲染管线）发送数据，output类型负责向程序回传数据。
-在vertex shader中 output 类型的内置变量：
-变量 说明 单位 highp vec4 gl_Position; gl_Position 放置顶点坐标信息 vec4 mediump float gl_Pointsize; gl_PointSize 需要绘制点的大小（只在gl."/>
+<meta name="twitter:description" content="基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维"/>
 
 
 <script type="application/ld+json">
@@ -103,12 +134,12 @@ glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成i
   "@type": "BlogPosting",
   "headline": "Learning OpenGL：GLSL Shader 手册",
   "name": "Learning OpenGL：GLSL Shader 手册",
-  "description": "基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维整数向量 singed integer vector mat2,mat3,mat4 2X2,3X3,4X4 浮点数矩阵 float matrix sampler2D 2D 纹理 a 2D texture samplerCube 盒纹理 cube mapped texture 基本结构和数组 类型 说明 结构 struct type-name{} 类似c语言中的结构体 数组 float foo3[] glsl 只支持1维数组，数组可以是结构体的成员 ##内置的特殊变量\nglsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成input,output两种类型，input类型，负责向硬件（渲染管线）发送数据，output类型负责向程序回传数据。\n在vertex shader中 output 类型的内置变量：\n变量 说明 单位 highp vec4 gl_Position; gl_Position 放置顶点坐标信息 vec4 mediump float gl_Pointsize; gl_PointSize 需要绘制点的大小（只在gl.",
+  "description": "基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维",
   "keywords": [
     
   ],
   "articleBody": "基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维整数向量 singed integer vector mat2,mat3,mat4 2X2,3X3,4X4 浮点数矩阵 float matrix sampler2D 2D 纹理 a 2D texture samplerCube 盒纹理 cube mapped texture 基本结构和数组 类型 说明 结构 struct type-name{} 类似c语言中的结构体 数组 float foo3[] glsl 只支持1维数组，数组可以是结构体的成员 ##内置的特殊变量\nglsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成input,output两种类型，input类型，负责向硬件（渲染管线）发送数据，output类型负责向程序回传数据。\n在vertex shader中 output 类型的内置变量：\n变量 说明 单位 highp vec4 gl_Position; gl_Position 放置顶点坐标信息 vec4 mediump float gl_Pointsize; gl_PointSize 需要绘制点的大小（只在gl.POINTS模式下有效） float 在fragment Shader中： input 类型的内置变量：\n变量 说明 单位 mediump vec4 gl_FragCoord; 片元在fragmebuffer画面的相对位置 vec4 bool gl_FrontFacing 标志当前图元是不是正面图元的一部分 bool mediump vec2 gl_PointCoord; 经过插值计算后的纹理坐标，点的范围是0.0到1.0 vec2 output 类型的内置变量：\n变量 说明 单位 mediump vec4 gl_FragColor; 设置当前片点的颜色 vec4 mediump vec4 gl_FragData[n]; 设置当前片点的颜色,使用glDrawBuffers数据数组 vec4 ##内置函数库\n###通用函数\n方法 说明 T abs(T x) 返回x的绝对值 T sign(T x) 比较x与0的值，大于，等于，小于 分别返回 1.0, 0.0, -1.0 T floor(T x) 返回 \u003c= x 的最大整数 T ceil(T x) 返回 \u003e= x 的最小整数 T fract(T x) 返回 x 的小数部分 T mod(T x,T y) T mod(T x,float y) 取 x,y 的余数 T min(T x,T y) T min(T x,float y) 取 x,y 的最小值 T max(T x,T y) T max(T x,float y) 取 x,y 的最大值 T clamp(T x,T minVal, T maxVal) T clamp(T x,float minal, float maxVal) min ( max (x, minVal), maxVal)，返回值限定在minVal,maxVal之间 T mix(T x,T y, T a) T mix(T x,T y, float a) 取 x,y 的线性混合，x(1-a)+ya T step(T edge,T x) T step(float edge,T x) if x \u003c edge返回0.0， 否则返回1.0 T smoothstep(T edge,T edge1, T x) T smoothstep(float edge0, float edge1,T x) if x \u003c edge0返回 0.0，if x \u003e edge1返回1.0， 否则返回Hermite插值 角度\u0026三角函数 下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.\n方法 说明 T radinans(T degrees) 角度转弧度 T degrees(T radians) 弧度转角度 T sin(T angle) 正弦函数 T cos(T angle) 余弦函数 T tan(T angle) 正切函数 T asin(T angle) 反正弦函数 T acos(T angle) 反余弦函数 T atan(T y, T x) T atan(T y_over_x) 反正切函数 指数函数 下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.\n方法 说明 T pow(T x, T y) 返回x的y次幂 T exp(T x) 返回x的自然指数幂 T log(T x) 返回x的自然对数 ln T exp2(T x) 返回2的x次幂 T log2(T x) 返回2位低的对数 log2 T sqrt(T x) 开根号 √x T inversesqrt(T x) 先开根号，在取倒数， 几何函数 下文中的类型T可以是float, vec2, vec3, vec4且可以逐分量操作.\n方法 说明 float length(T x) 返回矢量x的长度 float distance(T p0,T p1) 返回p0, p1两点的距离 float dot(T x,T y) 返回x y 的点积 vec3 cross(vec3 x,vec3 y) 返回x y 的叉积 vec3 normalize(T y) 对x进行归一化，保持向量方向不变但长度变为1 vec3 faceforward(T N, T I, T Nref) 根据 矢量 N 与Nref 调整法向量 vec3 reflect(T I, T N) 返回 I - 2 * dot(N,I) * N, 结果是入射矢量 I 关于法向量N的 镜面反射矢量 vec3 normalize(T I, T N, float eta) 返回入射矢量I关于法向量N的折射矢量,折射率为eta ",
-  "wordCount" : "412",
+  "wordCount" : "1207",
   "inLanguage": "en",
   "datePublished": "2017-02-26T14:26:08Z",
   "dateModified": "2017-02-26T14:26:08Z",
@@ -539,7 +570,7 @@ glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成i
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -606,6 +637,9 @@ glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成i
     })
 
 </script>
+
+
+
 </body>
 
 </html>

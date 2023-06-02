@@ -7,18 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Regular Expression | </title>
 <meta name="keywords" content="">
-<meta name="description" content="#常用的元字符
-代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，或2，或……) \w | 匹配字母或数字或下划线或汉字 \s | 匹配任意的空白符 \b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符
-代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次
-#其他
-字符转义 如需查找*,&#43;等元字符本身的话，需使用\来取消这些字符的特殊含义；
-\. \* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：
-[aeiou]:	匹配任何一个英文元音字母； [.?!]:	匹配标点符号(.或?或!) (?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})
-分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开
-分组 用小括号来指定子表达式(也叫做分组）
-e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})
-反义 常用的反义代码
-代码/语法 说明 \W 匹配任意不是字母，数字，下划线，汉字的字符 \S 匹配任意不是空白符的字符 \D 匹配任意非数字的字符 \B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用">
+<meta name="description" content="#常用的元字符 代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，">
 <meta name="author" content="cp">
 <link rel="canonical" href="/posts/regular-expression-beginner/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -67,19 +56,48 @@ e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数�
         }
 
     </style>
-</noscript><meta property="og:title" content="Regular Expression" />
-<meta property="og:description" content="#常用的元字符
-代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，或2，或……) \w | 匹配字母或数字或下划线或汉字 \s | 匹配任意的空白符 \b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符
-代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次
-#其他
-字符转义 如需查找*,&#43;等元字符本身的话，需使用\来取消这些字符的特殊含义；
-\. \* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：
-[aeiou]:	匹配任何一个英文元音字母； [.?!]:	匹配标点符号(.或?或!) (?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})
-分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开
-分组 用小括号来指定子表达式(也叫做分组）
-e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})
-反义 常用的反义代码
-代码/语法 说明 \W 匹配任意不是字母，数字，下划线，汉字的字符 \S 匹配任意不是空白符的字符 \D 匹配任意非数字的字符 \B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用" />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="Regular Expression" />
+<meta property="og:description" content="#常用的元字符 代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/regular-expression-beginner/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2014-05-21T00:00:00+00:00" />
@@ -87,18 +105,7 @@ e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数�
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Regular Expression"/>
-<meta name="twitter:description" content="#常用的元字符
-代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，或2，或……) \w | 匹配字母或数字或下划线或汉字 \s | 匹配任意的空白符 \b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符
-代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次
-#其他
-字符转义 如需查找*,&#43;等元字符本身的话，需使用\来取消这些字符的特殊含义；
-\. \* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：
-[aeiou]:	匹配任何一个英文元音字母； [.?!]:	匹配标点符号(.或?或!) (?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})
-分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开
-分组 用小括号来指定子表达式(也叫做分组）
-e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})
-反义 常用的反义代码
-代码/语法 说明 \W 匹配任意不是字母，数字，下划线，汉字的字符 \S 匹配任意不是空白符的字符 \D 匹配任意非数字的字符 \B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用"/>
+<meta name="twitter:description" content="#常用的元字符 代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，"/>
 
 
 <script type="application/ld+json">
@@ -127,12 +134,12 @@ e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数�
   "@type": "BlogPosting",
   "headline": "Regular Expression",
   "name": "Regular Expression",
-  "description": "#常用的元字符\n代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \\d | 匹配一位数字(0，或1，或2，或……) \\w | 匹配字母或数字或下划线或汉字 \\s | 匹配任意的空白符 \\b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符\n代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次\n#其他\n字符转义 如需查找*,+等元字符本身的话，需使用\\来取消这些字符的特殊含义；\n\\. \\* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：\n[aeiou]:\t匹配任何一个英文元音字母； [.?!]:\t匹配标点符号(.或?或!) (?0\\d{2}[) -]?\\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\\d{8})\n分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开\n分组 用小括号来指定子表达式(也叫做分组）\ne.g. IP地址匹配: (\\d{1,3}.){3}\\d{1,3} 解析：\\d{1,3}匹配1到3位的数字，(\\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\\d{1,3})\n反义 常用的反义代码\n代码/语法 说明 \\W 匹配任意不是字母，数字，下划线，汉字的字符 \\S 匹配任意不是空白符的字符 \\D 匹配任意非数字的字符 \\B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用",
+  "description": "#常用的元字符 代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \\d | 匹配一位数字(0，或1，",
   "keywords": [
     
   ],
   "articleBody": "#常用的元字符\n代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \\d | 匹配一位数字(0，或1，或2，或……) \\w | 匹配字母或数字或下划线或汉字 \\s | 匹配任意的空白符 \\b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符\n代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次\n#其他\n字符转义 如需查找*,+等元字符本身的话，需使用\\来取消这些字符的特殊含义；\n\\. \\* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：\n[aeiou]:\t匹配任何一个英文元音字母； [.?!]:\t匹配标点符号(.或?或!) (?0\\d{2}[) -]?\\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\\d{8})\n分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开\n分组 用小括号来指定子表达式(也叫做分组）\ne.g. IP地址匹配: (\\d{1,3}.){3}\\d{1,3} 解析：\\d{1,3}匹配1到3位的数字，(\\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\\d{1,3})\n反义 常用的反义代码\n代码/语法 说明 \\W 匹配任意不是字母，数字，下划线，汉字的字符 \\S 匹配任意不是空白符的字符 \\D 匹配任意非数字的字符 \\B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用\n…\n零宽断言\n…\n负向零宽断言\n…\n注释\n…\n贪婪与懒惰\n…\n处理选项\n…\n平衡组/递归匹配\n…\n#Example\nRE 示意 \\bhi\\b 查找单词hi .* 任意数量的不包含换行的字符 \\bhi\\b.*\\bLucy\\b 先是一个单词hi,然后是任意个任意字符(但不能是换行)，最后是Lucy这个单词 0\\d{2}-\\d{8} \\d后面的{2}({8})的意思是前面\\d必须连续重复匹配2次(8次) c.d(.+) 查询到结果类似于c.d((c)a, string) ((2[0-4]\\d 25[0-5] #附录：\n更多信息，请阅读：https://deerchao.net/tutorials/regex/regex.htm\n",
-  "wordCount" : "114",
+  "wordCount" : "920",
   "inLanguage": "en",
   "datePublished": "2014-05-21T00:00:00Z",
   "dateModified": "2014-05-21T00:00:00Z",
@@ -396,7 +403,7 @@ $ 	 | 匹配字符串的结束</li>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -463,6 +470,9 @@ $ 	 | 匹配字符串的结束</li>
     })
 
 </script>
+
+
+
 </body>
 
 </html>

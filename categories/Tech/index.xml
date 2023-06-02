@@ -5,6 +5,7 @@
     <link>/categories/tech/</link>
     <description>Recent content in Tech on </description>
     <generator>Hugo -- gohugo.io</generator>
+    <copyright>CP0000</copyright>
     <lastBuildDate>Sun, 19 Mar 2017 14:20:09 +0000</lastBuildDate><atom:link href="/categories/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learning OpenGL：帧缓冲对象</title>
@@ -12,23 +13,7 @@
       <pubDate>Sun, 19 Mar 2017 14:20:09 +0000</pubDate>
       
       <guid>/posts/framebuffer-object-opengl/</guid>
-      <description>背景 使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。
-FBO 在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。
-帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。
-帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：
-&amp;gt;注：OpenGL es 2.0 也只有一个颜色附加点 从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。
-创建 FBO 创建和销毁FBO的步骤很简单：
-void glGenFramebuffers(GLsizei n, GLuint * ids); void glDeleteFramebuffers(GLsizei n, const GLuint * ids); 将FBO绑定到目标对象：
-void glBindFramebuffer(GLenum target, GLuint id) target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER&amp;ndash;缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。 id 即为创建出来的帧缓冲id 通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。
-OpenGL要求，一个完整的FBO需要满足以下条件：
-至少附加一个缓冲区（颜色，深度或模版）
-至少有一个颜色附加
-所有的附加必须完整（预分配了内存）
-if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整
-每个缓冲区的采样需要一致
-接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：
-glBindFramebuffer (GL_FRAMEBUFFER, 0); 创建纹理附加图像 创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去
-glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level); target: 绑定目标，一般为 GL_FRAMEBUFFER</description>
+      <description>背景 使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，</description>
     </item>
     
     <item>
@@ -37,10 +22,7 @@ glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuin
       <pubDate>Sun, 26 Feb 2017 14:26:08 +0000</pubDate>
       
       <guid>/posts/glsl-dictionary/</guid>
-      <description>基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维整数向量 singed integer vector mat2,mat3,mat4 2X2,3X3,4X4 浮点数矩阵 float matrix sampler2D 2D 纹理 a 2D texture samplerCube 盒纹理 cube mapped texture 基本结构和数组 类型 说明 结构 struct type-name{} 类似c语言中的结构体 数组 float foo3[] glsl 只支持1维数组，数组可以是结构体的成员 ##内置的特殊变量
-glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成input,output两种类型，input类型，负责向硬件（渲染管线）发送数据，output类型负责向程序回传数据。
-在vertex shader中 output 类型的内置变量：
-变量 说明 单位 highp vec4 gl_Position; gl_Position 放置顶点坐标信息 vec4 mediump float gl_Pointsize; gl_PointSize 需要绘制点的大小（只在gl.</description>
+      <description>基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维</description>
     </item>
     
     <item>
@@ -49,24 +31,7 @@ glsl程序使用一些特殊的内置变量与硬件进行沟通。大致分成i
       <pubDate>Sun, 18 Dec 2016 14:37:53 +0000</pubDate>
       
       <guid>/posts/opengl-3d-matrix/</guid>
-      <description>Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。
-线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。
-向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。
-向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：
-向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：
-矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：
-矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。
-单位矩阵通常是生成其他变换矩阵的起点。
-缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。
-位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：
-TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移
-坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：
-局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。
-世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。
-模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。
-观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。
-裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。
-将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。</description>
+      <description>Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维</description>
     </item>
     
     <item>
@@ -75,14 +40,7 @@ TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalV
       <pubDate>Mon, 07 Nov 2016 21:03:47 +0000</pubDate>
       
       <guid>/posts/ffmpeg-command-example/</guid>
-      <description>本文介绍ffmpeg命令行的一些使用方法；
-参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -fs——超过指定的文件大小时则结束转换。 -ss——从指定时间开始转换。 -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。 -title——设置标题。 -timestamp——设置时间戳。 -vsync——增减Frame使影音同步。 视频参数 -b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项） -r——设置帧率值，默认为25。 -s——设置画面的宽与高。 -aspect——设置画面的比例。 -vn——不处理视频，于仅针对声音做处理时使用。 -vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。 声音参数 -b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项） -ar——设置采样率。 -ac——设置声音的Channel数。 -acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。 -an——不处理声音，于仅针对视频做处理时使用。 -vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。） ##例子
-不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：
-裁剪视频 比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：
-ffmpeg -i input.mp4 -strict -2 -vf crop=405:720:420:0 video_out.mp4 其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y 表示裁剪区域的左上角坐标。
-视频转换成图片 ffmpeg -i input.mp4 image%3d.png 也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）
-ffmpeg -i input.mp4 -r 30 $filename%3d.png 其中 -r 30 是视频帧率，如何获取当前视频的帧率，请看如下命令：
-ffprobe &amp;quot;input.mp4&amp;quot; -v 0 -select_streams v -print_format flat -show_entries stream=r_frame_rate 剪辑视频 一段长视频只需要保留其中一段，可用如下命令：</description>
+      <description>本文介绍ffmpeg命令行的一些使用方法； 参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -f</description>
     </item>
     
     <item>
@@ -91,19 +49,7 @@ ffprobe &amp;quot;input.mp4&amp;quot; -v 0 -select_streams v -print_format flat 
       <pubDate>Sat, 22 Oct 2016 12:55:05 +0000</pubDate>
       
       <guid>/posts/install-caffe-on-macosx/</guid>
-      <description>在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些问题。所以我决定把自己的安装过程记录下来。
-硬软件环境
-电脑：iMac 系统：OX EI Caption 版本10.11.4 Homebrew 官方推荐使用Homebrew来管理依赖项的下载，安装。
-##Anaconda Python Anaconda是python的一个常用的科学计算发行版，自带包管理器conda。从 https://store.continuum.io/cshop/anaconda/ 下载并安装Anaconda Python。安装成功之后,记得在PATH添加ananconda执行文件的路径：
-export PATH=~/anaconda/bin:$PATH CUDA 从 https://developer.nvidia.com/cuda-downloads 下载并安装CUDA 8.0 (for OSX)
-从 http://www.nvidia.com/object/mac-driver-archive.html 下载并安装最新的CUDA独立驱动。 同样我们把驱动的可执行文件路径添加到PATH环境变量中(注意下载安装的CUDA的版本号)：
-export PATH=/Developer/NVIDIA/CUDA-8.0/bin/$PATH export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-8.0/lib:$DYLD_LIBRARY_PATH BLAS 网上搜索到的教程中都是使用Intel MKL，查看网站会发现intel-mkl收费很贵，所以我安装的时候选择了OpenBLAS
-brew install openblas 关于 intel-mkl 和 openblas 的优劣，没有做过比较。在校大学生可通过学校邮箱在页面 https://software.intel.com/en-us/qualify-for-free-software/student 申请安装包。
-##cuDNN
-从 https://developer.nvidia.com/cudnn 页面下载并安装cuDNN库,安装过程如下：
-tar -xzvf cudnn-8.0-osx-x64-v5.1.tgz cd cuda sudo cp lib/* /usr/local/cuda/lib sudo cp include/cudnn.h /usr/local/cuda/include/ ##安装依赖项 via Homebrew
-首先我们需要修改下homebrew安装 opencv 时需要用到的opencv.rb文件
-brew edit opencv 将下面两行：</description>
+      <description>在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些</description>
     </item>
     
     <item>
@@ -112,24 +58,7 @@ brew edit opencv 将下面两行：</description>
       <pubDate>Sun, 06 Mar 2016 11:32:44 +0000</pubDate>
       
       <guid>/posts/ios-reverse-engineering-03/</guid>
-      <description>前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。
-B612是Line公司出品的一款非常棒的拍照软件。它的界面，交互，用起来非常顺手。app中的滤镜效果很赞，用户简单几步操作就可以生成一张很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。
-从AppStore上面下载B612的IPA文件，把文件的后缀名从 .IPA 修改成 .zip。解压zip文件之后，在Payload中有一个b612.app的文件，这里我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。经过以上几步操作我们就拿到了 B612 app的 bundle 文件信息。
-在使用B612的过程中，app会展列一个滤镜列表给用户进行选择（如下图）：
-使用的过程发现一个叫 China 的滤镜，China，中国？还是瓷器？叫China的滤镜会呈现出什么样子的效果，根据效果我们是否能推测出这里的China是要翻译成中国，还是瓷器咧？很有意思的样子。我们就拿这个滤镜当做目标吧。
-一般情况下，我的常用做法是在先前解压的文件夹中搜索一下相关的信息，碰碰运气。
-find . -name &amp;quot;*china*&amp;quot; ./FilterThumb.bundle/filterthumb_china.jpg ./ObfuscateImages.bundle/lut/china.dat 运气不错。在ObfuscateImages.bundle发现了一个叫china.dat的文件。不过尝试用各种编辑器都没法打开，使用修改后缀名等之类的方法也没能成功打开。看来要获取这个文件的内容没有那么简单，开发者对这个文件做了相关加密工作。要想解密该文件，我们可能需要到汇编代码中寻找答案了。
-这里考虑到程序在使用这个滤镜的时候，会加载该文件，并进行相关解密工作。所以下一步是要找到解密dat文件的地方，不过在此之前，我们还有一些工作要做。
-解密可执行文件 - clutch 演示 接下来我们要去可执行文件中查询相关信息了。但是从苹果商店上面下载下来的IPA里面的可执行文件是被苹果加密过的,我们解谜它。我常用的工具是 clutch,你可以clone一份repo到本地，然后编译得到一个clutch的程序，也可以直接下载release版本。然后把Clutch scp 到你的越狱机器上面就可以使用了。
-首先我们查找一下b612的bundle
-iPhone:/usr root# ./Clutch -i|grep b612
-28)
-然后进行dump工作
-iPhone:/usr root# ./Clutch -d com.linecorp.b612 &amp;hellip;. //程序输出相关log &amp;hellip;. DONE: /private/var/mobile/Documents/Dumped/com.linecorp.b612-iOS7.0-(Clutch-2.0 RC2).ipa
-最后会生成一个解密了的ipa文件，我们把它scp到电脑上来，进行分析。
-还有另外一个解密苹果商店加密IPA的工具叫dumpdecrypted。由于在使用Clutch解密app的时候，消耗内存比较大，导致运行时会出现解密失败的情况，这个时候可以尝试使用dumpdecrypted。
-分析可执行文件 - class-dump 以及 IDA 要分析解密之后的文件，我们可以使用class-dump来导出程序的头文件。有了头文件列表之后，我们可以利用它来了解app的架构，使用的类库，以及探索需要逆向的那一块功能所属的类名。
-class-dump-z/mac_x86/class-dump-z b612 -H -o headers cd headers total 10728 drwxr-xr-x 1295 cp wheel 44030 Apr 4 12:46 .</description>
+      <description>前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向</description>
     </item>
     
     <item>
@@ -138,21 +67,7 @@ class-dump-z/mac_x86/class-dump-z b612 -H -o headers cd headers total 10728 drwx
       <pubDate>Mon, 30 Nov 2015 22:00:07 +0000</pubDate>
       
       <guid>/posts/ios-reverse-engineering-02/</guid>
-      <description>对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。
-当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。
-比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码
-那问题来了，我们要如何知道哪个函数是账号登录函数咧？这就涉及到我们如何去分析一个iOS app
-分析 iOS app 的两种方法 运行时分析
-GDB/LLDB Cycript Logify weak_classdump InspectiveC 可执行代码分析
-dumpdecrpted class_dump,class_dump_z,classdump_dyld Disassemblers IDA Hopper otool strings nm 先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。
-###Cycript
-Cycript最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。
-以下是 Cycript 的用途：
-能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController 对程序中的类，可以获取到它用过的方法名称 可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值 能够执行 method swizzling， 替换某个指定的函数 可以在运行时调用其他方法 安装 cycript 首先利用 Cydia 下载 mobilesubstrate adv-mds;从官网上面下载最新的包，并通过 scp 把文件拷贝到 iOS 设备上去，利用 dpkg 进行安装：
-dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb 安装完成之后，执行 cycript 看是否工作：
-用Cycript进行实时修改 本文将使用支付宝来进行测试。
-让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程
-chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.</description>
+      <description>对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以</description>
     </item>
     
     <item>
@@ -161,11 +76,7 @@ chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.</description>
       <pubDate>Sat, 21 Nov 2015 10:46:07 +0000</pubDate>
       
       <guid>/posts/ios-reverse-engineering-01/</guid>
-      <description>前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
-作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
-当然了，逆向工程还有其他更重要的用途，如下：
-分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
-硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries.</description>
+      <description>前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事</description>
     </item>
     
     <item>
@@ -174,12 +85,7 @@ chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.</description>
       <pubDate>Sun, 25 Oct 2015 10:36:21 +0000</pubDate>
       
       <guid>/posts/peek-and-pop/</guid>
-      <description>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp;amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本文将用来介绍Peek &amp;amp; Pop 的相关知识点。
-在给你的app接入peeking and poping 的功能之前，需要先了解该操作的三个属性， peeking, preview actions, poping。如下图所示：
-用户在 Peeking 图片，视频，网页等内容的时候，能够在不去加载全部内容的情况下获取到更多详细的内容。
-##PEEKING
-当用户对某个view做peeking操作时，程序会展现给用户相对应内容的快照。Peek 操作是 3DTouch 中实现起来相对比较复杂的模块。Peek and Pop API 中有一个 UIViewControllerPreviewingDelegate,给指定的view需要注册这个delegate，就可以接收到系统回调过来的3D Touch事件。
-override func viewDidLoad() { super.viewDidLoad() /* Register for `UIViewControllerPreviewingDelegate` to enable &amp;quot;Peek&amp;quot; and &amp;quot;Pop&amp;quot;. The view controller will be automatically unregistered when it is deallocated. */ registerForPreviewingWithDelegate(self, sourceView: view) } 这里有一点需要注意，我们可以在一个 view Controller 中，给多个view注册 Previewing Delegate ，但是我们不能反复去注册同一个view。</description>
+      <description>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp;amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本</description>
     </item>
     
     <item>
@@ -188,15 +94,7 @@ override func viewDidLoad() { super.viewDidLoad() /* Register for `UIViewControl
       <pubDate>Wed, 30 Sep 2015 19:24:13 +0000</pubDate>
       
       <guid>/posts/ios9-quick-actions-shortcut/</guid>
-      <description>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。
-Home Screen Quick Actions 通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。
-静态快捷键的添加 打开 Info.plist, 在该文件中添加如下键值：
-添加一个key为UIApplicationShortcutItems的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：
-UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示 UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上 UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上 UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 UIApplicationShortcutIcon_Class UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，3535的倍数（试过100100也是Ok的），并且单色。 UIApplicationShortcutItemUserInfo (optional): 传值用 详情请看这里
-当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：
-P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节模拟器上测试Shortcut。
-动态标签的添加 所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：
-UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签中图片Icon的类 响应标签的行为 当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：</description>
+      <description>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这</description>
     </item>
     
     <item>
@@ -205,16 +103,7 @@ UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签�
       <pubDate>Sun, 30 Aug 2015 22:02:42 +0000</pubDate>
       
       <guid>/posts/openradarstream/</guid>
-      <description>写在前面 随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债”上，之前release了太多的feature，遗留了太多的bug，会在这一次修复掉。
-Openradar stream 的来由 和大多数 iOS developers 一样，我也在第一时间安装了 iOS 9 beta版本。满足了尝鲜感之后，随着而来就是 beta 系统的不稳定，以及各种的bug。用 iOS 9 进行开发的过程中，我遇到了许许多多的坑，对于一些系统的bug，会花费掉我很多的时间去debug。然后，我发现了openradar。一个 open database of radars for Apple bug。从openradar 上，你可以看到其他开发者提交的bug，这当然会为你省去很多的时间，帮助你避免很多的坑。
-后来我想我是不是应该做一个自动的脚本，定时的去抓取这个网页上面的信息，然后发到微博上。关注这个微博的人就可以在自己的时间线上面看到最新的bug了。这样做的好处是，一来你了解到bug信息，下次你遇到类似的问题，会联想到之前看过的bug信息，省去大量的时间。二来，刷微博的时候，还顺便学习了新知识，就没那么大的罪恶感了～。为此，我写一个tiny project，auto radarstream。
-具体工作 完成openradarstream，有以下事情需要去做
-前期工作
-申请一个微博账号，并申请微博OpenApi，获取到apikey和apisecret。 获取到微博的 accessToken， expires 开发工具
-language: python database: sqlite 细节
-设置好微博的环境，其中微博的OpenAPI,使用开源库sinaweibopy
-初始化数据库
-def initDB (): print &#39;initDB ...&#39; db = sqlite3.connect(sqlite_file) cursor = db.cursor() cursor.execute(&#39;&#39;&#39;CREATE TABLE IF NOT EXISTS bugs(id INTEGER PRIMARY KEY, bugid TEXT, status TEXT, originator TEXT, product TEXT, title TEXT)&#39;&#39;&#39;) db.</description>
+      <description>写在前面 随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待</description>
     </item>
     
     <item>
@@ -223,12 +112,7 @@ def initDB (): print &#39;initDB ...&#39; db = sqlite3.connect(sqlite_file) curs
       <pubDate>Sat, 22 Aug 2015 09:52:28 +0000</pubDate>
       
       <guid>/posts/uicollectionview-has-easy-reording-on-ios9/</guid>
-      <description>iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering
-在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。
-实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.
-override func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。
-![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。
-override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: &amp;quot;handleLongGesture:&amp;quot;) self.</description>
+      <description>iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering 在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView</description>
     </item>
     
     <item>
@@ -237,23 +121,7 @@ override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPress
       <pubDate>Sun, 02 Aug 2015 11:31:18 +0000</pubDate>
       
       <guid>/posts/mdfind-note/</guid>
-      <description>Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。
-先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：
-spotlight 帮我找到了包含 _loadBlock 这个字符串的文件。
-想象下，电脑硬盘中存储着如此多的文件，spotlight 是如何如此快速的查询到包涵这个字符串的文件的？
-在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？
-关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 find 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。那答案是什么？
-我们不妨先把目光放到搜索这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。
-那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的indexing的索引服务。那什么是indexing索引服务器，简单来讲： Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。
-当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 Lucene 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。
-mdfind 用 spotlight 的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。关于如何在spotlight界面显示文件的详细路径，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。
-那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？
-Macosx 提供了终端执行命令mdfind，我们可以在 terminal 中使用mdfind来进行索引查询。比如要查询出文件内容中包含字符串 &amp;ldquo;_loadBlock&amp;rdquo;, 在ternimal中输入以下命令即可：
-mdfind &#39;kMDItemTextContent=&amp;quot;_loadBlock&amp;quot;&#39; results:
-/opt/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.h /opt/dev/appstore_cracked/StoreKit_headers/SKStoreProductViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUWebViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUStorePageViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUPreviewOverlayViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.h /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.h /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.h 对比终端查询结果和图一中的结果，会发现有两点出入：
-(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。 (2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下&amp;quot;_loadBlock&amp;quot;在各个文件中的上下文，以下是节选 nsBlocklistService.js
-this._loadBlocklist(); SKStorePageViewController
-CDUnknownBlockType _loadBlock; 看上去问题应该是出在_loadBlock前后是否能跟别的字符串上，修改查询语句</description>
+      <description>Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。 先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结</description>
     </item>
     
     <item>
@@ -262,16 +130,7 @@ CDUnknownBlockType _loadBlock; 看上去问题应该是出在_loadBlock前后是
       <pubDate>Thu, 23 Jul 2015 21:12:55 +0000</pubDate>
       
       <guid>/posts/oc-checklist-answers/</guid>
-      <description>@property中有哪些属性关键字？ nonatomic (thread-unsafe) atomic (default, thread safe)
-strong weak assign copy
-getter (custom getter method name) setter (custom setter method name)
-readwrite (default) readonly
-weak属性需要在dealloc中置nil么？ 不需要，runtime会在weak属性在释放的时候，自动把变量至为 nil;
-@synthesize和@dynamic分别有什么作用？ @synthesize 自动生成属性 getter 和 setter 方法. LLVM Compiler 4.0之后，编译器会对@property 属性自动的添加 @synthesize ivar = _ivar,自动帮你生成 getter/setter 方法，以及自动绑定_ivar 实例变量。
-@dynamic 是为了告诉编译器，getter/setter 方法将会在其他地方（父类，runtime）实现，这样可以消除warnnig
-ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？ atomic, assign, readwrite
-用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？ NSString Property:copy or retain
-@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？ 首先 complier 会根据 @interface 中的 @property 属性自动生成一份属性名前加_的实例变量。LLVM Compiler 4.0 之后，会自动添加@synthesize ivar = _ivar。</description>
+      <description>@property中有哪些属性关键字？ nonatomic (thread-unsafe) atomic (default, thread safe) strong weak assign copy getter (custom getter method name) setter (custom setter method name) readwrite (default) readonly weak属性需要在dealloc中置nil么？ 不需要，r</description>
     </item>
     
     <item>
@@ -280,10 +139,7 @@ ARC下，不显式指定任何属性关键字时，默认的关键字都有哪�
       <pubDate>Sun, 19 Jul 2015 11:50:04 +0000</pubDate>
       
       <guid>/posts/nsstring-property-copy-or-retain/</guid>
-      <description>NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。
-为什么会有NSString要用copy来修饰的convention？能否用 strong代替?
-回答这个问题之前，我们先看段代码：
-@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@&amp;quot;apple&amp;quot;]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@&amp;quot;fruitName: %p %@&amp;quot;, fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@&amp;quot;fruitNameCopy: %p %@&amp;quot;, fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@&amp;quot;fruitNameStrong:%p %@&amp;quot;, fruit.fruitNameStrong, fruit.</description>
+      <description>NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)</description>
     </item>
     
     <item>
@@ -292,18 +148,7 @@ ARC下，不显式指定任何属性关键字时，默认的关键字都有哪�
       <pubDate>Wed, 21 May 2014 00:00:00 +0000</pubDate>
       
       <guid>/posts/regular-expression-beginner/</guid>
-      <description>#常用的元字符
-代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，或2，或……) \w | 匹配字母或数字或下划线或汉字 \s | 匹配任意的空白符 \b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符
-代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次
-#其他
-字符转义 如需查找*,+等元字符本身的话，需使用\来取消这些字符的特殊含义；
-\. \* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：
-[aeiou]:	匹配任何一个英文元音字母； [.?!]:	匹配标点符号(.或?或!) (?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})
-分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开
-分组 用小括号来指定子表达式(也叫做分组）
-e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})
-反义 常用的反义代码
-代码/语法 说明 \W 匹配任意不是字母，数字，下划线，汉字的字符 \S 匹配任意不是空白符的字符 \D 匹配任意非数字的字符 \B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用</description>
+      <description>#常用的元字符 代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，</description>
     </item>
     
     <item>
@@ -312,25 +157,7 @@ e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数�
       <pubDate>Thu, 10 Apr 2014 00:00:00 +0000</pubDate>
       
       <guid>/posts/google-wildcard/</guid>
-      <description>1.双引号
-把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。
-“seo方法图片” 2.减号
-减号代表搜索不包含减号后面的词的页面。使用这个指令时减号前面必须是空格，减号后面没有空格，紧跟着需要排除的词。
-搜索 -引擎 3.星号
-星号常用的通配符
-搜索*擎 4.inurl
-inurl: 指令用于搜索查询词出现在url 中的页面。
-inurl:搜索引擎优化 5.inanchor
-指令返回的结果是导入链接锚文字中包含搜索词的页面。
-inanchor:点击这里 6.intitle
-指令返回的是页面title 中包含关键词的页面。
-7.allintitle
-搜索返回的是页面标题中包含多组关键词的文件。
-8.filetype
-用于搜索特定文件格式。
-filetype:pdf SEO 9.site
-用来搜索某个域名下的所有文件。
-site:developer.apple.com gcd </description>
+      <description>1.双引号 把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。 “seo方法图</description>
     </item>
     
     <item>
@@ -339,17 +166,7 @@ site:developer.apple.com gcd </description>
       <pubDate>Sat, 01 Mar 2014 00:00:00 +0000</pubDate>
       
       <guid>/posts/android-reverse-engineering/</guid>
-      <description>名词解释 java: android app 编程语言
-class: 由 java文件通过 Sun JDK 编译而成
-dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。
-ps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）
-odex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。
-smali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器
-ps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。
-Andoid App 的运行策略：解压apk后运行class.dex
-工具介绍 ant: 编译，生成android 项目的工具； apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml smali-2.0.3.jar: 把smali 文件转换成 dex文件 baksmali-2.0.2.jar: 把dex文件转换成smali文件 dex2jar: dex 转换成 jar signapk.jar: 用来签名apk eclipse: 大多数android项目的IDE adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件； JD-GUi:图形界面的Java源代码”.class”文件反编译工具 DEMO演示 首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；
-使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；
-然后开始对这个apk动手脚；</description>
+      <description>名词解释 java: android app 编程语言 class: 由 java文件通过 Sun JDK 编译而成 dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比</description>
     </item>
     
   </channel>

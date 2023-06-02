@@ -7,24 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Vision Transformer - Self-Attention | </title>
 <meta name="keywords" content="">
-<meta name="description" content="Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transformer模型使用Self-Attention机制，不采用RNN的顺序结构，使得模型可以并行化训练，而且能够拥有全局信息。
-1. Self-Attention 1.1 处理Sequence数据模型 Transformer是一个Sequence to Sequence model,特别之处在于它使用self-attention.要处理一个Sequence，最常想到的是使用RNN，它的输入是一串vector sequence,输出是另一串vector sequence.如下图1左所示：
-假设是一个single directional的RNN，当输出b4s时，默认a1,a2,a3,a4都已经看过了。如果假设是一个bi-directional的RNN，那当输出 b任意 时，默认a1,a2,a3,a4都已经看过了。RNN非常擅长处理input是一个sequence的状况。
-那RNN有什么样的问题呢？RNN的问题在于，它很不容易并行化。假设在single directional的RNN情况下。要算出b4就必须要先看a1,再看a2,再看a3,再看a4,所以这个过程很难并行处理。
-所以就有人拿CNN来取代RNN， 如下图1右所示。其中，橘色的三角形表示一个filter，每次扫过3个向量a,扫过一轮以后，就输出一排结果，使用橘色的小圆点表示。
-这是第一个橘色filter的过程，还有其他的filter，比如图2中的黄色的filter，它经历着与橘色的filter相似的过程，又输出一排结果，使用黄色的小圆点表示。
-所以使用CNN的确可以做到跟RNN的输入输出相似的关系，也可以做到输入是一个sequence，输出是另外一个sequence。 但是表面上CNN和RNN可以做到相似的输入和输出，但是CNN只能考虑非常有限的内容。比如在我们右侧的图中CNN的filter只考虑了3个vector，不像RNN可以考虑之前所有的vector。CNN可以通过堆叠filter，多堆叠几层，上层的filter就可以考虑比较多的信息，比如第二层的蓝色三角形filter看了6个vector，所以只要叠很多层，就能够看很长时间的信息。
-而CNN的一个好处是：它是可以并行化的，不需要等橘色的filter算完，再算黄色的filter。但是必须要叠很多层filter，才可以看到长时的资讯。所以self-attention，如下图3所示，目的是使用self-attention layer取代RNN所做的事情。
-所以重点是：我们有了一种新的layer，叫self-attention,它的输入输出和RNN是一样的，输入一个sequence，输出一个sequence，它的每一个输出b1 - b4 都看过了整个输入sequence，这一点与bi-directional RNN相同。但神奇的地方是：它的每一个输出b1-b4可以并行计算。
-1.2 Self-attention Self-attention 具体是怎么做的？
-首先假设我们的input是图4的x1-x4,是一个sequence，每一个input（vector）先乘上一个矩阵W得到embedding，即向量a1-a4。接着这个embedding进入self-attention层，即每一个向量a1-a4分别乘上3个不同的transformer matrix Wq, Wk, Wv,以向量a1为例，分别得到3个不同的向量q1,k1,v1.
-接下来使用每个query q 去对每个key k做attention，attention就是匹配这2个向量有多接近，比如我现在要q1 和 k1 做attention，就可以把2个向量做scaled inner product，得到α1,1.接下来再拿q1和k2做attention，得到α1,2,以此α1,3,α1,4。其中scaled inner product计算公式为：
-d 是q跟k的维度。其中q.k的数值会随着dimension的增大而增大，所以要除以dimension的根号值，相当于归一化结果。
-接下来要做的事如图6所示，把计算得到的所有α1,i值取softmax操作。
-取完softmax操作以后，我们得到了α^1,i，我们用它和所有的vi值进行相乘。具体来讲，把α^1,1 乘上v1, α^1,2 乘上v2,把α^1,3乘上v3,把α^1,4 乘上v4,把结果加起来得到b1，所以，在产生b1的过程中用了整个sequence的信息。如果要考虑local的information，则只需要学习出相应的α^1,i = 0,b1 就不再带有那个对应分支的信息了；如果要考虑global的information，则只需要学习出相应的^1,i ≠ 0，b1就带有全部的对应分支信息了。
-同样的方法，也可以计算出b2,b3,b4,如下图8所示，b2就是拿query q2去对其他的k做attention，得到α^2,i，再与value值vi相乘取weighted sum得到的。
-经过了以上一连串计算，self-attention layer做的事情跟RNN是一样的，只是它可以并行的得到layer输出的结果，如图9所示。现在我们要用矩阵表示上述的计算过程。
-首先输入的embedding是 I = [a1, a2, a3, a4], 然后用 I 乘以 tranformation matrix Wq 得到 Q = [q1, q2, q3, q4],它的每一列代表着一个vector q。同理，用I乘以tranformation matrix Wk 得到 K = [k1, k2, k3, k4], 它的每一列代表着一个vector k。用 I 乘以 tranformation matrix Wk 得到 Q=[v1, v2, v3, v4],它的每一列代表着一个vector v。">
+<meta name="description" content="Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transf">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/vit/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -73,25 +56,48 @@ d 是q跟k的维度。其中q.k的数值会随着dimension的增大而增大，�
         }
 
     </style>
-</noscript><meta property="og:title" content="Vision Transformer - Self-Attention" />
-<meta property="og:description" content="Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transformer模型使用Self-Attention机制，不采用RNN的顺序结构，使得模型可以并行化训练，而且能够拥有全局信息。
-1. Self-Attention 1.1 处理Sequence数据模型 Transformer是一个Sequence to Sequence model,特别之处在于它使用self-attention.要处理一个Sequence，最常想到的是使用RNN，它的输入是一串vector sequence,输出是另一串vector sequence.如下图1左所示：
-假设是一个single directional的RNN，当输出b4s时，默认a1,a2,a3,a4都已经看过了。如果假设是一个bi-directional的RNN，那当输出 b任意 时，默认a1,a2,a3,a4都已经看过了。RNN非常擅长处理input是一个sequence的状况。
-那RNN有什么样的问题呢？RNN的问题在于，它很不容易并行化。假设在single directional的RNN情况下。要算出b4就必须要先看a1,再看a2,再看a3,再看a4,所以这个过程很难并行处理。
-所以就有人拿CNN来取代RNN， 如下图1右所示。其中，橘色的三角形表示一个filter，每次扫过3个向量a,扫过一轮以后，就输出一排结果，使用橘色的小圆点表示。
-这是第一个橘色filter的过程，还有其他的filter，比如图2中的黄色的filter，它经历着与橘色的filter相似的过程，又输出一排结果，使用黄色的小圆点表示。
-所以使用CNN的确可以做到跟RNN的输入输出相似的关系，也可以做到输入是一个sequence，输出是另外一个sequence。 但是表面上CNN和RNN可以做到相似的输入和输出，但是CNN只能考虑非常有限的内容。比如在我们右侧的图中CNN的filter只考虑了3个vector，不像RNN可以考虑之前所有的vector。CNN可以通过堆叠filter，多堆叠几层，上层的filter就可以考虑比较多的信息，比如第二层的蓝色三角形filter看了6个vector，所以只要叠很多层，就能够看很长时间的信息。
-而CNN的一个好处是：它是可以并行化的，不需要等橘色的filter算完，再算黄色的filter。但是必须要叠很多层filter，才可以看到长时的资讯。所以self-attention，如下图3所示，目的是使用self-attention layer取代RNN所做的事情。
-所以重点是：我们有了一种新的layer，叫self-attention,它的输入输出和RNN是一样的，输入一个sequence，输出一个sequence，它的每一个输出b1 - b4 都看过了整个输入sequence，这一点与bi-directional RNN相同。但神奇的地方是：它的每一个输出b1-b4可以并行计算。
-1.2 Self-attention Self-attention 具体是怎么做的？
-首先假设我们的input是图4的x1-x4,是一个sequence，每一个input（vector）先乘上一个矩阵W得到embedding，即向量a1-a4。接着这个embedding进入self-attention层，即每一个向量a1-a4分别乘上3个不同的transformer matrix Wq, Wk, Wv,以向量a1为例，分别得到3个不同的向量q1,k1,v1.
-接下来使用每个query q 去对每个key k做attention，attention就是匹配这2个向量有多接近，比如我现在要q1 和 k1 做attention，就可以把2个向量做scaled inner product，得到α1,1.接下来再拿q1和k2做attention，得到α1,2,以此α1,3,α1,4。其中scaled inner product计算公式为：
-d 是q跟k的维度。其中q.k的数值会随着dimension的增大而增大，所以要除以dimension的根号值，相当于归一化结果。
-接下来要做的事如图6所示，把计算得到的所有α1,i值取softmax操作。
-取完softmax操作以后，我们得到了α^1,i，我们用它和所有的vi值进行相乘。具体来讲，把α^1,1 乘上v1, α^1,2 乘上v2,把α^1,3乘上v3,把α^1,4 乘上v4,把结果加起来得到b1，所以，在产生b1的过程中用了整个sequence的信息。如果要考虑local的information，则只需要学习出相应的α^1,i = 0,b1 就不再带有那个对应分支的信息了；如果要考虑global的information，则只需要学习出相应的^1,i ≠ 0，b1就带有全部的对应分支信息了。
-同样的方法，也可以计算出b2,b3,b4,如下图8所示，b2就是拿query q2去对其他的k做attention，得到α^2,i，再与value值vi相乘取weighted sum得到的。
-经过了以上一连串计算，self-attention layer做的事情跟RNN是一样的，只是它可以并行的得到layer输出的结果，如图9所示。现在我们要用矩阵表示上述的计算过程。
-首先输入的embedding是 I = [a1, a2, a3, a4], 然后用 I 乘以 tranformation matrix Wq 得到 Q = [q1, q2, q3, q4],它的每一列代表着一个vector q。同理，用I乘以tranformation matrix Wk 得到 K = [k1, k2, k3, k4], 它的每一列代表着一个vector k。用 I 乘以 tranformation matrix Wk 得到 Q=[v1, v2, v3, v4],它的每一列代表着一个vector v。" />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="Vision Transformer - Self-Attention" />
+<meta property="og:description" content="Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transf" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/vit/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-10-10T10:04:18+00:00" />
@@ -99,24 +105,7 @@ d 是q跟k的维度。其中q.k的数值会随着dimension的增大而增大，�
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Vision Transformer - Self-Attention"/>
-<meta name="twitter:description" content="Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transformer模型使用Self-Attention机制，不采用RNN的顺序结构，使得模型可以并行化训练，而且能够拥有全局信息。
-1. Self-Attention 1.1 处理Sequence数据模型 Transformer是一个Sequence to Sequence model,特别之处在于它使用self-attention.要处理一个Sequence，最常想到的是使用RNN，它的输入是一串vector sequence,输出是另一串vector sequence.如下图1左所示：
-假设是一个single directional的RNN，当输出b4s时，默认a1,a2,a3,a4都已经看过了。如果假设是一个bi-directional的RNN，那当输出 b任意 时，默认a1,a2,a3,a4都已经看过了。RNN非常擅长处理input是一个sequence的状况。
-那RNN有什么样的问题呢？RNN的问题在于，它很不容易并行化。假设在single directional的RNN情况下。要算出b4就必须要先看a1,再看a2,再看a3,再看a4,所以这个过程很难并行处理。
-所以就有人拿CNN来取代RNN， 如下图1右所示。其中，橘色的三角形表示一个filter，每次扫过3个向量a,扫过一轮以后，就输出一排结果，使用橘色的小圆点表示。
-这是第一个橘色filter的过程，还有其他的filter，比如图2中的黄色的filter，它经历着与橘色的filter相似的过程，又输出一排结果，使用黄色的小圆点表示。
-所以使用CNN的确可以做到跟RNN的输入输出相似的关系，也可以做到输入是一个sequence，输出是另外一个sequence。 但是表面上CNN和RNN可以做到相似的输入和输出，但是CNN只能考虑非常有限的内容。比如在我们右侧的图中CNN的filter只考虑了3个vector，不像RNN可以考虑之前所有的vector。CNN可以通过堆叠filter，多堆叠几层，上层的filter就可以考虑比较多的信息，比如第二层的蓝色三角形filter看了6个vector，所以只要叠很多层，就能够看很长时间的信息。
-而CNN的一个好处是：它是可以并行化的，不需要等橘色的filter算完，再算黄色的filter。但是必须要叠很多层filter，才可以看到长时的资讯。所以self-attention，如下图3所示，目的是使用self-attention layer取代RNN所做的事情。
-所以重点是：我们有了一种新的layer，叫self-attention,它的输入输出和RNN是一样的，输入一个sequence，输出一个sequence，它的每一个输出b1 - b4 都看过了整个输入sequence，这一点与bi-directional RNN相同。但神奇的地方是：它的每一个输出b1-b4可以并行计算。
-1.2 Self-attention Self-attention 具体是怎么做的？
-首先假设我们的input是图4的x1-x4,是一个sequence，每一个input（vector）先乘上一个矩阵W得到embedding，即向量a1-a4。接着这个embedding进入self-attention层，即每一个向量a1-a4分别乘上3个不同的transformer matrix Wq, Wk, Wv,以向量a1为例，分别得到3个不同的向量q1,k1,v1.
-接下来使用每个query q 去对每个key k做attention，attention就是匹配这2个向量有多接近，比如我现在要q1 和 k1 做attention，就可以把2个向量做scaled inner product，得到α1,1.接下来再拿q1和k2做attention，得到α1,2,以此α1,3,α1,4。其中scaled inner product计算公式为：
-d 是q跟k的维度。其中q.k的数值会随着dimension的增大而增大，所以要除以dimension的根号值，相当于归一化结果。
-接下来要做的事如图6所示，把计算得到的所有α1,i值取softmax操作。
-取完softmax操作以后，我们得到了α^1,i，我们用它和所有的vi值进行相乘。具体来讲，把α^1,1 乘上v1, α^1,2 乘上v2,把α^1,3乘上v3,把α^1,4 乘上v4,把结果加起来得到b1，所以，在产生b1的过程中用了整个sequence的信息。如果要考虑local的information，则只需要学习出相应的α^1,i = 0,b1 就不再带有那个对应分支的信息了；如果要考虑global的information，则只需要学习出相应的^1,i ≠ 0，b1就带有全部的对应分支信息了。
-同样的方法，也可以计算出b2,b3,b4,如下图8所示，b2就是拿query q2去对其他的k做attention，得到α^2,i，再与value值vi相乘取weighted sum得到的。
-经过了以上一连串计算，self-attention layer做的事情跟RNN是一样的，只是它可以并行的得到layer输出的结果，如图9所示。现在我们要用矩阵表示上述的计算过程。
-首先输入的embedding是 I = [a1, a2, a3, a4], 然后用 I 乘以 tranformation matrix Wq 得到 Q = [q1, q2, q3, q4],它的每一列代表着一个vector q。同理，用I乘以tranformation matrix Wk 得到 K = [k1, k2, k3, k4], 它的每一列代表着一个vector k。用 I 乘以 tranformation matrix Wk 得到 Q=[v1, v2, v3, v4],它的每一列代表着一个vector v。"/>
+<meta name="twitter:description" content="Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transf"/>
 
 
 <script type="application/ld+json">
@@ -145,12 +134,12 @@ d 是q跟k的维度。其中q.k的数值会随着dimension的增大而增大，�
   "@type": "BlogPosting",
   "headline": "Vision Transformer - Self-Attention",
   "name": "Vision Transformer - Self-Attention",
-  "description": "Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transformer模型使用Self-Attention机制，不采用RNN的顺序结构，使得模型可以并行化训练，而且能够拥有全局信息。\n1. Self-Attention 1.1 处理Sequence数据模型 Transformer是一个Sequence to Sequence model,特别之处在于它使用self-attention.要处理一个Sequence，最常想到的是使用RNN，它的输入是一串vector sequence,输出是另一串vector sequence.如下图1左所示：\n假设是一个single directional的RNN，当输出b4s时，默认a1,a2,a3,a4都已经看过了。如果假设是一个bi-directional的RNN，那当输出 b任意 时，默认a1,a2,a3,a4都已经看过了。RNN非常擅长处理input是一个sequence的状况。\n那RNN有什么样的问题呢？RNN的问题在于，它很不容易并行化。假设在single directional的RNN情况下。要算出b4就必须要先看a1,再看a2,再看a3,再看a4,所以这个过程很难并行处理。\n所以就有人拿CNN来取代RNN， 如下图1右所示。其中，橘色的三角形表示一个filter，每次扫过3个向量a,扫过一轮以后，就输出一排结果，使用橘色的小圆点表示。\n这是第一个橘色filter的过程，还有其他的filter，比如图2中的黄色的filter，它经历着与橘色的filter相似的过程，又输出一排结果，使用黄色的小圆点表示。\n所以使用CNN的确可以做到跟RNN的输入输出相似的关系，也可以做到输入是一个sequence，输出是另外一个sequence。 但是表面上CNN和RNN可以做到相似的输入和输出，但是CNN只能考虑非常有限的内容。比如在我们右侧的图中CNN的filter只考虑了3个vector，不像RNN可以考虑之前所有的vector。CNN可以通过堆叠filter，多堆叠几层，上层的filter就可以考虑比较多的信息，比如第二层的蓝色三角形filter看了6个vector，所以只要叠很多层，就能够看很长时间的信息。\n而CNN的一个好处是：它是可以并行化的，不需要等橘色的filter算完，再算黄色的filter。但是必须要叠很多层filter，才可以看到长时的资讯。所以self-attention，如下图3所示，目的是使用self-attention layer取代RNN所做的事情。\n所以重点是：我们有了一种新的layer，叫self-attention,它的输入输出和RNN是一样的，输入一个sequence，输出一个sequence，它的每一个输出b1 - b4 都看过了整个输入sequence，这一点与bi-directional RNN相同。但神奇的地方是：它的每一个输出b1-b4可以并行计算。\n1.2 Self-attention Self-attention 具体是怎么做的？\n首先假设我们的input是图4的x1-x4,是一个sequence，每一个input（vector）先乘上一个矩阵W得到embedding，即向量a1-a4。接着这个embedding进入self-attention层，即每一个向量a1-a4分别乘上3个不同的transformer matrix Wq, Wk, Wv,以向量a1为例，分别得到3个不同的向量q1,k1,v1.\n接下来使用每个query q 去对每个key k做attention，attention就是匹配这2个向量有多接近，比如我现在要q1 和 k1 做attention，就可以把2个向量做scaled inner product，得到α1,1.接下来再拿q1和k2做attention，得到α1,2,以此α1,3,α1,4。其中scaled inner product计算公式为：\nd 是q跟k的维度。其中q.k的数值会随着dimension的增大而增大，所以要除以dimension的根号值，相当于归一化结果。\n接下来要做的事如图6所示，把计算得到的所有α1,i值取softmax操作。\n取完softmax操作以后，我们得到了α^1,i，我们用它和所有的vi值进行相乘。具体来讲，把α^1,1 乘上v1, α^1,2 乘上v2,把α^1,3乘上v3,把α^1,4 乘上v4,把结果加起来得到b1，所以，在产生b1的过程中用了整个sequence的信息。如果要考虑local的information，则只需要学习出相应的α^1,i = 0,b1 就不再带有那个对应分支的信息了；如果要考虑global的information，则只需要学习出相应的^1,i ≠ 0，b1就带有全部的对应分支信息了。\n同样的方法，也可以计算出b2,b3,b4,如下图8所示，b2就是拿query q2去对其他的k做attention，得到α^2,i，再与value值vi相乘取weighted sum得到的。\n经过了以上一连串计算，self-attention layer做的事情跟RNN是一样的，只是它可以并行的得到layer输出的结果，如图9所示。现在我们要用矩阵表示上述的计算过程。\n首先输入的embedding是 I = [a1, a2, a3, a4], 然后用 I 乘以 tranformation matrix Wq 得到 Q = [q1, q2, q3, q4],它的每一列代表着一个vector q。同理，用I乘以tranformation matrix Wk 得到 K = [k1, k2, k3, k4], 它的每一列代表着一个vector k。用 I 乘以 tranformation matrix Wk 得到 Q=[v1, v2, v3, v4],它的每一列代表着一个vector v。",
+  "description": "Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transf",
   "keywords": [
     
   ],
   "articleBody": "Transformer是Google团队在2017年提出的一种NLP经典模型，目前流行的Bert也是基于Transformer。Transformer模型使用Self-Attention机制，不采用RNN的顺序结构，使得模型可以并行化训练，而且能够拥有全局信息。\n1. Self-Attention 1.1 处理Sequence数据模型 Transformer是一个Sequence to Sequence model,特别之处在于它使用self-attention.要处理一个Sequence，最常想到的是使用RNN，它的输入是一串vector sequence,输出是另一串vector sequence.如下图1左所示：\n假设是一个single directional的RNN，当输出b4s时，默认a1,a2,a3,a4都已经看过了。如果假设是一个bi-directional的RNN，那当输出 b任意 时，默认a1,a2,a3,a4都已经看过了。RNN非常擅长处理input是一个sequence的状况。\n那RNN有什么样的问题呢？RNN的问题在于，它很不容易并行化。假设在single directional的RNN情况下。要算出b4就必须要先看a1,再看a2,再看a3,再看a4,所以这个过程很难并行处理。\n所以就有人拿CNN来取代RNN， 如下图1右所示。其中，橘色的三角形表示一个filter，每次扫过3个向量a,扫过一轮以后，就输出一排结果，使用橘色的小圆点表示。\n这是第一个橘色filter的过程，还有其他的filter，比如图2中的黄色的filter，它经历着与橘色的filter相似的过程，又输出一排结果，使用黄色的小圆点表示。\n所以使用CNN的确可以做到跟RNN的输入输出相似的关系，也可以做到输入是一个sequence，输出是另外一个sequence。 但是表面上CNN和RNN可以做到相似的输入和输出，但是CNN只能考虑非常有限的内容。比如在我们右侧的图中CNN的filter只考虑了3个vector，不像RNN可以考虑之前所有的vector。CNN可以通过堆叠filter，多堆叠几层，上层的filter就可以考虑比较多的信息，比如第二层的蓝色三角形filter看了6个vector，所以只要叠很多层，就能够看很长时间的信息。\n而CNN的一个好处是：它是可以并行化的，不需要等橘色的filter算完，再算黄色的filter。但是必须要叠很多层filter，才可以看到长时的资讯。所以self-attention，如下图3所示，目的是使用self-attention layer取代RNN所做的事情。\n所以重点是：我们有了一种新的layer，叫self-attention,它的输入输出和RNN是一样的，输入一个sequence，输出一个sequence，它的每一个输出b1 - b4 都看过了整个输入sequence，这一点与bi-directional RNN相同。但神奇的地方是：它的每一个输出b1-b4可以并行计算。\n1.2 Self-attention Self-attention 具体是怎么做的？\n首先假设我们的input是图4的x1-x4,是一个sequence，每一个input（vector）先乘上一个矩阵W得到embedding，即向量a1-a4。接着这个embedding进入self-attention层，即每一个向量a1-a4分别乘上3个不同的transformer matrix Wq, Wk, Wv,以向量a1为例，分别得到3个不同的向量q1,k1,v1.\n接下来使用每个query q 去对每个key k做attention，attention就是匹配这2个向量有多接近，比如我现在要q1 和 k1 做attention，就可以把2个向量做scaled inner product，得到α1,1.接下来再拿q1和k2做attention，得到α1,2,以此α1,3,α1,4。其中scaled inner product计算公式为：\nd 是q跟k的维度。其中q.k的数值会随着dimension的增大而增大，所以要除以dimension的根号值，相当于归一化结果。\n接下来要做的事如图6所示，把计算得到的所有α1,i值取softmax操作。\n取完softmax操作以后，我们得到了α^1,i，我们用它和所有的vi值进行相乘。具体来讲，把α^1,1 乘上v1, α^1,2 乘上v2,把α^1,3乘上v3,把α^1,4 乘上v4,把结果加起来得到b1，所以，在产生b1的过程中用了整个sequence的信息。如果要考虑local的information，则只需要学习出相应的α^1,i = 0,b1 就不再带有那个对应分支的信息了；如果要考虑global的information，则只需要学习出相应的^1,i ≠ 0，b1就带有全部的对应分支信息了。\n同样的方法，也可以计算出b2,b3,b4,如下图8所示，b2就是拿query q2去对其他的k做attention，得到α^2,i，再与value值vi相乘取weighted sum得到的。\n经过了以上一连串计算，self-attention layer做的事情跟RNN是一样的，只是它可以并行的得到layer输出的结果，如图9所示。现在我们要用矩阵表示上述的计算过程。\n首先输入的embedding是 I = [a1, a2, a3, a4], 然后用 I 乘以 tranformation matrix Wq 得到 Q = [q1, q2, q3, q4],它的每一列代表着一个vector q。同理，用I乘以tranformation matrix Wk 得到 K = [k1, k2, k3, k4], 它的每一列代表着一个vector k。用 I 乘以 tranformation matrix Wk 得到 Q=[v1, v2, v3, v4],它的每一列代表着一个vector v。\n接下来就是k与q的attention过程，我们可以把vector k 横过来变成行向量，与列向量q做内积。这样，α就成为了4x4的矩阵，它由4个行向量拼成的矩阵和4个列向量拼成的矩阵做内积得到，如图11所示。\n在得到A^以后，如上文所述，要得到b1，就要使用α^1,i分别与vi相乘再求和得到，所以A^要左乘V矩阵。\n到这里你会发现这个过程可以被表示为，如图12所示：输入矩阵 I ∈ R(d，N)分别乘上3个不同的矩阵Wq,Wk,Wv ∈ R(d,d)得到3个中间矩阵Q,K,V ∈ R(d，N).它们的维度是相同的。把K转置之后与Q相乘得到Attention矩阵A∈R(N, N),代表每一个位置两两的attention。再将它取softmax 操作的得到A^∈ R(N,N) ，最后将它乘以V矩阵得到输出vector O ∈ R(d,N)。\n1.3 Multi-head Self-attention 还有一种multi-head的self-attention, 以2个head的情况为例：由ai生成的qi 进一步乘以2个转移矩阵变为qi,1 和qi,2,同理由 ai 生成的 ki 进一步乘以2个转移矩阵变为 ki,1 和 ki,2， 由ai 生成的vi 进一步乘以2个转移矩阵变为vi,1 和 vi,2。解析来qi,1 再与ki, 1做attention，得到weighted sum 的权重 α，再与vi,1 做weighted sum 得到最终的bi,1(i = 1,2,….N)。同理得到bi,2(i = 1,2, … N)。现在我们有了 bi,1(i = 1,2,…,N) ∈ R(d,1)和bi,2(i = 1,2,…,N) ∈ R(d,1)，可以把它们concat起来，再通过一个transformation matrix调整维度，使之与刚才的bi(i =1,2, …, N) ∈ R(d,1) 维度一致\n从下图14可以看到Multi-Head Attention 包含多个 Self-Attention层，首先将输入 X 分别传递到2个不同的Self-Attention中，计算得到2个输出结果。得到2个输出矩阵之后，Multi-head Attention将它们拼接在一起，然后传入一个Linear层，得到Multi-Head Attention 最终的输出Z。可以看到Multi-Head Attention 输出的矩阵 Z 与其输入的矩阵X的维度是一样的。\n这里有一组Multi-head Self-attention的结果，其中绿色部分是一组query和key，红色部分是另外一组query和key，可以发现绿色部分其实更关注global的信息，而红色部分其实更关注local的信息。\n1.4 Positional Encoding 以上是multi-head self-attention 的原理，但还有一个问题：现在的self-attention中没有位置信息，一个单词向量的“近在咫尺”位置的单词向量和“远在天涯”位置的单词向量效果是一样的，没有表示位置的信息。所以输入“A打了B”或者“B打了A”的效果是一样的，因为没有考虑位置的信息。所以在self-attention的paper中，作者为了解决这个问题所做的事情如下图16所示：\n具体的做法是：给每一个位置规定一个表示位置信息的向量ei,让它与ai加在一起之后作为新的ai参与后面的运算过程，但是这个向量ei是由人工设定的，而不是神经网络学习出来的。每一个位置都有一个不同的ei。\n那到这里一个问题是：为什么是ei和ai相加？为什么不是 concatenate？加起来以后，原来表示位置的信息不就混到ai里面去了吗？\n这里提供一个解答这个问题的思考： 如图15所示，我们先给每一个位置的 xi ∈ R(d,1) append 一个 one-hot编码的向量 pi ∈ R(N,1),得到一个新的输入向量 xp,i ∈ R(d+N,1), 这个向量作为新的输入，乘以一个transformation matrix W = [WI, WP] ∈ R(d,d + N)。那么：\n所以， ei 与 ai 相加就等同于把原来的输入 xi concat 一个表示位置的独热编码 pi,再做transformation。\n这个与位置编码乘起来的矩阵 Wp 是手工设计的，如图17所示（黑色框代表一个位置的编码）。\nTransformer 中除了单词的 Embedding，还需要使用位置Embedding表示单词出现在句子中的位置。因为Transformer不采用RNN的结构，而是使用全局信息，不能利用单词的顺序信息，而这部分信息对于NLP来说非常重要。所以Transformer中使用位置Embedding保存单词在序列中的相对或绝对位置。\n位置Embedding用PE表示，PE的维度与单词Embedding是一样的。PE可以通过训练得到，也可以使用某种公式计算得到。在Transformer中采用了后者，计算公式如下：\npos表示token在sequence中的位置，比如第一个token“我”的 pos = 0.\n2i 和 2i+1 表示Positional Encoding的维度，i的取值范围是：[0, …, dmolde/2]。所以当 pos 为1时，对应的 Positional Encoding 可以写成：\ndmodel = 512。底数是10000.\n这个式子的好处是：\n每个位置有一个唯一的 positional encoding 使用 PE 能够适应比训练集里面所有句子更长的句子，假设训练集里面最长的句子是有20个单词，突然来了一个长度为21的句子，则使用公式计算的方法可以计算出第21位的Embedding。 可以让模型容易地计算出相对位置，对于固定长度的间距k，任意位置的PEpos+k 都可以被 PEpos 的线性函数表示，因为三角函数特性： cos(α+β) = cos(α)cos(β) - sin(α)sin(β) sin(α+β) = sin(α)cos(β) + cos(α)sin(β) 除了以上的固定位置编码以外，还有其他的很多表示方法：\n比如下图18a就是sin-cos的固定位置编码。图b就是可学习的位置编码。图c和d分别FLOATER和RNN模型学习的位置编码。\n我们把Encoder-Decoder中的RNN用self-attention取代掉。\n对比下self-attention和CNN的关系，如图19，在使用self-attention去处理一张图片的时候，1的那个pixel产生query，其他的各个pixel产生key。再做inner-product的时候，考虑的不是一个小的范围，而是一整张图片。 但是在做CNN的时候是只考虑感受野红框里面的信息，而不是图片的全局信息。所以CNN可以看作是一种简化版本的self-attention。 self-attention是一种复杂化的CNN，在做CNN的时候是只考虑感受野\u0008红框里面的信息，而感受野的范围和大小是由人决定的。但是self-attention由attention找到相关的pixel，就好像是感受野的范围和大小是自动被学出来的，所以CNN可以看做是self-attention的特例，如图20所示\n既然self-attention是更广义的CNN，则这个模型更加灵活。而我们认为，一个模型越灵活，训练它所需要的数据量就越多，所以在训练self-attention模型时就需要更多的数据，这一点在下面介绍的论文 ViT中有印证，它需要的数据集是有3亿张图片的JFT-300，而如果不使用这么多数据而只使用ImageNet，则性能不如CNN。\n",
-  "wordCount" : "290",
+  "wordCount" : "5059",
   "inLanguage": "en",
   "datePublished": "2021-10-10T10:04:18Z",
   "dateModified": "2021-10-10T10:04:18Z",
@@ -351,7 +340,7 @@ self-attention是一种复杂化的CNN，在做CNN的时候是只考虑感受野
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -418,6 +407,9 @@ self-attention是一种复杂化的CNN，在做CNN的时候是只考虑感受野
     })
 
 </script>
+
+
+
 </body>
 
 </html>

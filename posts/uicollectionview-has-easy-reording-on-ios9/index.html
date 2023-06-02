@@ -7,12 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>UICollectionViews Now Have Easy Reordering （译） | </title>
 <meta name="keywords" content="">
-<meta name="description" content="iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering
-在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。
-实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.
-override func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。
-![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。
-override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: &quot;handleLongGesture:&quot;) self.">
+<meta name="description" content="iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering 在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/uicollectionview-has-easy-reording-on-ios9/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -61,13 +56,48 @@ override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPress
         }
 
     </style>
-</noscript><meta property="og:title" content="UICollectionViews Now Have Easy Reordering （译）" />
-<meta property="og:description" content="iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering
-在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。
-实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.
-override func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。
-![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。
-override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: &quot;handleLongGesture:&quot;) self." />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="UICollectionViews Now Have Easy Reordering （译）" />
+<meta property="og:description" content="iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering 在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/uicollectionview-has-easy-reording-on-ios9/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-08-22T09:52:28+00:00" />
@@ -75,12 +105,7 @@ override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPress
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="UICollectionViews Now Have Easy Reordering （译）"/>
-<meta name="twitter:description" content="iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering
-在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。
-实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.
-override func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。
-![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。
-override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: &quot;handleLongGesture:&quot;) self."/>
+<meta name="twitter:description" content="iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering 在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView"/>
 
 
 <script type="application/ld+json">
@@ -109,12 +134,12 @@ override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPress
   "@type": "BlogPosting",
   "headline": "UICollectionViews Now Have Easy Reordering （译）",
   "name": "UICollectionViews Now Have Easy Reordering （译）",
-  "description": "iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering\n在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。\n实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.\noverride func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。\n![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。\noverride func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: \u0026quot;handleLongGesture:\u0026quot;) self.",
+  "description": "iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering 在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView",
   "keywords": [
     
   ],
   "articleBody": "iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering\n在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。\n实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.\noverride func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。\n![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。\noverride func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: \"handleLongGesture:\") self.collectionView.addGestureRecognizer(longPressGesture) } func handleLongGesture(gesture: UILongPressGestureRecognizer) { switch(gesture.state) { case UIGestureRecognizerState.Began: guard let selectedIndexPath = self.collectionView.indexPathForItemAtPoint(gesture.locationInView(self.collectionView)) else { break } collectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath) case UIGestureRecognizerState.Changed: collectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!)) case UIGestureRecognizerState.Ended: collectionView.endInteractiveMovement() default: collectionView.cancelInteractiveMovement() } } 这段代码主要是给 collectionView 添加一个长手势识别器，并根据手势的不同状态调用collectionView的相关方法。\nbeginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath): 该方法在开始拖拽某个cell时被调用 updateInteractiveMovementTargetPosition(targetPosition:CGPoint): 根据手势更新拖拽cell的位置 endInteractiveMovement(): 手势结束时调用，结束拖拽 cancelInteractiveMovement(): 手势取消时调用，取消拖拽 这样就实现了需要的拖拽效果：\n这段代码出来的效果和 UICollectionViewController 是一致的。很厉害吧，但更厉害的是我们可以用上面的方法对自定义的 collection view layout 进行拖拽。下面我们来实现一个简单的瀑布流。\n昂～，看起来还凑合，但在移动的时候cell的size被改变了呢，如何才能保持cell的size不变呢？ UICollectionViewLayout提供了相关办法可以帮助我们解决这个问题。\nfunc invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [NSIndexPath], previousPosition: CGPoint) -\u003e UICollectionViewLayoutInvalidationContext func invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths(indexPaths: [NSIndexPath], previousIndexPaths: [NSIndexPath], movementCancelled: Bool) -\u003e UICollectionViewLayoutInvalidationContext 第一个函数会在 cells 拖拽过程中被调用\n第二个函数会在拖拽结束时候被调用。有了这些信息，我们可以使用一点小技巧去实现cell size不被改变的功能。\ninternal override func invalidationContextForInteractivelyMovingItems(targetIndexPaths: [NSIndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [NSIndexPath], previousPosition: CGPoint) -\u003e UICollectionViewLayoutInvalidationContext {\nvar context = super.invalidationContextForInteractivelyMovingItems(targetIndexPaths, withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths, previousPosition: previousPosition) self.delegate?.collectionView!(self.collectionView!, moveItemAtIndexPath: previousIndexPaths[0], toIndexPath: targetIndexPaths[0]) return context }\n解决方法很直接。获取当前被拖拽的cell的起始indexPath和目标indexPath,然后调用UICollectionViewDataSource代理方法移动当前正在被拖拽的cell。\n一个可以拖拽的的collectionView带来体验效果真的非常棒～\n",
-  "wordCount" : "185",
+  "wordCount" : "1193",
   "inLanguage": "en",
   "datePublished": "2015-08-22T09:52:28Z",
   "dateModified": "2015-08-22T09:52:28Z",
@@ -287,7 +312,7 @@ previousPosition: CGPoint) -&gt; UICollectionViewLayoutInvalidationContext {</p>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -354,6 +379,9 @@ previousPosition: CGPoint) -&gt; UICollectionViewLayoutInvalidationContext {</p>
     })
 
 </script>
+
+
+
 </body>
 
 </html>

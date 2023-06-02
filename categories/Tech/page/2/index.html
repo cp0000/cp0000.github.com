@@ -55,7 +55,47 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Tech" />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="Tech" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/categories/tech/" />
@@ -117,191 +157,52 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>Openradar Stream
+    <h2>ffmpeg 使用例程
     </h2>
   </header>
   <div class="entry-content">
-    <p>写在前面 随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待。不过理智告诉我这次新的iPhone的release，应该不会给大家带来很大的惊喜。我猜测 iPhone6s 应该是一款针对 iPhone6 的升级产品。就像 iOS 9 是针对 iOS 8的一次升级，苹果公司内部在这一次的迭代中，主要精力应该是会放在“还债”上，之前release了太多的feature，遗留了太多的bug，会在这一次修复掉。
-Openradar stream 的来由 和大多数 iOS developers 一样，我也在第一时间安装了 iOS 9 beta版本。满足了尝鲜感之后，随着而来就是 beta 系统的不稳定，以及各种的bug。用 iOS 9 进行开发的过程中，我遇到了许许多多的坑，对于一些系统的bug，会花费掉我很多的时间去debug。然后，我发现了openradar。一个 open database of radars for Apple bug。从openradar 上，你可以看到其他开发者提交的bug，这当然会为你省去很多的时间，帮助你避免很多的坑。
-后来我想我是不是应该做一个自动的脚本，定时的去抓取这个网页上面的信息，然后发到微博上。关注这个微博的人就可以在自己的时间线上面看到最新的bug了。这样做的好处是，一来你了解到bug信息，下次你遇到类似的问题，会联想到之前看过的bug信息，省去大量的时间。二来，刷微博的时候，还顺便学习了新知识，就没那么大的罪恶感了～。为此，我写一个tiny project，auto radarstream。
-具体工作 完成openradarstream，有以下事情需要去做
-前期工作
-申请一个微博账号，并申请微博OpenApi，获取到apikey和apisecret。 获取到微博的 accessToken， expires 开发工具
-language: python database: sqlite 细节
-设置好微博的环境，其中微博的OpenAPI,使用开源库sinaweibopy
-初始化数据库
-def initDB (): print &#39;initDB ...&#39; db = sqlite3.connect(sqlite_file) cursor = db.cursor() cursor.execute(&#39;&#39;&#39;CREATE TABLE IF NOT EXISTS bugs(id INTEGER PRIMARY KEY, bugid TEXT, status TEXT, originator TEXT, product TEXT, title TEXT)&#39;&#39;&#39;) db....</p>
+    <p>本文介绍ffmpeg命令行的一些使用方法； 参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -f...</p>
   </div>
-  <footer class="entry-footer"><span title='2015-08-30 22:02:42 +0000 UTC'>August 30, 2015</span></footer>
-  <a class="entry-link" aria-label="post link to Openradar Stream" href="/posts/openradarstream/"></a>
+  <footer class="entry-footer"><span title='2016-11-07 21:03:47 +0000 UTC'>November 7, 2016</span>&nbsp;·&nbsp;cp</footer>
+  <a class="entry-link" aria-label="post link to ffmpeg 使用例程" href="/posts/ffmpeg-command-example/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>UICollectionViews Now Have Easy Reordering （译）
+    <h2>如何在Macosx上安装caffe
     </h2>
   </header>
   <div class="entry-content">
-    <p>iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering
-在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView，它更加容易进行一些自定义的操作。我们组现在在项目中使用 UICollectionView 要多于 UITableView。伴随着 iOS 9 的 release，UICollectionView排序（动态拖拽）更加简单。在这之前，如果想对 UICollectionView 进行动态拖拽是非常困难的，要想实现动态拖拽，需要去做非常多的工作。话不多说，我们看一下新的 API。文章用到的Sample地址uicollectionview-reordering。
-实现拖动排序最简单的办法是使用 UICollectionViewController, 在 UICollectionViewController 中新增了一个属性 installsStandardGestureForInteractiveMovement, 通过添加手势对cells进行重排。该属性是BOOL型，默认值为 YES。 我们所需要做的，只要重载下面这个方法就好了.
-override func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) { // move your data order } 当程序中重载了moveItemAtIndexPath，collectionView 就认为 cell 是可以移动的。
-![reordering-01](http://nshint.io/images/uicollectionview-reordering/1.gif) 那如果需要给某一个 UIViewController 中 collection view 实现动态拖动效果，该如何实现呢？事情会变的稍微复杂一点。除了需要实现UICollectionViewDataSource中上面提到的代理方法，还需要重写 installsStandardGestureForInteractiveMovement。不过不用当心，实现起来蛮蛮容易。这里我们需要长按手势UILongPressGestureRecognizer，它能够完全满足拖拽需求。
-override func viewDidLoad() { super.viewDidLoad() longPressGesture = UILongPressGestureRecognizer(target: self, action: &#34;handleLongGesture:&#34;) self....</p>
+    <p>在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些...</p>
   </div>
-  <footer class="entry-footer"><span title='2015-08-22 09:52:28 +0000 UTC'>August 22, 2015</span></footer>
-  <a class="entry-link" aria-label="post link to UICollectionViews Now Have Easy Reordering （译）" href="/posts/uicollectionview-has-easy-reording-on-ios9/"></a>
+  <footer class="entry-footer"><span title='2016-10-22 12:55:05 +0000 UTC'>October 22, 2016</span></footer>
+  <a class="entry-link" aria-label="post link to 如何在Macosx上安装caffe" href="/posts/install-caffe-on-macosx/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>Spotlight &amp; MDFind
+    <h2>iOS逆向工程-0x02－Hacking on B612
     </h2>
   </header>
   <div class="entry-content">
-    <p>Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。
-先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结果：
-spotlight 帮我找到了包含 _loadBlock 这个字符串的文件。
-想象下，电脑硬盘中存储着如此多的文件，spotlight 是如何如此快速的查询到包涵这个字符串的文件的？
-在查找答案之前，我们不妨自己来试着猜想一下，如果这个功能交给我们自己来做，我们会采用哪种技术方案来实现？
-关于文件搜索，首先能想到的最简单的方法自然是遍历目录逐个文件对比，使用 find 的方式去查询。不过稍微想一下，如果使用这种方法在整个硬盘上找一个文件，得等多久才能找到一个文件。这肯定不是解决方案。那答案是什么？
-我们不妨先把目光放到搜索这两个字上。提到搜索，首先想到的应该会是Google。而关于Google搜索引擎的工作原理，最简单的解释是：通过代码在全球收集信息，建立词组的索引数据库。Google处理用户的搜索请求，可以简单的理解成在索引数据库中查找结果的过程。
-那 Macosx 的本地文件搜索会不会也是采取这种索引数据库的方式来实现的？答案是肯定的。Macosx 实现了自己的indexing的索引服务。那什么是indexing索引服务器，简单来讲： Macosx 系统会在平时建立磁盘上所有文件和目录的索引关系，维护出一个索引表，当要查找信息时直接从索引中查询即可。这个索引就好像是一本书的目录一样，我们根据自己要找的内容翻到对应的页面。
-当然这当中还有很多复杂的处理过程，如当机器运行时，硬盘的文件产生变化，如何重新加载索引文件。更多的细节，我也没找出相关的文档来得到答案。先留个坑在这里吧。不过我们可以从其他开源的文件查询项目中了解一下业界对于这一块的处理方式。这里推荐 Lucene 给大家研究。（Lucene是一套用于全文检索和搜素的开源项目）。
-mdfind 用 spotlight 的图形界面查询文件是很方便.但是我平常的工作过程中，常常需要知道文件的绝对路径，而图形界面并没有显示出来。关于如何在spotlight界面显示文件的详细路径，这里有个小 tips，具体操作是：选中某个搜索结果，长按 command 键，此时，界面右下方会出现文件的详细路径。不过如果文件路径太长，界面会显示不全，而且也有很好的没法去拷贝这个路径。
-那如何解决文件路径显示不全，无法拷贝文件路径的问题呢？
-Macosx 提供了终端执行命令mdfind，我们可以在 terminal 中使用mdfind来进行索引查询。比如要查询出文件内容中包含字符串 “_loadBlock”, 在ternimal中输入以下命令即可：
-mdfind &#39;kMDItemTextContent=&#34;_loadBlock&#34;&#39; results:
-/opt/dev/appstore_cracked/StoreKit_headers/SKStorePageViewController.h /opt/dev/appstore_cracked/StoreKit_headers/SKStoreProductViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUWebViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUStorePageViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/iTunesStoreUI.framework/SUPreviewOverlayViewController.h /opt/dev/iOS-Runtime-Headers/PrivateFrameworks/Preferences.framework/PSLazyImagePromise.h /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStoreProductViewController.h /opt/dev/iOS-Runtime-Headers/Frameworks/StoreKit.framework/SKStorePageViewController.h 对比终端查询结果和图一中的结果，会发现有两点出入：
-(1) 图一中的 PrivateFrameworks, Frameworks 整个目录都没有被查出来。这里我猜测应该是Soptlight这个应用是对查询结果进行了筛选，把PrivateFrameworks, Frameworks目录下的文件从查询结果中剔除掉了。 (2) 图一中出现的nsBlocklistService.js，在terminal的查询结果中并没有出现。为了找出原因，我分别查看下&#34;_loadBlock&#34;在各个文件中的上下文，以下是节选 nsBlocklistService.js
-this._loadBlocklist(); SKStorePageViewController
-CDUnknownBlockType _loadBlock; 看上去问题应该是出在_loadBlock前后是否能跟别的字符串上，修改查询语句...</p>
+    <p>前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向...</p>
   </div>
-  <footer class="entry-footer"><span title='2015-08-02 11:31:18 +0000 UTC'>August 2, 2015</span></footer>
-  <a class="entry-link" aria-label="post link to Spotlight &amp; MDFind" href="/posts/mdfind-note/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Objc Interview Checklist Answers
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>@property中有哪些属性关键字？ nonatomic (thread-unsafe) atomic (default, thread safe)
-strong weak assign copy
-getter (custom getter method name) setter (custom setter method name)
-readwrite (default) readonly
-weak属性需要在dealloc中置nil么？ 不需要，runtime会在weak属性在释放的时候，自动把变量至为 nil;
-@synthesize和@dynamic分别有什么作用？ @synthesize 自动生成属性 getter 和 setter 方法. LLVM Compiler 4.0之后，编译器会对@property 属性自动的添加 @synthesize ivar = _ivar,自动帮你生成 getter/setter 方法，以及自动绑定_ivar 实例变量。
-@dynamic 是为了告诉编译器，getter/setter 方法将会在其他地方（父类，runtime）实现，这样可以消除warnnig
-ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？ atomic, assign, readwrite
-用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？ NSString Property:copy or retain
-@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？ 首先 complier 会根据 @interface 中的 @property 属性自动生成一份属性名前加_的实例变量。LLVM Compiler 4.0 之后，会自动添加@synthesize ivar = _ivar。...</p>
-  </div>
-  <footer class="entry-footer"><span title='2015-07-23 21:12:55 +0000 UTC'>July 23, 2015</span></footer>
-  <a class="entry-link" aria-label="post link to Objc Interview Checklist Answers" href="/posts/oc-checklist-answers/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>从 NSString Property:copy or retain 到 NSCopying
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。
-为什么会有NSString要用copy来修饰的convention？能否用 strong代替?
-回答这个问题之前，我们先看段代码：
-@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@&#34;apple&#34;]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@&#34;fruitName: %p %@&#34;, fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@&#34;fruitNameCopy: %p %@&#34;, fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@&#34;fruitNameStrong:%p %@&#34;, fruit.fruitNameStrong, fruit....</p>
-  </div>
-  <footer class="entry-footer"><span title='2015-07-19 11:50:04 +0000 UTC'>July 19, 2015</span></footer>
-  <a class="entry-link" aria-label="post link to 从 NSString Property:copy or retain 到 NSCopying" href="/posts/nsstring-property-copy-or-retain/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Regular Expression
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>#常用的元字符
-代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，或2，或……) \w | 匹配字母或数字或下划线或汉字 \s | 匹配任意的空白符 \b | 匹配单词的开始或结束 ^ | 匹配字符串的开始 $ | 匹配字符串的结束 #常用的限定符
-代码/语法 说明 | 重复零次或更多次 | 重复一次或更多次 ? | 重复零次或一次 {n} | 重复n次 {n,} | 重复n次或更多次 {n,m} | 重复n次到m次
-#其他
-字符转义 如需查找*,&#43;等元字符本身的话，需使用\来取消这些字符的特殊含义；
-\. \* 字符类 匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),只需在方括号里列出；如：
-[aeiou]:	匹配任何一个英文元音字母； [.?!]:	匹配标点符号(.或?或!) (?0\d{2}[) -]?\d{8}：首先是一个转义字符(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})
-分枝条件 分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开
-分组 用小括号来指定子表达式(也叫做分组）
-e.g. IP地址匹配: (\d{1,3}.){3}\d{1,3} 解析：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})
-反义 常用的反义代码
-代码/语法 说明 \W 匹配任意不是字母，数字，下划线，汉字的字符 \S 匹配任意不是空白符的字符 \D 匹配任意非数字的字符 \B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou这几个字母以外的任意字符 后向引用...</p>
-  </div>
-  <footer class="entry-footer"><span title='2014-05-21 00:00:00 +0000 UTC'>May 21, 2014</span>&nbsp;·&nbsp;cp</footer>
-  <a class="entry-link" aria-label="post link to Regular Expression" href="/posts/regular-expression-beginner/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Google Wildcard
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>1.双引号
-把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。
-“seo方法图片” 2.减号
-减号代表搜索不包含减号后面的词的页面。使用这个指令时减号前面必须是空格，减号后面没有空格，紧跟着需要排除的词。
-搜索 -引擎 3.星号
-星号常用的通配符
-搜索*擎 4.inurl
-inurl: 指令用于搜索查询词出现在url 中的页面。
-inurl:搜索引擎优化 5.inanchor
-指令返回的结果是导入链接锚文字中包含搜索词的页面。
-inanchor:点击这里 6.intitle
-指令返回的是页面title 中包含关键词的页面。
-7.allintitle
-搜索返回的是页面标题中包含多组关键词的文件。
-8.filetype
-用于搜索特定文件格式。
-filetype:pdf SEO 9.site
-用来搜索某个域名下的所有文件。
-site:developer.apple.com gcd </p>
-  </div>
-  <footer class="entry-footer"><span title='2014-04-10 00:00:00 +0000 UTC'>April 10, 2014</span>&nbsp;·&nbsp;cp</footer>
-  <a class="entry-link" aria-label="post link to Google Wildcard" href="/posts/google-wildcard/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Android reverse engineering
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>名词解释 java: android app 编程语言
-class: 由 java文件通过 Sun JDK 编译而成
-dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。
-ps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）
-odex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。
-smali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器
-ps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。
-Andoid App 的运行策略：解压apk后运行class.dex
-工具介绍 ant: 编译，生成android 项目的工具； apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml smali-2.0.3.jar: 把smali 文件转换成 dex文件 baksmali-2.0.2.jar: 把dex文件转换成smali文件 dex2jar: dex 转换成 jar signapk.jar: 用来签名apk eclipse: 大多数android项目的IDE adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件； JD-GUi:图形界面的Java源代码”.class”文件反编译工具 DEMO演示 首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；
-使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；
-然后开始对这个apk动手脚；...</p>
-  </div>
-  <footer class="entry-footer"><span title='2014-03-01 00:00:00 +0000 UTC'>March 1, 2014</span>&nbsp;·&nbsp;cp</footer>
-  <a class="entry-link" aria-label="post link to Android reverse engineering" href="/posts/android-reverse-engineering/"></a>
+  <footer class="entry-footer"><span title='2016-03-06 11:32:44 +0000 UTC'>March 6, 2016</span></footer>
+  <a class="entry-link" aria-label="post link to iOS逆向工程-0x02－Hacking on B612" href="/posts/ios-reverse-engineering-03/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="/categories/tech/">
       «&nbsp;Prev&nbsp;
     </a>
+    <a class="next" href="/categories/tech/page/3/">Next&nbsp;&nbsp;»
+    </a>
   </nav>
 </footer>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -368,6 +269,9 @@ Andoid App 的运行策略：解压apk后运行class.dex
     })
 
 </script>
+
+
+
 </body>
 
 </html>

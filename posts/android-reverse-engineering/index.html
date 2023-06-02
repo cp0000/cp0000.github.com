@@ -7,17 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Android reverse engineering | </title>
 <meta name="keywords" content="">
-<meta name="description" content="名词解释 java: android app 编程语言
-class: 由 java文件通过 Sun JDK 编译而成
-dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。
-ps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）
-odex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。
-smali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器
-ps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。
-Andoid App 的运行策略：解压apk后运行class.dex
-工具介绍 ant: 编译，生成android 项目的工具； apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml smali-2.0.3.jar: 把smali 文件转换成 dex文件 baksmali-2.0.2.jar: 把dex文件转换成smali文件 dex2jar: dex 转换成 jar signapk.jar: 用来签名apk eclipse: 大多数android项目的IDE adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件； JD-GUi:图形界面的Java源代码”.class”文件反编译工具 DEMO演示 首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；
-使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；
-然后开始对这个apk动手脚；">
+<meta name="description" content="名词解释 java: android app 编程语言 class: 由 java文件通过 Sun JDK 编译而成 dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比">
 <meta name="author" content="cp">
 <link rel="canonical" href="/posts/android-reverse-engineering/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -66,18 +56,48 @@ Andoid App 的运行策略：解压apk后运行class.dex
         }
 
     </style>
-</noscript><meta property="og:title" content="Android reverse engineering" />
-<meta property="og:description" content="名词解释 java: android app 编程语言
-class: 由 java文件通过 Sun JDK 编译而成
-dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。
-ps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）
-odex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。
-smali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器
-ps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。
-Andoid App 的运行策略：解压apk后运行class.dex
-工具介绍 ant: 编译，生成android 项目的工具； apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml smali-2.0.3.jar: 把smali 文件转换成 dex文件 baksmali-2.0.2.jar: 把dex文件转换成smali文件 dex2jar: dex 转换成 jar signapk.jar: 用来签名apk eclipse: 大多数android项目的IDE adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件； JD-GUi:图形界面的Java源代码”.class”文件反编译工具 DEMO演示 首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；
-使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；
-然后开始对这个apk动手脚；" />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="Android reverse engineering" />
+<meta property="og:description" content="名词解释 java: android app 编程语言 class: 由 java文件通过 Sun JDK 编译而成 dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/android-reverse-engineering/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2014-03-01T00:00:00+00:00" />
@@ -85,17 +105,7 @@ Andoid App 的运行策略：解压apk后运行class.dex
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Android reverse engineering"/>
-<meta name="twitter:description" content="名词解释 java: android app 编程语言
-class: 由 java文件通过 Sun JDK 编译而成
-dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。
-ps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）
-odex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。
-smali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器
-ps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。
-Andoid App 的运行策略：解压apk后运行class.dex
-工具介绍 ant: 编译，生成android 项目的工具； apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml smali-2.0.3.jar: 把smali 文件转换成 dex文件 baksmali-2.0.2.jar: 把dex文件转换成smali文件 dex2jar: dex 转换成 jar signapk.jar: 用来签名apk eclipse: 大多数android项目的IDE adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件； JD-GUi:图形界面的Java源代码”.class”文件反编译工具 DEMO演示 首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；
-使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；
-然后开始对这个apk动手脚；"/>
+<meta name="twitter:description" content="名词解释 java: android app 编程语言 class: 由 java文件通过 Sun JDK 编译而成 dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比"/>
 
 
 <script type="application/ld+json">
@@ -124,12 +134,12 @@ Andoid App 的运行策略：解压apk后运行class.dex
   "@type": "BlogPosting",
   "headline": "Android reverse engineering",
   "name": "Android reverse engineering",
-  "description": "名词解释 java: android app 编程语言\nclass: 由 java文件通过 Sun JDK 编译而成\ndex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。\nps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）\nodex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。\nsmali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器\nps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。\nAndoid App 的运行策略：解压apk后运行class.dex\n工具介绍 ant: 编译，生成android 项目的工具； apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml smali-2.0.3.jar: 把smali 文件转换成 dex文件 baksmali-2.0.2.jar: 把dex文件转换成smali文件 dex2jar: dex 转换成 jar signapk.jar: 用来签名apk eclipse: 大多数android项目的IDE adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件； JD-GUi:图形界面的Java源代码”.class”文件反编译工具 DEMO演示 首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；\n使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；\n然后开始对这个apk动手脚；",
+  "description": "名词解释 java: android app 编程语言 class: 由 java文件通过 Sun JDK 编译而成 dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比",
   "keywords": [
     
   ],
   "articleBody": "名词解释 java: android app 编程语言\nclass: 由 java文件通过 Sun JDK 编译而成\ndex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比标准java的.class文件，它体积小，运行效率高。\nps:通过Android平台上的工具(dx)将.class文件 转换成Dex字节码（classes.dex）\nodex: 在原生Android中安装apk会产生apk 和 odex 两个文件，而使用第三方的rom只有apk一个文件；odex 是同名apk经系统优化后的dex文件，原生ROM中apk和odex文件是配对的，对应的apk文件中没有了dex文件。\nsmali, baksmali:分别指android系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器\nps: Smali文件是dalvik虚拟机运行的dex字节码文件对应的汇编文件。\nAndoid App 的运行策略：解压apk后运行class.dex\n工具介绍 ant: 编译，生成android 项目的工具； apktool： 用来解压 apk，虽说apk实际是一个压缩包，可以用unzip直接解压，不过apktool还是做了更多的优化，如直接reverse androidmanifest.xml smali-2.0.3.jar: 把smali 文件转换成 dex文件 baksmali-2.0.2.jar: 把dex文件转换成smali文件 dex2jar: dex 转换成 jar signapk.jar: 用来签名apk eclipse: 大多数android项目的IDE adb: android debug bridge;可用来 adb logcat 打印错误日志； adb push 来更新项目存在/data/data中的文件； JD-GUi:图形界面的Java源代码”.class”文件反编译工具 DEMO演示 首先我们需要一个 apk，我去到豌豆荚网页版下载一个名叫［百度］的apk；\n使用 adb install baidu.apk到 手机，先把玩一下这个app的主要功能；差不多就是一个网页版的apk；\n然后开始对这个apk动手脚；\napktool d baidu.apk /* 反编译apk */ 会发现在当前的目录下生成一个baidu 的 folder：\nstaff 48732 Mar 1 19:26 AndroidManifest.xml staff 250 Mar 1 19:26 apktool.yml staff 408 Mar 1 19:26 assets staff 102 Mar 1 20:08 build staff 102 Mar 1 20:08 dist staff 102 Mar 1 19:26 lib staff 884 Mar 1 19:26 res staff 170 Mar 1 19:26 smali 这是baidu android project的目录结构，有了上面的名词解释，我们知道 代码逻辑都存在了smali这个文件夹下；不过smali有点不好阅读，所以我建议大家还是把smali 翻译成java之后在去阅读 baidu.apk 的源代码；\n我的方法是:unzip apk得到 classes.dex，然后利用dex2jar 得到clases_dex2jar.jar;然后使用JD-GUi打开jar 文件就可以非常愉快的阅读java 代码了；\nunzip baidu.apk -d baidu_deout; dex2jar.sh baidu_deout/classes.dex 由于是Demo，所以我展示一个简单的hack好了；打开BaseActivity.java 会发现\nif (b) Log.d(\"SearchBox\", \"=========BaseActivity onStop mLiveActivityNum=\" + o); 很明显 b是类似 debug_mode 的开关变量，如果你之前在运行baidu.apk的时候adb logcat 一下，留心一下是没有这个log的，所以在release android.apk 的时候，debug_mode 理应被set成false了；所以我现在想做的事情就是打开debug_mode;因为debug log这种的东西有太多的惊喜；\n接下来的事情就变得非常简单找到 set debugmode 的位置，设置成true就好了；顺藤摸瓜；在BaseActivity.java 的开头，会发现：\nprivate static final boolean b = SearchBox.a; 而SearchBox.java 的第一行：\npublic static boolean a = dk.a; db.java 的第一行：\npublic static boolean a = false; 事情不能更顺利了，所以只要把 a 的值set 成true就完成打开debugmode的小hack了；\n还记得之前apktool 反编译的文件夹嘛？打开db.smali 文件；会发现：\nconst/4 v1, 0x0 const/4 v0, 0x1 sput-boolean v1, Lcom/baidu/searchbox/dk;-\u003ea:Z 是的，只要修改成\nsput-boolean v0, Lcom/baidu/searchbox/dk;-\u003ea:Z 就好了；\n修改完smali之后，我们需要做的是重新生成一个apk：\napktool b baidu 会发现在baidu/dist/目录下生成了一个新的baidu.apk; 这时候如果你选择\nadb installl －r baidu.apk 会发现提示：Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES]这是由于这个apk没有sign的原因；接下里sign apk；\njava -jar /opt/Android/signapk/signapk.jar /opt/Android/signapk/signapk-key.testkey.x509.pem /opt/Android/signapk/signapk-key.testkey.pk8 CHFR_360.apk CHFR_360-sign.apk 执行成功之后，惊喜的发现在 dist 新生成了 baidu-sign.apk,安装到手机，运行apk，打开adb logcat:\nD/c (17822): statistic key: 011918 E/c (17822): 写入行为统计:{\"011918\":[\"\"]} E/c (17822): 写入widget用户行为统计：{\"011918\":[\"\"]} D/c (17822): statistic key: 011918 E/c (17822): 写入行为统计:{\"011918\":[\"\"]} E/c (17822): 写入widget用户行为统计：{\"011918\":[\"\"]} 如果一切正常的话，会发现类似如上的log，当然你仔细看的话，还有更详细且重要的信息，各种的小隐私都被监视…\nAndroid 项目的逆向工程的文章就到这里； Enjoy it!\n相关参考： http://stackoverflow.com/questions/12732882/reverse-engineering-from-an-apk-file-to-a-project http://stackoverflow.com/questions/13854425/how-to-avoid-reverse-engineering-of-an-apk-file ",
-  "wordCount" : "270",
+  "wordCount" : "1934",
   "inLanguage": "en",
   "datePublished": "2014-03-01T00:00:00Z",
   "dateModified": "2014-03-01T00:00:00Z",
@@ -332,7 +342,7 @@ Enjoy it!</p>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -399,6 +409,9 @@ Enjoy it!</p>
     })
 
 </script>
+
+
+
 </body>
 
 </html>

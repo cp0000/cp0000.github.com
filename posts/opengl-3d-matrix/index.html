@@ -7,24 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>OpenGL ES 2.0 3D基础（1）－矩阵 | </title>
 <meta name="keywords" content="">
-<meta name="description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。
-线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。
-向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。
-向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：
-向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：
-矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：
-矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。
-单位矩阵通常是生成其他变换矩阵的起点。
-缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。
-位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：
-TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移
-坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：
-局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。
-世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。
-模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。
-观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。
-裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。
-将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。">
+<meta name="description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维">
 <meta name="author" content="cp">
 <link rel="canonical" href="/posts/opengl-3d-matrix/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -73,25 +56,48 @@ TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalV
         }
 
     </style>
-</noscript><meta property="og:title" content="OpenGL ES 2.0 3D基础（1）－矩阵" />
-<meta property="og:description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。
-线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。
-向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。
-向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：
-向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：
-矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：
-矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。
-单位矩阵通常是生成其他变换矩阵的起点。
-缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。
-位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：
-TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移
-坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：
-局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。
-世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。
-模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。
-观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。
-裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。
-将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。" />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="OpenGL ES 2.0 3D基础（1）－矩阵" />
+<meta property="og:description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/opengl-3d-matrix/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2016-12-18T14:37:53+00:00" />
@@ -99,24 +105,7 @@ TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalV
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="OpenGL ES 2.0 3D基础（1）－矩阵"/>
-<meta name="twitter:description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。
-线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。
-向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。
-向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：
-向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：
-矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：
-矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。
-单位矩阵通常是生成其他变换矩阵的起点。
-缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。
-位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：
-TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移
-坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：
-局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。
-世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。
-模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。
-观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。
-裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。
-将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。"/>
+<meta name="twitter:description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维"/>
 
 
 <script type="application/ld+json">
@@ -145,12 +134,12 @@ TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalV
   "@type": "BlogPosting",
   "headline": "OpenGL ES 2.0 3D基础（1）－矩阵",
   "name": "OpenGL ES 2.0 3D基础（1）－矩阵",
-  "description": "Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。\n线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。\n向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。\n向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：\n向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：\n矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：\n矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。\n单位矩阵通常是生成其他变换矩阵的起点。\n缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。\n位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：\nTransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移\n坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：\n局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。\n世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。\n模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。\n观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。\n裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。\n将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。",
+  "description": "Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维",
   "keywords": [
     
   ],
   "articleBody": "Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。\n线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。\n向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。\n向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：\n向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：\n矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：\n矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。\n单位矩阵通常是生成其他变换矩阵的起点。\n缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。\n位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：\nTransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移\n坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：\n局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。\n世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。\n模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。\n观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。\n裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。\n将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。\n屏幕空间（Screen Space） 正交投影（Orthographic Projection） 正交投影矩阵定义一个立方体的平截头箱，在这个立方体之外的顶点都会被裁剪掉。\n正交投影矩阵直接将坐标映射到2D平面上。不过正交投影没有透视效果，远处箱子和近处箱子投射到平面上是一样大的，这和我们日常生活中看东西时近大远小的视觉效果是不符的。要解决这个问题，我们需要用到透视投影。\n###透视投影（Perspective Projection）\n透视投影定义一个大平截头体。透视投影有两种表述方式：\n视锥体： glFrustum (left, right, bottom, top, zNear, zFar);\nleft,right,bottom,top定义near裁剪面大小，zNear和zFar定义从观察点到远近两个裁剪面的距离。这六个参数定义出六个裁剪面构成的视锥体。\n透视图： gluPerspective(fovy, aspect, zNear, zFar);\nfovy: camera 在 y 方向上的视线角度（0~180) aspect定义近截面的宽高比 aspect=w/h zNear, zFar: 观察点到远近两个裁剪面的距离 透视体参数转换车过视锥体参数：\ntan(fovy/2) = (h / 2)/zNear -\u003e h; w = h * aspect -\u003e w; 矩阵组合 基于前面介绍的4个变换矩阵：模型矩阵，世界矩阵，观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程变换到裁剪坐标：\nVclip=Mprojection⋅Mview⋅Mmodel⋅Vlocal 注意矩阵运算的顺序是从右往左阅读，最终计算出来的顶点赋值给gl_Position\n3D Demo 至此我们了解了OpenGL 3D渲染中需要知道的矩阵知识，运用这些知识，便可进行开发OpenGL3D程序了；苹果官方提供一个很好的GL demo GLEssentials\n结束 ",
-  "wordCount" : "132",
+  "wordCount" : "2075",
   "inLanguage": "en",
   "datePublished": "2016-12-18T14:37:53Z",
   "dateModified": "2016-12-18T14:37:53Z",
@@ -369,7 +358,7 @@ TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalV
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -436,6 +425,9 @@ TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalV
     })
 
 </script>
+
+
+
 </body>
 
 </html>

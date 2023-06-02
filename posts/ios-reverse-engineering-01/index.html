@@ -7,11 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>iOS逆向工程-0x00－用途以及准备工作 | </title>
 <meta name="keywords" content="iOS Reverse Engineering">
-<meta name="description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
-作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController&#43;navigationController&#43;tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
-当然了，逆向工程还有其他更重要的用途，如下：
-分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
-硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries.">
+<meta name="description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/ios-reverse-engineering-01/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -60,12 +56,48 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="iOS逆向工程-0x00－用途以及准备工作" />
-<meta property="og:description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
-作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController&#43;navigationController&#43;tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
-当然了，逆向工程还有其他更重要的用途，如下：
-分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
-硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries." />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="iOS逆向工程-0x00－用途以及准备工作" />
+<meta property="og:description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/ios-reverse-engineering-01/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-11-21T10:46:07+00:00" />
@@ -73,11 +105,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS逆向工程-0x00－用途以及准备工作"/>
-<meta name="twitter:description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
-作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController&#43;navigationController&#43;tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
-当然了，逆向工程还有其他更重要的用途，如下：
-分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
-硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries."/>
+<meta name="twitter:description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事"/>
 
 
 <script type="application/ld+json">
@@ -106,12 +134,12 @@
   "@type": "BlogPosting",
   "headline": "iOS逆向工程-0x00－用途以及准备工作",
   "name": "iOS逆向工程-0x00－用途以及准备工作",
-  "description": "前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。\n作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。\n当然了，逆向工程还有其他更重要的用途，如下：\n分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备\n硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries.",
+  "description": "前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事",
   "keywords": [
     "iOS Reverse Engineering"
   ],
   "articleBody": "前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。\n作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。\n当然了，逆向工程还有其他更重要的用途，如下：\n分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备\n硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries. nm displays the name list (symbol table) of each object file in the argument list. ldid signature tool gdb debug tool lldb debug tool patch patch tool SSH is a program for logging into a remote machine and for executing commands on a remote machine. SSH to iPhone 通过 wifi ssh root@your.iphone.ip iOS 系统中的root用户的默认密码是 Alipne.第一次登录的时候请使用这个密码。不过请记得修改root用户的密码，不然这台越狱机器就很不安全了。\n修改用户密码\niPhone:~ root# passwd Changing password for root New password: Retype new password: iPhone:~ root# 通过 usb 在wifi不稳定的场景下，建议使用usb来ssh到iPhone上。（我自己也是主要适用usb来进行ssh）\n关于如何使用 usb ssh 到 iPhone上，详情请访问网页 SSH over USB。根据网页上面的guide，需要下载：itnl_rev8.zip\n解压zip包之后，做如下操作：\nOS X terminal:\nsudo path/to/itnl --iport 22 --lport 2222 iPhone terminal:\nssh -p 2222 root@localhost 然后，就成功 ssh 到 iPhone 上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS app了。\n",
-  "wordCount" : "182",
+  "wordCount" : "821",
   "inLanguage": "en",
   "datePublished": "2015-11-21T10:46:07Z",
   "dateModified": "2015-11-21T10:46:07Z",
@@ -322,7 +350,7 @@ iPhone:~ root#
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -389,6 +417,9 @@ iPhone:~ root#
     })
 
 </script>
+
+
+
 </body>
 
 </html>

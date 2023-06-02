@@ -7,15 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>3D-Touch(1) iOS9 Quick Actions Shortcut | </title>
 <meta name="keywords" content="">
-<meta name="description" content="新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。
-Home Screen Quick Actions 通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。
-静态快捷键的添加 打开 Info.plist, 在该文件中添加如下键值：
-添加一个key为UIApplicationShortcutItems的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：
-UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示 UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上 UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上 UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 UIApplicationShortcutIcon_Class UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，3535的倍数（试过100100也是Ok的），并且单色。 UIApplicationShortcutItemUserInfo (optional): 传值用 详情请看这里
-当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：
-P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节模拟器上测试Shortcut。
-动态标签的添加 所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：
-UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签中图片Icon的类 响应标签的行为 当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：">
+<meta name="description" content="新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/ios9-quick-actions-shortcut/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -64,16 +56,48 @@ UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签�
         }
 
     </style>
-</noscript><meta property="og:title" content="3D-Touch(1) iOS9 Quick Actions Shortcut" />
-<meta property="og:description" content="新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。
-Home Screen Quick Actions 通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。
-静态快捷键的添加 打开 Info.plist, 在该文件中添加如下键值：
-添加一个key为UIApplicationShortcutItems的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：
-UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示 UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上 UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上 UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 UIApplicationShortcutIcon_Class UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，3535的倍数（试过100100也是Ok的），并且单色。 UIApplicationShortcutItemUserInfo (optional): 传值用 详情请看这里
-当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：
-P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节模拟器上测试Shortcut。
-动态标签的添加 所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：
-UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签中图片Icon的类 响应标签的行为 当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：" />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="3D-Touch(1) iOS9 Quick Actions Shortcut" />
+<meta property="og:description" content="新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/ios9-quick-actions-shortcut/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-09-30T19:24:13+00:00" />
@@ -81,15 +105,7 @@ UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签�
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="3D-Touch(1) iOS9 Quick Actions Shortcut"/>
-<meta name="twitter:description" content="新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。
-Home Screen Quick Actions 通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。
-静态快捷键的添加 打开 Info.plist, 在该文件中添加如下键值：
-添加一个key为UIApplicationShortcutItems的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：
-UIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示 UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上 UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上 UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 UIApplicationShortcutIcon_Class UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，3535的倍数（试过100100也是Ok的），并且单色。 UIApplicationShortcutItemUserInfo (optional): 传值用 详情请看这里
-当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：
-P.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节模拟器上测试Shortcut。
-动态标签的添加 所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：
-UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签中图片Icon的类 响应标签的行为 当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法："/>
+<meta name="twitter:description" content="新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这"/>
 
 
 <script type="application/ld+json">
@@ -118,12 +134,12 @@ UIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签�
   "@type": "BlogPosting",
   "headline": "3D-Touch(1) iOS9 Quick Actions Shortcut",
   "name": "3D-Touch(1) iOS9 Quick Actions Shortcut",
-  "description": "新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。\nHome Screen Quick Actions 通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。\n静态快捷键的添加 打开 Info.plist, 在该文件中添加如下键值：\n添加一个key为UIApplicationShortcutItems的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：\nUIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示 UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上 UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上 UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 UIApplicationShortcutIcon_Class UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，3535的倍数（试过100100也是Ok的），并且单色。 UIApplicationShortcutItemUserInfo (optional): 传值用 详情请看这里\n当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：\nP.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节模拟器上测试Shortcut。\n动态标签的添加 所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：\nUIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签中图片Icon的类 响应标签的行为 当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：",
+  "description": "新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这",
   "keywords": [
     
   ],
   "articleBody": "新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这一硬件功能所提供API，3D Touch API分成三个部分: Quick Actions， peek and pop,以及 Pressure Sensitivity.考虑到苹果的一贯作风，如果你的APP中集成iPhone的新特性，新的API，被苹果商店推荐的概率也会增大一点。本文将为大家介绍如何快速的添加 Quick Actions shortcut 功能。\nHome Screen Quick Actions 通过主屏幕的应用icon，可以用 3D Touch 呼出一个快捷列表，用户可通过这个列表快速定位应用功能模块。iOS9提供了两种屏幕标签，分别是静态标签和动态标签。且iOS9最多展示四个快捷键给用户，系统会优先展示静态的快捷键，当静态的快捷键不够四个，会添加动态的快捷键到列表。\n静态快捷键的添加 打开 Info.plist, 在该文件中添加如下键值：\n添加一个key为UIApplicationShortcutItems的数组，数组中添件的元素就是静态标签，每个标签我们可以配置下面的键值：\nUIApplicationShortcutItemType (required) : 快捷标签的唯一字符串标示 UIApplicationShortcutItemTitle (required): 快捷标签的标题，会显示在UI上 UIApplicationShortcutItemSubtitle (optional): 副标题，会显示在UI上 UIApplicationShortcutItemIconType (optional): 系统提供的icon，全部列表 UIApplicationShortcutIcon_Class UIApplicationShortcutItemIconFile (optional): 自定义icon（如果填写了该项，则系统自动ignore UIApplicationShortcutItemIconType）。图片需要时正方形的，3535的倍数（试过100100也是Ok的），并且单色。 UIApplicationShortcutItemUserInfo (optional): 传值用 详情请看这里\n当在Info.plist 中添加好了需要的标签之后。运行程序便可得到以下效果：\nP.S 关于如何在模拟器中调试ShortCutMenu，请见文章最后一节模拟器上测试Shortcut。\n动态标签的添加 所谓动态标签，就是我们可以通过代码来添加标签，相关的类有：\nUIApplicationShortcutItem 3DTouch标签的类 UIApplicationShortcutIcon 标签中图片Icon的类 响应标签的行为 当点击标签进入应用时，我们需要在代码对不同标签的做处理。在iOS 9 中，UIApplicationDelegate 新增了方法：\n- (void) application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler 当通过标签进入APP时，appdelegate中会回调到这个函数。当你处理完了标签需要做的工作之后，需要执行 completionHandler。\n这里有一个地方需要特别注意一下，用户按下标签进入应用要分成两种状况：启动APP，APP从后台回到前台。你需要在 application:didFinishLaunchingWithOptions: 或 application:willFinishLaunchingWithOptions: 中的一个去检查字典 launchOptions 中是否包含了UIApplicationLaunchOptionsShortcutItemKey。如果有这个key，则表示是启动app。你需要在此时设置好APP的view层级，并且为 application:willFinishLaunchingWithOptions: 返回 false。这样就可以阻止 application(_:performActionForShortcutItem:completionHandler:) 被调用，避免标签处理逻辑被处理两次。\n以下是 sample code (Objective_c)，demo 放在github上面shortcutDemo\n另外苹果官方提供了 swift 的sample code\n#import \"AppDelegate.h\" @interface AppDelegate () @property (nonatomic, retain) UIApplicationShortcutItem * launchedShortcutItem; @end @implementation AppDelegate - (BOOL) handledShortCutItem: (UIApplicationShortcutItem *) shortcutItem { BOOL handled = NO; if (!shortcutItem.type) return NO; if (![shortcutItem.type isKindOfClass:[NSString class]]) return NO; UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@\"Shortcut Handled\" message:shortcutItem.localizedTitle preferredStyle: UIAlertControllerStyleAlert]; UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@\"OK\" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) { }]; [alertController addAction: alertAction]; [self.window.rootViewController presentViewController: alertController animated: YES completion:nil]; return handled; } - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions { // Override point for customization after application launch. // Dynamic Shortcuts UIApplicationShortcutIcon * addIcon = [UIApplicationShortcutIcon iconWithType: UIApplicationShortcutIconTypeAdd];//Icons should be square, single color, UIApplicationShortcutItem * addItem = [[UIApplicationShortcutItem alloc]initWithType: @\"add\" localizedTitle: @\"Add\" localizedSubtitle: nil icon: addIcon userInfo: nil]; [UIApplication sharedApplication].shortcutItems = @[addItem]; BOOL shouldPerformAdditionalDelegateHandling = YES; if (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) { UIApplicationShortcutItem * shortcutItem = launchOptions[UIApplicationLaunchOptionsShortcutItemKey]; self.launchedShortcutItem = shortcutItem; // This will block \"performActionForShortcutItem:completionHandler\" from being called. shouldPerformAdditionalDelegateHandling = NO; } return shouldPerformAdditionalDelegateHandling; } - (void)applicationWillEnterForeground:(UIApplication *)application { } - (void)applicationDidBecomeActive:(UIApplication *)application { if(!self.launchedShortcutItem) { return; } [self handledShortCutItem: self.launchedShortcutItem]; self.launchedShortcutItem = nil; } - (void) application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler { BOOL result = [self handledShortCutItem: shortcutItem]; completionHandler(result); } @end 模拟器上测试Shortcuts Xcode7.0 的模拟器是没办法之间触发出 3D Touch 事件的，好在有人开发出了插件SBShortcutMenuSimulator.实用也很简单，只需要follow readme 中的 usage 便可。以下摘录\ngit clone https://github.com/DeskConnect/SBShortcutMenuSimulator.git cd SBShortcutMenuSimulator make xcrun simctl spawn booted launchctl debug system/com.apple.SpringBoard --environment DYLD_INSERT_LIBRARIES=$PWD/SBShortcutMenuSimulator.dylib xcrun simctl spawn booted launchctl stop com.apple.SpringBoard echo 'com.apple.mobilecal' | nc 127.0.0.1 8000 ‘com.apple.mobilecal’ 替换成你需要测试的app的bundle就可以了，例如我的是 chengpei.shortcutDemo\necho 'chengpei.shortcutDemo' | nc 127.0.0.1 8000 上面的命令全都在clone的SBShortcutMenuSimulator目录下执行。\n结语 以上。\n",
-  "wordCount" : "340",
+  "wordCount" : "1548",
   "inLanguage": "en",
   "datePublished": "2015-09-30T19:24:13Z",
   "dateModified": "2015-09-30T19:24:13Z",
@@ -326,7 +342,7 @@ echo 'com.apple.mobilecal' | nc 127.0.0.1 8000
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -393,6 +409,9 @@ echo 'com.apple.mobilecal' | nc 127.0.0.1 8000
     })
 
 </script>
+
+
+
 </body>
 
 </html>

@@ -7,21 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>iOS逆向工程-0x01－工具篇-Cycript | </title>
 <meta name="keywords" content="iOS Reverse Engineering">
-<meta name="description" content="对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。
-当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。
-比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码
-那问题来了，我们要如何知道哪个函数是账号登录函数咧？这就涉及到我们如何去分析一个iOS app
-分析 iOS app 的两种方法 运行时分析
-GDB/LLDB Cycript Logify weak_classdump InspectiveC 可执行代码分析
-dumpdecrpted class_dump,class_dump_z,classdump_dyld Disassemblers IDA Hopper otool strings nm 先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。
-###Cycript
-Cycript最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。
-以下是 Cycript 的用途：
-能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController 对程序中的类，可以获取到它用过的方法名称 可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值 能够执行 method swizzling， 替换某个指定的函数 可以在运行时调用其他方法 安装 cycript 首先利用 Cydia 下载 mobilesubstrate adv-mds;从官网上面下载最新的包，并通过 scp 把文件拷贝到 iOS 设备上去，利用 dpkg 进行安装：
-dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb 安装完成之后，执行 cycript 看是否工作：
-用Cycript进行实时修改 本文将使用支付宝来进行测试。
-让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程
-chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.">
+<meta name="description" content="对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/ios-reverse-engineering-02/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -70,22 +56,48 @@ chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.">
         }
 
     </style>
-</noscript><meta property="og:title" content="iOS逆向工程-0x01－工具篇-Cycript" />
-<meta property="og:description" content="对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。
-当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。
-比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码
-那问题来了，我们要如何知道哪个函数是账号登录函数咧？这就涉及到我们如何去分析一个iOS app
-分析 iOS app 的两种方法 运行时分析
-GDB/LLDB Cycript Logify weak_classdump InspectiveC 可执行代码分析
-dumpdecrpted class_dump,class_dump_z,classdump_dyld Disassemblers IDA Hopper otool strings nm 先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。
-###Cycript
-Cycript最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。
-以下是 Cycript 的用途：
-能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController 对程序中的类，可以获取到它用过的方法名称 可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值 能够执行 method swizzling， 替换某个指定的函数 可以在运行时调用其他方法 安装 cycript 首先利用 Cydia 下载 mobilesubstrate adv-mds;从官网上面下载最新的包，并通过 scp 把文件拷贝到 iOS 设备上去，利用 dpkg 进行安装：
-dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb 安装完成之后，执行 cycript 看是否工作：
-用Cycript进行实时修改 本文将使用支付宝来进行测试。
-让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程
-chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0." />
+</noscript>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63703524-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="iOS逆向工程-0x01－工具篇-Cycript" />
+<meta property="og:description" content="对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/ios-reverse-engineering-02/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-11-30T22:00:07+00:00" />
@@ -93,21 +105,7 @@ chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0." />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS逆向工程-0x01－工具篇-Cycript"/>
-<meta name="twitter:description" content="对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。
-当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。
-比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码
-那问题来了，我们要如何知道哪个函数是账号登录函数咧？这就涉及到我们如何去分析一个iOS app
-分析 iOS app 的两种方法 运行时分析
-GDB/LLDB Cycript Logify weak_classdump InspectiveC 可执行代码分析
-dumpdecrpted class_dump,class_dump_z,classdump_dyld Disassemblers IDA Hopper otool strings nm 先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。
-###Cycript
-Cycript最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。
-以下是 Cycript 的用途：
-能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController 对程序中的类，可以获取到它用过的方法名称 可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值 能够执行 method swizzling， 替换某个指定的函数 可以在运行时调用其他方法 安装 cycript 首先利用 Cydia 下载 mobilesubstrate adv-mds;从官网上面下载最新的包，并通过 scp 把文件拷贝到 iOS 设备上去，利用 dpkg 进行安装：
-dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb 安装完成之后，执行 cycript 看是否工作：
-用Cycript进行实时修改 本文将使用支付宝来进行测试。
-让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程
-chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0."/>
+<meta name="twitter:description" content="对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以"/>
 
 
 <script type="application/ld+json">
@@ -136,12 +134,12 @@ chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0."/>
   "@type": "BlogPosting",
   "headline": "iOS逆向工程-0x01－工具篇-Cycript",
   "name": "iOS逆向工程-0x01－工具篇-Cycript",
-  "description": "对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。\n当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。\n比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码\n那问题来了，我们要如何知道哪个函数是账号登录函数咧？这就涉及到我们如何去分析一个iOS app\n分析 iOS app 的两种方法 运行时分析\nGDB/LLDB Cycript Logify weak_classdump InspectiveC 可执行代码分析\ndumpdecrpted class_dump,class_dump_z,classdump_dyld Disassemblers IDA Hopper otool strings nm 先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。\n###Cycript\nCycript最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。\n以下是 Cycript 的用途：\n能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController 对程序中的类，可以获取到它用过的方法名称 可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值 能够执行 method swizzling， 替换某个指定的函数 可以在运行时调用其他方法 安装 cycript 首先利用 Cydia 下载 mobilesubstrate adv-mds;从官网上面下载最新的包，并通过 scp 把文件拷贝到 iOS 设备上去，利用 dpkg 进行安装：\ndpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb 安装完成之后，执行 cycript 看是否工作：\n用Cycript进行实时修改 本文将使用支付宝来进行测试。\n让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程\nchengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.",
+  "description": "对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以",
   "keywords": [
     "iOS Reverse Engineering"
   ],
   "articleBody": "对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。\n当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。\n比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码\n那问题来了，我们要如何知道哪个函数是账号登录函数咧？这就涉及到我们如何去分析一个iOS app\n分析 iOS app 的两种方法 运行时分析\nGDB/LLDB Cycript Logify weak_classdump InspectiveC 可执行代码分析\ndumpdecrpted class_dump,class_dump_z,classdump_dyld Disassemblers IDA Hopper otool strings nm 先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。\n###Cycript\nCycript最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。\n以下是 Cycript 的用途：\n能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController 对程序中的类，可以获取到它用过的方法名称 可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值 能够执行 method swizzling， 替换某个指定的函数 可以在运行时调用其他方法 安装 cycript 首先利用 Cydia 下载 mobilesubstrate adv-mds;从官网上面下载最新的包，并通过 scp 把文件拷贝到 iOS 设备上去，利用 dpkg 进行安装：\ndpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb 安装完成之后，执行 cycript 看是否工作：\n用Cycript进行实时修改 本文将使用支付宝来进行测试。\n让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程\nchengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.0 9.3 815836 47792 ?? Ss 9:45PM 0:34.79 /var/mobile/Containers/Bundle/Application/FB2E1466-0D87-4FF9-9616-BD4269D61BCF/AlipayWallet.app/AlipayWallet root 678 0.0 0.1 536256 412 s000 U+ 9:49PM 0:00.01 grep AlipayWallet -rwxr-xr-x 1 root admin 906 Jan 12 2015 cycript chengpeide-iPhone:/cp/Cycript_0.9.502 root# cycript -p 629 cy# var app = [UIApplication sharedApplication] #\"\" cy# app.delegate #\"\" cy# app.keyWindow.rootViewController #\"\" cy# var nav = new Instance(0x15ac9a00) #\"\" cy# nav.topViewController.childViewControllers @[#\"\",#\"\",#\"\",#\"\"] cy# var assetsViewController = new Instance(0x160a9da0) #\"\" cy# [assetsViewController.view subviews] @[#\"\u003e\",#\"; layer = ; contentOffset: {0, -64}; contentSize: {320, 800}\u003e\"] cy# var tableView = new Instance (0x15433800) #\"; layer = ; contentOffset: {0, -42}; contentSize: {320, 800}\u003e\" cy# tableView.backgroundColor = [UIColor redColor] #\"UIDeviceRGBColorSpace 1 0 0 1\" [tableView visibleCells] @[#\"\u003e\",#\"\u003e\",#\"\u003e\"] cy# var headCell = new Instance (0x16160a40) #\"\u003e\" cy# headCell.backgroundColor = [UIColor redColor] #\"UIDeviceRGBColorSpace 1 0 0 1\" cy# headCell.contentView.backgroundColor = [UIColor redColor] #\"UIDeviceRGBColorSpace 1 0 0 1\" 我们可以看到，界面上 tableViewCell 的背景颜色变成了红色。\n以上操作的思路大致就是， appdelegate =\u003e keyWindow =\u003e rootViewController =\u003e viewControllers =\u003e view\n当然你也可以骗骗自己，把余额这个label的text改成巨款，过过眼瘾\ncy# [tableView subviews] @[#\"\u003e\",#\"; layer = ; contentOffset: {0, 0}; contentSize: {320, 519}\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\"] cy# var header = new Instance(0x16217c10) #\"\u003e\" cy# [header subviews] @[#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\",#\"\u003e\"] cy# var label2= new Instance(0x161082c0) #\"\u003e\" cy# label2.text=@\"10000000000000\" @\"10000000000000\" 很好玩，也很有用的工具，cycript。当然cycript还有一些高级用法，后面会介绍。\n",
-  "wordCount" : "751",
+  "wordCount" : "1531",
   "inLanguage": "en",
   "datePublished": "2015-11-30T22:00:07Z",
   "dateModified": "2015-11-30T22:00:07Z",
@@ -340,7 +338,7 @@ chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0."/>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href=""></a></span>
+    <span>CP0000</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -407,6 +405,9 @@ chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0."/>
     })
 
 </script>
+
+
+
 </body>
 
 </html>

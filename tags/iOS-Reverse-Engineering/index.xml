@@ -5,6 +5,7 @@
     <link>/tags/ios-reverse-engineering/</link>
     <description>Recent content in iOS Reverse Engineering on </description>
     <generator>Hugo -- gohugo.io</generator>
+    <copyright>CP0000</copyright>
     <lastBuildDate>Sun, 06 Mar 2016 11:32:44 +0000</lastBuildDate><atom:link href="/tags/ios-reverse-engineering/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>iOS逆向工程-0x02－Hacking on B612</title>
@@ -12,24 +13,7 @@
       <pubDate>Sun, 06 Mar 2016 11:32:44 +0000</pubDate>
       
       <guid>/posts/ios-reverse-engineering-03/</guid>
-      <description>前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向的相关基础环境的搭建，工具的使用。有了这些知识之后，我们可以进行简单的逆向工作了。
-B612是Line公司出品的一款非常棒的拍照软件。它的界面，交互，用起来非常顺手。app中的滤镜效果很赞，用户简单几步操作就可以生成一张很有质感的照片。本文我将会演示如何通过逆向来得知B612单个的滤镜的具体实现。
-从AppStore上面下载B612的IPA文件，把文件的后缀名从 .IPA 修改成 .zip。解压zip文件之后，在Payload中有一个b612.app的文件，这里我们把.app的后缀去掉，让它变成一个文件夹，方便后面查阅。经过以上几步操作我们就拿到了 B612 app的 bundle 文件信息。
-在使用B612的过程中，app会展列一个滤镜列表给用户进行选择（如下图）：
-使用的过程发现一个叫 China 的滤镜，China，中国？还是瓷器？叫China的滤镜会呈现出什么样子的效果，根据效果我们是否能推测出这里的China是要翻译成中国，还是瓷器咧？很有意思的样子。我们就拿这个滤镜当做目标吧。
-一般情况下，我的常用做法是在先前解压的文件夹中搜索一下相关的信息，碰碰运气。
-find . -name &amp;quot;*china*&amp;quot; ./FilterThumb.bundle/filterthumb_china.jpg ./ObfuscateImages.bundle/lut/china.dat 运气不错。在ObfuscateImages.bundle发现了一个叫china.dat的文件。不过尝试用各种编辑器都没法打开，使用修改后缀名等之类的方法也没能成功打开。看来要获取这个文件的内容没有那么简单，开发者对这个文件做了相关加密工作。要想解密该文件，我们可能需要到汇编代码中寻找答案了。
-这里考虑到程序在使用这个滤镜的时候，会加载该文件，并进行相关解密工作。所以下一步是要找到解密dat文件的地方，不过在此之前，我们还有一些工作要做。
-解密可执行文件 - clutch 演示 接下来我们要去可执行文件中查询相关信息了。但是从苹果商店上面下载下来的IPA里面的可执行文件是被苹果加密过的,我们解谜它。我常用的工具是 clutch,你可以clone一份repo到本地，然后编译得到一个clutch的程序，也可以直接下载release版本。然后把Clutch scp 到你的越狱机器上面就可以使用了。
-首先我们查找一下b612的bundle
-iPhone:/usr root# ./Clutch -i|grep b612
-28)
-然后进行dump工作
-iPhone:/usr root# ./Clutch -d com.linecorp.b612 &amp;hellip;. //程序输出相关log &amp;hellip;. DONE: /private/var/mobile/Documents/Dumped/com.linecorp.b612-iOS7.0-(Clutch-2.0 RC2).ipa
-最后会生成一个解密了的ipa文件，我们把它scp到电脑上来，进行分析。
-还有另外一个解密苹果商店加密IPA的工具叫dumpdecrypted。由于在使用Clutch解密app的时候，消耗内存比较大，导致运行时会出现解密失败的情况，这个时候可以尝试使用dumpdecrypted。
-分析可执行文件 - class-dump 以及 IDA 要分析解密之后的文件，我们可以使用class-dump来导出程序的头文件。有了头文件列表之后，我们可以利用它来了解app的架构，使用的类库，以及探索需要逆向的那一块功能所属的类名。
-class-dump-z/mac_x86/class-dump-z b612 -H -o headers cd headers total 10728 drwxr-xr-x 1295 cp wheel 44030 Apr 4 12:46 .</description>
+      <description>前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向</description>
     </item>
     
     <item>
@@ -38,21 +22,7 @@ class-dump-z/mac_x86/class-dump-z b612 -H -o headers cd headers total 10728 drwx
       <pubDate>Mon, 30 Nov 2015 22:00:07 +0000</pubDate>
       
       <guid>/posts/ios-reverse-engineering-02/</guid>
-      <description>对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。
-当然了，可能你现在还不知道tweak是什么。简单来说，你可以把一个tweak当作某一个app的一个插件（类似于浏览器广告屏蔽插件）。在app运行的时候，tweak会hook住某个函数，然后在hook的函数里面，你可以插入你的代码。
-比如用户在登陆微信账号的时候，tweak可以hook住登录函数，dump出用户的账号密码
-那问题来了，我们要如何知道哪个函数是账号登录函数咧？这就涉及到我们如何去分析一个iOS app
-分析 iOS app 的两种方法 运行时分析
-GDB/LLDB Cycript Logify weak_classdump InspectiveC 可执行代码分析
-dumpdecrpted class_dump,class_dump_z,classdump_dyld Disassemblers IDA Hopper otool strings nm 先不要被这么多的工具多吓到，我们一样一样来。相比对汇编代码的分析，动态分析要简单，容易上手很多，对新手而言，也更加容易获取到乐趣。所以我们先从最好玩的Cycript开始。
-###Cycript
-Cycript最重要的特性是，它可以hook住 iOS／macosx 上面正在运行的进程，并通过终端使用objective_c或javascript语法去打印和修改该应用的运行时信息。我们可以把它当作一个可以debug没有源代码程序的工具。
-以下是 Cycript 的用途：
-能够hook正在运行的进程，并打印相关信息，如 appdelegate,rootViewController 对程序中的类，可以获取到它用过的方法名称 可以获取到类的实例变量名称，以及打印出实例变量的值，当然也可以修改实例变量的值 能够执行 method swizzling， 替换某个指定的函数 可以在运行时调用其他方法 安装 cycript 首先利用 Cydia 下载 mobilesubstrate adv-mds;从官网上面下载最新的包，并通过 scp 把文件拷贝到 iOS 设备上去，利用 dpkg 进行安装：
-dpkg -i cycript cycript_0.9.102-1_iphoneos-arm.deb 安装完成之后，执行 cycript 看是否工作：
-用Cycript进行实时修改 本文将使用支付宝来进行测试。
-让支付宝钱包在前台运行，并找出它的进程id，然后用 cycript -p hook 进程
-chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.</description>
+      <description>对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以</description>
     </item>
     
     <item>
@@ -61,11 +31,7 @@ chengpeide-iPhone:~ root# ps aux | grep AlipayWallet mobile 629 0.</description>
       <pubDate>Sat, 21 Nov 2015 10:46:07 +0000</pubDate>
       
       <guid>/posts/ios-reverse-engineering-01/</guid>
-      <description>前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
-作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
-当然了，逆向工程还有其他更重要的用途，如下：
-分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
-硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries.</description>
+      <description>前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事</description>
     </item>
     
   </channel>
