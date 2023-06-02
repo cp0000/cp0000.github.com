@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Debug 和 Debugger | </title>
+<meta name="keywords" content="">
+<meta name="description" content="Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。
+可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。
+学习编程 我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。
+如果说编辑器，编译器是程序员的朋友，那么debugger可以说是程序员的再生父母。绝大多数程序员离开了debugger是几乎不会写代码的。狭义的debugger指的是程序调试工具，广义的debugger可以指的是好的书籍，资料，人，工具等等能给你有效反馈的事和物。当我在学习一项新技能的时候，最为关键的是要找到靠谱的debugger，然后勤加debug，可能过程听起来会比较累，但根据自身经验来看，这种方式是最为节约时间的方式方法。
+Keep Try and Practice.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/debug-and-debugger/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Debug 和 Debugger" />
+<meta property="og:description" content="Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。
+可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。
+学习编程 我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。
+如果说编辑器，编译器是程序员的朋友，那么debugger可以说是程序员的再生父母。绝大多数程序员离开了debugger是几乎不会写代码的。狭义的debugger指的是程序调试工具，广义的debugger可以指的是好的书籍，资料，人，工具等等能给你有效反馈的事和物。当我在学习一项新技能的时候，最为关键的是要找到靠谱的debugger，然后勤加debug，可能过程听起来会比较累，但根据自身经验来看，这种方式是最为节约时间的方式方法。
+Keep Try and Practice." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/debug-and-debugger/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-08T01:03:32+00:00" />
+<meta property="article:modified_time" content="2022-05-08T01:03:32+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Debug 和 Debugger"/>
+<meta name="twitter:description" content="Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。
+可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。
+学习编程 我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。
+如果说编辑器，编译器是程序员的朋友，那么debugger可以说是程序员的再生父母。绝大多数程序员离开了debugger是几乎不会写代码的。狭义的debugger指的是程序调试工具，广义的debugger可以指的是好的书籍，资料，人，工具等等能给你有效反馈的事和物。当我在学习一项新技能的时候，最为关键的是要找到靠谱的debugger，然后勤加debug，可能过程听起来会比较累，但根据自身经验来看，这种方式是最为节约时间的方式方法。
+Keep Try and Practice."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Debug 和 Debugger",
+      "item": "/posts/debug-and-debugger/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Debug 和 Debugger",
+  "name": "Debug 和 Debugger",
+  "description": "Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。\n可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。\n学习编程 我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。\n如果说编辑器，编译器是程序员的朋友，那么debugger可以说是程序员的再生父母。绝大多数程序员离开了debugger是几乎不会写代码的。狭义的debugger指的是程序调试工具，广义的debugger可以指的是好的书籍，资料，人，工具等等能给你有效反馈的事和物。当我在学习一项新技能的时候，最为关键的是要找到靠谱的debugger，然后勤加debug，可能过程听起来会比较累，但根据自身经验来看，这种方式是最为节约时间的方式方法。\nKeep Try and Practice.",
+  "keywords": [
+    
+  ],
+  "articleBody": "Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。\n可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。\n学习编程 我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。\n如果说编辑器，编译器是程序员的朋友，那么debugger可以说是程序员的再生父母。绝大多数程序员离开了debugger是几乎不会写代码的。狭义的debugger指的是程序调试工具，广义的debugger可以指的是好的书籍，资料，人，工具等等能给你有效反馈的事和物。当我在学习一项新技能的时候，最为关键的是要找到靠谱的debugger，然后勤加debug，可能过程听起来会比较累，但根据自身经验来看，这种方式是最为节约时间的方式方法。\nKeep Try and Practice.\n",
+  "wordCount" : "17",
+  "inLanguage": "en",
+  "datePublished": "2022-05-08T01:03:32Z",
+  "dateModified": "2022-05-08T01:03:32Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/debug-and-debugger/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Debug 和 Debugger
+    </h1>
+    <div class="post-meta"><span title='2022-05-08 01:03:32 +0000 UTC'>May 8, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h3 id="debug-全靠-print">Debug 全靠 print<a hidden class="anchor" aria-hidden="true" href="#debug-全靠-print">#</a></h3>
+<p>刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的toolchain，特别是android ndk develop 方面的工具，还没那么完备。加上我们当时做的项目非常小众，debug运行在android手机上的OC程序，remote debugger经常会connect不上，gdb经常用不了。而即便connect上，诸如breakpoint，单步，程序调用堆栈这些，也不太灵。所以当时最朴素的做法就是通过log，print各种信息来做debug。</p>
+<p>可想而知，这种方式来做开发效率是很低的。虽然我也不是很喜欢诸如xcode，android studio等一类IDE（因为他们太笨重了），但只能靠print来debug，确实有点过于原始了。开发工具不完备，研发效率不高，最终项目研发也是困难重重，很难有效推进。</p>
+<h3 id="学习编程">学习编程<a hidden class="anchor" aria-hidden="true" href="#学习编程">#</a></h3>
+<p>我大学在一所末流211读的计算机相关专业。拙劣的教学质量，松散的学习氛围，加上唐浩强系列教材，大学里是没学到什么编程能力的。工作中的编程能力基本上靠自学而成。自学过程中有点像debug一段程序的过程，通常情况下，我会找相关的资料先看看，当然一般情况下有些细节在没有人指导的情况下，是看不太懂的。而后是去网上找一些视频，去看看视频教学。过程中有一点非常重要，就是要看完一段之后文字和视频之后，阶段性一定要动手去做。这样才能比较有效率的学习某一项新的编程技能。我自己反复验证过，一上来就蛮干，什么书也不看，教程也不学，就自己摸索，大概率是要失败而归，自信心受挫的同时人的精力也被耗尽。而有时候我自己会犯懒，看看书，看看视频，就觉得自己搞懂了，学会了，当时是会比较轻松，但程序员这项工作，最终是要靠code说话的，光看不写，99%是没有学会，即便懂了，最终也不会操作。</p>
+<p>如果说编辑器，编译器是程序员的朋友，那么debugger可以说是程序员的再生父母。绝大多数程序员离开了debugger是几乎不会写代码的。狭义的debugger指的是程序调试工具，广义的debugger可以指的是好的书籍，资料，人，工具等等能给你有效反馈的事和物。当我在学习一项新技能的时候，最为关键的是要找到靠谱的debugger，然后勤加debug，可能过程听起来会比较累，但根据自身经验来看，这种方式是最为节约时间的方式方法。</p>
+<p>Keep Try and Practice.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

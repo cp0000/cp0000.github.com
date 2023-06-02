@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>计算机视觉移动端小网络：MobileNet | </title>
+<meta name="keywords" content="">
+<meta name="description" content="MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。
+深度可分离卷积
+标准卷积如下图：
+输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。
+深度可分离卷积如下图：
+深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。
+如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。
+普通卷积和深度可分离卷积的计算量对比如下图：
+MobileNetV1 网络详情
+MobileNet V2 Linear bottleneck
+对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：
+如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。
+以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。
+Inverted residuals
+经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。
+以下是MoblieNet V2的block结构：
+这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -&gt; conv3x3 -&gt; conv1x1 的模式，但不同在于：
+ResNet先降维（0.25 倍），标准卷积，再生维 MobileNet V2先升维（6倍），深度可分离卷积，再降维 以下是MobileNetv2 block 和 ResNet residual block的对比：">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/mobilenet-intro/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="计算机视觉移动端小网络：MobileNet" />
+<meta property="og:description" content="MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。
+深度可分离卷积
+标准卷积如下图：
+输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。
+深度可分离卷积如下图：
+深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。
+如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。
+普通卷积和深度可分离卷积的计算量对比如下图：
+MobileNetV1 网络详情
+MobileNet V2 Linear bottleneck
+对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：
+如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。
+以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。
+Inverted residuals
+经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。
+以下是MoblieNet V2的block结构：
+这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -&gt; conv3x3 -&gt; conv1x1 的模式，但不同在于：
+ResNet先降维（0.25 倍），标准卷积，再生维 MobileNet V2先升维（6倍），深度可分离卷积，再降维 以下是MobileNetv2 block 和 ResNet residual block的对比：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/mobilenet-intro/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-24T10:48:12+00:00" />
+<meta property="article:modified_time" content="2022-03-24T10:48:12+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="计算机视觉移动端小网络：MobileNet"/>
+<meta name="twitter:description" content="MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。
+深度可分离卷积
+标准卷积如下图：
+输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。
+深度可分离卷积如下图：
+深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。
+如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。
+普通卷积和深度可分离卷积的计算量对比如下图：
+MobileNetV1 网络详情
+MobileNet V2 Linear bottleneck
+对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：
+如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。
+以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。
+Inverted residuals
+经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。
+以下是MoblieNet V2的block结构：
+这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -&gt; conv3x3 -&gt; conv1x1 的模式，但不同在于：
+ResNet先降维（0.25 倍），标准卷积，再生维 MobileNet V2先升维（6倍），深度可分离卷积，再降维 以下是MobileNetv2 block 和 ResNet residual block的对比："/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "计算机视觉移动端小网络：MobileNet",
+      "item": "/posts/mobilenet-intro/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "计算机视觉移动端小网络：MobileNet",
+  "name": "计算机视觉移动端小网络：MobileNet",
+  "description": "MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。\n深度可分离卷积\n标准卷积如下图：\n输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。\n深度可分离卷积如下图：\n深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。\n如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。\n普通卷积和深度可分离卷积的计算量对比如下图：\nMobileNetV1 网络详情\nMobileNet V2 Linear bottleneck\n对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：\n如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。\n以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。\nInverted residuals\n经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。\n以下是MoblieNet V2的block结构：\n这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -\u0026gt; conv3x3 -\u0026gt; conv1x1 的模式，但不同在于：\nResNet先降维（0.25 倍），标准卷积，再生维 MobileNet V2先升维（6倍），深度可分离卷积，再降维 以下是MobileNetv2 block 和 ResNet residual block的对比：",
+  "keywords": [
+    
+  ],
+  "articleBody": "MobileNet MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications. MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。\n深度可分离卷积\n标准卷积如下图：\n输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。\n深度可分离卷积如下图：\n深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。\n如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。\n普通卷积和深度可分离卷积的计算量对比如下图：\nMobileNetV1 网络详情\nMobileNet V2 Linear bottleneck\n对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：\n如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。\n以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。\nInverted residuals\n经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。\n以下是MoblieNet V2的block结构：\n这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -\u003e conv3x3 -\u003e conv1x1 的模式，但不同在于：\nResNet先降维（0.25 倍），标准卷积，再生维 MobileNet V2先升维（6倍），深度可分离卷积，再降维 以下是MobileNetv2 block 和 ResNet residual block的对比：\nMobileNet V2 的网络详情\nMobileNet V3 MobileNet V3的相关技术\n引入了NAS进行网络结构搜索 引入轻量级注意力模型（SE） 使用了一种新的激活函数 h-swish(x) MobileNet V3 网络结构\n网络的结构如下图，引入SE模块：\nPool: average pool 1x1, FC1将通道数减小为1/4，后接一个ReLU函数，FC2将通道数变为原来一样，后接h-sigmoid函数，得到的权重与原来的特质矩阵相乘得到新的特征矩阵。\nhard-swish 函数\nMobileNet V3 网络详情\n总结 MobileNet 在目前的移动端小模型上有着广泛的应用，特别是depthwise-conv，pointwise-conv ",
+  "wordCount" : "101",
+  "inLanguage": "en",
+  "datePublished": "2022-03-24T10:48:12Z",
+  "dateModified": "2022-03-24T10:48:12Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/mobilenet-intro/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      计算机视觉移动端小网络：MobileNet
+    </h1>
+    <div class="post-meta"><span title='2022-03-24 10:48:12 +0000 UTC'>March 24, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h4 id="mobilenethttpsarxivorgabs170404861"><a href="https://arxiv.org/abs/1704.04861">MobileNet</a><a hidden class="anchor" aria-hidden="true" href="#mobilenethttpsarxivorgabs170404861">#</a></h4>
+<p>MobileNets: Efficient Convolutional Neural Networks for Mobile Vison Applications.
+MobileNet是为移动端手机和嵌入式设备提出的网络模型。其中MobileNetV1压缩网络的手段主要是利用深度可分离卷积。</p>
+<p><strong>深度可分离卷积</strong></p>
+<p>标准卷积如下图：</p>
+<!-- raw HTML omitted -->
+<p>输入一个 12x12x3 的featuremap，经过 5x5x3 的卷积核卷积得到一个 8x8x1 的输出featuremap。如果我们有256个featuremap，则经过卷积操作会得到 8x8x256 个输出featuremap。</p>
+<p>深度可分离卷积如下图：</p>
+<!-- raw HTML omitted -->
+<p>深度可分离卷积与标准卷积的差别是，depthwise-conv将卷积核拆分成单通道形式，在不改变featuremap的深度情况下，对输入的featuremap的每一个通道进行卷积操作，得到和输入featuremap通道数一致的输出特征图。猴通过pointwise-conv，升维。</p>
+<p>如上图所示，输入 12x12x3 的featuremap，经过 5x5x1x3 的深度卷积之后，得到了 8x8x3 的输出featuremap。然后在通过 256个 1x1x3 的卷积对 8x8x3 的输入featuremap 进行卷积操作，得到 8x8x256 的输出featuremap。</p>
+<p>普通卷积和深度可分离卷积的计算量对比如下图：</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p><strong>MobileNetV1 网络详情</strong></p>
+<!-- raw HTML omitted -->
+<h4 id="mobilenet-v2httpsarxivorgabs180104381"><a href="https://arxiv.org/abs/1801.04381">MobileNet V2</a><a hidden class="anchor" aria-hidden="true" href="#mobilenet-v2httpsarxivorgabs180104381">#</a></h4>
+<p><strong>Linear bottleneck</strong></p>
+<p>对一个n维空间做ReLU运算，然后对结果进行逆运算恢复，对比ReLU之后的结果与Input相差如下图：</p>
+<!-- raw HTML omitted -->
+<p>如上图可见，当n=2，3是，与input相比有很大一部分信息丢失了，当n=15，30时，信息多部分被保留。也就是说，对低纬度做ReLU运算，容易造成信息丢失，对高纬度进行ReLU运算，信息丢失会比较少。</p>
+<p>以上的发现可以解释MobileNetV1的深度卷积训出来的卷积核有不少是空的这一现象。解决问题的方法是把最后的ReLU6换成Linear。</p>
+<!-- raw HTML omitted -->
+<p><strong>Inverted residuals</strong></p>
+<p>经过DepthWise-Conv的featuremap，输出维度和输入是一致的，使用DW卷积，featuremap无法升维。MobileNetV2中通过在DW卷积之前使用PointWise-Conv来升维，然后在一个更高维的空间中进行DW操作。另外V2中还借鉴了ResNet中的residual block的shortcut结构。</p>
+<p>以下是MoblieNet V2的block结构：</p>
+<!-- raw HTML omitted -->
+<p>这种结构和ResNet的residual block在结构上有相似性，都才用 conv1x1 -&gt; conv3x3 -&gt; conv1x1 的模式，但不同在于：</p>
+<ul>
+<li>ResNet先降维（0.25 倍），标准卷积，再生维</li>
+<li>MobileNet V2先升维（6倍），深度可分离卷积，再降维</li>
+</ul>
+<p>以下是MobileNetv2 block 和 ResNet residual block的对比：</p>
+<p><strong>MobileNet V2 的网络详情</strong></p>
+<!-- raw HTML omitted -->
+<h4 id="mobilenet-v3httpsarxivorgpdf190502244pdf"><a href="https://arxiv.org/pdf/1905.02244.pdf">MobileNet V3</a><a hidden class="anchor" aria-hidden="true" href="#mobilenet-v3httpsarxivorgpdf190502244pdf">#</a></h4>
+<p>MobileNet V3的相关技术</p>
+<ul>
+<li>引入了NAS进行网络结构搜索</li>
+<li>引入轻量级注意力模型（SE）</li>
+<li>使用了一种新的激活函数 h-swish(x)</li>
+</ul>
+<p><strong>MobileNet V3 网络结构</strong></p>
+<p>网络的结构如下图，引入SE模块：</p>
+<!-- raw HTML omitted -->
+<p>Pool: average pool 1x1, FC1将通道数减小为1/4，后接一个ReLU函数，FC2将通道数变为原来一样，后接h-sigmoid函数，得到的权重与原来的特质矩阵相乘得到新的特征矩阵。</p>
+<p><strong>hard-swish 函数</strong></p>
+<!-- raw HTML omitted -->
+<p><strong>MobileNet V3 网络详情</strong></p>
+<!-- raw HTML omitted -->
+<h4 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h4>
+<ul>
+<li>MobileNet 在目前的移动端小模型上有着广泛的应用，特别是depthwise-conv，pointwise-conv</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

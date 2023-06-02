@@ -2,331 +2,319 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://cp0000.github.io/2023/</loc>
+    <loc>/</loc>
     <lastmod>2023-06-01T20:17:11+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2023/06/01/review_imagen/</loc>
+    <loc>/posts/</loc>
     <lastmod>2023-06-01T20:17:11+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2023/05/09/text-to-image-diffusion-survey/</loc>
+    <loc>/posts/review_imagen/</loc>
+    <lastmod>2023-06-01T20:17:11+08:00</lastmod>
+  </url><url>
+    <loc>/posts/text-to-image-diffusion-survey/</loc>
     <lastmod>2023-05-09T15:58:14+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2023/04/23/cognitive_awakening/</loc>
+    <loc>/posts/cognitive_awakening/</loc>
     <lastmod>2023-04-23T22:08:46+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2023/03/30/my_investment/</loc>
+    <loc>/posts/my_investment/</loc>
     <lastmod>2023-03-29T19:41:20+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/posts/2023_chinese_new_year/</loc>
+    <loc>/posts/2023_chinese_new_year/</loc>
     <lastmod>2023-01-29T22:37:24+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/posts/</loc>
-    <lastmod>2023-01-29T22:37:24+08:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/posts/my_2022/</loc>
+    <loc>/posts/my_2022/</loc>
     <lastmod>2022-12-31T18:33:20+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/post/</loc>
+    <loc>/posts/34/</loc>
     <lastmod>2022-11-13T20:31:41+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/post/34/</loc>
-    <lastmod>2022-11-13T20:31:41+08:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/posts/ai_generate_content/</loc>
+    <loc>/posts/ai_generate_content/</loc>
     <lastmod>2022-10-31T17:21:09+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/posts/what_is_stable_diffusion/</loc>
+    <loc>/posts/what_is_stable_diffusion/</loc>
     <lastmod>2022-10-28T19:36:31+08:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/</loc>
-    <lastmod>2022-09-14T00:05:53+00:00</lastmod>
+    <loc>/posts/understanding-diffusion-models/</loc>
+    <lastmod>2022-10-26T11:04:58+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/09/14/what_is_diffusion/</loc>
-    <lastmod>2022-09-14T00:05:53+00:00</lastmod>
+    <loc>/posts/what-are-diffusion/</loc>
+    <lastmod>2022-09-14T18:59:19+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/09/03/the-psychology-of-money/</loc>
+    <loc>/posts/the-psychology-of-money/</loc>
     <lastmod>2022-09-03T11:07:34+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/</loc>
-    <lastmod>2022-08-25T21:30:04+08:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2022/08/21/the-almanack-of-naval-ravikant/</loc>
+    <loc>/posts/the-almanack-of-naval-ravikant/</loc>
     <lastmod>2022-08-21T15:28:23+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/07/03/2022-h1/</loc>
+    <loc>/posts/2022-h1/</loc>
     <lastmod>2022-07-03T14:41:02+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/06/12/life-under-covid-19-2/</loc>
+    <loc>/posts/life-under-covid-19-2/</loc>
     <lastmod>2022-06-12T14:41:23+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/06/04/understanding-disco-diffusion/</loc>
+    <loc>/posts/understanding-disco-diffusion/</loc>
     <lastmod>2022-06-04T10:47:55+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/05/28/the-molecule-of-more/</loc>
+    <loc>/posts/the-molecule-of-more/</loc>
     <lastmod>2022-05-28T18:58:57+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/05/15/bazijizuoweifangfa/</loc>
+    <loc>/posts/bazijizuoweifangfa/</loc>
     <lastmod>2022-05-15T16:48:20+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/05/08/debug-and-debugger/</loc>
+    <loc>/posts/debug-and-debugger/</loc>
     <lastmod>2022-05-08T01:03:32+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/05/03/2-beat-kick-freestyle/</loc>
+    <loc>/posts/2-beat-kick-freestyle/</loc>
     <lastmod>2022-05-03T12:07:10+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/04/17/life-under-covid-19/</loc>
+    <loc>/posts/life-under-covid-19/</loc>
     <lastmod>2022-04-17T10:12:15+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/03/28/stylegan/</loc>
+    <loc>/posts/stylegan/</loc>
     <lastmod>2022-03-28T10:13:27+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/03/24/mobilenet-intro/</loc>
+    <loc>/posts/mobilenet-intro/</loc>
     <lastmod>2022-03-24T10:48:12+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/03/22/lenet-alexnet-vgg-googlenet-resnet-intro/</loc>
+    <loc>/posts/lenet-alexnet-vgg-googlenet-resnet-intro/</loc>
     <lastmod>2022-03-22T11:15:28+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/02/23/my-lisenting-podcasts/</loc>
+    <loc>/posts/my-lisenting-podcasts/</loc>
     <lastmod>2022-02-23T12:13:10+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/02/16/stock-prediction/</loc>
+    <loc>/posts/stock-prediction/</loc>
     <lastmod>2022-02-16T00:13:14+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/categories/</loc>
+    <loc>/categories/</loc>
     <lastmod>2022-02-12T14:38:26+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/categories/reading-notes/</loc>
+    <loc>/categories/reading-notes/</loc>
     <lastmod>2022-02-12T14:38:26+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/02/12/karamazov/</loc>
+    <loc>/posts/karamazov/</loc>
     <lastmod>2022-02-12T14:38:26+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2022/01/08/maybe-you-should-talk-to-someone/</loc>
+    <loc>/posts/maybe-you-should-talk-to-someone/</loc>
     <lastmod>2022-01-08T22:53:15+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/</loc>
+    <loc>/posts/my-2021/</loc>
     <lastmod>2021-12-27T15:33:23+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/12/27/my-2021/</loc>
-    <lastmod>2021-12-27T15:33:23+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2021/12/11/understanding-vqvae/</loc>
+    <loc>/posts/understanding-vqvae/</loc>
     <lastmod>2021-12-11T12:55:42+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/10/27/33/</loc>
+    <loc>/posts/33/</loc>
     <lastmod>2021-10-27T19:48:31+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/10/11/vit-2/</loc>
+    <loc>/posts/vit-2/</loc>
     <lastmod>2021-10-11T21:05:48+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/10/10/vit/</loc>
+    <loc>/posts/vit/</loc>
     <lastmod>2021-10-10T10:04:18+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/07/25/mini-habits/</loc>
+    <loc>/posts/mini-habits/</loc>
     <lastmod>2021-07-25T21:03:54+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/05/16/meiju2021-h1/</loc>
+    <loc>/posts/meiju2021-h1/</loc>
     <lastmod>2021-05-16T11:39:33+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/05/16/touzizuizhongyaodeshi/</loc>
+    <loc>/posts/touzizuizhongyaodeshi/</loc>
     <lastmod>2021-05-16T11:13:03+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/05/04/no-decency/</loc>
+    <loc>/posts/no-decency/</loc>
     <lastmod>2021-05-04T15:13:26+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2021/01/10/my2020/</loc>
+    <loc>/tags/</loc>
     <lastmod>2021-01-10T20:38:38+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2020/</loc>
+    <loc>/posts/my2020/</loc>
+    <lastmod>2021-01-10T20:38:38+00:00</lastmod>
+  </url><url>
+    <loc>/tags/%E7%94%9F%E6%B4%BB/</loc>
+    <lastmod>2021-01-10T20:38:38+00:00</lastmod>
+  </url><url>
+    <loc>/categories/life/</loc>
     <lastmod>2020-11-15T23:11:58+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/categories/life/</loc>
+    <loc>/posts/32/</loc>
     <lastmod>2020-11-15T23:11:58+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2020/11/15/32/</loc>
-    <lastmod>2020-11-15T23:11:58+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2020/08/30/gan-introdcution/</loc>
+    <loc>/posts/gan-introdcution/</loc>
     <lastmod>2020-08-30T23:57:04+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2020/07/19/confushion/</loc>
+    <loc>/posts/confushion/</loc>
     <lastmod>2020-07-19T19:48:58+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2020/05/17/acl-surgery/</loc>
+    <loc>/posts/acl-surgery/</loc>
     <lastmod>2020-05-17T14:47:50+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2020/03/09/papers-reading/</loc>
+    <loc>/posts/papers-reading/</loc>
     <lastmod>2020-03-09T00:09:47+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2020/03/08/for-kobe/</loc>
+    <loc>/posts/for-kobe/</loc>
     <lastmod>2020-03-08T22:13:39+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2020/01/04/2019-movies-list/</loc>
+    <loc>/posts/2019-movies-list/</loc>
     <lastmod>2020-01-04T20:38:42+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2019/</loc>
+    <loc>/posts/31/</loc>
     <lastmod>2019-11-20T00:05:53+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2019/11/20/31/</loc>
-    <lastmod>2019-11-20T00:05:53+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2019/03/31/logistic-regression/</loc>
+    <loc>/tags/tech/</loc>
     <lastmod>2019-03-31T14:41:59+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2019/03/02/entropy/</loc>
+    <loc>/posts/logistic-regression/</loc>
+    <lastmod>2019-03-31T14:41:59+00:00</lastmod>
+  </url><url>
+    <loc>/posts/entropy/</loc>
     <lastmod>2019-03-02T16:02:21+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2019/01/20/2018-summary/</loc>
+    <loc>/posts/2018-summary/</loc>
     <lastmod>2019-01-20T20:09:46+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2018/</loc>
+    <loc>/posts/review-fcn/</loc>
     <lastmod>2018-11-18T22:00:21+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2018/11/18/review-fcn/</loc>
-    <lastmod>2018-11-18T22:00:21+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2018/11/06/review-fsrcnn/</loc>
+    <loc>/posts/review-fsrcnn/</loc>
     <lastmod>2018-11-06T00:24:40+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2018/11/04/30/</loc>
+    <loc>/posts/30/</loc>
     <lastmod>2018-11-04T20:08:40+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2018/06/16/audio/</loc>
+    <loc>/posts/audio/</loc>
     <lastmod>2018-06-16T10:58:22+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2018/01/03/goals-are-for-losers/</loc>
+    <loc>/posts/goals-are-for-losers/</loc>
     <lastmod>2018-01-03T19:31:06+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2017/</loc>
+    <loc>/posts/my-2017/</loc>
     <lastmod>2017-12-03T12:58:39+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2017/12/03/my-2017/</loc>
-    <lastmod>2017-12-03T12:58:39+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2017/10/29/29/</loc>
+    <loc>/posts/29/</loc>
     <lastmod>2017-10-29T22:56:05+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2016/</loc>
+    <loc>/posts/opengl-lighting/</loc>
+    <lastmod>2017-10-04T17:39:47+00:00</lastmod>
+  </url><url>
+    <loc>/posts/shoe-dog/</loc>
+    <lastmod>2017-08-06T19:24:18+00:00</lastmod>
+  </url><url>
+    <loc>/categories/movie/</loc>
+    <lastmod>2017-07-02T15:08:30+00:00</lastmod>
+  </url><url>
+    <loc>/posts/kangrinboqe/</loc>
+    <lastmod>2017-07-02T15:08:30+00:00</lastmod>
+  </url><url>
+    <loc>/posts/framebuffer-object-opengl/</loc>
+    <lastmod>2017-03-19T14:20:09+00:00</lastmod>
+  </url><url>
+    <loc>/categories/tech/</loc>
+    <lastmod>2017-03-19T14:20:09+00:00</lastmod>
+  </url><url>
+    <loc>/posts/glsl-dictionary/</loc>
+    <lastmod>2017-02-26T14:26:08+00:00</lastmod>
+  </url><url>
+    <loc>/posts/becoming-steve-jobs/</loc>
+    <lastmod>2017-01-29T15:54:14+00:00</lastmod>
+  </url><url>
+    <loc>/posts/opengl-3d-matrix/</loc>
     <lastmod>2016-12-18T14:37:53+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2016/12/18/opengl-3d-matrix/</loc>
-    <lastmod>2016-12-18T14:37:53+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/categories/tech/</loc>
-    <lastmod>2016-12-18T14:37:53+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2016/12/11/2016-summary/</loc>
+    <loc>/posts/2016-summary/</loc>
     <lastmod>2016-12-11T14:56:52+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2016/11/07/ffmpeg-command-example/</loc>
+    <loc>/posts/ffmpeg-command-example/</loc>
     <lastmod>2016-11-07T21:03:47+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2016/10/26/28/</loc>
+    <loc>/posts/28/</loc>
     <lastmod>2016-10-26T23:49:23+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2016/10/22/install-caffe-on-macosx/</loc>
+    <loc>/posts/install-caffe-on-macosx/</loc>
     <lastmod>2016-10-22T12:55:05+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2016/09/25/2016-1st-half/</loc>
+    <loc>/posts/2016-1st-half/</loc>
     <lastmod>2016-09-25T23:05:21+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/categories/movie/</loc>
-    <lastmod>2016-09-25T23:05:21+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2016/07/30/shanghai-4-years/</loc>
+    <loc>/posts/shanghai-4-years/</loc>
     <lastmod>2016-07-30T14:35:05+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2016/06/11/pragmatic-thinking-and-learning/</loc>
+    <loc>/posts/pragmatic-thinking-and-learning/</loc>
     <lastmod>2016-06-11T16:21:36+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2016/03/06/ios-reverse-engineering-03/</loc>
+    <loc>/tags/ios-reverse-engineering/</loc>
     <lastmod>2016-03-06T11:32:44+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/12/31/2015-summary/</loc>
+    <loc>/posts/ios-reverse-engineering-03/</loc>
+    <lastmod>2016-03-06T11:32:44+00:00</lastmod>
+  </url><url>
+    <loc>/posts/2015-summary/</loc>
     <lastmod>2015-12-31T11:10:31+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/</loc>
-    <lastmod>2015-12-31T11:10:31+00:00</lastmod>
+    <loc>/posts/2015-2nd-movie-list/</loc>
+    <lastmod>2015-12-27T22:16:11+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/11/30/ios-reverse-engineering-02/</loc>
+    <loc>/posts/ios-reverse-engineering-02/</loc>
     <lastmod>2015-11-30T22:00:07+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/10/27/27/</loc>
+    <loc>/posts/ios-reverse-engineering-01/</loc>
+    <lastmod>2015-11-21T10:46:07+00:00</lastmod>
+  </url><url>
+    <loc>/posts/27/</loc>
     <lastmod>2015-10-27T00:05:53+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/10/25/peek-and-pop/</loc>
+    <loc>/posts/peek-and-pop/</loc>
     <lastmod>2015-10-25T10:36:21+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/09/30/ios9-quick-actions-shortcut/</loc>
+    <loc>/posts/ios9-quick-actions-shortcut/</loc>
     <lastmod>2015-09-30T19:24:13+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/09/03/there-will-be-blood/</loc>
+    <loc>/posts/there-will-be-blood/</loc>
     <lastmod>2015-09-03T23:47:22+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/08/30/openradarstream/</loc>
+    <loc>/posts/openradarstream/</loc>
     <lastmod>2015-08-30T22:02:42+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/08/22/uicollectionview-has-easy-reording-on-ios9/</loc>
+    <loc>/posts/uicollectionview-has-easy-reording-on-ios9/</loc>
     <lastmod>2015-08-22T09:52:28+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/08/02/mdfind-note/</loc>
+    <loc>/posts/mdfind-note/</loc>
     <lastmod>2015-08-02T11:31:18+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/07/23/oc-checklist-answers/</loc>
+    <loc>/posts/oc-checklist-answers/</loc>
     <lastmod>2015-07-23T21:12:55+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/07/19/nsstring-property-copy-or-retain/</loc>
+    <loc>/posts/nsstring-property-copy-or-retain/</loc>
     <lastmod>2015-07-19T11:50:04+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/07/13/movie-list-been-watched-2015-1st/</loc>
+    <loc>/posts/movie-list-been-watched-2015-1st/</loc>
     <lastmod>2015-07-13T22:40:09+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/07/05/za-huo-che-de-ren/</loc>
+    <loc>/posts/za-huo-che-de-ren/</loc>
     <lastmod>2015-07-05T14:52:27+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/categories/sports/</loc>
+    <loc>/categories/sports/</loc>
     <lastmod>2015-06-07T09:41:30+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/06/07/tennis/</loc>
+    <loc>/posts/tennis/</loc>
     <lastmod>2015-06-07T09:41:30+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/04/05/nainai/</loc>
+    <loc>/posts/nainai/</loc>
     <lastmod>2015-04-05T10:35:36+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/03/15/legend-of-a-suicide/</loc>
+    <loc>/posts/legend-of-a-suicide/</loc>
     <lastmod>2015-03-15T15:13:30+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2014/</loc>
+    <loc>/posts/2014-movie-list/</loc>
     <lastmod>2014-12-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2014/12/31/2014-movie-list/</loc>
-    <lastmod>2014-12-31T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2014/03/01/android-reverse-engineering/</loc>
-    <lastmod>2014-08-22T15:28:23+00:00</lastmod>
-  </url><url>
-    <loc>https://cp0000.github.io/2014/05/21/regular-expression-beginner/</loc>
+    <loc>/posts/regular-expression-beginner/</loc>
     <lastmod>2014-05-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2014/04/10/google-wildcard/</loc>
+    <loc>/posts/google-wildcard/</loc>
     <lastmod>2014-04-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://cp0000.github.io/2015/11/21/ios-reverse-engineering-01/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2015/12/27/2015-2nd-movie-list/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2017/01/29/becoming-steve-jobs/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2017/02/26/glsl-dictionary/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2017/03/19/ffmpeg-command-example/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2017/07/02/kangrinboqe/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2017/08/06/shoe-dog/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/2017/10/04/opengl-lighting/</loc>
-  </url><url>
-    <loc>https://cp0000.github.io/tags/</loc>
+    <loc>/posts/android-reverse-engineering/</loc>
+    <lastmod>2014-03-01T00:00:00+00:00</lastmod>
   </url>
 </urlset>

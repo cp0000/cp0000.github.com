@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>OpenGL ES 2.0 3D基础（1）－矩阵 | </title>
+<meta name="keywords" content="">
+<meta name="description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。
+线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。
+向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。
+向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：
+向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：
+矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：
+矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。
+单位矩阵通常是生成其他变换矩阵的起点。
+缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。
+位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：
+TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移
+坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：
+局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。
+世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。
+模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。
+观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。
+裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。
+将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。">
+<meta name="author" content="cp">
+<link rel="canonical" href="/posts/opengl-3d-matrix/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="OpenGL ES 2.0 3D基础（1）－矩阵" />
+<meta property="og:description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。
+线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。
+向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。
+向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：
+向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：
+矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：
+矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。
+单位矩阵通常是生成其他变换矩阵的起点。
+缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。
+位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：
+TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移
+坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：
+局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。
+世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。
+模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。
+观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。
+裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。
+将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/opengl-3d-matrix/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-12-18T14:37:53+00:00" />
+<meta property="article:modified_time" content="2016-12-18T14:37:53+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OpenGL ES 2.0 3D基础（1）－矩阵"/>
+<meta name="twitter:description" content="Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。
+线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。
+向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。
+向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：
+向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：
+矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：
+矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。
+单位矩阵通常是生成其他变换矩阵的起点。
+缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。
+位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：
+TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移
+坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：
+局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。
+世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。
+模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。
+观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。
+裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。
+将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "OpenGL ES 2.0 3D基础（1）－矩阵",
+      "item": "/posts/opengl-3d-matrix/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OpenGL ES 2.0 3D基础（1）－矩阵",
+  "name": "OpenGL ES 2.0 3D基础（1）－矩阵",
+  "description": "Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。\n线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。\n向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。\n向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：\n向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：\n矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：\n矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。\n单位矩阵通常是生成其他变换矩阵的起点。\n缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。\n位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：\nTransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移\n坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：\n局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。\n世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。\n模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。\n观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。\n裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。\n将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。",
+  "keywords": [
+    
+  ],
+  "articleBody": "Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。\n线性代数 学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。\n向量运算 向量: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。\n向量加减 向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：\n向量相乘 点乘 叉乘 矩阵运算 矩阵简介 数学上，一个 m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：\n矩阵运算规则 矩阵的加减 矩阵与标量之间的加减：\n矩阵与矩阵之间的加减： 矩阵乘法 矩阵数乘 矩阵相乘 单位矩阵 在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。\n单位矩阵通常是生成其他变换矩阵的起点。\n缩放矩阵 对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。\n位移矩阵 位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。 旋转矩阵 （Rx,Ry,Rz）代表任意旋转轴，θ是角度： 累积变换 上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：\nTransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector; 这行代码首先执行缩放，接着旋转，最后才是平移\n坐标系统 OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：\n局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。\n世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。\n模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。\n观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。\n裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。\n将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。\n屏幕空间（Screen Space） 正交投影（Orthographic Projection） 正交投影矩阵定义一个立方体的平截头箱，在这个立方体之外的顶点都会被裁剪掉。\n正交投影矩阵直接将坐标映射到2D平面上。不过正交投影没有透视效果，远处箱子和近处箱子投射到平面上是一样大的，这和我们日常生活中看东西时近大远小的视觉效果是不符的。要解决这个问题，我们需要用到透视投影。\n###透视投影（Perspective Projection）\n透视投影定义一个大平截头体。透视投影有两种表述方式：\n视锥体： glFrustum (left, right, bottom, top, zNear, zFar);\nleft,right,bottom,top定义near裁剪面大小，zNear和zFar定义从观察点到远近两个裁剪面的距离。这六个参数定义出六个裁剪面构成的视锥体。\n透视图： gluPerspective(fovy, aspect, zNear, zFar);\nfovy: camera 在 y 方向上的视线角度（0~180) aspect定义近截面的宽高比 aspect=w/h zNear, zFar: 观察点到远近两个裁剪面的距离 透视体参数转换车过视锥体参数：\ntan(fovy/2) = (h / 2)/zNear -\u003e h; w = h * aspect -\u003e w; 矩阵组合 基于前面介绍的4个变换矩阵：模型矩阵，世界矩阵，观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程变换到裁剪坐标：\nVclip=Mprojection⋅Mview⋅Mmodel⋅Vlocal 注意矩阵运算的顺序是从右往左阅读，最终计算出来的顶点赋值给gl_Position\n3D Demo 至此我们了解了OpenGL 3D渲染中需要知道的矩阵知识，运用这些知识，便可进行开发OpenGL3D程序了；苹果官方提供一个很好的GL demo GLEssentials\n结束 ",
+  "wordCount" : "132",
+  "inLanguage": "en",
+  "datePublished": "2016-12-18T14:37:53Z",
+  "dateModified": "2016-12-18T14:37:53Z",
+  "author":{
+    "@type": "Person",
+    "name": "cp"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/opengl-3d-matrix/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      OpenGL ES 2.0 3D基础（1）－矩阵
+    </h1>
+    <div class="post-meta"><span title='2016-12-18 14:37:53 +0000 UTC'>December 18, 2016</span>&nbsp;·&nbsp;cp
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="overview">Overview<a hidden class="anchor" aria-hidden="true" href="#overview">#</a></h2>
+<p>移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维矩阵的相关知识是学习OpenGL最重要的课程之一。</p>
+<h2 id="线性代数">线性代数<a hidden class="anchor" aria-hidden="true" href="#线性代数">#</a></h2>
+<p>学习OpenGL三维投射知识之前，我们得事先了解下一些基础的线性代数知识，如向量运算，矩阵运算。</p>
+<h3 id="向量运算">向量运算<a hidden class="anchor" aria-hidden="true" href="#向量运算">#</a></h3>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F">向量</a>: 指一个同时具有大小和方向的几何对象，因常常以箭头符号表示以区别于其它量而得名。</p>
+<h4 id="向量加减">向量加减<a hidden class="anchor" aria-hidden="true" href="#向量加减">#</a></h4>
+<p>向量的加（减）法定义是分量的相加（减），即将一个向量中的每一个分量加上（减去）另一个向量的对应分量：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_01.png" alt=""  />
+</p>
+<h4 id="向量相乘">向量相乘<a hidden class="anchor" aria-hidden="true" href="#向量相乘">#</a></h4>
+<h5 id="点乘">点乘<a hidden class="anchor" aria-hidden="true" href="#点乘">#</a></h5>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_02.png" alt=""  />
+</p>
+<h4 id="叉乘">叉乘<a hidden class="anchor" aria-hidden="true" href="#叉乘">#</a></h4>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_03.png" alt=""  />
+</p>
+<h3 id="矩阵运算">矩阵运算<a hidden class="anchor" aria-hidden="true" href="#矩阵运算">#</a></h3>
+<h4 id="矩阵简介">矩阵简介<a hidden class="anchor" aria-hidden="true" href="#矩阵简介">#</a></h4>
+<p>数学上，一个  m x n 的矩阵是一个m行n列元素排列成的矩形阵列。以下是一个由6个数字元素构成的3行3列的矩阵：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_04.png" alt=""  />
+</p>
+<h4 id="矩阵运算规则">矩阵运算规则<a hidden class="anchor" aria-hidden="true" href="#矩阵运算规则">#</a></h4>
+<h5 id="矩阵的加减">矩阵的加减<a hidden class="anchor" aria-hidden="true" href="#矩阵的加减">#</a></h5>
+<p>矩阵与标量之间的加减：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_05.png" alt=""  />
+</p>
+<p>矩阵与矩阵之间的加减：
+<img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_06.png" alt=""  />
+</p>
+<h5 id="矩阵乘法">矩阵乘法<a hidden class="anchor" aria-hidden="true" href="#矩阵乘法">#</a></h5>
+<ul>
+<li>
+<p>矩阵数乘
+<img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_07.png" alt=""  />
+</p>
+</li>
+<li>
+<p>矩阵相乘
+<img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_08.png" alt=""  />
+</p>
+</li>
+</ul>
+<h4 id="单位矩阵">单位矩阵<a hidden class="anchor" aria-hidden="true" href="#单位矩阵">#</a></h4>
+<p>在OpenGL中，由于大部分的向量都是4分量 （x,y,z,w）,所以我们通常使用 4x4 的变换矩阵。当中最简单的变换矩阵是单位矩阵。单位矩阵是一个除了对角线以外都是0的NxN矩阵。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_09.png" alt=""  />
+</p>
+<p>单位矩阵通常是生成其他变换矩阵的起点。</p>
+<h4 id="缩放矩阵">缩放矩阵<a hidden class="anchor" aria-hidden="true" href="#缩放矩阵">#</a></h4>
+<p>对一个向量进行缩放指的是对向量的长度进行缩放，而保持它的方向不变。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_11.png" alt=""  />
+</p>
+<h4 id="位移矩阵">位移矩阵<a hidden class="anchor" aria-hidden="true" href="#位移矩阵">#</a></h4>
+<p>位移是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动原始向量。
+<img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_12.png" alt=""  />
+</p>
+<h4 id="旋转矩阵">旋转矩阵<a hidden class="anchor" aria-hidden="true" href="#旋转矩阵">#</a></h4>
+<p>（Rx,Ry,Rz）代表任意旋转轴，θ是角度：
+<img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_16.png" alt=""  />
+</p>
+<h5 id="累积变换">累积变换<a hidden class="anchor" aria-hidden="true" href="#累积变换">#</a></h5>
+<p>上面接受啊了如何旋转，平移和缩放向量。把这些矩阵相乘组合起来如下：</p>
+<pre><code>TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector;
+</code></pre>
+<p>这行代码首先执行缩放，接着旋转，最后才是平移</p>
+<h2 id="坐标系统">坐标系统<a hidden class="anchor" aria-hidden="true" href="#坐标系统">#</a></h2>
+<p>OpenGL在每次顶点着色器运行后，所有顶点都为标准化设备坐标，每个顶点（x,y,z）都应该在-1.0d到1.0之间。通常情况下，我们会根据画布（屏幕）的大小设定一个坐标范围，在顶点着色器中将这些坐标转换为标准化设备坐标。在项目中，物体坐标最终被转化为屏幕坐标之前会变换到多个坐标系统，因为在相应的过度坐标系中做特定运算会方便容易一些。对我们来讲，一般情况下需要用到5个不同的坐标系统：</p>
+<ul>
+<li>
+<p>局部空间（Local Space）：物体起始坐标；如一个正方体a，原点是正方体的中心O1（0，0，0）。</p>
+</li>
+<li>
+<p>世界空间（World Space）：物体在更大的空间范围的坐标；如我们构造了一个圆球来表示世界,圆心为世界坐标原点O2，把正方体放在圆球中t(x1,y1,z1)位置。那么正方体a的圆心O1在世界系统会转化为（x1,y1,z1）。物体的坐标从局部坐标变换到是世界坐标由模型矩阵（Model Matrix）负责实现。</p>
+<blockquote>
+<p>模型矩阵是一种变换矩阵，能对物体进行位移，缩放，旋转。</p>
+</blockquote>
+</li>
+<li>
+<p>观察空间（View Space）: 观察空间是将世界坐标转化为用户视野前方的坐标。一般用一个观察矩阵（View Matrix）来完成转换。</p>
+</li>
+<li>
+<p>裁剪空间（Clip Space）：顶点着色器运行到最后，OpenGL期望所有的坐标落在一个特定的范围内，且任何在这个范围之外的点会被裁剪掉。为了将顶点坐标从观察变换成裁剪空间，需定义一个投影矩阵（Projection Matrix），它指定一个范围的坐标，比如每个维度上的 -100 到 100。投影矩阵会将在这个指定范围内的坐标变换为标准化设备坐标的范围（-1。0，1.0）。使用投影矩阵能将3D坐标投影到2D的标准化设备坐标系中。</p>
+</li>
+</ul>
+<p>将观察坐标变换为裁剪坐标的投影矩阵分为两种不同的形式：正交投影矩阵（Orthographic Projection Matrix），透视投影矩阵（Perspective Projection Matrix）。</p>
+<ul>
+<li>屏幕空间（Screen Space）</li>
+</ul>
+<h3 id="正交投影orthographic-projection">正交投影（Orthographic Projection）<a hidden class="anchor" aria-hidden="true" href="#正交投影orthographic-projection">#</a></h3>
+<p>正交投影矩阵定义一个立方体的平截头箱，在这个立方体之外的顶点都会被裁剪掉。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_18.png" alt=""  />
+</p>
+<p>正交投影矩阵直接将坐标映射到2D平面上。不过正交投影没有透视效果，远处箱子和近处箱子投射到平面上是一样大的，这和我们日常生活中看东西时近大远小的视觉效果是不符的。要解决这个问题，我们需要用到透视投影。</p>
+<p>###透视投影（Perspective Projection）</p>
+<p>透视投影定义一个大平截头体。透视投影有两种表述方式：</p>
+<ul>
+<li>视锥体：</li>
+</ul>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_19.png" alt=""  />
+</p>
+<p>glFrustum (left, right, bottom, top, zNear, zFar);</p>
+<p>left,right,bottom,top定义near裁剪面大小，zNear和zFar定义从观察点到远近两个裁剪面的距离。这六个参数定义出六个裁剪面构成的视锥体。</p>
+<ul>
+<li>透视图：</li>
+</ul>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_20.png" alt=""  />
+</p>
+<p>gluPerspective(fovy, aspect, zNear, zFar);</p>
+<ul>
+<li>fovy: camera 在 y 方向上的视线角度（0~180)</li>
+<li>aspect定义近截面的宽高比 aspect=w/h</li>
+<li>zNear, zFar: 观察点到远近两个裁剪面的距离</li>
+</ul>
+<p>透视体参数转换车过视锥体参数：</p>
+<pre><code>	tan(fovy/2) = (h / 2)/zNear -&gt; h; 
+	w =  h * aspect -&gt; w;
+</code></pre>
+<h3 id="矩阵组合">矩阵组合<a hidden class="anchor" aria-hidden="true" href="#矩阵组合">#</a></h3>
+<p>基于前面介绍的4个变换矩阵：模型矩阵，世界矩阵，观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程变换到裁剪坐标：</p>
+<pre><code>Vclip=Mprojection⋅Mview⋅Mmodel⋅Vlocal
+</code></pre>
+<blockquote>
+<p>注意矩阵运算的顺序是从右往左阅读，最终计算出来的顶点赋值给<code>gl_Position</code></p>
+</blockquote>
+<h2 id="3d-demo">3D Demo<a hidden class="anchor" aria-hidden="true" href="#3d-demo">#</a></h2>
+<p>至此我们了解了OpenGL 3D渲染中需要知道的矩阵知识，运用这些知识，便可进行开发OpenGL3D程序了；苹果官方提供一个很好的GL demo <a href="https://developer.apple.com/library/content/samplecode/GLEssentials/Introduction/Intro.html">GLEssentials</a></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/3d_matrix/matrix_21.png" alt=""  />
+</p>
+<h2 id="结束">结束<a hidden class="anchor" aria-hidden="true" href="#结束">#</a></h2>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

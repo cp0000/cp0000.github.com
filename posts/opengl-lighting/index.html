@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Learning OpenGL：光照 | </title>
+<meta name="keywords" content="">
+<meta name="description" content="颜色 计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。
+颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：
+vec3 lightColor(1.0,1.0,1.0); vec3 clothingColor(0.0,0.5,0.0); vec3 result = lightColor * clothingColor; // (0.0, 0.5, 0.0); 我们定义物体的颜色为物体从一个光源反射各个颜色分量的大小.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。
+##基础光照
+现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：
+环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。 漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。 镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。 环境光照 我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。
+void main() { float ambientStrength = 0.1; vec3 ambient = ambientStrength * lightColor; vec3 result = ambient * objectColor; gl_fragColor = vec4(result, 1.0); } 漫反射光照 漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。
+光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做法向量（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：
+法向量：一个垂直于顶点表面的向量 定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。 法向量 法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。
+###漫反射光照 每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：
+uniform vec3 lightPos; 渲染的时候，设置lightPos就可以了。 最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：
+varying vec3 fragPos; varying vec3 normal; void main() { gl_Position = projection * view * model * vec4(aPos, 1.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/opengl-lighting/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Learning OpenGL：光照" />
+<meta property="og:description" content="颜色 计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。
+颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：
+vec3 lightColor(1.0,1.0,1.0); vec3 clothingColor(0.0,0.5,0.0); vec3 result = lightColor * clothingColor; // (0.0, 0.5, 0.0); 我们定义物体的颜色为物体从一个光源反射各个颜色分量的大小.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。
+##基础光照
+现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：
+环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。 漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。 镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。 环境光照 我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。
+void main() { float ambientStrength = 0.1; vec3 ambient = ambientStrength * lightColor; vec3 result = ambient * objectColor; gl_fragColor = vec4(result, 1.0); } 漫反射光照 漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。
+光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做法向量（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：
+法向量：一个垂直于顶点表面的向量 定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。 法向量 法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。
+###漫反射光照 每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：
+uniform vec3 lightPos; 渲染的时候，设置lightPos就可以了。 最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：
+varying vec3 fragPos; varying vec3 normal; void main() { gl_Position = projection * view * model * vec4(aPos, 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/opengl-lighting/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-10-04T17:39:47+00:00" />
+<meta property="article:modified_time" content="2017-10-04T17:39:47+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learning OpenGL：光照"/>
+<meta name="twitter:description" content="颜色 计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。
+颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：
+vec3 lightColor(1.0,1.0,1.0); vec3 clothingColor(0.0,0.5,0.0); vec3 result = lightColor * clothingColor; // (0.0, 0.5, 0.0); 我们定义物体的颜色为物体从一个光源反射各个颜色分量的大小.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。
+##基础光照
+现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：
+环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。 漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。 镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。 环境光照 我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。
+void main() { float ambientStrength = 0.1; vec3 ambient = ambientStrength * lightColor; vec3 result = ambient * objectColor; gl_fragColor = vec4(result, 1.0); } 漫反射光照 漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。
+光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做法向量（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：
+法向量：一个垂直于顶点表面的向量 定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。 法向量 法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。
+###漫反射光照 每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：
+uniform vec3 lightPos; 渲染的时候，设置lightPos就可以了。 最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：
+varying vec3 fragPos; varying vec3 normal; void main() { gl_Position = projection * view * model * vec4(aPos, 1."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Learning OpenGL：光照",
+      "item": "/posts/opengl-lighting/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Learning OpenGL：光照",
+  "name": "Learning OpenGL：光照",
+  "description": "颜色 计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。\n颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：\nvec3 lightColor(1.0,1.0,1.0); vec3 clothingColor(0.0,0.5,0.0); vec3 result = lightColor * clothingColor; // (0.0, 0.5, 0.0); 我们定义物体的颜色为物体从一个光源反射各个颜色分量的大小.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。\n##基础光照\n现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：\n环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。 漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。 镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。 环境光照 我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。\nvoid main() { float ambientStrength = 0.1; vec3 ambient = ambientStrength * lightColor; vec3 result = ambient * objectColor; gl_fragColor = vec4(result, 1.0); } 漫反射光照 漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。\n光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做法向量（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：\n法向量：一个垂直于顶点表面的向量 定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。 法向量 法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。\n###漫反射光照 每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：\nuniform vec3 lightPos; 渲染的时候，设置lightPos就可以了。 最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：\nvarying vec3 fragPos; varying vec3 normal; void main() { gl_Position = projection * view * model * vec4(aPos, 1.",
+  "keywords": [
+    
+  ],
+  "articleBody": "颜色 计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。\n颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：\nvec3 lightColor(1.0,1.0,1.0); vec3 clothingColor(0.0,0.5,0.0); vec3 result = lightColor * clothingColor; // (0.0, 0.5, 0.0); 我们定义物体的颜色为物体从一个光源反射各个颜色分量的大小.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。\n##基础光照\n现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：\n环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。 漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。 镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。 环境光照 我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。\nvoid main() { float ambientStrength = 0.1; vec3 ambient = ambientStrength * lightColor; vec3 result = ambient * objectColor; gl_fragColor = vec4(result, 1.0); } 漫反射光照 漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。\n光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做法向量（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：\n法向量：一个垂直于顶点表面的向量 定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。 法向量 法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。\n###漫反射光照 每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：\nuniform vec3 lightPos; 渲染的时候，设置lightPos就可以了。 最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：\nvarying vec3 fragPos; varying vec3 normal; void main() { gl_Position = projection * view * model * vec4(aPos, 1.0); fragPos = vec3 (model * vec4(aPos, 1.0)); normal = aNormal; } 在片段着色器中，我们需要计算光源和片段位置之间的方向向量。通过让两个向量相减的方式计算向量差。\nvec3 norm = normalize (normal); vec3 lightDir = normalize (lightPos - fragPos); 然后我们对 norm 和 lightDir 向量进行点乘，计算光源对当前片段实际的漫发射影响。结果值再乘以光的颜色，得到漫发射分量。两个向量之间的角度越大，漫反射分量就会越小：\nfloat diff = max (dot(norm, lightDir), 0.0); // 如果两个向量之间的角度大于90度，点乘的结果就会变成负数，这样会导致漫反射分量变为负数，为此，我们使用max函数返回两个参数之间较大的参数，从而保证漫反射分量不会变成负数。 vec3 diffuse = diff * lightColor; vec3 result = (ambient + diffuse) * objectColor; gl_FragColor = vec4(result, 1.0); 镜面光照（Specular Hightlight） 和漫反射光照一样，镜面光照是依据光的方向向量和物体的法向量来决定的，但是它还依赖于观察方向。镜面光照是基于光的反射特性。如果我们想象物体表面像一面镜子一样，那么无论我们从哪里去看那个表面所反射的光，镜面光照都会达到最大化。如下图：\n我们通过反射法向量周围光的方向来计算反射向量。然后我们计算反射向量和视线方向的角度差，如果夹角越小，那么镜面光的影响就会越大。 观察向量是镜面光照附加的一个变量，我们可以使用观察者世界空间位置和片段的位置来计算它。之后，我们计算镜面光强度，用它乘以光源的颜色，再将它加上环境光和漫反射分量。\nuniform vec3 viewPos; float specularStrength = 0.5; float shininess = 32; // 反光度，一个物体的反光度越高，反射光的能力越强，散射得越少，高光点就会越小 vec3 viewDir = normalize(viewPos - fragPos); vec3 reflectDir = reflect(-lightDir, norm) float spec = pow (max (dot (viewDir, reflectDir), 0.0), shininess); vec3 specular = specularStrength * spec * lightColor; vec3 result = (ambient + diffuse + specular) * objectColor; gl_FragColor = vec4(result, 1.0); 以上就是基础光照的相关知识了。\n",
+  "wordCount" : "204",
+  "inLanguage": "en",
+  "datePublished": "2017-10-04T17:39:47Z",
+  "dateModified": "2017-10-04T17:39:47Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/opengl-lighting/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Learning OpenGL：光照
+    </h1>
+    <div class="post-meta"><span title='2017-10-04 17:39:47 +0000 UTC'>October 4, 2017</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="颜色">颜色<a hidden class="anchor" aria-hidden="true" href="#颜色">#</a></h2>
+<p>计算机如何表达现实世界中五彩滨纷的颜色？答案是用红，绿，蓝（缩写RGB）三个分量来数字化颜色。但我们在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它反射的（Reflected）颜色。也就是说，那些不能被物体所吸收的颜色就是我们能够感知到的物体颜色。例如，太阳光能被看见的白光其实是由许多不同的颜色组合而成的。如果我们将白光照在一个红色的衣服上，这个红色的衣服会吸收白光中除了红色以外的所有子颜色，而不被吸收的红色光被反射到我们的眼中，让这件衣服看起来是红色的。</p>
+<p>颜色反射的定律被直接运用到图形领域。当我们在OpenGL中创建一个光源时，我们希望给光源一个颜色。当我们把光源的颜色与物体的颜色值相乘，所得到的就是这个物体所反射的颜色。在OpenGL中，我们将两个颜色向量作分量相乘，结果就是最终的颜色向量了：</p>
+<pre><code>vec3 lightColor(1.0,1.0,1.0);
+vec3 clothingColor(0.0,0.5,0.0);
+vec3 result =  lightColor * clothingColor; // (0.0, 0.5, 0.0);
+</code></pre>
+<p>我们定义<strong>物体的颜色为物体从一个光源反射各个颜色分量的大小</strong>.我们可以使用不同的光源颜色来让物体显现出意想不到的颜色。</p>
+<p>##基础光照</p>
+<p>现实世界的光照极其复杂，而且受诸多因素影响，计算机有限的计算能力无法模拟。因此在OpenGL的光照使用的是简化的模型，对现实的情况进行近似模拟。这些光照模型是基于我们对光的物理特性的理解。冯氏光照模型是其中一个模型，冯氏光照模型主要由3个分量组成：环境（Ambient），漫反射（Diffuse）和镜面（Specular）光照。如下图：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/lighting/phong_reflection.jpg" alt=""  />
+</p>
+<ul>
+<li>环境光照（Ambient Lighting）:在黑暗的情况下，现实世界通常也仍有一些光亮，所以物体几乎永远不会是完全黑暗的。为了模拟这个，我们会使用一个环境光照常量，它永远会给物体一些颜色。</li>
+<li>漫反射光照（Diffuse Lighting）：模拟光源对物体的方向性影响。它是冯氏光照模型中视觉上最显著的分量。物体的莫一部分越是正对着光源，它就会越亮。</li>
+<li>镜面光照（Specular Lighting）：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。</li>
+</ul>
+<h3 id="环境光照">环境光照<a hidden class="anchor" aria-hidden="true" href="#环境光照">#</a></h3>
+<p>我们使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，如此即使场景中没有直接的光源也能看起来存在有些发散的光。</p>
+<pre><code>void main()
+{
+	float ambientStrength = 0.1;
+	vec3 ambient = ambientStrength * lightColor;
+	vec3 result = ambient * objectColor;
+	gl_fragColor = vec4(result, 1.0);
+}
+</code></pre>
+<h3 id="漫反射光照">漫反射光照<a hidden class="anchor" aria-hidden="true" href="#漫反射光照">#</a></h3>
+<p>漫反射对物体产生显著的视觉影响。漫反射光照使物体上与光线方向越接近的片段能从光源处获得更多的亮度。</p>
+<p>光源发出的光线落在物体的一个片段上，我们需要计算这个光线是以什么角度接触到这个片段的。为了测量光线和片段的角度，需用到一个叫做<strong>法向量</strong>（Normal Vector）的东西，它是垂直于片段表面的一个向量。点乘返回一个标量，我们可以用它计算光线对片段颜色的影响。不同片段朝向光源的方向不同，这些片段被照亮的情况也不同。所以，计算漫反射光照需要：</p>
+<ul>
+<li>法向量：一个垂直于顶点表面的向量</li>
+<li>定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。</li>
+</ul>
+<h3 id="法向量">法向量<a hidden class="anchor" aria-hidden="true" href="#法向量">#</a></h3>
+<p>法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面，我们利用它周围的顶点来计算出这个顶点的表面。一个三角形的法线是一个长度为1并且垂直于这个三角形的向量。而顶点的法线，是包含该顶点的所有三角形的法线均值。</p>
+<p>###漫反射光照
+每个顶点有了法向量，但我们仍然需要光源额度位置向量和片段的位置向量。由于光源的位置是一个静态变量，故简单在片段着色器中声明为uniform：</p>
+<pre><code>uniform vec3 lightPos;
+</code></pre>
+<p>渲染的时候，设置lightPos就可以了。
+最后，我们还需要片段的位置。我们会在世界空间中进行所有的光照计算，因此我们需要一个在世界空间中的顶点位置。我们可以通过把顶点位置属性乘以模型矩阵来把它变换到世界坐标系。如下：</p>
+<pre><code>varying vec3 fragPos;
+varying vec3 normal;
+
+void main() {
+	gl_Position = projection * view * model * vec4(aPos, 1.0);
+	fragPos = vec3 (model * vec4(aPos, 1.0));
+	normal = aNormal;
+}
+</code></pre>
+<p>在片段着色器中，我们需要计算光源和片段位置之间的方向向量。通过让两个向量相减的方式计算向量差。</p>
+<pre><code>vec3 norm = normalize (normal);
+vec3 lightDir = normalize (lightPos - fragPos);
+</code></pre>
+<p>然后我们对 norm 和 lightDir 向量进行点乘，计算光源对当前片段实际的漫发射影响。结果值再乘以光的颜色，得到漫发射分量。两个向量之间的角度越大，漫反射分量就会越小：</p>
+<pre><code>float diff = max (dot(norm, lightDir), 0.0); // 如果两个向量之间的角度大于90度，点乘的结果就会变成负数，这样会导致漫反射分量变为负数，为此，我们使用max函数返回两个参数之间较大的参数，从而保证漫反射分量不会变成负数。
+vec3 diffuse = diff * lightColor;
+
+vec3 result = (ambient + diffuse) * objectColor;
+gl_FragColor =  vec4(result, 1.0);
+</code></pre>
+<h3 id="镜面光照specular-hightlight">镜面光照（Specular Hightlight）<a hidden class="anchor" aria-hidden="true" href="#镜面光照specular-hightlight">#</a></h3>
+<p>和漫反射光照一样，镜面光照是依据光的方向向量和物体的法向量来决定的，但是它还依赖于观察方向。镜面光照是基于光的反射特性。如果我们想象物体表面像一面镜子一样，那么无论我们从哪里去看那个表面所反射的光，镜面光照都会达到最大化。如下图：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/lighting/specularLight.jpg" alt=""  />
+</p>
+<p>我们通过反射法向量周围光的方向来计算反射向量。然后我们计算反射向量和视线方向的角度差，如果夹角越小，那么镜面光的影响就会越大。
+观察向量是镜面光照附加的一个变量，我们可以使用观察者世界空间位置和片段的位置来计算它。之后，我们计算镜面光强度，用它乘以光源的颜色，再将它加上环境光和漫反射分量。</p>
+<pre><code>uniform vec3 viewPos;
+float specularStrength = 0.5;
+float shininess  = 32; // 反光度，一个物体的反光度越高，反射光的能力越强，散射得越少，高光点就会越小
+vec3 viewDir = normalize(viewPos - fragPos);
+vec3 reflectDir = reflect(-lightDir, norm)
+float spec = pow (max (dot (viewDir, reflectDir), 0.0), shininess);
+vec3 specular = specularStrength * spec * lightColor;
+
+vec3 result = (ambient + diffuse + specular) * objectColor;
+gl_FragColor = vec4(result, 1.0);
+</code></pre>
+<p>以上就是基础光照的相关知识了。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

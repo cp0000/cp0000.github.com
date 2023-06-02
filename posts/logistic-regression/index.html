@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>逻辑回归 | </title>
+<meta name="keywords" content="Tech">
+<meta name="description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。
+本文从以下几个方面讲述逻辑回归：
+什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结 什么是逻辑回归 和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。
+癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。
+它是如何工作的？ 逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。 然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1. 下图说明了逻辑回归得出预测所需的所有步骤。 假设函数 （Hypothesis function） 逻辑回归的假设函数形式如下： 这个函数称为sigmoid函数，也称为逻辑函数，其函数曲线如下： 从上图可以看到sigmoid函数是一个s形的曲线，它的取值在[0,1]之间，在远离0的地方函数的值会很快接近0/1.这个性质使我们能够以概率的方式来解释。 一个机器学习的模型，实际上就是把决策函数限定在某一组条件下，这组限定条件就决定了模型的假设空间。当然，我们还希望这组限定条件简单而合理。而逻辑回归模型所做的假设是： 这里的g(h)是上面提到的sigmoid函数，相应的决策函数是： 选择0.5作为阈值是一个一般的做法，实际应用时特定情况可以选择不同阈值。
+决策边界（Decision Boundary） 决策边界，也称为决策面，是用于在N维空间，将不同类别样本分开的平面或曲面。 线性决策边界： 决策边界： -3 &#43; x1 &#43;x2 = 0
+非线性决策边界 决策边界： -1 &#43; x1^2 &#43;x2^2 = 0
+决策边界其实是一个方程，在逻辑回归中，决策边界由theta&rsquo; X=0定义。 假设函数（h=g(z)）用于计算样本属于某种类别的可能性；决策函数(h=1(g(z)&gt;0.5))用于计算样本的类别；决策边界（θ^Tx=0）是一个方程，用于标识出分类函数（模型）的分类边界。
+代价函数（Cost Function） 逻辑回归中，采用如下的形式计算样本的代价值：
+整合一下，得到逻辑回归中的代价函数：
+优化方法 在逻辑回归中，使用梯度下降法对代价函数进行优化，完整形式如下： 注意： 逻辑回归和线性回归问题中，梯度下降算法的形式看上去一致，但实际上两者完全不同，因为假设函数是不同的，需要特别注意这一点。
+其向量化实现（vectorized implementation）如下： 逻辑回归 vs 线性回归 逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。
+优缺点 逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。
+逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。 它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/logistic-regression/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="逻辑回归" />
+<meta property="og:description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。
+本文从以下几个方面讲述逻辑回归：
+什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结 什么是逻辑回归 和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。
+癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。
+它是如何工作的？ 逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。 然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1. 下图说明了逻辑回归得出预测所需的所有步骤。 假设函数 （Hypothesis function） 逻辑回归的假设函数形式如下： 这个函数称为sigmoid函数，也称为逻辑函数，其函数曲线如下： 从上图可以看到sigmoid函数是一个s形的曲线，它的取值在[0,1]之间，在远离0的地方函数的值会很快接近0/1.这个性质使我们能够以概率的方式来解释。 一个机器学习的模型，实际上就是把决策函数限定在某一组条件下，这组限定条件就决定了模型的假设空间。当然，我们还希望这组限定条件简单而合理。而逻辑回归模型所做的假设是： 这里的g(h)是上面提到的sigmoid函数，相应的决策函数是： 选择0.5作为阈值是一个一般的做法，实际应用时特定情况可以选择不同阈值。
+决策边界（Decision Boundary） 决策边界，也称为决策面，是用于在N维空间，将不同类别样本分开的平面或曲面。 线性决策边界： 决策边界： -3 &#43; x1 &#43;x2 = 0
+非线性决策边界 决策边界： -1 &#43; x1^2 &#43;x2^2 = 0
+决策边界其实是一个方程，在逻辑回归中，决策边界由theta&rsquo; X=0定义。 假设函数（h=g(z)）用于计算样本属于某种类别的可能性；决策函数(h=1(g(z)&gt;0.5))用于计算样本的类别；决策边界（θ^Tx=0）是一个方程，用于标识出分类函数（模型）的分类边界。
+代价函数（Cost Function） 逻辑回归中，采用如下的形式计算样本的代价值：
+整合一下，得到逻辑回归中的代价函数：
+优化方法 在逻辑回归中，使用梯度下降法对代价函数进行优化，完整形式如下： 注意： 逻辑回归和线性回归问题中，梯度下降算法的形式看上去一致，但实际上两者完全不同，因为假设函数是不同的，需要特别注意这一点。
+其向量化实现（vectorized implementation）如下： 逻辑回归 vs 线性回归 逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。
+优缺点 逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。
+逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。 它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/logistic-regression/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-03-31T14:41:59+00:00" />
+<meta property="article:modified_time" content="2019-03-31T14:41:59+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="逻辑回归"/>
+<meta name="twitter:description" content="逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。
+本文从以下几个方面讲述逻辑回归：
+什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结 什么是逻辑回归 和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。
+癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。
+它是如何工作的？ 逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。 然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1. 下图说明了逻辑回归得出预测所需的所有步骤。 假设函数 （Hypothesis function） 逻辑回归的假设函数形式如下： 这个函数称为sigmoid函数，也称为逻辑函数，其函数曲线如下： 从上图可以看到sigmoid函数是一个s形的曲线，它的取值在[0,1]之间，在远离0的地方函数的值会很快接近0/1.这个性质使我们能够以概率的方式来解释。 一个机器学习的模型，实际上就是把决策函数限定在某一组条件下，这组限定条件就决定了模型的假设空间。当然，我们还希望这组限定条件简单而合理。而逻辑回归模型所做的假设是： 这里的g(h)是上面提到的sigmoid函数，相应的决策函数是： 选择0.5作为阈值是一个一般的做法，实际应用时特定情况可以选择不同阈值。
+决策边界（Decision Boundary） 决策边界，也称为决策面，是用于在N维空间，将不同类别样本分开的平面或曲面。 线性决策边界： 决策边界： -3 &#43; x1 &#43;x2 = 0
+非线性决策边界 决策边界： -1 &#43; x1^2 &#43;x2^2 = 0
+决策边界其实是一个方程，在逻辑回归中，决策边界由theta&rsquo; X=0定义。 假设函数（h=g(z)）用于计算样本属于某种类别的可能性；决策函数(h=1(g(z)&gt;0.5))用于计算样本的类别；决策边界（θ^Tx=0）是一个方程，用于标识出分类函数（模型）的分类边界。
+代价函数（Cost Function） 逻辑回归中，采用如下的形式计算样本的代价值：
+整合一下，得到逻辑回归中的代价函数：
+优化方法 在逻辑回归中，使用梯度下降法对代价函数进行优化，完整形式如下： 注意： 逻辑回归和线性回归问题中，梯度下降算法的形式看上去一致，但实际上两者完全不同，因为假设函数是不同的，需要特别注意这一点。
+其向量化实现（vectorized implementation）如下： 逻辑回归 vs 线性回归 逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。
+优缺点 逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。
+逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。 它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "逻辑回归",
+      "item": "/posts/logistic-regression/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "逻辑回归",
+  "name": "逻辑回归",
+  "description": "逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。\n本文从以下几个方面讲述逻辑回归：\n什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结 什么是逻辑回归 和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。\n癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。\n它是如何工作的？ 逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。 然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1. 下图说明了逻辑回归得出预测所需的所有步骤。 假设函数 （Hypothesis function） 逻辑回归的假设函数形式如下： 这个函数称为sigmoid函数，也称为逻辑函数，其函数曲线如下： 从上图可以看到sigmoid函数是一个s形的曲线，它的取值在[0,1]之间，在远离0的地方函数的值会很快接近0/1.这个性质使我们能够以概率的方式来解释。 一个机器学习的模型，实际上就是把决策函数限定在某一组条件下，这组限定条件就决定了模型的假设空间。当然，我们还希望这组限定条件简单而合理。而逻辑回归模型所做的假设是： 这里的g(h)是上面提到的sigmoid函数，相应的决策函数是： 选择0.5作为阈值是一个一般的做法，实际应用时特定情况可以选择不同阈值。\n决策边界（Decision Boundary） 决策边界，也称为决策面，是用于在N维空间，将不同类别样本分开的平面或曲面。 线性决策边界： 决策边界： -3 + x1 +x2 = 0\n非线性决策边界 决策边界： -1 + x1^2 +x2^2 = 0\n决策边界其实是一个方程，在逻辑回归中，决策边界由theta\u0026rsquo; X=0定义。 假设函数（h=g(z)）用于计算样本属于某种类别的可能性；决策函数(h=1(g(z)\u0026gt;0.5))用于计算样本的类别；决策边界（θ^Tx=0）是一个方程，用于标识出分类函数（模型）的分类边界。\n代价函数（Cost Function） 逻辑回归中，采用如下的形式计算样本的代价值：\n整合一下，得到逻辑回归中的代价函数：\n优化方法 在逻辑回归中，使用梯度下降法对代价函数进行优化，完整形式如下： 注意： 逻辑回归和线性回归问题中，梯度下降算法的形式看上去一致，但实际上两者完全不同，因为假设函数是不同的，需要特别注意这一点。\n其向量化实现（vectorized implementation）如下： 逻辑回归 vs 线性回归 逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。\n优缺点 逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。\n逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。 它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。",
+  "keywords": [
+    "Tech"
+  ],
+  "articleBody": " 逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。\n本文从以下几个方面讲述逻辑回归：\n什么是逻辑回归？ 它是如何工作的。 逻辑回归 vs 线性回归 优缺点 何时适用 多分类任务（OvA, OvO） 其他分类算法 总结 什么是逻辑回归 和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。\n癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。\n它是如何工作的？ 逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。 然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1. 下图说明了逻辑回归得出预测所需的所有步骤。 假设函数 （Hypothesis function） 逻辑回归的假设函数形式如下： 这个函数称为sigmoid函数，也称为逻辑函数，其函数曲线如下： 从上图可以看到sigmoid函数是一个s形的曲线，它的取值在[0,1]之间，在远离0的地方函数的值会很快接近0/1.这个性质使我们能够以概率的方式来解释。 一个机器学习的模型，实际上就是把决策函数限定在某一组条件下，这组限定条件就决定了模型的假设空间。当然，我们还希望这组限定条件简单而合理。而逻辑回归模型所做的假设是： 这里的g(h)是上面提到的sigmoid函数，相应的决策函数是： 选择0.5作为阈值是一个一般的做法，实际应用时特定情况可以选择不同阈值。\n决策边界（Decision Boundary） 决策边界，也称为决策面，是用于在N维空间，将不同类别样本分开的平面或曲面。 线性决策边界： 决策边界： -3 + x1 +x2 = 0\n非线性决策边界 决策边界： -1 + x1^2 +x2^2 = 0\n决策边界其实是一个方程，在逻辑回归中，决策边界由theta’ X=0定义。 假设函数（h=g(z)）用于计算样本属于某种类别的可能性；决策函数(h=1(g(z)\u003e0.5))用于计算样本的类别；决策边界（θ^Tx=0）是一个方程，用于标识出分类函数（模型）的分类边界。\n代价函数（Cost Function） 逻辑回归中，采用如下的形式计算样本的代价值：\n整合一下，得到逻辑回归中的代价函数：\n优化方法 在逻辑回归中，使用梯度下降法对代价函数进行优化，完整形式如下： 注意： 逻辑回归和线性回归问题中，梯度下降算法的形式看上去一致，但实际上两者完全不同，因为假设函数是不同的，需要特别注意这一点。\n其向量化实现（vectorized implementation）如下： 逻辑回归 vs 线性回归 逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。\n优缺点 逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。\n逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。 它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。\n何时适用 逻辑回归通过线性边界将你的输入分成两个区域，每个类别划分一个区域。因为，你的数据应当是线性可分的，如下图：\n",
+  "wordCount" : "71",
+  "inLanguage": "en",
+  "datePublished": "2019-03-31T14:41:59Z",
+  "dateModified": "2019-03-31T14:41:59Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/logistic-regression/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      逻辑回归
+    </h1>
+    <div class="post-meta"><span title='2019-03-31 14:41:59 +0000 UTC'>March 31, 2019</span>
+
+</div>
+  </header> 
+  <div class="post-content"><blockquote>
+<p>逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。</p>
+</blockquote>
+<p>本文从以下几个方面讲述逻辑回归：</p>
+<ul>
+<li>什么是逻辑回归？</li>
+<li>它是如何工作的。</li>
+<li>逻辑回归 vs 线性回归</li>
+<li>优缺点</li>
+<li>何时适用</li>
+<li>多分类任务（OvA, OvO）</li>
+<li>其他分类算法</li>
+<li>总结</li>
+</ul>
+<h2 id="什么是逻辑回归">什么是逻辑回归<a hidden class="anchor" aria-hidden="true" href="#什么是逻辑回归">#</a></h2>
+<p>和很多其他机器学习算法一样，逻辑回归也是从统计学中借鉴过来的，尽管名字里有回归两个字，但它不是一个需要预测连续结果的回归算法。与之相反，逻辑回归是二分类任务的首选方法。它输出一个0到1之间的离散尔值结果。简单来讲，它的结果不是0就是。</p>
+<p>癌症检测算法可看做是逻辑回归问题的一个简单例子，这种算法输入病理图片并且应该辨别患者患有癌症（1）或没有癌症（0）。</p>
+<h2 id="它是如何工作的">它是如何工作的？<a hidden class="anchor" aria-hidden="true" href="#它是如何工作的">#</a></h2>
+<p>逻辑回归通过使用其固有的逻辑函数估计概率，来衡量因变量（目标预测标签）与一个或者多个自变量（特征）之间的关系。
+然后这些概率必须二值化才能真的进行预测。这就是逻辑函数的任务，也称为sigmoid函数。sigmoid函数是一个S形曲线，它可以将任意实数值映射到介于0和1之间的值，但不能取0或1.然后使用阈值分类器将0和1之间的值转换为0或1.
+下图说明了逻辑回归得出预测所需的所有步骤。
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/01.jpg" alt="logistic_regreesion"  />
+</p>
+<h3 id="假设函数-hypothesis-function">假设函数 （Hypothesis function）<a hidden class="anchor" aria-hidden="true" href="#假设函数-hypothesis-function">#</a></h3>
+<p>逻辑回归的假设函数形式如下：
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409203810378.jpg" alt=""  />
+</p>
+<p>这个函数称为sigmoid函数，也称为逻辑函数，其函数曲线如下：
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409203837285.jpg" alt=""  />
+</p>
+<p>从上图可以看到sigmoid函数是一个s形的曲线，它的取值在[0,1]之间，在远离0的地方函数的值会很快接近0/1.这个性质使我们能够以概率的方式来解释。
+一个机器学习的模型，实际上就是把决策函数限定在某一组条件下，这组限定条件就决定了模型的假设空间。当然，我们还希望这组限定条件简单而合理。而逻辑回归模型所做的假设是：
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409203927593" alt=""  />
+
+这里的g(h)是上面提到的sigmoid函数，相应的决策函数是：
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409204029426" alt=""  />
+
+选择0.5作为阈值是一个一般的做法，实际应用时特定情况可以选择不同阈值。</p>
+<h3 id="决策边界decision-boundary">决策边界（Decision Boundary）<a hidden class="anchor" aria-hidden="true" href="#决策边界decision-boundary">#</a></h3>
+<p>决策边界，也称为决策面，是用于在N维空间，将不同类别样本分开的平面或曲面。
+<strong>线性决策边界：</strong>
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409204957945" alt=""  />
+
+决策边界： -3 + x1 +x2 = 0</p>
+<p><strong>非线性决策边界</strong>
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409205014946" alt=""  />
+
+决策边界： -1 + x1^2 +x2^2 = 0</p>
+<p><strong>决策边界</strong>其实是一个方程，在逻辑回归中，决策边界由theta&rsquo; X=0定义。
+<strong>假设函数</strong>（h=g(z)）用于计算样本属于某种类别的可能性；<strong>决策函数</strong>(h=1(g(z)&gt;0.5))用于计算样本的类别；<strong>决策边界</strong>（θ^Tx=0）是一个方程，用于标识出分类函数（模型）的分类边界。</p>
+<h3 id="代价函数cost-function">代价函数（Cost Function）<a hidden class="anchor" aria-hidden="true" href="#代价函数cost-function">#</a></h3>
+<p>逻辑回归中，采用如下的形式计算样本的代价值：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409210035918" alt=""  />
+</p>
+<p>整合一下，得到逻辑回归中的代价函数：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409210057356" alt=""  />
+</p>
+<h3 id="优化方法">优化方法<a hidden class="anchor" aria-hidden="true" href="#优化方法">#</a></h3>
+<p>在逻辑回归中，使用梯度下降法对代价函数进行优化，完整形式如下：
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409210420143" alt=""  />
+</p>
+<p>注意：
+逻辑回归和线性回归问题中，梯度下降算法的形式看上去一致，但实际上两者完全不同，因为假设函数是不同的，需要特别注意这一点。</p>
+<p>其向量化实现（vectorized implementation）如下：
+<img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/20160409210508019" alt=""  />
+</p>
+<h2 id="逻辑回归-vs-线性回归">逻辑回归 vs 线性回归<a hidden class="anchor" aria-hidden="true" href="#逻辑回归-vs-线性回归">#</a></h2>
+<p>逻辑回归得到一个离散的结果，线性回归得到一个连续的结果。预测房价的模型返回连续结果，是线性回归。癌症检测的结果是你有癌症或没有，是逻辑回归。</p>
+<h2 id="优缺点">优缺点<a hidden class="anchor" aria-hidden="true" href="#优缺点">#</a></h2>
+<p>逻辑回归是一种被人们广泛使用的算法，它非常高效，不需要太大的计算量，又通俗易懂，不需要缩放输入特征，不需要任何调整，且容易调整，并且输出校准好的预测概率。与线性回归一样，当你去掉和输出变量无关的属性以及相似度高的属性时，逻辑回归效果确实会更好。因此特征处理在逻辑回归和线性回归的性能方面起着重要的作用。</p>
+<p>逻辑回归的另一个优点是它非常容易实现，且训练起来很高效。
+它的一个缺点就是我们不能用逻辑回归来解决非线性问题，因为它的决策边界是线性的。</p>
+<h2 id="何时适用">何时适用<a hidden class="anchor" aria-hidden="true" href="#何时适用">#</a></h2>
+<p>逻辑回归通过线性边界将你的输入分成两个区域，每个类别划分一个区域。因为，你的数据应当是线性可分的，如下图：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/logistic_regression/02.jpg" alt="01"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/tech/">tech</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

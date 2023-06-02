@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>失败者才设定目标 | </title>
+<meta name="keywords" content="">
+<meta name="description" content="Learn OpenCV 因为工作需要，我订阅了 Learn OpenCV 的邮件。Learn OpenCV 可以简单描述成是一个教学OpenCV的网站，网站的作者是 Satya Mallick,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c&#43;&#43;和python 两个版本的source code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。
+Goals are for losers 最近 Learn OpenCV 发送了一份邮件，标题叫Goals are for losers，直译成中文是目标是为失败者设定的。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。
+以下是对Goals are for losers这份邮件的翻译：
+随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。
+假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。
+目标是一个滞后的衡量标准, 你需要一个主导衡量标准
+什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。
+为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。每天花一点时间这种计划是不会起作用的。
+坚持执行计划，目标自然会达成，否则目标就是幻想。
+我非常同意上述的观点，一定要为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成，这样目标才能达成。想来惭愧，我在17年6月份花了 ¥2000.00 参加了FaceAI的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。
+以上。">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/goals-are-for-losers/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="失败者才设定目标" />
+<meta property="og:description" content="Learn OpenCV 因为工作需要，我订阅了 Learn OpenCV 的邮件。Learn OpenCV 可以简单描述成是一个教学OpenCV的网站，网站的作者是 Satya Mallick,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c&#43;&#43;和python 两个版本的source code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。
+Goals are for losers 最近 Learn OpenCV 发送了一份邮件，标题叫Goals are for losers，直译成中文是目标是为失败者设定的。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。
+以下是对Goals are for losers这份邮件的翻译：
+随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。
+假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。
+目标是一个滞后的衡量标准, 你需要一个主导衡量标准
+什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。
+为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。每天花一点时间这种计划是不会起作用的。
+坚持执行计划，目标自然会达成，否则目标就是幻想。
+我非常同意上述的观点，一定要为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成，这样目标才能达成。想来惭愧，我在17年6月份花了 ¥2000.00 参加了FaceAI的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。
+以上。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/goals-are-for-losers/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-01-03T19:31:06+00:00" />
+<meta property="article:modified_time" content="2018-01-03T19:31:06+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="失败者才设定目标"/>
+<meta name="twitter:description" content="Learn OpenCV 因为工作需要，我订阅了 Learn OpenCV 的邮件。Learn OpenCV 可以简单描述成是一个教学OpenCV的网站，网站的作者是 Satya Mallick,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c&#43;&#43;和python 两个版本的source code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。
+Goals are for losers 最近 Learn OpenCV 发送了一份邮件，标题叫Goals are for losers，直译成中文是目标是为失败者设定的。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。
+以下是对Goals are for losers这份邮件的翻译：
+随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。
+假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。
+目标是一个滞后的衡量标准, 你需要一个主导衡量标准
+什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。
+为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。每天花一点时间这种计划是不会起作用的。
+坚持执行计划，目标自然会达成，否则目标就是幻想。
+我非常同意上述的观点，一定要为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成，这样目标才能达成。想来惭愧，我在17年6月份花了 ¥2000.00 参加了FaceAI的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。
+以上。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "失败者才设定目标",
+      "item": "/posts/goals-are-for-losers/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "失败者才设定目标",
+  "name": "失败者才设定目标",
+  "description": "Learn OpenCV 因为工作需要，我订阅了 Learn OpenCV 的邮件。Learn OpenCV 可以简单描述成是一个教学OpenCV的网站，网站的作者是 Satya Mallick,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c++和python 两个版本的source code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。\nGoals are for losers 最近 Learn OpenCV 发送了一份邮件，标题叫Goals are for losers，直译成中文是目标是为失败者设定的。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。\n以下是对Goals are for losers这份邮件的翻译：\n随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。\n假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。\n目标是一个滞后的衡量标准, 你需要一个主导衡量标准\n什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。\n为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。每天花一点时间这种计划是不会起作用的。\n坚持执行计划，目标自然会达成，否则目标就是幻想。\n我非常同意上述的观点，一定要为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成，这样目标才能达成。想来惭愧，我在17年6月份花了 ¥2000.00 参加了FaceAI的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。\n以上。",
+  "keywords": [
+    
+  ],
+  "articleBody": "Learn OpenCV 因为工作需要，我订阅了 Learn OpenCV 的邮件。Learn OpenCV 可以简单描述成是一个教学OpenCV的网站，网站的作者是 Satya Mallick,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c++和python 两个版本的source code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。\nGoals are for losers 最近 Learn OpenCV 发送了一份邮件，标题叫Goals are for losers，直译成中文是目标是为失败者设定的。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。\n以下是对Goals are for losers这份邮件的翻译：\n随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。\n假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。\n目标是一个滞后的衡量标准, 你需要一个主导衡量标准\n什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。\n为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。每天花一点时间这种计划是不会起作用的。\n坚持执行计划，目标自然会达成，否则目标就是幻想。\n我非常同意上述的观点，一定要为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成，这样目标才能达成。想来惭愧，我在17年6月份花了 ¥2000.00 参加了FaceAI的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。\n以上。\n",
+  "wordCount" : "38",
+  "inLanguage": "en",
+  "datePublished": "2018-01-03T19:31:06Z",
+  "dateModified": "2018-01-03T19:31:06Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/goals-are-for-losers/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      失败者才设定目标
+    </h1>
+    <div class="post-meta"><span title='2018-01-03 19:31:06 +0000 UTC'>January 3, 2018</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="learn-opencv">Learn OpenCV<a hidden class="anchor" aria-hidden="true" href="#learn-opencv">#</a></h2>
+<p>因为工作需要，我订阅了 <a href="http://www.learnopencv.com/">Learn OpenCV</a> 的邮件。<a href="http://www.learnopencv.com/">Learn OpenCV</a> 可以简单描述成是一个教学<code>OpenCV</code>的网站，网站的作者是 <a href="https://www.linkedin.com/in/satyamallick/">Satya Mallick</a>,美国加州大学圣迭戈分校的博士，主要研究计算机视觉。网站上面的教程每个都是从原理和基础知识开始讲解，配合工程实现，直至最终完成Demo。每篇Blog都会配有c++和python 两个版本的source code，是个非常不错的学习OpenCV的网站。17年下半年开始，网站上也开始教学机器学习，深度学习相关的知识，同样保持了一贯浅显易懂的特点。</p>
+<h2 id="goals-are-for-losers">Goals are for losers<a hidden class="anchor" aria-hidden="true" href="#goals-are-for-losers">#</a></h2>
+<p>最近 <a href="http://www.learnopencv.com/">Learn OpenCV</a>  发送了一份邮件，标题叫<strong>Goals are for losers</strong>，直译成中文是<strong>目标是为失败者设定的</strong>。看起来很标题党的感觉，在我们的认知中，设定目标为了帮助我们把梦想实现，任务完成，是通往更好的自己的必经之路，怎么会是为失败者定制的了。</p>
+<p>以下是对<code>Goals are for losers</code>这份邮件的翻译：</p>
+<blockquote>
+</blockquote>
+<p>随着新年的到来，给新的一年设置目标看起来是一件很美妙的事。但如果你想完成某件事，而你只是设定了一个目标，那你大概率会失败。</p>
+<blockquote>
+</blockquote>
+<p>假设你今年的目标是完全掌握计算机视觉中某个领域的全部知识。那得等到2018年结束的时候你才会知道你的目标是否完成了。如果你没完成目标，在2018年结束的时候，对这个结果，除了叹息接受，你无能为力。</p>
+<blockquote>
+</blockquote>
+<p><strong>目标是一个滞后的衡量标准, 你需要一个主导衡量标准</strong></p>
+<blockquote>
+</blockquote>
+<p>什么是主导衡量标准？主导衡量标准指的是能提前告知你每天是否接近目标。像“每天花两小时学习计算机视觉”就是一个主导衡量标准。</p>
+<blockquote>
+</blockquote>
+<p>为了始终如一地执行主导措施，我们需要的是制定计划。我们的计划可以制定成早上5点到7点学习计算机视觉（美国人民这么拼？？？）。如果某天你没有完成计划，意味着你需要在那个周末加班把时间补起来。在制定计划的时候，我们需要明确定义在什么时间点做什么事情（计划的可执行也很重要，一个无法执行的计划也是没有意义的）。<code>每天花一点时间</code>这种计划是不会起作用的。</p>
+<blockquote>
+</blockquote>
+<p>坚持执行计划，目标自然会达成，否则目标就是幻想。</p>
+<p>我非常同意上述的观点，一定要<strong>为设定的目标制定详细的执行计划，然后按照计划一丝不苟的完成</strong>，这样目标才能达成。想来惭愧，我在17年6月份花了 ¥2000.00 参加了<code>FaceAI</code>的课程，但因为没有具体的计划，也缺少明确的目标，导致我购买的这个课程一点知识都没有学习到。</p>
+<p>以上。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

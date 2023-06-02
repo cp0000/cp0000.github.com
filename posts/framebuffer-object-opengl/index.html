@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Learning OpenGL：帧缓冲对象 | </title>
+<meta name="keywords" content="">
+<meta name="description" content="背景 使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。
+FBO 在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。
+帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。
+帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：
+&gt;注：OpenGL es 2.0 也只有一个颜色附加点 从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。
+创建 FBO 创建和销毁FBO的步骤很简单：
+void glGenFramebuffers(GLsizei n, GLuint * ids); void glDeleteFramebuffers(GLsizei n, const GLuint * ids); 将FBO绑定到目标对象：
+void glBindFramebuffer(GLenum target, GLuint id) target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER&ndash;缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。 id 即为创建出来的帧缓冲id 通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。
+OpenGL要求，一个完整的FBO需要满足以下条件：
+至少附加一个缓冲区（颜色，深度或模版）
+至少有一个颜色附加
+所有的附加必须完整（预分配了内存）
+if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整
+每个缓冲区的采样需要一致
+接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：
+glBindFramebuffer (GL_FRAMEBUFFER, 0); 创建纹理附加图像 创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去
+glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level); target: 绑定目标，一般为 GL_FRAMEBUFFER">
+<meta name="author" content="cp">
+<link rel="canonical" href="/posts/framebuffer-object-opengl/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Learning OpenGL：帧缓冲对象" />
+<meta property="og:description" content="背景 使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。
+FBO 在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。
+帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。
+帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：
+&gt;注：OpenGL es 2.0 也只有一个颜色附加点 从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。
+创建 FBO 创建和销毁FBO的步骤很简单：
+void glGenFramebuffers(GLsizei n, GLuint * ids); void glDeleteFramebuffers(GLsizei n, const GLuint * ids); 将FBO绑定到目标对象：
+void glBindFramebuffer(GLenum target, GLuint id) target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER&ndash;缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。 id 即为创建出来的帧缓冲id 通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。
+OpenGL要求，一个完整的FBO需要满足以下条件：
+至少附加一个缓冲区（颜色，深度或模版）
+至少有一个颜色附加
+所有的附加必须完整（预分配了内存）
+if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整
+每个缓冲区的采样需要一致
+接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：
+glBindFramebuffer (GL_FRAMEBUFFER, 0); 创建纹理附加图像 创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去
+glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level); target: 绑定目标，一般为 GL_FRAMEBUFFER" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/framebuffer-object-opengl/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-03-19T14:20:09+00:00" />
+<meta property="article:modified_time" content="2017-03-19T14:20:09+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learning OpenGL：帧缓冲对象"/>
+<meta name="twitter:description" content="背景 使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。
+FBO 在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。
+帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。
+帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：
+&gt;注：OpenGL es 2.0 也只有一个颜色附加点 从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。
+创建 FBO 创建和销毁FBO的步骤很简单：
+void glGenFramebuffers(GLsizei n, GLuint * ids); void glDeleteFramebuffers(GLsizei n, const GLuint * ids); 将FBO绑定到目标对象：
+void glBindFramebuffer(GLenum target, GLuint id) target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER&ndash;缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。 id 即为创建出来的帧缓冲id 通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。
+OpenGL要求，一个完整的FBO需要满足以下条件：
+至少附加一个缓冲区（颜色，深度或模版）
+至少有一个颜色附加
+所有的附加必须完整（预分配了内存）
+if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整
+每个缓冲区的采样需要一致
+接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：
+glBindFramebuffer (GL_FRAMEBUFFER, 0); 创建纹理附加图像 创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去
+glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level); target: 绑定目标，一般为 GL_FRAMEBUFFER"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Learning OpenGL：帧缓冲对象",
+      "item": "/posts/framebuffer-object-opengl/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Learning OpenGL：帧缓冲对象",
+  "name": "Learning OpenGL：帧缓冲对象",
+  "description": "背景 使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。\nFBO 在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。\n帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。\n帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：\n\u0026gt;注：OpenGL es 2.0 也只有一个颜色附加点 从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。\n创建 FBO 创建和销毁FBO的步骤很简单：\nvoid glGenFramebuffers(GLsizei n, GLuint * ids); void glDeleteFramebuffers(GLsizei n, const GLuint * ids); 将FBO绑定到目标对象：\nvoid glBindFramebuffer(GLenum target, GLuint id) target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER\u0026ndash;缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。 id 即为创建出来的帧缓冲id 通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。\nOpenGL要求，一个完整的FBO需要满足以下条件：\n至少附加一个缓冲区（颜色，深度或模版）\n至少有一个颜色附加\n所有的附加必须完整（预分配了内存）\nif(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整\n每个缓冲区的采样需要一致\n接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：\nglBindFramebuffer (GL_FRAMEBUFFER, 0); 创建纹理附加图像 创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去\nglFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level); target: 绑定目标，一般为 GL_FRAMEBUFFER",
+  "keywords": [
+    
+  ],
+  "articleBody": "背景 使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。\nFBO 在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。\n帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。\n帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：\n\u003e注：OpenGL es 2.0 也只有一个颜色附加点 从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。\n创建 FBO 创建和销毁FBO的步骤很简单：\nvoid glGenFramebuffers(GLsizei n, GLuint * ids); void glDeleteFramebuffers(GLsizei n, const GLuint * ids); 将FBO绑定到目标对象：\nvoid glBindFramebuffer(GLenum target, GLuint id) target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER–缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。 id 即为创建出来的帧缓冲id 通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。\nOpenGL要求，一个完整的FBO需要满足以下条件：\n至少附加一个缓冲区（颜色，深度或模版）\n至少有一个颜色附加\n所有的附加必须完整（预分配了内存）\nif(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整\n每个缓冲区的采样需要一致\n接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：\nglBindFramebuffer (GL_FRAMEBUFFER, 0); 创建纹理附加图像 创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去\nglFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level); target: 绑定目标，一般为 GL_FRAMEBUFFER\nattachment:附加点，可选为GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT,GL_STENCIK_ATTACHMENT\ntextTarget: 纹理的绑定目标，一般为 GL_TEXTURE_2D\ntexture：实际的纹理对象\nlevel：mipmap级别，一般为0\nGLuint texture; glGenTextures(1, \u0026texture); glBindTexture(GL_TEXTURE_2D, texture); glTexImage2D(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); //末尾的NULL表示我们只预分配空间，而不实际加载纹理 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);\n上面创建的纹理图像，可以附加到FBO：\nglFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0); FBO创建和准备工作完成额，在利用FBO作图前，我们需要介绍另一个附加图像-RenderBuffer。\n创建Renderbuffer附加图像 和纹理图像一样，一个renderbuffer对象也是一个缓冲，它可以是一堆字节，整数，像素等。renderbuffer的优点是：它以OpenGL原生渲染格式存储它的数据，因此在离屏渲染到帧缓冲的时候，这些数据相当于被优化过。\nrenderbuffer对象将所有渲染数据直接储存在它们的缓冲里，而不会进行针对特定纹理格式的任何转换，这样它们就成了一种快速可写的存储介质了。然后，renderbuffer对象通常是只写的，不能修改它们。\n因为renderbuffer对象中的数据已经是原生格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。\n要了解为什么渲染的末尾需要交换帧缓冲数据，和谁交换帧缓冲数据，需要理解什么叫双缓存。所谓双缓存机制指的是显示系统通常会引入两个缓冲区，在这种情况下，GPU会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU会直接把视频控制器的指针指向第二个缓冲器。\n创建和销毁RenderBuffer也很简单：\nvoid glGenRenderbuffers(GLsizei n, GLuint * ids); void glDeleteRenderbuffers(GLsizei n, const GLuint * ids); 绑定到目标对象：\nglBindRenderbuffer (GL_RENDERBUFFER,rbo); 需为 RBO 预分配内存空间：\nvoid glRenderbufferStorage (GLenum target, GLenum internalFormat, GLsizei width, GLsizei height); RBO绑定到FBO\nglFramebufferRenderbuffer (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rboId); 在帧缓冲项目中，renderbuffer可以优化渲染，但重要的是要懂得何时使用renderbuffer对象，何时使用纹理。通常规则是：如果你永远都不需要从特定的缓冲中进行采样，renderbuffer对特定缓冲是更明智的选择。如果需要从比如颜色或深度值这样的特定缓冲采样数据的话，最好使用纹理。\n渲染到纹理 到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。\nStep1: 创建并绑定帧缓冲\nGLuint framebuffer; glGenFramebuffers(1, \u0026framebuffer); glBindFramebuffer(GL_FRAMEBUFFER, framebuffer); Step2: 创建一个纹理\n// Generate texture GLuint texColorBuffer; glGenTextures(1, \u0026texColorBuffer); glBindTexture(GL_TEXTURE_2D, texColorBuffer); glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); glBindTexture(GL_TEXTURE_2D, 0); // Attach it to currently bound framebuffer object glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0); Step3 创建renderbuffer来进行深度测试\n为了让OpenGL进行深度测试，我们必须要确保向帧缓冲中添加一个深度附件。由于我们只采样颜色缓冲，并不采样深度，模版缓冲，所以我们可以创建一个渲染缓冲对象来达到这个目的。\nGLuint rbo; glGenRenderbuffers(1, \u0026rbo); glBindRenderbuffer(GL_RENDERBUFFER, rbo); glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600); glBindRenderbuffer(GL_RENDERBUFFER, 0); 把renderbuffer对象附加到帧缓冲的深度和模版附件上：\nglFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); 所以，为了把场景绘制到一个单独的纹理，我们必须以下面步骤来做：\n创建并绑定一个新的帧缓冲，并在这个帧缓冲上做相关渲染操作 绑定默认帧缓冲 绘制一个铺满屏幕的四边形，并用新的帧缓冲的颜色缓冲作为输入的纹理 以下是每一帧渲染的伪代码：\n//First pass glBindFramebuffer(GL_FRAMEBUFFER, framebuffer); glClearColor(0.f,0.f,0.f, 1.0f); glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT); glEnable(GL_DEPTH_TEST); DrawScene(); // Second pass glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default glClearColor(1.0f, 1.0f, 1.0f, 1.0f); glClear(GL_COLOR_BUFFER_BIT); screenShader.Use(); glBindVertexArray(quadVAO); glDisable(GL_DEPTH_TEST); glBindTexture(GL_TEXTURE_2D, textureColorbuffer); glDrawArrays(GL_TRIANGLES, 0, 6); glBindVertexArray(0); 后处理 \u003e待续 ",
+  "wordCount" : "259",
+  "inLanguage": "en",
+  "datePublished": "2017-03-19T14:20:09Z",
+  "dateModified": "2017-03-19T14:20:09Z",
+  "author":{
+    "@type": "Person",
+    "name": "cp"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/framebuffer-object-opengl/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Learning OpenGL：帧缓冲对象
+    </h1>
+    <div class="post-meta"><span title='2017-03-19 14:20:09 +0000 UTC'>March 19, 2017</span>&nbsp;·&nbsp;cp
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="背景">背景<a hidden class="anchor" aria-hidden="true" href="#背景">#</a></h2>
+<p>使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，离屏渲染等，就需要我们自己创建自定义帧缓冲区，使用自定义帧缓冲区来进行后处理操作。</p>
+<h2 id="fbo">FBO<a hidden class="anchor" aria-hidden="true" href="#fbo">#</a></h2>
+<p>在OpenGL中，渲染管线中的顶点，纹理等经过一系列的处理之后，最终显示在2D屏幕设备上，渲染管线的最终目的地是帧缓冲区。OpenGL中使用到帧缓冲包括三个：颜色缓冲，深度缓冲，模版缓冲。系统自身会创建一个默认缓冲区，OpenGL允许我们手动创建自定义帧缓冲区，并将渲染结果重定向到这个缓冲区。</p>
+<p>帧缓冲对象中包括两种类型的附加图像：纹理图像和RenderBuffer图像。附加纹理时，OpenGL渲染到这个纹理图像上，在着色器中可以访问这个纹理图像。附加RenderBuffer时，OpenGL执行离屏渲染（offscreen, rendering）。</p>
+<p>帧缓冲对象可以附加多个缓冲区，且可灵活地在缓冲区中切换。帧缓冲对象中包含一个以上的颜色附加点，而深度和模版都只有一个附加点。如下图所示：</p>
+<pre><code>&gt;注：OpenGL es 2.0 也只有一个颜色附加点
+</code></pre>
+<p><img loading="lazy" src="http://www.songho.ca/opengl/files/gl_fbo01.png" alt="framebuffer object"  />
+</p>
+<p>从上图可知，帧缓冲对象本身不包含任何缓冲对象，实际上是通过附加点指向实际的缓冲对象。</p>
+<h3 id="创建-fbo">创建 FBO<a hidden class="anchor" aria-hidden="true" href="#创建-fbo">#</a></h3>
+<p>创建和销毁FBO的步骤很简单：</p>
+<pre><code>void glGenFramebuffers(GLsizei n, GLuint * ids);
+void glDeleteFramebuffers(GLsizei n, const GLuint * ids);
+</code></pre>
+<p>将FBO绑定到目标对象：</p>
+<pre><code>void glBindFramebuffer(GLenum target, GLuint id)
+</code></pre>
+<ul>
+<li>target分为三种类型：GL_FRAMEBUFFER-缓冲区用来进行读和写操作；GL_READ_FRAMEBUUFER&ndash;缓冲区支持glReadPixels读操作；GL_DRAW_FRAMEBUFFER-缓冲区支持渲染，清除操作。</li>
+<li>id 即为创建出来的帧缓冲id</li>
+</ul>
+<p>通过绑定GL_FRAMEBUFFER,接下来所有的读和写操作都是在当前的帧缓冲上进行。</p>
+<p>OpenGL要求，一个完整的FBO需要满足以下条件：</p>
+<ul>
+<li>
+<p>至少附加一个缓冲区（颜色，深度或模版）</p>
+</li>
+<li>
+<p>至少有一个颜色附加</p>
+</li>
+<li>
+<p>所有的附加必须完整（预分配了内存）</p>
+<blockquote>
+<p>if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) 来判断一个FBO是否完整</p>
+</blockquote>
+</li>
+<li>
+<p>每个缓冲区的采样需要一致</p>
+</li>
+</ul>
+<p>接下里所有的渲染操作都将会渲染到当前绑定的帧缓冲中去。由于当前的帧缓冲不是默认帧缓冲，渲染指令将不会影响到屏幕上的显示内容，所以我们把渲染到非默认帧缓冲叫做离屏渲染（off-screen rendering）.为了保证所有的渲染指令最终会呈现在设备屏幕上，我们需要重新绑定激活默认帧缓冲：</p>
+<pre><code>glBindFramebuffer (GL_FRAMEBUFFER, 0);
+</code></pre>
+<h3 id="创建纹理附加图像">创建纹理附加图像<a hidden class="anchor" aria-hidden="true" href="#创建纹理附加图像">#</a></h3>
+<p>创建FBO的附加纹理如同平常使用纹理一样，不同的是，这里<strong>只为纹理分配空间，而不填充实际纹理图像内容，因为当使用FBO渲染时渲染结果将会写入到我们创建的这个纹理上去</strong></p>
+<pre><code>glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,GLint level);
+</code></pre>
+<ul>
+<li>
+<p>target: 绑定目标，一般为 GL_FRAMEBUFFER</p>
+</li>
+<li>
+<p>attachment:附加点，可选为GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT,GL_STENCIK_ATTACHMENT</p>
+</li>
+<li>
+<p>textTarget: 纹理的绑定目标，一般为 GL_TEXTURE_2D</p>
+</li>
+<li>
+<p>texture：实际的纹理对象</p>
+</li>
+<li>
+<p>level：mipmap级别，一般为0</p>
+<p>GLuint texture;
+glGenTextures(1, &amp;texture);
+glBindTexture(GL_TEXTURE_2D, texture);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RBG, 1280, 960, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); //末尾的NULL表示我们只预分配空间，而不实际加载纹理
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</p>
+</li>
+</ul>
+<p>上面创建的纹理图像，可以附加到FBO：</p>
+<pre><code>glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+</code></pre>
+<p>FBO创建和准备工作完成额，在利用FBO作图前，我们需要介绍另一个附加图像-RenderBuffer。</p>
+<h3 id="创建renderbuffer附加图像">创建Renderbuffer附加图像<a hidden class="anchor" aria-hidden="true" href="#创建renderbuffer附加图像">#</a></h3>
+<p>和纹理图像一样，一个renderbuffer对象也是一个缓冲，它可以是一堆字节，整数，像素等。renderbuffer的优点是：它以OpenGL原生渲染格式存储它的数据，因此在离屏渲染到帧缓冲的时候，这些数据相当于被优化过。</p>
+<p>renderbuffer对象将所有渲染数据直接储存在它们的缓冲里，而不会进行针对特定纹理格式的任何转换，这样它们就成了一种快速可写的存储介质了。然后，renderbuffer对象通常是只写的，不能修改它们。</p>
+<p>因为renderbuffer对象中的数据已经是原生格式了，在写入或者把它们的数据拷贝到其他缓冲区的时候非常快。像切换缓冲区这种操作变得异常高速。因此我们在每个渲染迭代末尾的地方，可以用renderbuffer来实现缓冲区数据的交换操作。</p>
+<blockquote>
+<p>要了解为什么渲染的末尾需要交换帧缓冲数据，和谁交换帧缓冲数据，需要理解什么叫双缓存。所谓双缓存机制指的是显示系统通常会引入两个缓冲区，在这种情况下，GPU会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU会直接把视频控制器的指针指向第二个缓冲器。</p>
+</blockquote>
+<p>创建和销毁RenderBuffer也很简单：</p>
+<pre><code>void glGenRenderbuffers(GLsizei n, GLuint * ids);
+void glDeleteRenderbuffers(GLsizei n, const GLuint * ids);
+</code></pre>
+<p>绑定到目标对象：</p>
+<pre><code>glBindRenderbuffer (GL_RENDERBUFFER,rbo);
+</code></pre>
+<p>需为 RBO 预分配内存空间：</p>
+<pre><code>void glRenderbufferStorage (GLenum target, GLenum internalFormat, GLsizei width, GLsizei height);
+</code></pre>
+<p>RBO绑定到FBO</p>
+<pre><code>glFramebufferRenderbuffer (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rboId);
+</code></pre>
+<p>在帧缓冲项目中，renderbuffer可以优化渲染，但重要的是要懂得何时使用renderbuffer对象，何时使用纹理。通常规则是：如果你永远都不需要从特定的缓冲中进行采样，renderbuffer对特定缓冲是更明智的选择。如果需要从比如颜色或深度值这样的特定缓冲采样数据的话，最好使用纹理。</p>
+<h3 id="渲染到纹理">渲染到纹理<a hidden class="anchor" aria-hidden="true" href="#渲染到纹理">#</a></h3>
+<p>到此为止，我们了解了帧缓冲如何工作，是时候看看如何运用上述知识了。接下来，我们把场景渲染到一个颜色纹理上，这个纹理附加到一个我们创建的帧缓冲上，然后把纹理绘制到一个简单的铺满屏幕的四边形上。输出的图像看似和没有使用帧缓冲一样，但这次输出是打印在最上层的四边形上的。</p>
+<p><strong>Step1: 创建并绑定帧缓冲</strong></p>
+<pre><code>GLuint framebuffer;
+glGenFramebuffers(1, &amp;framebuffer);
+glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+</code></pre>
+<p><strong>Step2: 创建一个纹理</strong></p>
+<pre><code>// Generate texture
+GLuint texColorBuffer;
+glGenTextures(1, &amp;texColorBuffer);
+glBindTexture(GL_TEXTURE_2D, texColorBuffer);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+glBindTexture(GL_TEXTURE_2D, 0);
+
+// Attach it to currently bound framebuffer object
+glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
+</code></pre>
+<p><strong>Step3 创建renderbuffer来进行深度测试</strong></p>
+<p>为了让OpenGL进行深度测试，我们必须要确保向帧缓冲中添加一个深度附件。由于我们只采样颜色缓冲，并不采样深度，模版缓冲，所以我们可以创建一个渲染缓冲对象来达到这个目的。</p>
+<pre><code>GLuint rbo;
+glGenRenderbuffers(1, &amp;rbo);
+glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);  
+glBindRenderbuffer(GL_RENDERBUFFER, 0);
+</code></pre>
+<p>把renderbuffer对象附加到帧缓冲的深度和模版附件上：</p>
+<pre><code>glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+</code></pre>
+<p>所以，为了把场景绘制到一个单独的纹理，我们必须以下面步骤来做：</p>
+<ul>
+<li>创建并绑定一个新的帧缓冲，并在这个帧缓冲上做相关渲染操作</li>
+<li>绑定默认帧缓冲</li>
+<li>绘制一个铺满屏幕的四边形，并用新的帧缓冲的颜色缓冲作为输入的纹理</li>
+</ul>
+<p>以下是每一帧渲染的伪代码：</p>
+<pre><code>//First pass
+glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+glClearColor(0.f,0.f,0.f, 1.0f);
+glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+glEnable(GL_DEPTH_TEST);
+DrawScene();
+
+// Second pass
+glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+glClear(GL_COLOR_BUFFER_BIT);
+
+screenShader.Use();  
+glBindVertexArray(quadVAO);
+glDisable(GL_DEPTH_TEST);
+glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+glDrawArrays(GL_TRIANGLES, 0, 6);
+glBindVertexArray(0);
+</code></pre>
+<h3 id="后处理">后处理<a hidden class="anchor" aria-hidden="true" href="#后处理">#</a></h3>
+<pre><code>&gt;待续
+</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

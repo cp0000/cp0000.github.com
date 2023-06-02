@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>从 NSString Property:copy or retain 到 NSCopying | </title>
+<meta name="keywords" content="">
+<meta name="description" content="NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。
+为什么会有NSString要用copy来修饰的convention？能否用 strong代替?
+回答这个问题之前，我们先看段代码：
+@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@&quot;apple&quot;]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@&quot;fruitNameStrong:%p %@&quot;, fruit.fruitNameStrong, fruit.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/nsstring-property-copy-or-retain/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="从 NSString Property:copy or retain 到 NSCopying" />
+<meta property="og:description" content="NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。
+为什么会有NSString要用copy来修饰的convention？能否用 strong代替?
+回答这个问题之前，我们先看段代码：
+@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@&quot;apple&quot;]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@&quot;fruitNameStrong:%p %@&quot;, fruit.fruitNameStrong, fruit." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/nsstring-property-copy-or-retain/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-07-19T11:50:04+00:00" />
+<meta property="article:modified_time" content="2015-07-19T11:50:04+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="从 NSString Property:copy or retain 到 NSCopying"/>
+<meta name="twitter:description" content="NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。
+为什么会有NSString要用copy来修饰的convention？能否用 strong代替?
+回答这个问题之前，我们先看段代码：
+@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@&quot;apple&quot;]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@&quot;fruitNameStrong:%p %@&quot;, fruit.fruitNameStrong, fruit."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "从 NSString Property:copy or retain 到 NSCopying",
+      "item": "/posts/nsstring-property-copy-or-retain/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "从 NSString Property:copy or retain 到 NSCopying",
+  "name": "从 NSString Property:copy or retain 到 NSCopying",
+  "description": "NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。\n为什么会有NSString要用copy来修饰的convention？能否用 strong代替?\n回答这个问题之前，我们先看段代码：\n@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@\u0026quot;apple\u0026quot;]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@\u0026quot;fruitName: %p %@\u0026quot;, fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@\u0026quot;fruitNameCopy: %p %@\u0026quot;, fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@\u0026quot;fruitNameStrong:%p %@\u0026quot;, fruit.fruitNameStrong, fruit.",
+  "keywords": [
+    
+  ],
+  "articleBody": "NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)。\n为什么会有NSString要用copy来修饰的convention？能否用 strong代替?\n回答这个问题之前，我们先看段代码：\n@interface Fruit : NSObject @property (nonatomic, copy) NSString * fruitNameCopy; @property (nonatomic, strong) NSString * fruitNameStrong; @end NSMutableString * fruitName = [NSMutableString stringWithString:@\"apple\"]; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@\"fruitName: %p %@\", fruitName, fruitName); // 0x7fddabd0e250 apple NSLog(@\"fruitNameCopy: %p %@\", fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@\"fruitNameStrong:%p %@\", fruit.fruitNameStrong, fruit.fruitNameStrong); // 0x7fddabd0e250 apple //fruitName =@\"pear\"; [fruitName setString: @\"pear\"]; NSLog(@\"fruitName: %p %@\", fruitName, fruitName); // 0x7fddabd0e250 pear NSLog(@\"fruitNameCopy: %p %@\", fruit.fruitNameCopy, fruit.fruitNameCopy); // 0xa0000656c7070615 apple NSLog(@\"fruitNameStrong:%p %@\", fruit.fruitNameStrong, fruit.fruitNameStrong); // 0x7fddabd0e250 pear 该段程序运行到结尾时， fruitNameCopy 的值是 apple，fruitNameCopy 的值是 pear，且两者的内存地址也不一样。 程序中，当我们对一个mutable对象做copy操作的时候，objc runtime 会用一次深拷贝来处理， runtime 会重新分配一块内存地址空间，并把原mutable对象的值拷贝过来。所以打印出来的 fruitNameCopy 和 fruitNameStrong 的内存地址是不一样的。而这之后在对 fruitName 做任何的赋值操作都只能作用于 fruitNameStrong.\n那如果我们把 fruitName 改成 immutable 的会是怎样的了？\nNSString * fruitName = @\"apple\"; Fruit * fruit = [[Fruit alloc] init]; fruit.fruitNameCopy = fruitName; fruit.fruitNameStrong = fruitName; NSLog(@\"fruitName: %p %@\", fruitName, fruitName);// 0x10e27b078 apple NSLog(@\"fruitNameCopy: %p %@\", fruit.fruitNameCopy, fruit.fruitNameCopy);// 0x10e27b078 apple NSLog(@\"fruitNameStrong:%p %@\", fruit.fruitNameStrong, fruit.fruitNameStrong);// 0x10e27b078 apple fruitName =@\"pear\"; NSLog(@\"fruitName: %p %@\", fruitName, fruitName);// 0x10e27b0f8 pear NSLog(@\"fruitNameCopy: %p %@\", fruit.fruitNameCopy, fruit.fruitNameCopy);// 0x10e27b078 apple NSLog(@\"fruitNameStrong:%p %@\", fruit.fruitNameStrong, fruit.fruitNameStrong);// 0x10e27b078 apple 结果是 fruitName, fruitNameCopy, fruitNameStrong 三者的地址都是一样的。按理说copy动作是深拷贝，fruitNameCopy指向的地址 应该是新分配的内存地址才对。 那为什么打印出来的地址却是同一个地址了？答案是 runtime 在这里做一个性能优化，@“apple” 是一个immutable的值，没有必要做一次深拷贝，直接做一次 retain 就达到目的了。\n试试看把NSString替换成NSArray\n对象 Fruit 中添加两个属性 @property (nonatomic, copy) NSArray * placesCopy; @property (nonatomic, strong) NSArray * placesStrong;\n先用 mutable 的变量试试\nNSMutableArray * places = [NSMutableArray arrayWithArray:@[@\"china\", @\"japan\"]]; fruit.placesCopy = places; //placesCopy: 0x7f8f18d0c4f0 (china,japan) fruit.placesStrong = places; //placesStrong: 0x7f8f18d51a80 (china,japan) [places addObject:@\"korea\"]; //placesCopy: 0x7f8f18d0c4f0 (china,japan) //placesStrong: 0x7f8f18d51a80 (china,japan, korea) 再用 immutable 的变量试试\nNSArray * places = @[@\"china\", @\"japan\"]; fruit.placesCopy = places; //placesCopy: 0x7fc4e8c6f2a0 (china,japan) fruit.placesStrong = places; //placesStrong: 0x7fc4e8c6f2a0 (china,japan) places = @[@\"uk\", @\"us\"]; //placesCopy: 0x7fc4e8c6f2a0 (china,japan) //placesStrong: 0x7fc4e8c6f2a0 (china,japan) 实验结果和 NSString 是一致的。\nNSCopying 如果你愿意，你可以试试看其他容器类 NSDictionary, NSSet,NSIndexSet， 会发现结果也保持一致。我们尝试解读这些类的头文件，作进一步的探索。以下是这些类头文件的节选：\n@interface NSString : NSObject @interface NSArray\u003c__covariant ObjectType\u003e : NSObject @interface NSDictionary\u003c__covariant KeyType, __covariant ObjectType\u003e : NSObject @interface NSSet\u003c__covariant ObjectType\u003e : NSObject @interface NSIndexSet : NSObject @interface NSIndexPath : NSObject 会发现这些类都实现了NSCoying协议.在NSCoying文档中有关于实现该协议的三条准则，其中第三条是：\nImplement NSCopying by retaining the original instead of creating a new copy when the class and its contents are immutable. 这条准则很好的解释了上面的试验结果，让这些结果讲得通。\nSummary 综上，当我们使用copy来修饰NSString等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 retain。\n如果在程序中我们自己定义的类也需要实现 NSCopying 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象\n如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object’s attributes behind its back)，请把该属性标记成 copy\n",
+  "wordCount" : "383",
+  "inLanguage": "en",
+  "datePublished": "2015-07-19T11:50:04Z",
+  "dateModified": "2015-07-19T11:50:04Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/nsstring-property-copy-or-retain/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      从 NSString Property:copy or retain 到 NSCopying
+    </h1>
+    <div class="post-meta"><span title='2015-07-19 11:50:04 +0000 UTC'>July 19, 2015</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h4 id="nsstring-propertycopy-or-retain">NSString Property:copy or retain<a hidden class="anchor" aria-hidden="true" href="#nsstring-propertycopy-or-retain">#</a></h4>
+<p>iOS程序中，在定义对象属性的时候，我们一般会把<code>NSString</code>类型的属性的修饰符写成 <code>copy</code>， 而不是 <code>retain</code> (或者 ARC 下面的 <code>strong</code>)。</p>
+<p><strong>为什么会有<code>NSString</code>要用<code>copy</code>来修饰的convention？能否用 <code>strong</code>代替?</strong></p>
+<p>回答这个问题之前，我们先看段代码：</p>
+<pre><code>@interface Fruit : NSObject
+@property (nonatomic, copy)     NSString  * fruitNameCopy;
+@property (nonatomic, strong)   NSString  * fruitNameStrong;
+@end
+
+NSMutableString * fruitName = [NSMutableString stringWithString:@&quot;apple&quot;];
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit.fruitNameCopy     = fruitName;
+fruit.fruitNameStrong   = fruitName;
+
+NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250  apple
+NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy); // 0xa0000656c7070615 apple
+NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong); // 0x7fddabd0e250  apple
+
+//fruitName =@&quot;pear&quot;;
+[fruitName setString: @&quot;pear&quot;];
+
+NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName); // 0x7fddabd0e250  pear
+NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy); // 0xa0000656c7070615 apple
+NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong); // 0x7fddabd0e250  pear
+</code></pre>
+<p>该段程序运行到结尾时， fruitNameCopy 的值是 apple，fruitNameCopy 的值是 pear，且两者的内存地址也不一样。
+程序中，当我们对一个mutable对象做<code>copy</code>操作的时候，objc runtime 会用一次<a href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy">深拷贝</a>来处理， runtime 会重新分配一块内存地址空间，并把原mutable对象的值拷贝过来。所以打印出来的 fruitNameCopy 和 fruitNameStrong 的内存地址是不一样的。而这之后在对 fruitName 做任何的赋值操作都只能作用于 fruitNameStrong.</p>
+<p><strong>那如果我们把 fruitName 改成 immutable 的会是怎样的了？</strong></p>
+<pre><code>NSString * fruitName = @&quot;apple&quot;;
+
+Fruit * fruit = [[Fruit alloc] init];
+fruit.fruitNameCopy     = fruitName;
+fruit.fruitNameStrong   = fruitName;
+
+NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName);// 0x10e27b078 apple
+NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy);// 0x10e27b078 apple
+NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong);// 0x10e27b078 apple
+
+fruitName =@&quot;pear&quot;;
+
+NSLog(@&quot;fruitName: %p %@&quot;, fruitName, fruitName);// 0x10e27b0f8 pear
+NSLog(@&quot;fruitNameCopy: %p %@&quot;, fruit.fruitNameCopy,  fruit.fruitNameCopy);// 0x10e27b078 apple
+NSLog(@&quot;fruitNameStrong:%p  %@&quot;, fruit.fruitNameStrong, fruit.fruitNameStrong);// 0x10e27b078 apple
+</code></pre>
+<p>结果是 fruitName, fruitNameCopy, fruitNameStrong 三者的地址都是一样的。按理说<code>copy</code>动作是深拷贝，fruitNameCopy指向的地址 应该是新分配的内存地址才对。
+那为什么打印出来的地址却是同一个地址了？答案是 runtime 在这里做一个性能优化，@&ldquo;apple&rdquo; 是一个immutable的值，没有必要做一次深拷贝，直接做一次 retain 就达到目的了。</p>
+<p><strong>试试看把<code>NSString</code>替换成<code>NSArray</code></strong></p>
+<p>对象 Fruit 中添加两个属性
+@property (nonatomic, copy)     NSArray  * placesCopy;
+@property (nonatomic, strong)   NSArray  * placesStrong;</p>
+<p>先用 mutable 的变量试试</p>
+<pre><code>NSMutableArray * places = [NSMutableArray arrayWithArray:@[@&quot;china&quot;, @&quot;japan&quot;]];
+fruit.placesCopy    = places; //placesCopy: 0x7f8f18d0c4f0 (china,japan)
+fruit.placesStrong  = places; //placesStrong: 0x7f8f18d51a80 (china,japan)
+
+[places addObject:@&quot;korea&quot;];
+//placesCopy: 0x7f8f18d0c4f0 (china,japan)
+//placesStrong: 0x7f8f18d51a80 (china,japan, korea)
+</code></pre>
+<p>再用 immutable 的变量试试</p>
+<pre><code>NSArray * places = @[@&quot;china&quot;, @&quot;japan&quot;];
+
+fruit.placesCopy    = places; //placesCopy: 0x7fc4e8c6f2a0 (china,japan)
+fruit.placesStrong  = places; //placesStrong: 0x7fc4e8c6f2a0 (china,japan)
+
+places = @[@&quot;uk&quot;, @&quot;us&quot;];
+//placesCopy: 0x7fc4e8c6f2a0 (china,japan)
+//placesStrong: 0x7fc4e8c6f2a0 (china,japan)
+</code></pre>
+<p>实验结果和 <code>NSString</code> 是一致的。</p>
+<h4 id="nscopying">NSCopying<a hidden class="anchor" aria-hidden="true" href="#nscopying">#</a></h4>
+<p>如果你愿意，你可以试试看其他容器类 <code>NSDictionary</code>, <code>NSSet</code>,<code>NSIndexSet</code>， 会发现结果也保持一致。我们尝试解读这些类的头文件，作进一步的探索。以下是这些类头文件的节选：</p>
+<pre><code>@interface NSString : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding&gt;
+@interface NSArray&lt;__covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
+@interface NSDictionary&lt;__covariant KeyType, __covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
+@interface NSSet&lt;__covariant ObjectType&gt; : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration&gt;
+@interface NSIndexSet : NSObject &lt;NSCopying, NSMutableCopying, NSSecureCoding&gt;
+@interface NSIndexPath : NSObject &lt;NSCopying, NSSecureCoding&gt;
+</code></pre>
+<p>会发现这些类都实现了<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html"><code>NSCoying</code></a>协议.在<a href="https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSCopying_Protocol/index.html"><code>NSCoying</code></a>文档中有关于实现该协议的三条准则，其中第三条是：</p>
+<pre><code>Implement NSCopying by retaining the original instead of creating a new copy when the class and its contents are immutable.
+</code></pre>
+<p>这条准则很好的解释了上面的试验结果，让这些结果讲得通。</p>
+<h4 id="summary">Summary<a hidden class="anchor" aria-hidden="true" href="#summary">#</a></h4>
+<p><strong>综上，当我们使用<code>copy</code>来修饰<code>NSString</code>等容器类的属性时，如果被拷贝的对象是 Mutable， 则 runtime 会做深拷贝， 如果是 Immutable， 则runtime只是做一次 <code>retain</code>。</strong></p>
+<p><strong>如果在程序中我们自己定义的类也需要实现 <code>NSCopying</code> 协议时，务必也要遵照此规则：若被拷贝的原对象是 Immutable 的，则无需新建一个拷贝，只需要 retian 原对象一次；若原对象是 mutablde 的，则需做一次深拷贝，新建一个对象</strong></p>
+<p><strong>如果在程序中，你需要避免一个对象的某个属性被反向更改 (prevent mutating an object&rsquo;s attributes behind its back)，请把该属性标记成 <code>copy</code></strong></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ffmpeg 使用例程 | </title>
+<meta name="keywords" content="">
+<meta name="description" content="本文介绍ffmpeg命令行的一些使用方法；
+参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -fs——超过指定的文件大小时则结束转换。 -ss——从指定时间开始转换。 -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。 -title——设置标题。 -timestamp——设置时间戳。 -vsync——增减Frame使影音同步。 视频参数 -b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项） -r——设置帧率值，默认为25。 -s——设置画面的宽与高。 -aspect——设置画面的比例。 -vn——不处理视频，于仅针对声音做处理时使用。 -vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。 声音参数 -b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项） -ar——设置采样率。 -ac——设置声音的Channel数。 -acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。 -an——不处理声音，于仅针对视频做处理时使用。 -vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。） ##例子
+不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：
+裁剪视频 比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：
+ffmpeg -i input.mp4 -strict -2 -vf crop=405:720:420:0 video_out.mp4 其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y 表示裁剪区域的左上角坐标。
+视频转换成图片 ffmpeg -i input.mp4 image%3d.png 也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）
+ffmpeg -i input.mp4 -r 30 $filename%3d.png 其中 -r 30 是视频帧率，如何获取当前视频的帧率，请看如下命令：
+ffprobe &quot;input.mp4&quot; -v 0 -select_streams v -print_format flat -show_entries stream=r_frame_rate 剪辑视频 一段长视频只需要保留其中一段，可用如下命令：">
+<meta name="author" content="cp">
+<link rel="canonical" href="/posts/ffmpeg-command-example/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="ffmpeg 使用例程" />
+<meta property="og:description" content="本文介绍ffmpeg命令行的一些使用方法；
+参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -fs——超过指定的文件大小时则结束转换。 -ss——从指定时间开始转换。 -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。 -title——设置标题。 -timestamp——设置时间戳。 -vsync——增减Frame使影音同步。 视频参数 -b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项） -r——设置帧率值，默认为25。 -s——设置画面的宽与高。 -aspect——设置画面的比例。 -vn——不处理视频，于仅针对声音做处理时使用。 -vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。 声音参数 -b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项） -ar——设置采样率。 -ac——设置声音的Channel数。 -acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。 -an——不处理声音，于仅针对视频做处理时使用。 -vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。） ##例子
+不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：
+裁剪视频 比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：
+ffmpeg -i input.mp4 -strict -2 -vf crop=405:720:420:0 video_out.mp4 其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y 表示裁剪区域的左上角坐标。
+视频转换成图片 ffmpeg -i input.mp4 image%3d.png 也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）
+ffmpeg -i input.mp4 -r 30 $filename%3d.png 其中 -r 30 是视频帧率，如何获取当前视频的帧率，请看如下命令：
+ffprobe &quot;input.mp4&quot; -v 0 -select_streams v -print_format flat -show_entries stream=r_frame_rate 剪辑视频 一段长视频只需要保留其中一段，可用如下命令：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ffmpeg-command-example/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-11-07T21:03:47+00:00" />
+<meta property="article:modified_time" content="2016-11-07T21:03:47+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ffmpeg 使用例程"/>
+<meta name="twitter:description" content="本文介绍ffmpeg命令行的一些使用方法；
+参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -fs——超过指定的文件大小时则结束转换。 -ss——从指定时间开始转换。 -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。 -title——设置标题。 -timestamp——设置时间戳。 -vsync——增减Frame使影音同步。 视频参数 -b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项） -r——设置帧率值，默认为25。 -s——设置画面的宽与高。 -aspect——设置画面的比例。 -vn——不处理视频，于仅针对声音做处理时使用。 -vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。 声音参数 -b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项） -ar——设置采样率。 -ac——设置声音的Channel数。 -acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。 -an——不处理声音，于仅针对视频做处理时使用。 -vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。） ##例子
+不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：
+裁剪视频 比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：
+ffmpeg -i input.mp4 -strict -2 -vf crop=405:720:420:0 video_out.mp4 其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y 表示裁剪区域的左上角坐标。
+视频转换成图片 ffmpeg -i input.mp4 image%3d.png 也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）
+ffmpeg -i input.mp4 -r 30 $filename%3d.png 其中 -r 30 是视频帧率，如何获取当前视频的帧率，请看如下命令：
+ffprobe &quot;input.mp4&quot; -v 0 -select_streams v -print_format flat -show_entries stream=r_frame_rate 剪辑视频 一段长视频只需要保留其中一段，可用如下命令："/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "ffmpeg 使用例程",
+      "item": "/posts/ffmpeg-command-example/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ffmpeg 使用例程",
+  "name": "ffmpeg 使用例程",
+  "description": "本文介绍ffmpeg命令行的一些使用方法；\n参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -fs——超过指定的文件大小时则结束转换。 -ss——从指定时间开始转换。 -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。 -title——设置标题。 -timestamp——设置时间戳。 -vsync——增减Frame使影音同步。 视频参数 -b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项） -r——设置帧率值，默认为25。 -s——设置画面的宽与高。 -aspect——设置画面的比例。 -vn——不处理视频，于仅针对声音做处理时使用。 -vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。 声音参数 -b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项） -ar——设置采样率。 -ac——设置声音的Channel数。 -acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。 -an——不处理声音，于仅针对视频做处理时使用。 -vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。） ##例子\n不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：\n裁剪视频 比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：\nffmpeg -i input.mp4 -strict -2 -vf crop=405:720:420:0 video_out.mp4 其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y 表示裁剪区域的左上角坐标。\n视频转换成图片 ffmpeg -i input.mp4 image%3d.png 也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）\nffmpeg -i input.mp4 -r 30 $filename%3d.png 其中 -r 30 是视频帧率，如何获取当前视频的帧率，请看如下命令：\nffprobe \u0026quot;input.mp4\u0026quot; -v 0 -select_streams v -print_format flat -show_entries stream=r_frame_rate 剪辑视频 一段长视频只需要保留其中一段，可用如下命令：",
+  "keywords": [
+    
+  ],
+  "articleBody": "本文介绍ffmpeg命令行的一些使用方法；\n参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -fs——超过指定的文件大小时则结束转换。 -ss——从指定时间开始转换。 -t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。 -title——设置标题。 -timestamp——设置时间戳。 -vsync——增减Frame使影音同步。 视频参数 -b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项） -r——设置帧率值，默认为25。 -s——设置画面的宽与高。 -aspect——设置画面的比例。 -vn——不处理视频，于仅针对声音做处理时使用。 -vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。 声音参数 -b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项） -ar——设置采样率。 -ac——设置声音的Channel数。 -acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。 -an——不处理声音，于仅针对视频做处理时使用。 -vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。） ##例子\n不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：\n裁剪视频 比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：\nffmpeg -i input.mp4 -strict -2 -vf crop=405:720:420:0 video_out.mp4 其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y 表示裁剪区域的左上角坐标。\n视频转换成图片 ffmpeg -i input.mp4 image%3d.png 也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）\nffmpeg -i input.mp4 -r 30 $filename%3d.png 其中 -r 30 是视频帧率，如何获取当前视频的帧率，请看如下命令：\nffprobe \"input.mp4\" -v 0 -select_streams v -print_format flat -show_entries stream=r_frame_rate 剪辑视频 一段长视频只需要保留其中一段，可用如下命令：\nffmpeg -i input.mp4 -ss 00:00:21 -t 00:00:10 -acodec aac -vcodec h264 -strict -2 out.mp4 其中 -ss 00:00:21 表示开始剪辑的位置（时间点）， -t 00:00:10 表示剪辑的长度，即10秒钟。\n调整视频分辨率大小 一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：\nffmpeg -i input.mp4 -vf scale=853:480 -acodec aac -vcodec h264 out.mp4 -vf scale=853:480 vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率 -vcodec h264 指定视频使用 h264 编码。 目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.\n",
+  "wordCount" : "130",
+  "inLanguage": "en",
+  "datePublished": "2016-11-07T21:03:47Z",
+  "dateModified": "2016-11-07T21:03:47Z",
+  "author":{
+    "@type": "Person",
+    "name": "cp"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/ffmpeg-command-example/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      ffmpeg 使用例程
+    </h1>
+    <div class="post-meta"><span title='2016-11-07 21:03:47 +0000 UTC'>November 7, 2016</span>&nbsp;·&nbsp;cp
+
+</div>
+  </header> 
+  <div class="post-content"><p>本文介绍<a href="https://en.wikipedia.org/wiki/FFmpeg">ffmpeg</a>命令行的一些使用方法；</p>
+<h2 id="参数">参数<a hidden class="anchor" aria-hidden="true" href="#参数">#</a></h2>
+<h3 id="主要参数">主要参数<a hidden class="anchor" aria-hidden="true" href="#主要参数">#</a></h3>
+<ul>
+<li>-i——设置输入档名。</li>
+<li>-f——设置输出格式。</li>
+<li>-y——若输出文件已存在时则覆盖文件。</li>
+<li>-fs——超过指定的文件大小时则结束转换。</li>
+<li>-ss——从指定时间开始转换。</li>
+<li>-t从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</li>
+<li>-title——设置标题。</li>
+<li>-timestamp——设置时间戳。</li>
+<li>-vsync——增减Frame使影音同步。</li>
+</ul>
+<h3 id="视频参数">视频参数<a hidden class="anchor" aria-hidden="true" href="#视频参数">#</a></h3>
+<ul>
+<li>-b:v——设置视频流量，默认为200Kbit/秒。（单位请引用下方注意事项）</li>
+<li>-r——设置帧率值，默认为25。</li>
+<li>-s——设置画面的宽与高。</li>
+<li>-aspect——设置画面的比例。</li>
+<li>-vn——不处理视频，于仅针对声音做处理时使用。</li>
+<li>-vcodec( -c:v )——设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。</li>
+</ul>
+<h3 id="声音参数">声音参数<a hidden class="anchor" aria-hidden="true" href="#声音参数">#</a></h3>
+<ul>
+<li>-b:a——设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</li>
+<li>-ar——设置采样率。</li>
+<li>-ac——设置声音的Channel数。</li>
+<li>-acodec ( -c:a ) ——设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</li>
+<li>-an——不处理声音，于仅针对视频做处理时使用。</li>
+<li>-vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</li>
+</ul>
+<p>##例子</p>
+<p>不过在使用中可能需要用一些不常用的命令行去做一些视频编辑的功能，如下几个例子：</p>
+<h3 id="裁剪视频">裁剪视频<a hidden class="anchor" aria-hidden="true" href="#裁剪视频">#</a></h3>
+<p>比如有一个横向视频,分辨率是1280X720，如果指向保留中间的405*720部分，可以使用下面的命令：</p>
+<pre><code>ffmpeg -i input.mp4  -strict -2 -vf crop=405:720:420:0  video_out.mp4
+</code></pre>
+<p>其中的crop=405:720:420:0 裁剪参数，具体含义是：crop=width:height:x:y.其中 width和height便是裁剪后的尺寸，x:y  表示裁剪区域的左上角坐标。</p>
+<h3 id="视频转换成图片">视频转换成图片<a hidden class="anchor" aria-hidden="true" href="#视频转换成图片">#</a></h3>
+<pre><code> ffmpeg -i input.mp4 image%3d.png
+</code></pre>
+<p>也可以指定视频导出的图片的帧率，（1s的视频生成的图片的个数）</p>
+<pre><code> ffmpeg -i input.mp4 -r 30  $filename%3d.png  
+</code></pre>
+<p>其中 <code>-r 30</code> 是视频帧率，如何获取当前视频的帧率，请看如下命令：</p>
+<pre><code>ffprobe &quot;input.mp4&quot; -v 0 -select_streams v  -print_format flat -show_entries stream=r_frame_rate 
+</code></pre>
+<h3 id="剪辑视频">剪辑视频<a hidden class="anchor" aria-hidden="true" href="#剪辑视频">#</a></h3>
+<p>一段长视频只需要保留其中一段，可用如下命令：</p>
+<pre><code>ffmpeg -i input.mp4 -ss 00:00:21 -t 00:00:10 -acodec aac -vcodec h264 -strict -2 out.mp4
+</code></pre>
+<p>其中 <code>-ss 00:00:21</code> 表示开始剪辑的位置（时间点）， <code>-t 00:00:10</code> 表示剪辑的长度，即10秒钟。</p>
+<h3 id="调整视频分辨率大小">调整视频分辨率大小<a hidden class="anchor" aria-hidden="true" href="#调整视频分辨率大小">#</a></h3>
+<p>一段视频尺寸是1080p（即1920*1080px， 16:9），使用下面命令转换成 480p：</p>
+<pre><code>ffmpeg -i input.mp4 -vf scale=853:480 -acodec aac -vcodec h264 out.mp4
+</code></pre>
+<ul>
+<li><code>-vf scale=853:480</code> vf 参数用于指定视频滤镜，其中scale表示缩放，863*480是480p视频的在保持16:9宽高比下的分辨率</li>
+<li><code>-vcodec h264</code> 指定视频使用 h264 编码。
+<blockquote>
+<p>目前收集一般拍摄视频的格式为 mov 或 mp4,两者的音频编码都是 aac， 视频编码是 h264.</p>
+</blockquote>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

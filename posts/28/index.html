@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>活到28 | </title>
+<meta name="keywords" content="">
+<meta name="description" content="信则有，不信则无-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的我思故我在式的思维模式，但不可否认在特定条件下，这句话会对一个人起到良好的心理按摩作用。
+就个人而言，学习OpenGL编程是一个难度相对大的技术。也许是因为没有学习过计算机图形学，在学习OpenGL编程期间，会遇到各种不懂的名词概念：着色器，光栅化，纹理，帧缓存；OpenGL本身的状态机也不是很好理解；加上不友好的开发工具链（无法打印GPU数据，OpenGL crash堆栈信息很少）。这三点导致学习OpenGL是一门入门难度比较大，学习曲线陡峭的技术。刚开始的时候，困难的确比较多，很容易失去信心；这个时候，如果对自己说一句信则有，相信这东西自己是可以学出来。坚持持续不断的看教程，动手试错，最终是可以学出来的。
+同样，在学习蛙泳的时候，在升职答辩的时候，在健身的时候，在极限运动的时候；面对深水区的恐惧，主考官的质问，肌肉的酸痛，呼吸的急促，死亡的恐惧。我们需要鼓起勇气，运用我们一直练习的学习技巧，观察别人怎么做的，思考自己哪里做的不对，不停的模仿，不断的试错重来，不怕失败，自信每次都会有所进步，最终能够扛过这座山。
+如果说在28岁生日这一天，回顾过去一年，我有什么收获的话，
+“立志不坚，终不济事。” &ndash;（宋）朱熹
+这句话是我最大的收获。
+对了，如果实在找不到信心的话，就这样想：&ldquo;这么多人都行，我怎么可能不行&rdquo;。">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/28/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="活到28" />
+<meta property="og:description" content="信则有，不信则无-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的我思故我在式的思维模式，但不可否认在特定条件下，这句话会对一个人起到良好的心理按摩作用。
+就个人而言，学习OpenGL编程是一个难度相对大的技术。也许是因为没有学习过计算机图形学，在学习OpenGL编程期间，会遇到各种不懂的名词概念：着色器，光栅化，纹理，帧缓存；OpenGL本身的状态机也不是很好理解；加上不友好的开发工具链（无法打印GPU数据，OpenGL crash堆栈信息很少）。这三点导致学习OpenGL是一门入门难度比较大，学习曲线陡峭的技术。刚开始的时候，困难的确比较多，很容易失去信心；这个时候，如果对自己说一句信则有，相信这东西自己是可以学出来。坚持持续不断的看教程，动手试错，最终是可以学出来的。
+同样，在学习蛙泳的时候，在升职答辩的时候，在健身的时候，在极限运动的时候；面对深水区的恐惧，主考官的质问，肌肉的酸痛，呼吸的急促，死亡的恐惧。我们需要鼓起勇气，运用我们一直练习的学习技巧，观察别人怎么做的，思考自己哪里做的不对，不停的模仿，不断的试错重来，不怕失败，自信每次都会有所进步，最终能够扛过这座山。
+如果说在28岁生日这一天，回顾过去一年，我有什么收获的话，
+“立志不坚，终不济事。” &ndash;（宋）朱熹
+这句话是我最大的收获。
+对了，如果实在找不到信心的话，就这样想：&ldquo;这么多人都行，我怎么可能不行&rdquo;。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/28/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-10-26T23:49:23+00:00" />
+<meta property="article:modified_time" content="2016-10-26T23:49:23+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="活到28"/>
+<meta name="twitter:description" content="信则有，不信则无-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的我思故我在式的思维模式，但不可否认在特定条件下，这句话会对一个人起到良好的心理按摩作用。
+就个人而言，学习OpenGL编程是一个难度相对大的技术。也许是因为没有学习过计算机图形学，在学习OpenGL编程期间，会遇到各种不懂的名词概念：着色器，光栅化，纹理，帧缓存；OpenGL本身的状态机也不是很好理解；加上不友好的开发工具链（无法打印GPU数据，OpenGL crash堆栈信息很少）。这三点导致学习OpenGL是一门入门难度比较大，学习曲线陡峭的技术。刚开始的时候，困难的确比较多，很容易失去信心；这个时候，如果对自己说一句信则有，相信这东西自己是可以学出来。坚持持续不断的看教程，动手试错，最终是可以学出来的。
+同样，在学习蛙泳的时候，在升职答辩的时候，在健身的时候，在极限运动的时候；面对深水区的恐惧，主考官的质问，肌肉的酸痛，呼吸的急促，死亡的恐惧。我们需要鼓起勇气，运用我们一直练习的学习技巧，观察别人怎么做的，思考自己哪里做的不对，不停的模仿，不断的试错重来，不怕失败，自信每次都会有所进步，最终能够扛过这座山。
+如果说在28岁生日这一天，回顾过去一年，我有什么收获的话，
+“立志不坚，终不济事。” &ndash;（宋）朱熹
+这句话是我最大的收获。
+对了，如果实在找不到信心的话，就这样想：&ldquo;这么多人都行，我怎么可能不行&rdquo;。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "活到28",
+      "item": "/posts/28/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "活到28",
+  "name": "活到28",
+  "description": "信则有，不信则无-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的我思故我在式的思维模式，但不可否认在特定条件下，这句话会对一个人起到良好的心理按摩作用。\n就个人而言，学习OpenGL编程是一个难度相对大的技术。也许是因为没有学习过计算机图形学，在学习OpenGL编程期间，会遇到各种不懂的名词概念：着色器，光栅化，纹理，帧缓存；OpenGL本身的状态机也不是很好理解；加上不友好的开发工具链（无法打印GPU数据，OpenGL crash堆栈信息很少）。这三点导致学习OpenGL是一门入门难度比较大，学习曲线陡峭的技术。刚开始的时候，困难的确比较多，很容易失去信心；这个时候，如果对自己说一句信则有，相信这东西自己是可以学出来。坚持持续不断的看教程，动手试错，最终是可以学出来的。\n同样，在学习蛙泳的时候，在升职答辩的时候，在健身的时候，在极限运动的时候；面对深水区的恐惧，主考官的质问，肌肉的酸痛，呼吸的急促，死亡的恐惧。我们需要鼓起勇气，运用我们一直练习的学习技巧，观察别人怎么做的，思考自己哪里做的不对，不停的模仿，不断的试错重来，不怕失败，自信每次都会有所进步，最终能够扛过这座山。\n如果说在28岁生日这一天，回顾过去一年，我有什么收获的话，\n“立志不坚，终不济事。” \u0026ndash;（宋）朱熹\n这句话是我最大的收获。\n对了，如果实在找不到信心的话，就这样想：\u0026ldquo;这么多人都行，我怎么可能不行\u0026rdquo;。",
+  "keywords": [
+    
+  ],
+  "articleBody": "信则有，不信则无-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的我思故我在式的思维模式，但不可否认在特定条件下，这句话会对一个人起到良好的心理按摩作用。\n就个人而言，学习OpenGL编程是一个难度相对大的技术。也许是因为没有学习过计算机图形学，在学习OpenGL编程期间，会遇到各种不懂的名词概念：着色器，光栅化，纹理，帧缓存；OpenGL本身的状态机也不是很好理解；加上不友好的开发工具链（无法打印GPU数据，OpenGL crash堆栈信息很少）。这三点导致学习OpenGL是一门入门难度比较大，学习曲线陡峭的技术。刚开始的时候，困难的确比较多，很容易失去信心；这个时候，如果对自己说一句信则有，相信这东西自己是可以学出来。坚持持续不断的看教程，动手试错，最终是可以学出来的。\n同样，在学习蛙泳的时候，在升职答辩的时候，在健身的时候，在极限运动的时候；面对深水区的恐惧，主考官的质问，肌肉的酸痛，呼吸的急促，死亡的恐惧。我们需要鼓起勇气，运用我们一直练习的学习技巧，观察别人怎么做的，思考自己哪里做的不对，不停的模仿，不断的试错重来，不怕失败，自信每次都会有所进步，最终能够扛过这座山。\n如果说在28岁生日这一天，回顾过去一年，我有什么收获的话，\n“立志不坚，终不济事。” –（宋）朱熹\n这句话是我最大的收获。\n对了，如果实在找不到信心的话，就这样想：“这么多人都行，我怎么可能不行”。\n",
+  "wordCount" : "9",
+  "inLanguage": "en",
+  "datePublished": "2016-10-26T23:49:23Z",
+  "dateModified": "2016-10-26T23:49:23Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/28/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      活到28
+    </h1>
+    <div class="post-meta"><span title='2016-10-26 23:49:23 +0000 UTC'>October 26, 2016</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p><code>信则有，不信则无</code>-这句话带有非常强烈的主观臆断色彩。我不认同这句话中携带的<code>我思故我在</code>式的思维模式，但不可否认在特定条件下，这句话会对一个人起到良好的心理按摩作用。</p>
+<p>就个人而言，学习OpenGL编程是一个难度相对大的技术。也许是因为没有学习过计算机图形学，在学习OpenGL编程期间，会遇到各种不懂的名词概念：<code>着色器</code>，<code>光栅化</code>，<code>纹理</code>，<code>帧缓存</code>；OpenGL本身的状态机也不是很好理解；加上不友好的开发工具链（无法打印GPU数据，OpenGL crash堆栈信息很少）。这三点导致学习OpenGL是一门入门难度比较大，学习曲线陡峭的技术。刚开始的时候，困难的确比较多，很容易失去信心；这个时候，如果对自己说一句<code>信则有</code>，相信这东西自己是可以学出来。坚持持续不断的看教程，动手试错，最终是可以学出来的。</p>
+<p>同样，在学习蛙泳的时候，在升职答辩的时候，在健身的时候，在极限运动的时候；面对深水区的恐惧，主考官的质问，肌肉的酸痛，呼吸的急促，死亡的恐惧。我们需要鼓起勇气，运用我们一直练习的学习技巧，观察别人怎么做的，思考自己哪里做的不对，不停的模仿，不断的试错重来，不怕失败，自信每次都会有所进步，最终能够扛过这座山。</p>
+<p>如果说在28岁生日这一天，回顾过去一年，我有什么收获的话，</p>
+<blockquote>
+<p>“立志不坚，终不济事。” &ndash;（宋）朱熹</p>
+</blockquote>
+<p>这句话是我最大的收获。</p>
+<!-- raw HTML omitted -->
+<blockquote>
+<p>对了，如果实在找不到信心的话，就这样想：&ldquo;这么多人都行，我怎么可能不行&rdquo;。</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

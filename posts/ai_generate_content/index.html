@@ -1,83 +1,266 @@
 <!DOCTYPE html>
-<html lang="" class="han-init"><head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="en" dir="auto">
 
-  <title>
-    
-      AI绘画：什么是AIGC，以及AIGC相关算法介绍
-    
-  </title>
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>AI绘画：什么是AIGC，以及AIGC相关算法介绍 | </title>
+<meta name="keywords" content="">
+<meta name="description" content="2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要算到OpenAI这家公司。2021年1月份OpenAI推出了 DALL·E 算法模型，该模型是第一个可以根据一段文本生成一张和文本相关的高质量图片模型。当时效果也是非常的惊艳。
+随着更多的组织，专业人士加入到研究AIGC行列，Text2Image算法模型的生成质量也被不断提高。2022年Open AI推出了DALL·E-2, Google researchers 也发布了Imagen 和 Parti，百度针对中文，发布了文心，这些模型都可以根据自然语言文本生成高质量的图像。但上述几个模型因为各种原因并不开源，且申请license也比较困难（OpenAI会直接reject香港IP的申请），所以能够体验到模型效果的人很少。
+随着开源项目Stable Diffusion 的release，人们终于有了一个能高质量生成图像且免费的Text2Image模型，并且更重要的是，开发者们还可以在这个开源模型上做个性化的二次模型优化和研发。伴随着Stable Diffusion 的public release，借助于开源社区的活力, 研究者们围绕着Stable Diffusion开发了各种各样的新算法。AI绘画在各种社交媒体上被广泛讨论，许多圈外人士，特别是设计师，建筑师的从业者对这一技术产生了很大的兴趣。">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/ai_generate_content/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="AI绘画：什么是AIGC，以及AIGC相关算法介绍" />
+<meta property="og:description" content="2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要算到OpenAI这家公司。2021年1月份OpenAI推出了 DALL·E 算法模型，该模型是第一个可以根据一段文本生成一张和文本相关的高质量图片模型。当时效果也是非常的惊艳。
+随着更多的组织，专业人士加入到研究AIGC行列，Text2Image算法模型的生成质量也被不断提高。2022年Open AI推出了DALL·E-2, Google researchers 也发布了Imagen 和 Parti，百度针对中文，发布了文心，这些模型都可以根据自然语言文本生成高质量的图像。但上述几个模型因为各种原因并不开源，且申请license也比较困难（OpenAI会直接reject香港IP的申请），所以能够体验到模型效果的人很少。
+随着开源项目Stable Diffusion 的release，人们终于有了一个能高质量生成图像且免费的Text2Image模型，并且更重要的是，开发者们还可以在这个开源模型上做个性化的二次模型优化和研发。伴随着Stable Diffusion 的public release，借助于开源社区的活力, 研究者们围绕着Stable Diffusion开发了各种各样的新算法。AI绘画在各种社交媒体上被广泛讨论，许多圈外人士，特别是设计师，建筑师的从业者对这一技术产生了很大的兴趣。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ai_generate_content/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-31T17:21:09+08:00" />
+<meta property="article:modified_time" content="2022-10-31T17:21:09+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AI绘画：什么是AIGC，以及AIGC相关算法介绍"/>
+<meta name="twitter:description" content="2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要算到OpenAI这家公司。2021年1月份OpenAI推出了 DALL·E 算法模型，该模型是第一个可以根据一段文本生成一张和文本相关的高质量图片模型。当时效果也是非常的惊艳。
+随着更多的组织，专业人士加入到研究AIGC行列，Text2Image算法模型的生成质量也被不断提高。2022年Open AI推出了DALL·E-2, Google researchers 也发布了Imagen 和 Parti，百度针对中文，发布了文心，这些模型都可以根据自然语言文本生成高质量的图像。但上述几个模型因为各种原因并不开源，且申请license也比较困难（OpenAI会直接reject香港IP的申请），所以能够体验到模型效果的人很少。
+随着开源项目Stable Diffusion 的release，人们终于有了一个能高质量生成图像且免费的Text2Image模型，并且更重要的是，开发者们还可以在这个开源模型上做个性化的二次模型优化和研发。伴随着Stable Diffusion 的public release，借助于开源社区的活力, 研究者们围绕着Stable Diffusion开发了各种各样的新算法。AI绘画在各种社交媒体上被广泛讨论，许多圈外人士，特别是设计师，建筑师的从业者对这一技术产生了很大的兴趣。"/>
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/" />
-  
-  
-  
-  <link rel="stylesheet" href="/css/main.css" />
-  
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.css">
-  
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-63703524-1', 'auto');
-	
-	ga('send', 'pageview');
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "AI绘画：什么是AIGC，以及AIGC相关算法介绍",
+      "item": "/posts/ai_generate_content/"
+    }
+  ]
 }
 </script>
-  
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-63703524-1', 'auto');
-	
-	ga('send', 'pageview');
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AI绘画：什么是AIGC，以及AIGC相关算法介绍",
+  "name": "AI绘画：什么是AIGC，以及AIGC相关算法介绍",
+  "description": "2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要算到OpenAI这家公司。2021年1月份OpenAI推出了 DALL·E 算法模型，该模型是第一个可以根据一段文本生成一张和文本相关的高质量图片模型。当时效果也是非常的惊艳。\n随着更多的组织，专业人士加入到研究AIGC行列，Text2Image算法模型的生成质量也被不断提高。2022年Open AI推出了DALL·E-2, Google researchers 也发布了Imagen 和 Parti，百度针对中文，发布了文心，这些模型都可以根据自然语言文本生成高质量的图像。但上述几个模型因为各种原因并不开源，且申请license也比较困难（OpenAI会直接reject香港IP的申请），所以能够体验到模型效果的人很少。\n随着开源项目Stable Diffusion 的release，人们终于有了一个能高质量生成图像且免费的Text2Image模型，并且更重要的是，开发者们还可以在这个开源模型上做个性化的二次模型优化和研发。伴随着Stable Diffusion 的public release，借助于开源社区的活力, 研究者们围绕着Stable Diffusion开发了各种各样的新算法。AI绘画在各种社交媒体上被广泛讨论，许多圈外人士，特别是设计师，建筑师的从业者对这一技术产生了很大的兴趣。",
+  "keywords": [
+    
+  ],
+  "articleBody": "2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要算到OpenAI这家公司。2021年1月份OpenAI推出了 DALL·E 算法模型，该模型是第一个可以根据一段文本生成一张和文本相关的高质量图片模型。当时效果也是非常的惊艳。\n随着更多的组织，专业人士加入到研究AIGC行列，Text2Image算法模型的生成质量也被不断提高。2022年Open AI推出了DALL·E-2, Google researchers 也发布了Imagen 和 Parti，百度针对中文，发布了文心，这些模型都可以根据自然语言文本生成高质量的图像。但上述几个模型因为各种原因并不开源，且申请license也比较困难（OpenAI会直接reject香港IP的申请），所以能够体验到模型效果的人很少。\n随着开源项目Stable Diffusion 的release，人们终于有了一个能高质量生成图像且免费的Text2Image模型，并且更重要的是，开发者们还可以在这个开源模型上做个性化的二次模型优化和研发。伴随着Stable Diffusion 的public release，借助于开源社区的活力, 研究者们围绕着Stable Diffusion开发了各种各样的新算法。AI绘画在各种社交媒体上被广泛讨论，许多圈外人士，特别是设计师，建筑师的从业者对这一技术产生了很大的兴趣。\n",
+  "wordCount" : "19",
+  "inLanguage": "en",
+  "datePublished": "2022-10-31T17:21:09+08:00",
+  "dateModified": "2022-10-31T17:21:09+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/ai_generate_content/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
 }
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-
 </head>
 
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
 
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-63703524-1', 'auto');
-	
-	ga('send', 'pageview');
-}
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 
-<body a="auto">
-        <main class="page-content" aria-label="Content">
-            <div class="w">
-<a href="/">..</a>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
 
-<article>
-    <p class="post-meta">
-        <time datetime="2022-10-31 17:21:09 &#43;0800 CST">
-            2022-10-31
-        </time>
-    </p>
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      AI绘画：什么是AIGC，以及AIGC相关算法介绍<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-meta"><span title='2022-10-31 17:21:09 +0800 CST'>October 31, 2022</span>
 
-    <h1>AI绘画：什么是AIGC，以及AIGC相关算法介绍</h1>
-
-    <p>2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要算到<a href="https://openai.com/">OpenAI</a>这家公司。2021年1月份OpenAI推出了 <a href="https://openai.com/blog/dall-e/">DALL·E</a> 算法模型，该模型是第一个可以根据一段文本生成一张和文本相关的高质量图片模型。当时效果也是非常的惊艳。</p>
+</div>
+  </header> 
+  <div class="post-content"><p>2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要算到<a href="https://openai.com/">OpenAI</a>这家公司。2021年1月份OpenAI推出了 <a href="https://openai.com/blog/dall-e/">DALL·E</a> 算法模型，该模型是第一个可以根据一段文本生成一张和文本相关的高质量图片模型。当时效果也是非常的惊艳。</p>
 <p>随着更多的组织，专业人士加入到研究AIGC行列，Text2Image算法模型的生成质量也被不断提高。2022年Open AI推出了<a href="https://openai.com/dall-e-2/">DALL·E-2</a>, Google researchers 也发布了<a href="https://imagen.research.google/">Imagen</a> 和 <a href="https://parti.research.google/">Parti</a>，百度针对中文，发布了<a href="https://wenxin.baidu.com/">文心</a>，这些模型都可以根据自然语言文本生成高质量的图像。但上述几个模型因为各种原因并不开源，且申请license也比较困难（OpenAI会直接reject香港IP的申请），所以能够体验到模型效果的人很少。</p>
 <p>随着开源项目<a href="https://stability.ai/blog/stable-diffusion-public-release">Stable Diffusion</a> 的release，人们终于有了一个能高质量生成图像且免费的Text2Image模型，并且更重要的是，开发者们还可以在这个开源模型上做个性化的二次模型优化和研发。伴随着Stable Diffusion 的public release，借助于开源社区的活力, 研究者们围绕着Stable Diffusion开发了各种各样的新算法。AI绘画在各种社交媒体上被广泛讨论，许多圈外人士，特别是设计师，建筑师的从业者对这一技术产生了很大的兴趣。</p>
 
-</article>
 
-            </div>
-        </main>
-	<script src="https://cdn.jsdelivr.net/npm/han-css@3/dist/han.min.js"></script>
-    </body></html>
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>iOS逆向工程-0x00－用途以及准备工作 | </title>
+<meta name="keywords" content="iOS Reverse Engineering">
+<meta name="description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
+作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController&#43;navigationController&#43;tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
+当然了，逆向工程还有其他更重要的用途，如下：
+分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
+硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/ios-reverse-engineering-01/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="iOS逆向工程-0x00－用途以及准备工作" />
+<meta property="og:description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
+作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController&#43;navigationController&#43;tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
+当然了，逆向工程还有其他更重要的用途，如下：
+分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
+硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ios-reverse-engineering-01/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-11-21T10:46:07+00:00" />
+<meta property="article:modified_time" content="2015-11-21T10:46:07+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="iOS逆向工程-0x00－用途以及准备工作"/>
+<meta name="twitter:description" content="前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。
+作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController&#43;navigationController&#43;tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。
+当然了，逆向工程还有其他更重要的用途，如下：
+分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备
+硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "iOS逆向工程-0x00－用途以及准备工作",
+      "item": "/posts/ios-reverse-engineering-01/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "iOS逆向工程-0x00－用途以及准备工作",
+  "name": "iOS逆向工程-0x00－用途以及准备工作",
+  "description": "前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。\n作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。\n当然了，逆向工程还有其他更重要的用途，如下：\n分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备\n硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries.",
+  "keywords": [
+    "iOS Reverse Engineering"
+  ],
+  "articleBody": "前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。\n作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。\n当然了，逆向工程还有其他更重要的用途，如下：\n分析恶意软件 安全研究 借鉴别人的软件 破解使用限制 准备工作 在开始 iOS 逆向工作之前，得准备一下相关设备\n硬件 Mac 电脑 一台越狱机器 (如何越狱，请访问 pangu) 设置环境 利用Cydia安装相关开发工具，建议安装下表中的全部软件 tool description ps process status, cpu usage, memory usage sysctl get or set kernal state netstat show network status route manually manipulate the routing tables renice alter priority of running processes ifconfig configure network interface parameters tcpdump dump traffic on a network lsof list open files otool displays specified parts of object files or libraries. nm displays the name list (symbol table) of each object file in the argument list. ldid signature tool gdb debug tool lldb debug tool patch patch tool SSH is a program for logging into a remote machine and for executing commands on a remote machine. SSH to iPhone 通过 wifi ssh root@your.iphone.ip iOS 系统中的root用户的默认密码是 Alipne.第一次登录的时候请使用这个密码。不过请记得修改root用户的密码，不然这台越狱机器就很不安全了。\n修改用户密码\niPhone:~ root# passwd Changing password for root New password: Retype new password: iPhone:~ root# 通过 usb 在wifi不稳定的场景下，建议使用usb来ssh到iPhone上。（我自己也是主要适用usb来进行ssh）\n关于如何使用 usb ssh 到 iPhone上，详情请访问网页 SSH over USB。根据网页上面的guide，需要下载：itnl_rev8.zip\n解压zip包之后，做如下操作：\nOS X terminal:\nsudo path/to/itnl --iport 22 --lport 2222 iPhone terminal:\nssh -p 2222 root@localhost 然后，就成功 ssh 到 iPhone 上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS app了。\n",
+  "wordCount" : "182",
+  "inLanguage": "en",
+  "datePublished": "2015-11-21T10:46:07Z",
+  "dateModified": "2015-11-21T10:46:07Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/ios-reverse-engineering-01/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      iOS逆向工程-0x00－用途以及准备工作
+    </h1>
+    <div class="post-meta"><span title='2015-11-21 10:46:07 +0000 UTC'>November 21, 2015</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="前言">前言<a hidden class="anchor" aria-hidden="true" href="#前言">#</a></h2>
+<p>好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事物是如何工作的。</p>
+<p>作为一个iOS开发者，我在使用其他开发者的优秀app的时候，总是会去猜测作者是怎么实现这个功能的，换作是我，我会怎么去实现它。有些功能很容易猜测出来（如微信iOS app的总体结构，想一下也会知道它的结构是 tabbarController+navigationController+tableViewController）；有些功能就不容易从表面上猜测出来，如博客软件 Castro。要想知道这些软件的一些设计细节，就得用上逆向工程，来帮助我们获取到想要的信息。</p>
+<p>当然了，逆向工程还有其他更重要的用途，如下：</p>
+<ul>
+<li>分析恶意软件</li>
+<li>安全研究</li>
+<li>借鉴别人的软件</li>
+<li>破解使用限制</li>
+</ul>
+<h2 id="准备工作">准备工作<a hidden class="anchor" aria-hidden="true" href="#准备工作">#</a></h2>
+<p>在开始 iOS 逆向工作之前，得准备一下相关设备</p>
+<h3 id="硬件">硬件<a hidden class="anchor" aria-hidden="true" href="#硬件">#</a></h3>
+<ul>
+<li>Mac 电脑</li>
+<li>一台越狱机器 (如何越狱，请访问 <strong><a href="http://pangu.io/">pangu</a></strong>)</li>
+</ul>
+<h3 id="设置环境">设置环境<a hidden class="anchor" aria-hidden="true" href="#设置环境">#</a></h3>
+<h4 id="利用cydia安装相关开发工具建议安装下表中的全部软件">利用<code>Cydia</code>安装相关开发工具，建议安装下表中的全部软件<a hidden class="anchor" aria-hidden="true" href="#利用cydia安装相关开发工具建议安装下表中的全部软件">#</a></h4>
+<table>
+<thead>
+<tr>
+<th>tool</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ps</td>
+<td>process status, cpu usage, memory usage</td>
+</tr>
+<tr>
+<td>sysctl</td>
+<td>get or set kernal state</td>
+</tr>
+<tr>
+<td>netstat</td>
+<td>show network status</td>
+</tr>
+<tr>
+<td>route</td>
+<td>manually manipulate the routing tables</td>
+</tr>
+<tr>
+<td>renice</td>
+<td>alter priority of running processes</td>
+</tr>
+<tr>
+<td>ifconfig</td>
+<td>configure network interface parameters</td>
+</tr>
+<tr>
+<td>tcpdump</td>
+<td>dump traffic on a network</td>
+</tr>
+<tr>
+<td>lsof</td>
+<td>list open files</td>
+</tr>
+<tr>
+<td>otool</td>
+<td>displays specified parts of object files or libraries.</td>
+</tr>
+<tr>
+<td>nm</td>
+<td>displays the name list (symbol table) of each object file in the argument list.</td>
+</tr>
+<tr>
+<td>ldid</td>
+<td>signature tool</td>
+</tr>
+<tr>
+<td>gdb</td>
+<td>debug tool</td>
+</tr>
+<tr>
+<td>lldb</td>
+<td>debug tool</td>
+</tr>
+<tr>
+<td>patch</td>
+<td>patch tool</td>
+</tr>
+<tr>
+<td>SSH</td>
+<td>is a program for logging into a remote machine and for executing commands on a remote machine.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ssh-to-iphone">SSH to iPhone<a hidden class="anchor" aria-hidden="true" href="#ssh-to-iphone">#</a></h4>
+<h5 id="通过-wifi">通过 wifi<a hidden class="anchor" aria-hidden="true" href="#通过-wifi">#</a></h5>
+<pre><code>ssh root@your.iphone.ip
+</code></pre>
+<p>iOS 系统中的<code>root</code>用户的默认密码是 <code>Alipne</code>.第一次登录的时候请使用这个密码。不过请记得修改<code>root</code>用户的密码，不然这台越狱机器就很不安全了。</p>
+<p><strong>修改用户密码</strong></p>
+<pre><code>iPhone:~ root# passwd
+Changing password for root
+New password:
+Retype new password:
+iPhone:~ root#
+</code></pre>
+<h5 id="通过-usb">通过 usb<a hidden class="anchor" aria-hidden="true" href="#通过-usb">#</a></h5>
+<p>在wifi不稳定的场景下，建议使用usb来ssh到iPhone上。（我自己也是主要适用usb来进行ssh）</p>
+<ul>
+<li>
+<p>关于如何使用 usb ssh 到 iPhone上，详情请访问网页 <a href="http://iphonedevwiki.net/index.php/SSH_Over_USB">SSH over USB</a>。根据网页上面的guide，需要下载：<a href="https://code.google.com/p/iphonetunnel-usbmuxconnectbyport/downloads/detail?name=itnl_rev8.zip">itnl_rev8.zip</a></p>
+</li>
+<li>
+<p>解压zip包之后，做如下操作：</p>
+<ul>
+<li>
+<p>OS X terminal:</p>
+<pre><code>  sudo path/to/itnl --iport 22 --lport 2222
+</code></pre>
+</li>
+<li>
+<p>iPhone terminal:</p>
+<pre><code>  ssh -p 2222 root@localhost
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>然后，就成功 ssh 到 iPhone 上面。我们的准备工作到此也就做完了，接下来我们就可以开始逆向 iOS app了。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/ios-reverse-engineering/">iOS Reverse Engineering</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

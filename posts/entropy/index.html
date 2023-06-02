@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>机器学习基础知识：熵，交叉熵，相对熵 | </title>
+<meta name="keywords" content="tech">
+<meta name="description" content="简介 信息熵是随机数据源产生信息的均量。信息熵代表的是随机变量或整个系统的不确定性，熵越大，随机变量或系统的不确定性就越大。
+计算 一枚正常硬币进行若干次抛投，这个事件的熵是1bit，因为结果不外乎两个 - 正面或反面，可以表示为0，1编码，而且两个结果彼此之间相互独立。但如果一枚硬币的两面完全相同，那抛硬币事件的熵为零，因为结果能被准确预测。
+定义 信息熵的数学公式如下：
+其中 P 为X的概率质量函数，E为期望函数，而I(x)是X的信息量。I(X)本身是个随机变数。当取自有限样本时，熵的公式可以表示为：
+所以熵的本质是香农信息量 log(1/p)的期望；一个事件结果的出现概率越低，对其编码的bit长度就越长。以期望在整个随机事件的无数次重复试验中，用最少的bit去记录整个实验历史，即无法压缩的表达，代表了真正的信息量。
+交叉熵 一个系统有一个真实的概率分布，也叫真实分布，根据真实分布，我们能够找到一个最优策略，以最小的代价消除系统的不确定性，而这个代价大小就是信息熵。
+多数情况下，我们并不知道系统的真实分布，如抛硬币例子，如果硬币两面一样，但我们不知道这一信息，以为两面不一样，两面不一样是一个非真实分布。交叉熵，是用来衡量在给定的真实分布下，使用非真实分布所指定的策略消除系统的不确定性所需要付出的努力大小。
+交叉熵的公式为：
+其中p为真实分布，q为非真实分布。交叉熵越低，意味着q越接近p。所以在机器学习分类算法中，我们总是最小化交叉熵，交叉熵越低，间接证明算法推算出的非真实分布q越接近真实分布p。
+深度学习中交叉熵损失函数[Cross Entropy Loss]；
+相对熵（KL散度） 相对熵又称KL散度，是为了衡量不同策略之间的差异，即：
+假设f(x)为真实分布p，g(x)为非真实分布q，则上述相对熵为：">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/entropy/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="mask-icon" href="safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="机器学习基础知识：熵，交叉熵，相对熵" />
+<meta property="og:description" content="简介 信息熵是随机数据源产生信息的均量。信息熵代表的是随机变量或整个系统的不确定性，熵越大，随机变量或系统的不确定性就越大。
+计算 一枚正常硬币进行若干次抛投，这个事件的熵是1bit，因为结果不外乎两个 - 正面或反面，可以表示为0，1编码，而且两个结果彼此之间相互独立。但如果一枚硬币的两面完全相同，那抛硬币事件的熵为零，因为结果能被准确预测。
+定义 信息熵的数学公式如下：
+其中 P 为X的概率质量函数，E为期望函数，而I(x)是X的信息量。I(X)本身是个随机变数。当取自有限样本时，熵的公式可以表示为：
+所以熵的本质是香农信息量 log(1/p)的期望；一个事件结果的出现概率越低，对其编码的bit长度就越长。以期望在整个随机事件的无数次重复试验中，用最少的bit去记录整个实验历史，即无法压缩的表达，代表了真正的信息量。
+交叉熵 一个系统有一个真实的概率分布，也叫真实分布，根据真实分布，我们能够找到一个最优策略，以最小的代价消除系统的不确定性，而这个代价大小就是信息熵。
+多数情况下，我们并不知道系统的真实分布，如抛硬币例子，如果硬币两面一样，但我们不知道这一信息，以为两面不一样，两面不一样是一个非真实分布。交叉熵，是用来衡量在给定的真实分布下，使用非真实分布所指定的策略消除系统的不确定性所需要付出的努力大小。
+交叉熵的公式为：
+其中p为真实分布，q为非真实分布。交叉熵越低，意味着q越接近p。所以在机器学习分类算法中，我们总是最小化交叉熵，交叉熵越低，间接证明算法推算出的非真实分布q越接近真实分布p。
+深度学习中交叉熵损失函数[Cross Entropy Loss]；
+相对熵（KL散度） 相对熵又称KL散度，是为了衡量不同策略之间的差异，即：
+假设f(x)为真实分布p，g(x)为非真实分布q，则上述相对熵为：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/entropy/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-03-02T16:02:21+00:00" />
+<meta property="article:modified_time" content="2019-03-02T16:02:21+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="机器学习基础知识：熵，交叉熵，相对熵"/>
+<meta name="twitter:description" content="简介 信息熵是随机数据源产生信息的均量。信息熵代表的是随机变量或整个系统的不确定性，熵越大，随机变量或系统的不确定性就越大。
+计算 一枚正常硬币进行若干次抛投，这个事件的熵是1bit，因为结果不外乎两个 - 正面或反面，可以表示为0，1编码，而且两个结果彼此之间相互独立。但如果一枚硬币的两面完全相同，那抛硬币事件的熵为零，因为结果能被准确预测。
+定义 信息熵的数学公式如下：
+其中 P 为X的概率质量函数，E为期望函数，而I(x)是X的信息量。I(X)本身是个随机变数。当取自有限样本时，熵的公式可以表示为：
+所以熵的本质是香农信息量 log(1/p)的期望；一个事件结果的出现概率越低，对其编码的bit长度就越长。以期望在整个随机事件的无数次重复试验中，用最少的bit去记录整个实验历史，即无法压缩的表达，代表了真正的信息量。
+交叉熵 一个系统有一个真实的概率分布，也叫真实分布，根据真实分布，我们能够找到一个最优策略，以最小的代价消除系统的不确定性，而这个代价大小就是信息熵。
+多数情况下，我们并不知道系统的真实分布，如抛硬币例子，如果硬币两面一样，但我们不知道这一信息，以为两面不一样，两面不一样是一个非真实分布。交叉熵，是用来衡量在给定的真实分布下，使用非真实分布所指定的策略消除系统的不确定性所需要付出的努力大小。
+交叉熵的公式为：
+其中p为真实分布，q为非真实分布。交叉熵越低，意味着q越接近p。所以在机器学习分类算法中，我们总是最小化交叉熵，交叉熵越低，间接证明算法推算出的非真实分布q越接近真实分布p。
+深度学习中交叉熵损失函数[Cross Entropy Loss]；
+相对熵（KL散度） 相对熵又称KL散度，是为了衡量不同策略之间的差异，即：
+假设f(x)为真实分布p，g(x)为非真实分布q，则上述相对熵为："/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "机器学习基础知识：熵，交叉熵，相对熵",
+      "item": "/posts/entropy/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "机器学习基础知识：熵，交叉熵，相对熵",
+  "name": "机器学习基础知识：熵，交叉熵，相对熵",
+  "description": "简介 信息熵是随机数据源产生信息的均量。信息熵代表的是随机变量或整个系统的不确定性，熵越大，随机变量或系统的不确定性就越大。\n计算 一枚正常硬币进行若干次抛投，这个事件的熵是1bit，因为结果不外乎两个 - 正面或反面，可以表示为0，1编码，而且两个结果彼此之间相互独立。但如果一枚硬币的两面完全相同，那抛硬币事件的熵为零，因为结果能被准确预测。\n定义 信息熵的数学公式如下：\n其中 P 为X的概率质量函数，E为期望函数，而I(x)是X的信息量。I(X)本身是个随机变数。当取自有限样本时，熵的公式可以表示为：\n所以熵的本质是香农信息量 log(1/p)的期望；一个事件结果的出现概率越低，对其编码的bit长度就越长。以期望在整个随机事件的无数次重复试验中，用最少的bit去记录整个实验历史，即无法压缩的表达，代表了真正的信息量。\n交叉熵 一个系统有一个真实的概率分布，也叫真实分布，根据真实分布，我们能够找到一个最优策略，以最小的代价消除系统的不确定性，而这个代价大小就是信息熵。\n多数情况下，我们并不知道系统的真实分布，如抛硬币例子，如果硬币两面一样，但我们不知道这一信息，以为两面不一样，两面不一样是一个非真实分布。交叉熵，是用来衡量在给定的真实分布下，使用非真实分布所指定的策略消除系统的不确定性所需要付出的努力大小。\n交叉熵的公式为：\n其中p为真实分布，q为非真实分布。交叉熵越低，意味着q越接近p。所以在机器学习分类算法中，我们总是最小化交叉熵，交叉熵越低，间接证明算法推算出的非真实分布q越接近真实分布p。\n深度学习中交叉熵损失函数[Cross Entropy Loss]；\n相对熵（KL散度） 相对熵又称KL散度，是为了衡量不同策略之间的差异，即：\n假设f(x)为真实分布p，g(x)为非真实分布q，则上述相对熵为：",
+  "keywords": [
+    "tech"
+  ],
+  "articleBody": "简介 信息熵是随机数据源产生信息的均量。信息熵代表的是随机变量或整个系统的不确定性，熵越大，随机变量或系统的不确定性就越大。\n计算 一枚正常硬币进行若干次抛投，这个事件的熵是1bit，因为结果不外乎两个 - 正面或反面，可以表示为0，1编码，而且两个结果彼此之间相互独立。但如果一枚硬币的两面完全相同，那抛硬币事件的熵为零，因为结果能被准确预测。\n定义 信息熵的数学公式如下：\n其中 P 为X的概率质量函数，E为期望函数，而I(x)是X的信息量。I(X)本身是个随机变数。当取自有限样本时，熵的公式可以表示为：\n所以熵的本质是香农信息量 log(1/p)的期望；一个事件结果的出现概率越低，对其编码的bit长度就越长。以期望在整个随机事件的无数次重复试验中，用最少的bit去记录整个实验历史，即无法压缩的表达，代表了真正的信息量。\n交叉熵 一个系统有一个真实的概率分布，也叫真实分布，根据真实分布，我们能够找到一个最优策略，以最小的代价消除系统的不确定性，而这个代价大小就是信息熵。\n多数情况下，我们并不知道系统的真实分布，如抛硬币例子，如果硬币两面一样，但我们不知道这一信息，以为两面不一样，两面不一样是一个非真实分布。交叉熵，是用来衡量在给定的真实分布下，使用非真实分布所指定的策略消除系统的不确定性所需要付出的努力大小。\n交叉熵的公式为：\n其中p为真实分布，q为非真实分布。交叉熵越低，意味着q越接近p。所以在机器学习分类算法中，我们总是最小化交叉熵，交叉熵越低，间接证明算法推算出的非真实分布q越接近真实分布p。\n深度学习中交叉熵损失函数[Cross Entropy Loss]；\n相对熵（KL散度） 相对熵又称KL散度，是为了衡量不同策略之间的差异，即：\n假设f(x)为真实分布p，g(x)为非真实分布q，则上述相对熵为：\n",
+  "wordCount" : "24",
+  "inLanguage": "en",
+  "datePublished": "2019-03-02T16:02:21Z",
+  "dateModified": "2019-03-02T16:02:21Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/entropy/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      机器学习基础知识：熵，交叉熵，相对熵
+    </h1>
+    <div class="post-meta"><span title='2019-03-02 16:02:21 +0000 UTC'>March 2, 2019</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h3 id="简介">简介<a hidden class="anchor" aria-hidden="true" href="#简介">#</a></h3>
+<p>信息熵是随机数据源产生信息的均量。信息熵代表的是随机变量或整个系统的不确定性，熵越大，随机变量或系统的不确定性就越大。</p>
+<h3 id="计算">计算<a hidden class="anchor" aria-hidden="true" href="#计算">#</a></h3>
+<p>一枚正常硬币进行若干次抛投，这个事件的熵是1bit，因为结果不外乎两个 - 正面或反面，可以表示为0，1编码，而且两个结果彼此之间相互独立。但如果一枚硬币的两面完全相同，那抛硬币事件的熵为零，因为结果能被准确预测。</p>
+<h3 id="定义">定义<a hidden class="anchor" aria-hidden="true" href="#定义">#</a></h3>
+<p>信息熵的数学公式如下：</p>
+<p><img loading="lazy" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ad96d27b76b011b9cb7c41665e3e25edf04b3515" alt="entropy definition"  />
+</p>
+<p>其中 P 为X的概率质量函数，E为期望函数，而I(x)是X的信息量。I(X)本身是个随机变数。当取自有限样本时，熵的公式可以表示为：</p>
+<p><img loading="lazy" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/67841ec4b4f7e6ab658842ef2f53add46a2debbd" alt="entropy deinition2"  />
+</p>
+<p>所以熵的本质是香农信息量 log(1/p)的期望；一个事件结果的出现概率越低，对其编码的bit长度就越长。以期望在整个随机事件的无数次重复试验中，用最少的bit去记录整个实验历史，即无法压缩的表达，代表了真正的信息量。</p>
+<h3 id="交叉熵">交叉熵<a hidden class="anchor" aria-hidden="true" href="#交叉熵">#</a></h3>
+<p>一个系统有一个真实的概率分布，也叫真实分布，根据真实分布，我们能够找到一个最优策略，以最小的代价消除系统的不确定性，而这个代价大小就是信息熵。</p>
+<p>多数情况下，我们并不知道系统的真实分布，如抛硬币例子，如果硬币两面一样，但我们不知道这一信息，以为两面不一样，两面不一样是一个非真实分布。<strong>交叉熵</strong>，是用来衡量在给定的真实分布下，使用非真实分布所指定的策略消除系统的不确定性所需要付出的努力大小。</p>
+<p>交叉熵的公式为：</p>
+<p><img loading="lazy" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0cb6da032ab424eefdca0884cd4113fe578f4293" alt="cross_entropy"  />
+</p>
+<p>其中p为真实分布，q为非真实分布。交叉熵越低，意味着q越接近p。所以在机器学习分类算法中，我们总是最小化交叉熵，交叉熵越低，间接证明算法推算出的非真实分布q越接近真实分布p。</p>
+<p>深度学习中交叉熵损失函数[Cross Entropy Loss]；</p>
+<p><img loading="lazy" src="https://www.zhihu.com/equation?tex=L%3D-%5Bylog%5C&#43;%5Chat&#43;y%2B%281-y%29log%5C&#43;%281-%5Chat&#43;y%29%5D" alt="cross entropy loss"  />
+</p>
+<h3 id="相对熵kl散度">相对熵（KL散度）<a hidden class="anchor" aria-hidden="true" href="#相对熵kl散度">#</a></h3>
+<p>相对熵又称KL散度，是为了衡量不同策略之间的差异，即：</p>
+<p><img loading="lazy" src="https://www.zhihu.com/equation?tex=%5Csum_%7B&#43;x&#43;%5Cin&#43;X%7D&#43;f%28x%29&#43;%2A&#43;%5Clog_2&#43;%5Cfrac%7Bf%28x%29%7D%7Bg%28x%29%7D" alt=""  />
+</p>
+<p>假设f(x)为真实分布p，g(x)为非真实分布q，则上述相对熵为：</p>
+<p><img loading="lazy" src="https://www.zhihu.com/equation?tex=&#43;%5Csum_%7Bk%3D1%7D%5EN&#43;p_k&#43;%5Clog_2&#43;%5Cfrac%7B1%7D%7Bq_k%7D&#43;-&#43;%5Csum_%7Bk%3D1%7D%5EN&#43;p_k&#43;%5Clog_2&#43;%5Cfrac%7B1%7D%7Bp_k%7D&#43;%3D&#43;%5Csum_%7Bk%3D1%7D%5EN&#43;p_k&#43;%5Clog_2&#43;%5Cfrac%7Bp_k%7D%7Bq_k%7D" alt=""  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/tech/">tech</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href=""></a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
