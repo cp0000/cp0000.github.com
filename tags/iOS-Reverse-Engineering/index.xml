@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>iOS Reverse Engineering on </title>
-    <link>/tags/ios-reverse-engineering/</link>
-    <description>Recent content in iOS Reverse Engineering on </description>
+    <title>iOS Reverse Engineering on CP0000 - 一只特立独行的猪</title>
+    <link>https://cp0000.github.io/tags/ios-reverse-engineering/</link>
+    <description>Recent content in iOS Reverse Engineering on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Sun, 06 Mar 2016 11:32:44 +0000</lastBuildDate><atom:link href="/tags/ios-reverse-engineering/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Mar 2016 11:32:44 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/tags/ios-reverse-engineering/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>iOS逆向工程-0x02－Hacking on B612</title>
-      <link>/posts/ios-reverse-engineering-03/</link>
+      <link>https://cp0000.github.io/posts/ios-reverse-engineering-03/</link>
       <pubDate>Sun, 06 Mar 2016 11:32:44 +0000</pubDate>
       
-      <guid>/posts/ios-reverse-engineering-03/</guid>
+      <guid>https://cp0000.github.io/posts/ios-reverse-engineering-03/</guid>
       <description>前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向</description>
     </item>
     
     <item>
       <title>iOS逆向工程-0x01－工具篇-Cycript</title>
-      <link>/posts/ios-reverse-engineering-02/</link>
+      <link>https://cp0000.github.io/posts/ios-reverse-engineering-02/</link>
       <pubDate>Mon, 30 Nov 2015 22:00:07 +0000</pubDate>
       
-      <guid>/posts/ios-reverse-engineering-02/</guid>
+      <guid>https://cp0000.github.io/posts/ios-reverse-engineering-02/</guid>
       <description>对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以</description>
     </item>
     
     <item>
       <title>iOS逆向工程-0x00－用途以及准备工作</title>
-      <link>/posts/ios-reverse-engineering-01/</link>
+      <link>https://cp0000.github.io/posts/ios-reverse-engineering-01/</link>
       <pubDate>Sat, 21 Nov 2015 10:46:07 +0000</pubDate>
       
-      <guid>/posts/ios-reverse-engineering-01/</guid>
+      <guid>https://cp0000.github.io/posts/ios-reverse-engineering-01/</guid>
       <description>前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事</description>
     </item>
     

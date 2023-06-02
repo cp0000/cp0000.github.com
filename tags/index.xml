@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tags on </title>
-    <link>/tags/</link>
-    <description>Recent content in Tags on </description>
+    <title>Tags on CP0000 - 一只特立独行的猪</title>
+    <link>https://cp0000.github.io/tags/</link>
+    <description>Recent content in Tags on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Sun, 10 Jan 2021 20:38:38 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 10 Jan 2021 20:38:38 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>生活</title>
-      <link>/tags/%E7%94%9F%E6%B4%BB/</link>
+      <link>https://cp0000.github.io/tags/%E7%94%9F%E6%B4%BB/</link>
       <pubDate>Sun, 10 Jan 2021 20:38:38 +0000</pubDate>
       
-      <guid>/tags/%E7%94%9F%E6%B4%BB/</guid>
+      <guid>https://cp0000.github.io/tags/%E7%94%9F%E6%B4%BB/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tech</title>
-      <link>/tags/tech/</link>
+      <link>https://cp0000.github.io/tags/tech/</link>
       <pubDate>Sun, 31 Mar 2019 14:41:59 +0000</pubDate>
       
-      <guid>/tags/tech/</guid>
+      <guid>https://cp0000.github.io/tags/tech/</guid>
       <description></description>
     </item>
     
     <item>
       <title>iOS Reverse Engineering</title>
-      <link>/tags/ios-reverse-engineering/</link>
+      <link>https://cp0000.github.io/tags/ios-reverse-engineering/</link>
       <pubDate>Sun, 06 Mar 2016 11:32:44 +0000</pubDate>
       
-      <guid>/tags/ios-reverse-engineering/</guid>
+      <guid>https://cp0000.github.io/tags/ios-reverse-engineering/</guid>
       <description></description>
     </item>
     

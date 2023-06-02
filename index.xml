@@ -1,189 +1,189 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title></title>
-    <link>/</link>
-    <description>Recent content on </description>
+    <title>CP0000 - 一只特立独行的猪</title>
+    <link>https://cp0000.github.io/</link>
+    <description>Recent content on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Thu, 01 Jun 2023 20:17:11 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 01 Jun 2023 20:17:11 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>文生图 Imagen 扩散模型简介</title>
-      <link>/posts/review_imagen/</link>
+      <link>https://cp0000.github.io/posts/review_imagen/</link>
       <pubDate>Thu, 01 Jun 2023 20:17:11 +0800</pubDate>
       
-      <guid>/posts/review_imagen/</guid>
+      <guid>https://cp0000.github.io/posts/review_imagen/</guid>
       <description>Review Imagen 本文是对论文 Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding 的简介 Imagen 是 Google 在22年5月发表的一篇关于文生图任务的论文。其主体框架基于 Diffusion 模型。和其他文生图（比如 DALLE-</description>
     </item>
     
     <item>
       <title>文生图扩散模型</title>
-      <link>/posts/text-to-image-diffusion-survey/</link>
+      <link>https://cp0000.github.io/posts/text-to-image-diffusion-survey/</link>
       <pubDate>Tue, 09 May 2023 15:58:14 +0800</pubDate>
       
-      <guid>/posts/text-to-image-diffusion-survey/</guid>
+      <guid>https://cp0000.github.io/posts/text-to-image-diffusion-survey/</guid>
       <description>Text-to-image Diffusion Models in Generative AI: A Survey 本文是关于 Text-to-image Diffusion Models in Generative AI:A Survey 的翻译和摘要。 自2021年2月 OpenAI 推出 DALL- E 之后，文生图进入了AI研究人员和大众的视野。伴随着22年 DALL-E 2</description>
     </item>
     
     <item>
       <title>读书笔记：《认知觉醒：开启自我改变的原动力》</title>
-      <link>/posts/cognitive_awakening/</link>
+      <link>https://cp0000.github.io/posts/cognitive_awakening/</link>
       <pubDate>Sun, 23 Apr 2023 22:08:46 +0800</pubDate>
       
-      <guid>/posts/cognitive_awakening/</guid>
+      <guid>https://cp0000.github.io/posts/cognitive_awakening/</guid>
       <description>《认知觉醒：开启自我改变的原动力》是一本很好读的书，他帮助我相对系统性的理清了自己这些年潜意识中模糊存在的道理。这本书给我最明显的收获有两点</description>
     </item>
     
     <item>
       <title>关于投资</title>
-      <link>/posts/my_investment/</link>
+      <link>https://cp0000.github.io/posts/my_investment/</link>
       <pubDate>Wed, 29 Mar 2023 19:41:20 +0800</pubDate>
       
-      <guid>/posts/my_investment/</guid>
+      <guid>https://cp0000.github.io/posts/my_investment/</guid>
       <description>工具 学生时代，没有任何的储蓄，对投资理财没有任何概念。工作之后，早期收入比较少，没有意识需要去做投资。我想可能很多人和我一样，第一次亲手操作</description>
     </item>
     
     <item>
       <title>2023年春节</title>
-      <link>/posts/2023_chinese_new_year/</link>
+      <link>https://cp0000.github.io/posts/2023_chinese_new_year/</link>
       <pubDate>Sun, 29 Jan 2023 22:37:24 +0800</pubDate>
       
-      <guid>/posts/2023_chinese_new_year/</guid>
+      <guid>https://cp0000.github.io/posts/2023_chinese_new_year/</guid>
       <description>2023年春节是自新冠疫情爆发以来的第一个社会面开放的中国新年，还没回家之前，听说回家过年的人很多。我这次选择了开车回家，从上海到安徽，40</description>
     </item>
     
     <item>
       <title>我的2022</title>
-      <link>/posts/my_2022/</link>
+      <link>https://cp0000.github.io/posts/my_2022/</link>
       <pubDate>Sat, 31 Dec 2022 18:33:20 +0800</pubDate>
       
-      <guid>/posts/my_2022/</guid>
+      <guid>https://cp0000.github.io/posts/my_2022/</guid>
       <description>生活的本质是变化，而人类的本性是抗拒变化。 - 《也许你该找个人聊聊》 新冠之年 2022是被新冠支配的一年。年初，上海封城三个月，那段时间的焦虑与</description>
     </item>
     
     <item>
       <title>活到34</title>
-      <link>/posts/34/</link>
+      <link>https://cp0000.github.io/posts/34/</link>
       <pubDate>Sun, 13 Nov 2022 20:31:41 +0800</pubDate>
       
-      <guid>/posts/34/</guid>
+      <guid>https://cp0000.github.io/posts/34/</guid>
       <description>莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。 料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也</description>
     </item>
     
     <item>
       <title>AI绘画：什么是AIGC，以及AIGC相关算法介绍</title>
-      <link>/posts/ai_generate_content/</link>
+      <link>https://cp0000.github.io/posts/ai_generate_content/</link>
       <pubDate>Mon, 31 Oct 2022 17:21:09 +0800</pubDate>
       
-      <guid>/posts/ai_generate_content/</guid>
+      <guid>https://cp0000.github.io/posts/ai_generate_content/</guid>
       <description>2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要</description>
     </item>
     
     <item>
       <title>什么是StableDiffusion</title>
-      <link>/posts/what_is_stable_diffusion/</link>
+      <link>https://cp0000.github.io/posts/what_is_stable_diffusion/</link>
       <pubDate>Fri, 28 Oct 2022 19:36:31 +0800</pubDate>
       
-      <guid>/posts/what_is_stable_diffusion/</guid>
+      <guid>https://cp0000.github.io/posts/what_is_stable_diffusion/</guid>
       <description>Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。 接下来先介绍下 Latent</description>
     </item>
     
     <item>
       <title>understanding_diffusion_models</title>
-      <link>/posts/understanding-diffusion-models/</link>
+      <link>https://cp0000.github.io/posts/understanding-diffusion-models/</link>
       <pubDate>Wed, 26 Oct 2022 11:04:58 +0000</pubDate>
       
-      <guid>/posts/understanding-diffusion-models/</guid>
+      <guid>https://cp0000.github.io/posts/understanding-diffusion-models/</guid>
       <description>什么是Diffusion模型 这是一篇关于 What are Diffusion Models的译文。很多地方借鉴了由浅入深了解Diffusion Model 本文主要是介绍什么是DDPM</description>
     </item>
     
     <item>
       <title>什么是Diffusion模型</title>
-      <link>/posts/what-are-diffusion/</link>
+      <link>https://cp0000.github.io/posts/what-are-diffusion/</link>
       <pubDate>Wed, 14 Sep 2022 18:59:19 +0000</pubDate>
       
-      <guid>/posts/what-are-diffusion/</guid>
+      <guid>https://cp0000.github.io/posts/what-are-diffusion/</guid>
       <description>什么是Diffusion模型 这是一篇关于 What are Diffusion Models的译文。很多地方借鉴了由浅入深了解Diffusion Model 本文主要是介绍什么是DDPM</description>
     </item>
     
     <item>
       <title>The Psychology Of Money</title>
-      <link>/posts/the-psychology-of-money/</link>
+      <link>https://cp0000.github.io/posts/the-psychology-of-money/</link>
       <pubDate>Sat, 03 Sep 2022 11:07:34 +0000</pubDate>
       
-      <guid>/posts/the-psychology-of-money/</guid>
+      <guid>https://cp0000.github.io/posts/the-psychology-of-money/</guid>
       <description>No One&amp;rsquo;s Crazy We all do crazy stuff with money,because we&amp;rsquo;re all relatively new to this game and what looks crazy to you might make sense to me. But no one is crazy - we all make decisions based on our own unique experiences that seem to make sense to us in a given moment. Luck &amp;amp; Risk Nothing is as good or as bad as it seems Luck and</description>
     </item>
     
     <item>
       <title>《纳瓦尔宝典》读书笔记</title>
-      <link>/posts/the-almanack-of-naval-ravikant/</link>
+      <link>https://cp0000.github.io/posts/the-almanack-of-naval-ravikant/</link>
       <pubDate>Sun, 21 Aug 2022 15:28:23 +0000</pubDate>
       
-      <guid>/posts/the-almanack-of-naval-ravikant/</guid>
+      <guid>https://cp0000.github.io/posts/the-almanack-of-naval-ravikant/</guid>
       <description>最近看完了《纳瓦尔宝典》这本小册子，本文主要是关于该书的一些书摘和笔记。 关于财富 积累财富 要想获得财富，你就必须知道做什么，和谁一起做，什么时</description>
     </item>
     
     <item>
       <title>2022 上半年</title>
-      <link>/posts/2022-h1/</link>
+      <link>https://cp0000.github.io/posts/2022-h1/</link>
       <pubDate>Sun, 03 Jul 2022 14:41:02 +0000</pubDate>
       
-      <guid>/posts/2022-h1/</guid>
+      <guid>https://cp0000.github.io/posts/2022-h1/</guid>
       <description>新冠封城 农历新年大概在每年公历的2月中旬，我们中国人过完农历新年，一年才算开始。从2月中旬，到6月底，大概4个半月，生活在上海的人，因为新冠</description>
     </item>
     
     <item>
       <title>疫情解封</title>
-      <link>/posts/life-under-covid-19-2/</link>
+      <link>https://cp0000.github.io/posts/life-under-covid-19-2/</link>
       <pubDate>Sun, 12 Jun 2022 14:41:23 +0000</pubDate>
       
-      <guid>/posts/life-under-covid-19-2/</guid>
+      <guid>https://cp0000.github.io/posts/life-under-covid-19-2/</guid>
       <description>2022.6.1，上海持续两个多月的封城解封了，从3.13我所在的小区被封，到6.1号，小区全面解封，我们被关在小区里面大概前后有接近80天</description>
     </item>
     
     <item>
       <title>理解 Disco Diffusion</title>
-      <link>/posts/understanding-disco-diffusion/</link>
+      <link>https://cp0000.github.io/posts/understanding-disco-diffusion/</link>
       <pubDate>Sat, 04 Jun 2022 10:47:55 +0000</pubDate>
       
-      <guid>/posts/understanding-disco-diffusion/</guid>
+      <guid>https://cp0000.github.io/posts/understanding-disco-diffusion/</guid>
       <description>Disco Diffusion Disco Diffusion是 github 上面一个开源项目，用户通过该项目输入一段文字便可以生成一张和文字有一定相关性的图片，且图片有一定的艺术性。Dis</description>
     </item>
     
     <item>
       <title>《贪婪的多巴胺》读书笔记</title>
-      <link>/posts/the-molecule-of-more/</link>
+      <link>https://cp0000.github.io/posts/the-molecule-of-more/</link>
       <pubDate>Sat, 28 May 2022 18:58:57 +0000</pubDate>
       
-      <guid>/posts/the-molecule-of-more/</guid>
+      <guid>https://cp0000.github.io/posts/the-molecule-of-more/</guid>
       <description>多巴胺，英文dopamine或者DA，是一种重要的神经递质，主要负责大脑的情欲，感觉，将兴奋及开心的信息传递。与上瘾有关。 - wikipedia 前段时间阅读了</description>
     </item>
     
     <item>
       <title>《把自己作为方法》读书笔记</title>
-      <link>/posts/bazijizuoweifangfa/</link>
+      <link>https://cp0000.github.io/posts/bazijizuoweifangfa/</link>
       <pubDate>Sun, 15 May 2022 16:48:20 +0000</pubDate>
       
-      <guid>/posts/bazijizuoweifangfa/</guid>
+      <guid>https://cp0000.github.io/posts/bazijizuoweifangfa/</guid>
       <description>现在要通过一切手段来自保，不允许任何人说话。 第一次知道项飙老师是在《得意忘形》的一期播客中听到的，那一期节目，主播请来了淡豹女士录一期节目，</description>
     </item>
     
     <item>
       <title>Debug 和 Debugger</title>
-      <link>/posts/debug-and-debugger/</link>
+      <link>https://cp0000.github.io/posts/debug-and-debugger/</link>
       <pubDate>Sun, 08 May 2022 01:03:32 +0000</pubDate>
       
-      <guid>/posts/debug-and-debugger/</guid>
+      <guid>https://cp0000.github.io/posts/debug-and-debugger/</guid>
       <description>Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的tool</description>
     </item>
     
     <item>
       <title>自由泳二踢腿</title>
-      <link>/posts/2-beat-kick-freestyle/</link>
+      <link>https://cp0000.github.io/posts/2-beat-kick-freestyle/</link>
       <pubDate>Tue, 03 May 2022 12:07:10 +0000</pubDate>
       
-      <guid>/posts/2-beat-kick-freestyle/</guid>
+      <guid>https://cp0000.github.io/posts/2-beat-kick-freestyle/</guid>
       <description>18年夏天，有一次我从深圳的蛇口码头坐船去香港机场，船上坐在我旁边有两个男性，一个中年人和一个青年人，听口音应该是台湾人。听聊天的内容，两个</description>
     </item>
     

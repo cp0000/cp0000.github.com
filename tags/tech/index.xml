@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>tech on </title>
-    <link>/tags/tech/</link>
-    <description>Recent content in tech on </description>
+    <title>tech on CP0000 - 一只特立独行的猪</title>
+    <link>https://cp0000.github.io/tags/tech/</link>
+    <description>Recent content in tech on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Sun, 31 Mar 2019 14:41:59 +0000</lastBuildDate><atom:link href="/tags/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 31 Mar 2019 14:41:59 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/tags/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>逻辑回归</title>
-      <link>/posts/logistic-regression/</link>
+      <link>https://cp0000.github.io/posts/logistic-regression/</link>
       <pubDate>Sun, 31 Mar 2019 14:41:59 +0000</pubDate>
       
-      <guid>/posts/logistic-regression/</guid>
+      <guid>https://cp0000.github.io/posts/logistic-regression/</guid>
       <description>逻辑回归是二分类任务中最常用的机器学习算法之一。它的设计思路简单，易于实现，可以用作性能基准，且在很多任务中都表现良好。 本文从以下几个方面讲</description>
     </item>
     
     <item>
       <title>机器学习基础知识：熵，交叉熵，相对熵</title>
-      <link>/posts/entropy/</link>
+      <link>https://cp0000.github.io/posts/entropy/</link>
       <pubDate>Sat, 02 Mar 2019 16:02:21 +0000</pubDate>
       
-      <guid>/posts/entropy/</guid>
+      <guid>https://cp0000.github.io/posts/entropy/</guid>
       <description>简介 信息熵是随机数据源产生信息的均量。信息熵代表的是随机变量或整个系统的不确定性，熵越大，随机变量或系统的不确定性就越大。 计算 一枚正常硬币进</description>
     </item>
     
     <item>
       <title>Spotlight &amp; MDFind</title>
-      <link>/posts/mdfind-note/</link>
+      <link>https://cp0000.github.io/posts/mdfind-note/</link>
       <pubDate>Sun, 02 Aug 2015 11:31:18 +0000</pubDate>
       
-      <guid>/posts/mdfind-note/</guid>
+      <guid>https://cp0000.github.io/posts/mdfind-note/</guid>
       <description>Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。 先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结</description>
     </item>
     

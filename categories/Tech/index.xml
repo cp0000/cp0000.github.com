@@ -1,171 +1,171 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tech on </title>
-    <link>/categories/tech/</link>
-    <description>Recent content in Tech on </description>
+    <title>Tech on CP0000 - 一只特立独行的猪</title>
+    <link>https://cp0000.github.io/categories/tech/</link>
+    <description>Recent content in Tech on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Sun, 19 Mar 2017 14:20:09 +0000</lastBuildDate><atom:link href="/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Mar 2017 14:20:09 +0000</lastBuildDate><atom:link href="https://cp0000.github.io/categories/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learning OpenGL：帧缓冲对象</title>
-      <link>/posts/framebuffer-object-opengl/</link>
+      <link>https://cp0000.github.io/posts/framebuffer-object-opengl/</link>
       <pubDate>Sun, 19 Mar 2017 14:20:09 +0000</pubDate>
       
-      <guid>/posts/framebuffer-object-opengl/</guid>
+      <guid>https://cp0000.github.io/posts/framebuffer-object-opengl/</guid>
       <description>背景 使用OpenGL渲染时，一般情况下我们使用的是默认的帧缓冲区（一般指的是 FrameBuffer Object Id 为 0）。但如果我们想实现一些后处理操作，如边缘检测，镜面，</description>
     </item>
     
     <item>
       <title>Learning OpenGL：GLSL Shader 手册</title>
-      <link>/posts/glsl-dictionary/</link>
+      <link>https://cp0000.github.io/posts/glsl-dictionary/</link>
       <pubDate>Sun, 26 Feb 2017 14:26:08 +0000</pubDate>
       
-      <guid>/posts/glsl-dictionary/</guid>
+      <guid>https://cp0000.github.io/posts/glsl-dictionary/</guid>
       <description>基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维</description>
     </item>
     
     <item>
       <title>OpenGL ES 2.0 3D基础（1）－矩阵</title>
-      <link>/posts/opengl-3d-matrix/</link>
+      <link>https://cp0000.github.io/posts/opengl-3d-matrix/</link>
       <pubDate>Sun, 18 Dec 2016 14:37:53 +0000</pubDate>
       
-      <guid>/posts/opengl-3d-matrix/</guid>
+      <guid>https://cp0000.github.io/posts/opengl-3d-matrix/</guid>
       <description>Overview 移动设备的屏幕是二维平面,要想把一个三维场景渲染在手机二维屏幕上，需要利用OpenGL中的矩阵投射，将三维空间中的点映射到二维平面上。三维</description>
     </item>
     
     <item>
       <title>ffmpeg 使用例程</title>
-      <link>/posts/ffmpeg-command-example/</link>
+      <link>https://cp0000.github.io/posts/ffmpeg-command-example/</link>
       <pubDate>Mon, 07 Nov 2016 21:03:47 +0000</pubDate>
       
-      <guid>/posts/ffmpeg-command-example/</guid>
+      <guid>https://cp0000.github.io/posts/ffmpeg-command-example/</guid>
       <description>本文介绍ffmpeg命令行的一些使用方法； 参数 主要参数 -i——设置输入档名。 -f——设置输出格式。 -y——若输出文件已存在时则覆盖文件。 -f</description>
     </item>
     
     <item>
       <title>如何在Macosx上安装caffe</title>
-      <link>/posts/install-caffe-on-macosx/</link>
+      <link>https://cp0000.github.io/posts/install-caffe-on-macosx/</link>
       <pubDate>Sat, 22 Oct 2016 12:55:05 +0000</pubDate>
       
-      <guid>/posts/install-caffe-on-macosx/</guid>
+      <guid>https://cp0000.github.io/posts/install-caffe-on-macosx/</guid>
       <description>在macosx上面安装深度学习框架caffe是个相对比较麻烦的过程。如果根据caffe项目的install_osx文件指引去安装，会遇到一些</description>
     </item>
     
     <item>
       <title>iOS逆向工程-0x02－Hacking on B612</title>
-      <link>/posts/ios-reverse-engineering-03/</link>
+      <link>https://cp0000.github.io/posts/ios-reverse-engineering-03/</link>
       <pubDate>Sun, 06 Mar 2016 11:32:44 +0000</pubDate>
       
-      <guid>/posts/ios-reverse-engineering-03/</guid>
+      <guid>https://cp0000.github.io/posts/ios-reverse-engineering-03/</guid>
       <description>前面两篇iOS逆向的文章（iOS逆向工程-0x00－用途以及准备工作,iOS逆向工程-0x01－工具篇-Cycript）主要是介绍iOS逆向</description>
     </item>
     
     <item>
       <title>iOS逆向工程-0x01－工具篇-Cycript</title>
-      <link>/posts/ios-reverse-engineering-02/</link>
+      <link>https://cp0000.github.io/posts/ios-reverse-engineering-02/</link>
       <pubDate>Mon, 30 Nov 2015 22:00:07 +0000</pubDate>
       
-      <guid>/posts/ios-reverse-engineering-02/</guid>
+      <guid>https://cp0000.github.io/posts/ios-reverse-engineering-02/</guid>
       <description>对于初开始学习iOS逆向工程的人来说，实现一个tweak可以算是入门逆向工程了。 当然了，可能你现在还不知道tweak是什么。简单来说，你可以</description>
     </item>
     
     <item>
       <title>iOS逆向工程-0x00－用途以及准备工作</title>
-      <link>/posts/ios-reverse-engineering-01/</link>
+      <link>https://cp0000.github.io/posts/ios-reverse-engineering-01/</link>
       <pubDate>Sat, 21 Nov 2015 10:46:07 +0000</pubDate>
       
-      <guid>/posts/ios-reverse-engineering-01/</guid>
+      <guid>https://cp0000.github.io/posts/ios-reverse-engineering-01/</guid>
       <description>前言 好奇心，求知欲，是作为一个程序员很重要的属性。好奇心会促使你去了解那些未知的事物，打开新的世界。求知欲则帮助你去琢磨这些知识，探索这些事</description>
     </item>
     
     <item>
       <title>3D-Touch(2) PEEK And POP</title>
-      <link>/posts/peek-and-pop/</link>
+      <link>https://cp0000.github.io/posts/peek-and-pop/</link>
       <pubDate>Sun, 25 Oct 2015 10:36:21 +0000</pubDate>
       
-      <guid>/posts/peek-and-pop/</guid>
+      <guid>https://cp0000.github.io/posts/peek-and-pop/</guid>
       <description>如上篇文章所说，3D Touch 主要分成三个模块： Home Actions, Peek &amp;amp; Pop, Force Properties。上篇文章中总结了 Home Actions的相关知识点以及如何接入该功能。本</description>
     </item>
     
     <item>
       <title>3D-Touch(1) iOS9 Quick Actions Shortcut</title>
-      <link>/posts/ios9-quick-actions-shortcut/</link>
+      <link>https://cp0000.github.io/posts/ios9-quick-actions-shortcut/</link>
       <pubDate>Wed, 30 Sep 2015 19:24:13 +0000</pubDate>
       
-      <guid>/posts/ios9-quick-actions-shortcut/</guid>
+      <guid>https://cp0000.github.io/posts/ios9-quick-actions-shortcut/</guid>
       <description>新的iPhone6s, iPhone6s P 在不久之前的 WWDC 上面发布了，这个版本的iPhone最大的卖点应该是在它的屏幕拥有了 3D Touch 的功能。iOS 9 中已经包含了这</description>
     </item>
     
     <item>
       <title>Openradar Stream</title>
-      <link>/posts/openradarstream/</link>
+      <link>https://cp0000.github.io/posts/openradarstream/</link>
       <pubDate>Sun, 30 Aug 2015 22:02:42 +0000</pubDate>
       
-      <guid>/posts/openradarstream/</guid>
+      <guid>https://cp0000.github.io/posts/openradarstream/</guid>
       <description>写在前面 随着夏天的结束，9月份的到来，又到了苹果秋季发布新iPhone的季节了。我和绝大多数苹果用户一样对新的iPhone自然保留着一份期待</description>
     </item>
     
     <item>
       <title>UICollectionViews Now Have Easy Reordering （译）</title>
-      <link>/posts/uicollectionview-has-easy-reording-on-ios9/</link>
+      <link>https://cp0000.github.io/posts/uicollectionview-has-easy-reording-on-ios9/</link>
       <pubDate>Sat, 22 Aug 2015 09:52:28 +0000</pubDate>
       
-      <guid>/posts/uicollectionview-has-easy-reording-on-ios9/</guid>
+      <guid>https://cp0000.github.io/posts/uicollectionview-has-easy-reording-on-ios9/</guid>
       <description>iOS 9.0 UICollectionView 拖拽效果实现 原文 UICollectionViews Now Have Easy Reordering 在UICollectionView 刚出来的时候，我就对其产生了很大的兴趣。相比它的大哥 UITableView</description>
     </item>
     
     <item>
       <title>Spotlight &amp; MDFind</title>
-      <link>/posts/mdfind-note/</link>
+      <link>https://cp0000.github.io/posts/mdfind-note/</link>
       <pubDate>Sun, 02 Aug 2015 11:31:18 +0000</pubDate>
       
-      <guid>/posts/mdfind-note/</guid>
+      <guid>https://cp0000.github.io/posts/mdfind-note/</guid>
       <description>Indexing 服务 Maocx 系统的搜索服务 spotlight 想必大家都用过。它可以很便捷的帮我们找到想要的文件。 先举个例子，在 spotlight 中输入 _loadBlock， 我的电脑会出现以下结</description>
     </item>
     
     <item>
       <title>Objc Interview Checklist Answers</title>
-      <link>/posts/oc-checklist-answers/</link>
+      <link>https://cp0000.github.io/posts/oc-checklist-answers/</link>
       <pubDate>Thu, 23 Jul 2015 21:12:55 +0000</pubDate>
       
-      <guid>/posts/oc-checklist-answers/</guid>
+      <guid>https://cp0000.github.io/posts/oc-checklist-answers/</guid>
       <description>@property中有哪些属性关键字？ nonatomic (thread-unsafe) atomic (default, thread safe) strong weak assign copy getter (custom getter method name) setter (custom setter method name) readwrite (default) readonly weak属性需要在dealloc中置nil么？ 不需要，r</description>
     </item>
     
     <item>
       <title>从 NSString Property:copy or retain 到 NSCopying</title>
-      <link>/posts/nsstring-property-copy-or-retain/</link>
+      <link>https://cp0000.github.io/posts/nsstring-property-copy-or-retain/</link>
       <pubDate>Sun, 19 Jul 2015 11:50:04 +0000</pubDate>
       
-      <guid>/posts/nsstring-property-copy-or-retain/</guid>
+      <guid>https://cp0000.github.io/posts/nsstring-property-copy-or-retain/</guid>
       <description>NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)</description>
     </item>
     
     <item>
       <title>Regular Expression</title>
-      <link>/posts/regular-expression-beginner/</link>
+      <link>https://cp0000.github.io/posts/regular-expression-beginner/</link>
       <pubDate>Wed, 21 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>/posts/regular-expression-beginner/</guid>
+      <guid>https://cp0000.github.io/posts/regular-expression-beginner/</guid>
       <description>#常用的元字符 代码 说明 | *前边的内容可以连续重复使用任意次以使整个表达式得到匹配 . | 匹配除了换行符以外的任意字符 \d | 匹配一位数字(0，或1，</description>
     </item>
     
     <item>
       <title>Google Wildcard</title>
-      <link>/posts/google-wildcard/</link>
+      <link>https://cp0000.github.io/posts/google-wildcard/</link>
       <pubDate>Thu, 10 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>/posts/google-wildcard/</guid>
+      <guid>https://cp0000.github.io/posts/google-wildcard/</guid>
       <description>1.双引号 把搜索词放在双引号中，代表完全匹配搜索，也就是说搜索结果返回的页面包含双引号中出现的所有的词，连顺序也必须完全匹配。 “seo方法图</description>
     </item>
     
     <item>
       <title>Android reverse engineering</title>
-      <link>/posts/android-reverse-engineering/</link>
+      <link>https://cp0000.github.io/posts/android-reverse-engineering/</link>
       <pubDate>Sat, 01 Mar 2014 00:00:00 +0000</pubDate>
       
-      <guid>/posts/android-reverse-engineering/</guid>
+      <guid>https://cp0000.github.io/posts/android-reverse-engineering/</guid>
       <description>名词解释 java: android app 编程语言 class: 由 java文件通过 Sun JDK 编译而成 dex: Dex文件的指令码是Dalvik虚拟机专有的一套指令集，专门为嵌入式系统优化过，相比</description>
     </item>
     
