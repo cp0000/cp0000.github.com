@@ -6,7 +6,7 @@
 
   <title>
     
-      Review Imagen
+      文生图 Imagen 扩散模型简介
     
   </title>
 
@@ -69,25 +69,28 @@ if (!doNotTrack) {
         </time>
     </p>
 
-    <h1>Review Imagen</h1>
+    <h1>文生图 Imagen 扩散模型简介</h1>
 
-    <h1 id="review-imagen-photorealistic-text-to-image-diffusion-models">Review Imagen: Photorealistic Text-to-Image Diffusion Models</h1>
-<p>with Deep Language Understanding</p>
-<p>Imagen 是 Google 在 22 年 5 月 发表的一篇关于文生图任务的论文。Imagen 主体框架基于 Diffusion 模型。和其他文生图（比如 DALLE-2，Stable Diffusion）任务不同的地方是：</p>
+    <h1 id="review-imagen">Review Imagen</h1>
+<blockquote>
+<p>本文是对论文 <a href="https://arxiv.org/abs/2205.11487">Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding
+</a> 的简介</p>
+</blockquote>
+<p>Imagen 是 Google 在22年5月发表的一篇关于文生图任务的论文。其主体框架基于 Diffusion 模型。和其他文生图（比如 DALLE-2，Stable Diffusion）模型不同的地方是：</p>
 <ol>
-<li>Imagen 使用大语言模型 T5-XXL 模型。Imagen 发现用语言大模型作为condition，相较于文本图像对比模型 CLIP ，在文生图任务上效果更好。</li>
+<li>Imagen 使用大语言模型（T5-XXL 模型）。论文中相较于使用图像文本对比模型 CLIP ，直接使用大语言模型作为condition，在文生图任务上表现更好。</li>
 <li>Imagen 基于像素空间生成图像。DALLE-2,  Latent Diffusion 是基于 Latent 空间生成图像。</li>
 </ol>
 <p>Imagen 的效果如下：</p>
-<p><img src="http://cp0000.github.io/assets/imagen/Untitled.jpeg" alt="Untitled"></p>
-<p>Imagen的核心贡献：</p>
+<p><img src="http://cp0000.github.io/assets/imagen/Untitled.jpeg" alt="imagen demo"></p>
+<p><strong>Imagen的核心贡献：</strong></p>
 <ol>
-<li>利用预训练大语言模型提取文本的 embedding 作为 condition 对文生图任务非常有效。并且实验表明增加语言模型的大小比增加 diffusion模型大小要更加有效。</li>
-<li>动态阈值，改进 diffusion 采样过程。动态阈值使得在生成时可以利用大的引导权重，使得生成的图片更加真实和逼真。</li>
+<li>利用预训练大语言模型提取文本的 embedding 作为 condition 对文生图任务非常有效。并且实验表明增加语言模型的大小比增加 diffusion 模型大小要更加有效。</li>
+<li>动态阈值，改进 diffusion 采样过程。动态阈值使得在生成时可以利用比较的大的引导权重，使得生成的图片更加真实和逼真。</li>
 <li>Diffusion 模型框架采用 Efficient U-Net</li>
 </ol>
 <p><strong>Large guidance weight samples:</strong></p>
-<p>增大 classifier-free guidance 的权重可以改善生成图像-文本对齐，但是会破坏图像的保真度，产生高饱和度，和不自然的现象。实验发现这是由于高 <code>cfg</code> 权重会导致训练-测试不匹配。在采样步骤 $t$ 时，被预测的 $\hat{\mathbf{x}}_{0}^{t}$ 必须在训练数据 $x$的相同范围内，即[-1, 1]之间，但我们发现高 <code>cfg</code> 权重，会导致预测的 $x$ 超出这个范围。扩散模型在采样过程中会连续应用其自身的输出，当中某一步出现这类 训练-测试不匹配的情况，会导致生成的图像不自然，甚至有时图像中的损坏区域会发散。</p>
+<p>增大 classifier-free guidance 的权重可以改善生成图像-文本对齐，但是会破坏图像的保真度，产生高饱和度，和不自然的现象。实验发现这是由于高 <code>cfg</code> 权重会导致训练-测试不匹配。在采样步骤 $t$ 时，被预测的 $\hat{\mathbf{x}}_{0}^{t}$ 必须在训练数据 $x$ 的相同范围内，即[-1, 1]之间，但我们发现高 <code>cfg</code> 权重，会导致预测的 $x$ 超出这个范围。扩散模型在采样过程中会连续应用其自身的输出，当中某一步出现这类训练-测试不匹配的情况，会导致生成的图像不自然。</p>
 <p>为了解决这个问题，Imagen 提出静态阈值和动态阈值。</p>
 <p><strong>静态阈值法</strong>：在 diffusion 模型预测 $x0$ 的过程中，将元素逐个剪切到 [-1, 1] 范围内。前向推理过程中，在使用比较大的<code>cfg</code>时，利用静态阈值法是必不可少的，它可有效防止生成空白图像。但当 <code>cfg</code> 很大时，静态阈值法仍会导致图像过度饱和和细节不足。</p>
 <p><strong>动态阈值法</strong>：在每个采样步骤中，我们将 $s$  设置为 $\hat{\mathbf{x}}<em>{0}^{t}$ 中某个百分位的绝对像素值，如果  $s&gt;1$，则将 $\hat{\mathbf{x}}</em>{0}^{t}$ 阈值化到范围[−s，s]，然后除以 $s$。动态阈值将饱和像素（靠近-1和1的像素）向内推，从而在每个步骤中防止像素饱和。动态阈值可以显著提高照片逼真度和图像文本对齐度，特别是在使用非常大的引导权重时。</p>
@@ -102,17 +105,17 @@ if (!doNotTrack) {
 <p>另外为了加速，imagen 在 256x256, 1024x1024 两个模型中，把 self-attention 层去掉。</p>
 <p><strong>文生图模型测评：</strong></p>
 <ol>
-<li>文生图测评一般是从 CLIP score 和 FID score 两个维度来定量测试。Imagen 在这个 COCO 测试集上两个维度均达到 SOTA 的效果。</li>
-<li>生成类任务一般还需要做一些定性的测试，利用类似 user- study 的方式测评生成结果整体质量。Imagen 设计了两种问题，让测试员去回答：
+<li>文生图测评一般是从 CLIP score 和 FID score 两个维度来定量测试。Imagen 在 COCO 测试集上两个维度均达到 SOTA 的效果。</li>
+<li>生成类任务一般还需要做一些定性的测试，利用类似 user-study 的方式测评生成结果整体质量。Imagen 设计了两种问题，让测试员去回答：
 <ol>
-<li>“哪张图片更加真实” -目的是测量图像生成质量。</li>
-<li>“哪张图片更符合语义” - 目的是测量图像文本一致性。</li>
+<li>&ldquo;哪张图片更加真实&rdquo; - 测量图像生成质量。</li>
+<li>&ldquo;哪张图片更符合语义&rdquo; - 测量图像文本一致性。</li>
 </ol>
 </li>
 </ol>
 <p><strong>DrawBench</strong></p>
-<p>COCO 数据集有一定的局限性，无法很好的测评出不同模型的差异。Imagen 提出一个新的文本集合，叫 DrawBench.</p>
-<p>DrawBench 包含11类 prompts，来测试模型的不同能力。例如颜色，数量，空间关系，场景中的文本，以及对象之间的异常交互。</p>
+<p>不过用 COCO 数据集来测评文生图有一定的局限性，它无法很好的评价出不同模型的差异。所以 Imagen 提出了一个新的文本测评集合，叫 DrawBench.</p>
+<p><a href="https://docs.google.com/spreadsheets/d/1y7nAbmR4FREi6npB1u-Bo3GFdwdOPYJc617rBOxIRHY/edit#gid=0">DrawBench</a> 包含11类 prompts，来测试模型的不同能力。例如颜色，数量，空间关系，场景中的文本，以及对象之间的异常交互。</p>
 <p><strong>Experiments</strong></p>
 <p>模型大小</p>
 <table>
@@ -146,6 +149,23 @@ if (!doNotTrack) {
 <li>噪声增强非常重要。</li>
 <li>文本潜入方法很重要。（cross-attention 的方法，效果是最好的）</li>
 <li>Efficient U-Net 很重要。 内存更少，收敛速度更快，这在大模型训练中非常重要。</li>
+</ol>
+<p><strong>开源</strong></p>
+<p><a href="https://deepfloyd.ai/deepfloyd-if">deepfloyd</a> 基于 Imagen 这篇 paper 实现了 IF ，并进行了开源。其网络结构如下：</p>
+<p><a href="http://cp0000.github.io/assets/imagen/deepfloyd_if_scheme.jpg">deepfloyd</a></p>
+<p>该结构基本遵循 Imagen 论文中的方法，不同的地方 64x64 的模型采用了 4B 模型。</p>
+<p>测试下来，DeepForld 相较于基于 CLIP 做文本 condition 的模型在：</p>
+<ol>
+<li>颜色</li>
+<li>数量</li>
+<li>空间位置关系</li>
+</ol>
+<p>这几项上有着一定的优势。</p>
+<p><strong>总结</strong></p>
+<ol>
+<li>Imagen 利用 Diffusion 模型，结合大语言模型在文生图上取得了 SOTA 的效果，从定量和定性两个方面都击败了DALLE-2等一众模型。</li>
+<li>提出 DrawBench 测试集，凸显了语言模型的优势。</li>
+<li>开源的 DeepForld 实际测试效果确实不错。</li>
 </ol>
 
 </article>

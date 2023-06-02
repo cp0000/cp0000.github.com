@@ -8,12 +8,12 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Thu, 01 Jun 2023 20:17:11 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/2023/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Review Imagen</title>
+      <title>文生图 Imagen 扩散模型简介</title>
       <link>https://cp0000.github.io/2023/06/01/review_imagen/</link>
       <pubDate>Thu, 01 Jun 2023 20:17:11 +0800</pubDate>
       
       <guid>https://cp0000.github.io/2023/06/01/review_imagen/</guid>
-      <description>Review Imagen: Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding Imagen 是 Google 在 22 年 5 月 发表的一篇关于文生图任务的论文。Imagen 主体框架基于 Diffusion 模型。和其他文生图（比如 DALLE-2，Sta</description>
+      <description>Review Imagen 本文是对论文 Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding 的简介 Imagen 是 Google 在22年5月发表的一篇关于文生图任务的论文。其主体框架基于 Diffusion 模型。和其他文生图（比如 DALLE-</description>
     </item>
     
     <item>
