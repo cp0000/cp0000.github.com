@@ -89,24 +89,6 @@
     </item>
     
     <item>
-      <title>understanding_diffusion_models</title>
-      <link>https://cp0000.github.io/posts/understanding-diffusion-models/</link>
-      <pubDate>Wed, 26 Oct 2022 11:04:58 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/understanding-diffusion-models/</guid>
-      <description>什么是Diffusion模型 这是一篇关于 What are Diffusion Models的译文。很多地方借鉴了由浅入深了解Diffusion Model 本文主要是介绍什么是DDPM</description>
-    </item>
-    
-    <item>
-      <title>什么是Diffusion模型</title>
-      <link>https://cp0000.github.io/posts/what-are-diffusion/</link>
-      <pubDate>Wed, 14 Sep 2022 18:59:19 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/what-are-diffusion/</guid>
-      <description>什么是Diffusion模型 这是一篇关于 What are Diffusion Models的译文。很多地方借鉴了由浅入深了解Diffusion Model 本文主要是介绍什么是DDPM</description>
-    </item>
-    
-    <item>
       <title>The Psychology Of Money</title>
       <link>https://cp0000.github.io/posts/the-psychology-of-money/</link>
       <pubDate>Sat, 03 Sep 2022 11:07:34 +0000</pubDate>
@@ -185,6 +167,24 @@
       
       <guid>https://cp0000.github.io/posts/2-beat-kick-freestyle/</guid>
       <description>18年夏天，有一次我从深圳的蛇口码头坐船去香港机场，船上坐在我旁边有两个男性，一个中年人和一个青年人，听口音应该是台湾人。听聊天的内容，两个</description>
+    </item>
+    
+    <item>
+      <title>疫情下的生活</title>
+      <link>https://cp0000.github.io/posts/life-under-covid-19/</link>
+      <pubDate>Sun, 17 Apr 2022 10:12:15 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/life-under-covid-19/</guid>
+      <description>世界上只有一种真正的英雄主义，就是认清了生活的真相后还依然热爱它。 - 罗曼·罗兰 2022年开始的时候，我想上海人民是不会想到22年是这样的一个</description>
+    </item>
+    
+    <item>
+      <title>如何实现SnapChat卡通画滤镜（一）：StyleGAN的工作原理</title>
+      <link>https://cp0000.github.io/posts/stylegan/</link>
+      <pubDate>Mon, 28 Mar 2022 10:13:27 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/stylegan/</guid>
+      <description>这两年随着像Tiktok，SnapChat这一类短视频平台的流行，风格转换类的算法在这类平台上也得到了广泛的应用，深受用户喜爱。比如snap</description>
     </item>
     
   </channel>
