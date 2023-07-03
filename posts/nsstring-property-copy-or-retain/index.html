@@ -57,18 +57,17 @@
 
     </style>
 </noscript>
-<script type="application/javascript">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-63703524-1', 'auto');
-	
-	ga('send', 'pageview');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
 }
-</script><meta property="og:title" content="从 NSString Property:copy or retain 到 NSCopying" />
+</script>
+<meta property="og:title" content="从 NSString Property:copy or retain 到 NSCopying" />
 <meta property="og:description" content="NSString Property:copy or retain iOS程序中，在定义对象属性的时候，我们一般会把NSString类型的属性的修饰符写成 copy， 而不是 retain (或者 ARC 下面的 strong)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://cp0000.github.io/posts/nsstring-property-copy-or-retain/" /><meta property="article:section" content="posts" />

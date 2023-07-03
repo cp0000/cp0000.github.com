@@ -57,18 +57,17 @@
 
     </style>
 </noscript>
-<script type="application/javascript">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-63703524-1', 'auto');
-	
-	ga('send', 'pageview');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
 }
-</script><meta property="og:title" content="Learning OpenGL：GLSL Shader 手册" />
+</script>
+<meta property="og:title" content="Learning OpenGL：GLSL Shader 手册" />
 <meta property="og:description" content="基本类型 类型 说明 void 空类型 bool 布尔类型 int 带符号的整数 signed integer float 带符号的浮点数 floating scalar vec2,vec3,vec4 n维浮点数向量 n-component floating point vector bvec2,bvec3,bvec4 n维整数向量 singed integer vector bvec2,bvec3,bvec4 n维布尔向量 boolean vector ivec2,ivec3,ivec4 n维" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://cp0000.github.io/posts/glsl-dictionary/" /><meta property="article:section" content="posts" />
