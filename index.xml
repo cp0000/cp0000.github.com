@@ -6,7 +6,16 @@
     <description>Recent content on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Thu, 01 Jun 2023 20:17:11 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Aug 2023 00:26:46 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Stable Diffusion XL 技术报告</title>
+      <link>https://cp0000.github.io/posts/review_sdxl/</link>
+      <pubDate>Wed, 09 Aug 2023 00:26:46 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_sdxl/</guid>
+      <description>前言： 这是一篇关于 **SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis 技术报告的中文翻译。 SDXL 是 Stability AI 继 SD 1.5， SD 2.0 之后发布的一个新的文生图模型。目前该模型在 reddit 上讨论还是蛮热烈</description>
+    </item>
+    
     <item>
       <title>文生图 Imagen 扩散模型简介</title>
       <link>https://cp0000.github.io/posts/review_imagen/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/life-under-covid-19/</guid>
       <description>世界上只有一种真正的英雄主义，就是认清了生活的真相后还依然热爱它。 - 罗曼·罗兰 2022年开始的时候，我想上海人民是不会想到22年是这样的一个</description>
-    </item>
-    
-    <item>
-      <title>如何实现SnapChat卡通画滤镜（一）：StyleGAN的工作原理</title>
-      <link>https://cp0000.github.io/posts/stylegan/</link>
-      <pubDate>Mon, 28 Mar 2022 10:13:27 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/stylegan/</guid>
-      <description>这两年随着像Tiktok，SnapChat这一类短视频平台的流行，风格转换类的算法在这类平台上也得到了广泛的应用，深受用户喜爱。比如snap</description>
     </item>
     
   </channel>

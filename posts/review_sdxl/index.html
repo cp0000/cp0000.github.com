@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Stable Diffusion XL 技术报告 | CP0000 - 一只特立独行的猪</title>
+<meta name="keywords" content="">
+<meta name="description" content="前言： 这是一篇关于 **SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis 技术报告的中文翻译。 SDXL 是 Stability AI 继 SD 1.5， SD 2.0 之后发布的一个新的文生图模型。目前该模型在 reddit 上讨论还是蛮热烈">
+<meta name="author" content="">
+<link rel="canonical" href="https://cp0000.github.io/posts/review_sdxl/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cp0000.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cp0000.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cp0000.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cp0000.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Stable Diffusion XL 技术报告" />
+<meta property="og:description" content="前言： 这是一篇关于 **SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis 技术报告的中文翻译。 SDXL 是 Stability AI 继 SD 1.5， SD 2.0 之后发布的一个新的文生图模型。目前该模型在 reddit 上讨论还是蛮热烈" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cp0000.github.io/posts/review_sdxl/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-09T00:26:46+08:00" />
+<meta property="article:modified_time" content="2023-08-09T00:26:46+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Stable Diffusion XL 技术报告"/>
+<meta name="twitter:description" content="前言： 这是一篇关于 **SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis 技术报告的中文翻译。 SDXL 是 Stability AI 继 SD 1.5， SD 2.0 之后发布的一个新的文生图模型。目前该模型在 reddit 上讨论还是蛮热烈"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cp0000.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Stable Diffusion XL 技术报告",
+      "item": "https://cp0000.github.io/posts/review_sdxl/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Stable Diffusion XL 技术报告",
+  "name": "Stable Diffusion XL 技术报告",
+  "description": "前言： 这是一篇关于 **SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis 技术报告的中文翻译。 SDXL 是 Stability AI 继 SD 1.5， SD 2.0 之后发布的一个新的文生图模型。目前该模型在 reddit 上讨论还是蛮热烈",
+  "keywords": [
+    
+  ],
+  "articleBody": " 前言： 这是一篇关于 **SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis 技术报告的中文翻译。\nSDXL 是 Stability AI 继 SD 1.5， SD 2.0 之后发布的一个新的文生图模型。目前该模型在 reddit 上讨论还是蛮热烈的。其中一个帖子对比了SDXL 和 SD1.5 的吉卜力风格生成结果：\nSD1.5 vs SDXL 1.0 Ghibli film prompt comparison\n另外也有一些网友整理出比较全的Prompt测试集，相对系统的对 SDXL，SD1.5，SD2.0 的生成效果进行了对比。\n可以看到相较于 SD1.5，SD2.0， SDXL在语义表达，生成图完整性和美观度上均有蛮大的提升。\n目前在C站上，以及国内一些类C站的网站上，已经有挺多基于SDXL模型做迭代优化的模型了。SDXL模型在生成方面相较于SD1.5有优势，预计在未来的时间内，更多的人会从1.5转移到SDXL，在SDXL的基础上做模型的迭代优化。\n优化内容： 如上图所示，SDXL模型分成两个阶段，分别是 base 模型 和 refiner 模型。\n在和SD 1.5 SD 2.1 的比较中， SDXL base模型就有着很大的优势，结合 refiner 模型优势更大。\n2.1 Architecture \u0026 Scale\nSDXL对网络结构中的UNet， VAE， 以及 CLIP Encoder 均做了相关的优化。\nUNet部分的参数量变成 2.6B，相较于 SD 1.5 的 860M，增大了约3倍。 CLIP部分，选用 CLIP ViT-L 和 OpenCLIP ViT-bigG VAE 部分，XL 重新训练了一个适配 SDXL 模型的VAE。 UNet的参数量主要是增加到网络中的 Transformer Blocks 部分，也就是Self-Attention 和 Cross-Attention 部分。\nSDXL UNet 的结构做了相应的改变，从原先的 [1,1,1,1] → [0,2,10]，网络从1.5的四阶段变成三阶段，Encoder部分进行了两次下采样。\nSDXL 第一个Stage不再使用 Transformer Blocks，而是用的普通的 DownBlock2D，这是为了降低模型计算量，减少耗时。SDXL base 模型生成的图像分辨率是1024x1024， 输入給UNet的latent大小为 128X128X4，SD1.5 这部分的大小是 64x64x4， 如果在第一个Stage就使用 transformer block, 显存和计算量都会比较大。\nSDXL 新增的 Transformer Blocks 都放到了 UNet 的第2，3个stage，数量分别是2和10，也就是在feature 宽高比较小的部分使用更多的 transformer block。\nText encoder 部分， SDXL 采用了 参数量为 694M 的 OpenCLIP ViT-bigG, 同时配合 OpenAI CLIP ViT-L/14。使用的时候均是提取text encoder 的倒数第二层，bigG的维度是1280， CLIP ViT-L/14 维度为 748，两者concat后维度是2048。\n2.2 Micro-Conditioning\nSDXL的condition引入了图像尺寸和图像裁剪Origin Offset 两个条件信息。\n从上图可以看出，数据集中很大一部分的图像分辨集中在256x256附近。SD的训练，一般是先在256x256分辨率上训练，然后再在512x512上训练。在512x512上训楼时，之前的方法为了保证生图质量，只能选用分辨率在512x512及以上的，而这部分数据其实并不多。\nSDXL的方法是在训练的时候，把图像的size当作条件潜入到UNet中。方法是将width和height用傅立叶特征编码进行编码（和timestep是一样的处理方式），然后把编码concat到一起加在time embedding上。\n从下图可以看出不同的size下生成图的清晰度有着比较明显的差别。\n此外还有一个condition，是为了解决训练时数据增强的图像裁剪问题。在训练SD时，会对图像进行随机crop，这会导致部分图像裁剪之后不太完整。导致的问题就是生成图时会出现诸如 无头猫，主题不完整等问题。\n2.4 Improved Autoencoder\nSDXL 专门训练一个VAE，从上图来看 SDXL 的VAE 在performance 比SD 1.5 2.1 用的VAE要好一些。\n",
+  "wordCount" : "1403",
+  "inLanguage": "en",
+  "datePublished": "2023-08-09T00:26:46+08:00",
+  "dateModified": "2023-08-09T00:26:46+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cp0000.github.io/posts/review_sdxl/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CP0000 - 一只特立独行的猪",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cp0000.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cp0000.github.io/" accesskey="h" title="CP0000 - 一只特立独行的猪 (Alt + H)">CP0000 - 一只特立独行的猪</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Stable Diffusion XL 技术报告<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-meta"><span title='2023-08-09 00:26:46 +0800 CST'>August 9, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><ol>
+<li><strong>前言：</strong></li>
+</ol>
+<p>这是一篇关于 **<strong><a href="https://arxiv.org/abs/2307.01952">SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis</a></strong> 技术报告的中文翻译。</p>
+<p>SDXL 是 Stability AI 继 SD 1.5， SD 2.0 之后发布的一个新的文生图模型。目前该模型在 <a href="https://www.reddit.com/r/StableDiffusion/">reddit</a> 上讨论还是蛮热烈的。其中一个帖子对比了SDXL 和 SD1.5 的吉卜力风格生成结果：</p>
+<p><a href="https://www.reddit.com/r/StableDiffusion/comments/15eo0ru/sd15_vs_sdxl_10_ghibli_film_prompt_comparison/">SD1.5 vs SDXL 1.0 Ghibli film prompt comparison</a></p>
+<p>另外也有一些网友整理出比较全的Prompt测试集，相对系统的对 SDXL，SD1.5，SD2.0 的生成效果进行了对比。</p>
+<p><a href="https://github.com/TonyLianLong/stable-diffusion-xl-demo/tree/benchmark/benchmark"></a></p>
+<p>可以看到相较于 SD1.5，SD2.0， SDXL在语义表达，生成图完整性和美观度上均有蛮大的提升。</p>
+<p>目前在C站上，以及国内一些类C站的网站上，已经有挺多基于SDXL模型做迭代优化的模型了。SDXL模型在生成方面相较于SD1.5有优势，预计在未来的时间内，更多的人会从1.5转移到SDXL，在SDXL的基础上做模型的迭代优化。</p>
+<ol>
+<li><strong>优化内容：</strong></li>
+</ol>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled.png" alt="Untitled"  />
+</p>
+<p>如上图所示，SDXL模型分成两个阶段，分别是 base 模型 和 refiner 模型。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled%201.png" alt="Untitled"  />
+</p>
+<p>在和SD 1.5 SD 2.1 的比较中， SDXL base模型就有着很大的优势，结合 refiner 模型优势更大。</p>
+<p><strong>2.1 Architecture &amp; Scale</strong></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled%202.png" alt="Untitled"  />
+</p>
+<p>SDXL对网络结构中的UNet， VAE， 以及 CLIP Encoder 均做了相关的优化。</p>
+<ol>
+<li>UNet部分的参数量变成 2.6B，相较于 SD 1.5 的 860M，增大了约3倍。</li>
+<li>CLIP部分，选用 CLIP ViT-L 和 OpenCLIP ViT-bigG</li>
+<li>VAE 部分，XL 重新训练了一个适配 SDXL 模型的VAE。</li>
+</ol>
+<p>UNet的参数量主要是增加到网络中的 Transformer Blocks 部分，也就是Self-Attention 和 Cross-Attention 部分。</p>
+<p>SDXL UNet 的结构做了相应的改变，从原先的 [1,1,1,1] → [0,2,10]，网络从1.5的四阶段变成三阶段，Encoder部分进行了两次下采样。</p>
+<p>SDXL 第一个Stage不再使用 Transformer Blocks，而是用的普通的 DownBlock2D，这是为了降低模型计算量，减少耗时。SDXL base 模型生成的图像分辨率是1024x1024， 输入給UNet的latent大小为 128X128X4，SD1.5 这部分的大小是 64x64x4， 如果在第一个Stage就使用 transformer block,  显存和计算量都会比较大。</p>
+<p>SDXL 新增的 Transformer Blocks 都放到了 UNet 的第2，3个stage，数量分别是2和10，也就是在feature 宽高比较小的部分使用更多的 transformer block。</p>
+<p>Text encoder 部分， SDXL 采用了 参数量为 694M 的 OpenCLIP ViT-bigG, 同时配合 OpenAI CLIP ViT-L/14。使用的时候均是提取text encoder 的倒数第二层，bigG的维度是1280， CLIP ViT-L/14 维度为 748，两者concat后维度是2048。</p>
+<p><strong>2.2 Micro-Conditioning</strong></p>
+<p>SDXL的condition引入了图像尺寸和图像裁剪Origin Offset 两个条件信息。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled.jpeg" alt="Untitled"  />
+</p>
+<p>从上图可以看出，数据集中很大一部分的图像分辨集中在256x256附近。SD的训练，一般是先在256x256分辨率上训练，然后再在512x512上训练。在512x512上训楼时，之前的方法为了保证生图质量，只能选用分辨率在512x512及以上的，而这部分数据其实并不多。</p>
+<p>SDXL的方法是在训练的时候，把图像的size当作条件潜入到UNet中。方法是将width和height用傅立叶特征编码进行编码（和timestep是一样的处理方式），然后把编码concat到一起加在time embedding上。</p>
+<p>从下图可以看出不同的size下生成图的清晰度有着比较明显的差别。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled%201.jpeg" alt="Untitled"  />
+</p>
+<p>此外还有一个condition，是为了解决训练时数据增强的图像裁剪问题。在训练SD时，会对图像进行随机crop，这会导致部分图像裁剪之后不太完整。导致的问题就是生成图时会出现诸如 无头猫，主题不完整等问题。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled%202.jpeg" alt="Untitled"  />
+</p>
+<p>2.4 <strong>Improved Autoencoder</strong></p>
+<hr>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled%203.jpeg" alt="Untitled"  />
+</p>
+<p>SDXL 专门训练一个VAE，从上图来看 SDXL 的VAE 在performance 比SD 1.5 2.1 用的VAE要好一些。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>CP0000</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
