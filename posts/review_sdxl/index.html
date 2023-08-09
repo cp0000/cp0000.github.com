@@ -252,7 +252,7 @@ if (!doNotTrack) {
 <p><strong>Refiner模型</strong></p>
 <p>上述训练的SDXL模型在实际使用时有时会生成质量比较低的图像，为了提高模型生成质量，SDXL 在相同的latent space中训练一个新 LDM 模型，该模型的训练数据是经过筛选的高质量，高分辨率的数据。</p>
 <p>前向过程中，从SDXL base模型中得到latent code，把这个latent code 作为 refine 模型的UNet的输入，进行去噪得到高质量的生成图像。如下图所示，经过refine模型之后，生成图像的细节有提升。</p>
-<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled%210.jpeg" alt="Untitled"  />
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled%210.jpg" alt="Untitled"  />
 </p>
 <blockquote>
 <p>不过从实际测试结果来看，refine模型效果也并不是那么好，是否要用refine模型，有待进一步研究。</p>
