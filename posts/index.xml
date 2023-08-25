@@ -107,6 +107,15 @@
     </item>
     
     <item>
+      <title>AI绘画：什么是Diffusion模型</title>
+      <link>https://cp0000.github.io/posts/what_is_diffusion/</link>
+      <pubDate>Wed, 14 Sep 2022 00:05:53 +0000</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/what_is_diffusion/</guid>
+      <description>这是一篇关于 What are Diffusion Models 的译文。很多地方借鉴了由浅入深了解Diffusion Model 一文。 2022年最火的AI算法要属AIGC：（AI-generat</description>
+    </item>
+    
+    <item>
       <title>The Psychology Of Money</title>
       <link>https://cp0000.github.io/posts/the-psychology-of-money/</link>
       <pubDate>Sat, 03 Sep 2022 11:07:34 +0000</pubDate>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/debug-and-debugger/</guid>
       <description>Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的tool</description>
-    </item>
-    
-    <item>
-      <title>自由泳二踢腿</title>
-      <link>https://cp0000.github.io/posts/2-beat-kick-freestyle/</link>
-      <pubDate>Tue, 03 May 2022 12:07:10 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/2-beat-kick-freestyle/</guid>
-      <description>18年夏天，有一次我从深圳的蛇口码头坐船去香港机场，船上坐在我旁边有两个男性，一个中年人和一个青年人，听口音应该是台湾人。听聊天的内容，两个</description>
     </item>
     
   </channel>
