@@ -229,6 +229,8 @@ if (!doNotTrack) {
 <p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/Untitled%202.png" alt="Untitled"  />
 </p>
 <p>SDXL对网络结构中的UNet， VAE， 以及 CLIP Encoder 均做了相关的优化。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/sdxl_unet.jpeg" alt="SDXL UNet结构图"  />
+</p>
 <ol>
 <li>UNet部分的参数量变成 2.6B，相较于 SD 1.5 的 860M，增大了约3倍。</li>
 <li>CLIP部分，选用 CLIP ViT-L 和 OpenCLIP ViT-bigG</li>
@@ -239,6 +241,8 @@ if (!doNotTrack) {
 <p>SDXL 第一个Stage不再使用 Transformer Blocks，而是用的普通的 DownBlock2D，这是为了降低模型计算量，减少耗时。SDXL base 模型生成的图像分辨率是1024x1024， 输入給UNet的latent大小为 128X128X4，SD1.5 这部分的大小是 64x64x4， 如果在第一个Stage就使用 transformer block,  显存和计算量都会比较大。</p>
 <p>SDXL 新增的 Transformer Blocks 都放到了 UNet 的第2，3个stage，数量分别是2和10，也就是在feature 宽高比较小的部分使用更多的 transformer block。</p>
 <p>Text encoder 部分， SDXL 采用了 参数量为 694M 的 OpenCLIP ViT-bigG, 同时配合 OpenAI CLIP ViT-L/14。使用的时候均是提取text encoder 的倒数第二层，bigG的维度是1280， CLIP ViT-L/14 维度为 748，两者concat后维度是2048。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/sdxl/xl_network_op.jpeg" alt="SDXL 网络结构详细图"  />
+</p>
 <p><strong>2.2 微条件注入</strong></p>
 <p>SDXL引入额外的条件信息，注入到网络，来解决模型训练中的遇到的一些数据问题。</p>
 <p>首先是图像尺寸方面的。</p>
