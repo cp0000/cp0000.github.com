@@ -6,7 +6,16 @@
     <description>Recent content on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Mon, 09 Oct 2023 17:12:39 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Oct 2023 17:28:31 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review:Emu: Enhancing Image Generation Models Using Photogenic Needles in a Haystack</title>
+      <link>https://cp0000.github.io/posts/review_emu/</link>
+      <pubDate>Mon, 09 Oct 2023 17:28:31 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_emu/</guid>
+      <description>本文提出一个基于latent diffusion框架的文生图模型Emu；利用小量~2000张高质量图片，对pre-trained模型进行qua</description>
+    </item>
+    
     <item>
       <title>Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb</title>
       <link>https://cp0000.github.io/posts/review_ip_adapter/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/the-molecule-of-more/</guid>
       <description>多巴胺，英文dopamine或者DA，是一种重要的神经递质，主要负责大脑的情欲，感觉，将兴奋及开心的信息传递。与上瘾有关。 - wikipedia 前段时间阅读了</description>
-    </item>
-    
-    <item>
-      <title>《把自己作为方法》读书笔记</title>
-      <link>https://cp0000.github.io/posts/bazijizuoweifangfa/</link>
-      <pubDate>Sun, 15 May 2022 16:48:20 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/bazijizuoweifangfa/</guid>
-      <description>现在要通过一切手段来自保，不允许任何人说话。 第一次知道项飙老师是在《得意忘形》的一期播客中听到的，那一期节目，主播请来了淡豹女士录一期节目，</description>
     </item>
     
   </channel>
