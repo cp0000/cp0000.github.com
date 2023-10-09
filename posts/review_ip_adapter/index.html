@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb | CP0000 - 一只特立独行的猪</title>
+<meta name="keywords" content="">
+<meta name="description" content="本文提出一种 Image Prompt Adapter 方案，实现了类似 Image Prompt的方案。从上图，我们可以看到通过IP-Adapter，我们可以实现（1）Image Varia">
+<meta name="author" content="">
+<link rel="canonical" href="https://cp0000.github.io/posts/review_ip_adapter/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cp0000.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cp0000.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cp0000.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cp0000.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb" />
+<meta property="og:description" content="本文提出一种 Image Prompt Adapter 方案，实现了类似 Image Prompt的方案。从上图，我们可以看到通过IP-Adapter，我们可以实现（1）Image Varia" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cp0000.github.io/posts/review_ip_adapter/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-09T17:12:39+08:00" />
+<meta property="article:modified_time" content="2023-10-09T17:12:39+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb"/>
+<meta name="twitter:description" content="本文提出一种 Image Prompt Adapter 方案，实现了类似 Image Prompt的方案。从上图，我们可以看到通过IP-Adapter，我们可以实现（1）Image Varia"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cp0000.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb",
+      "item": "https://cp0000.github.io/posts/review_ip_adapter/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb",
+  "name": "Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb",
+  "description": "本文提出一种 Image Prompt Adapter 方案，实现了类似 Image Prompt的方案。从上图，我们可以看到通过IP-Adapter，我们可以实现（1）Image Varia",
+  "keywords": [
+    
+  ],
+  "articleBody": " 本文提出一种 Image Prompt Adapter 方案，实现了类似 Image Prompt的方案。从上图，我们可以看到通过IP-Adapter，我们可以实现（1）Image Variation的能力，如图片中的右上角，image variation 简单来讲就是对目标图片做一些变换的同时，还保留该Image的主要特征。（通俗的来讲是让人看得出来是同一个主体）（2）编辑和inpainting，当我们不好用文本来描述，需要生成的图的内容，或者inpaint区域的内容时，可以用 IP-Adapter 以 Image prompts的方式来完成。（3）IP-Adapter 也可以和 Controlnet兼容，通过Controlnet+IPAdapter，我们可以生成目标主体+动作的图片。\n所谓Image Prompt，可以类比Text Prompt。比如 https://huggingface.co/lambdalabs/sd-image-variations-diffusers 这个image variation的工作，就是在SD模型基础上，把 condition 部分的text embedding 换成 image embedding，然后重新训练一个模型。 这个重新训练的方法效果也是不错的，不过他有两个问题，（1）需要重新训练模型，而社区里面一些其他上下游的工作，比如Controlnet等，就无法和这个模型一并使用了（2）image variation模型condtion部分只能接受 image prompt，text prompt被移除了。这也导致他使用场景会受限。\nIP-Adapter 是一个在SD模型基础上，保留原始SD模型结构和权重的基础上，增加了一个 Image Prompt 分支。具体来说，这个分支分为两个部分， Image Encoder 和 Decoupled Cross-Attention。\nImage Encoder\n这部分比较简单，首先会 image 进行 CLIP 提取 embedding 操作，这里提取的是CLIP的倒数第一层，然后设计了一个 linear + 一个 Layer normalization 两个可训练的部分，经过这两个部分得到 Image embedding. 此时 这个 Image embedding 类似 SD原始模型中Text经过CLIP提取的text embedding。\nDecoupled Cross-Attention\n这部分结构其实也是比较清晰的，主要是对SD模型中的Cross-Attention部分的 K, V 切换成 Image 的 embedding。\nwhere, $Q = ZW_q$, $K^′ = c_iW_k^′$ and $V^′ = c_iW_v^′$ are the query, key, and values matrices from the image features. $W_k^′$ and $W_v^′$ are the corresponding weight matrices.\n训练过程中，把原始UNet锁住，只是训练 $W_k^′$ and $W_v^′$。\n以下是摘取的关于 decoupled cross-attention 部分的code：\nkey = attn.to_k(encoder_hidden_states) value = attn.to_v(encoder_hidden_states) query = attn.head_to_batch_dim(query) key = attn.head_to_batch_dim(key) value = attn.head_to_batch_dim(value) attention_probs = attn.get_attention_scores(query, key, attention_mask) hidden_states = torch.bmm(attention_probs, value) hidden_states = attn.batch_to_head_dim(hidden_states) # for ip-adapter ip_key = self.to_k_ip(ip_hidden_states) ip_value = self.to_v_ip(ip_hidden_states) ip_key = attn.head_to_batch_dim(ip_key) ip_value = attn.head_to_batch_dim(ip_value) ip_attention_probs = attn.get_attention_scores(query, ip_key, None) ip_hidden_states = torch.bmm(ip_attention_probs, ip_value) ip_hidden_states = attn.batch_to_head_dim(ip_hidden_states) hidden_states = hidden_states + self.scale * ip_hidden_states IP-Adapter 还有一个 fine-grained 版本，你主要修改的地方是 image encoder部分，fine-grained 版本， 首先对Image提取CLIP倒数第二层的feature，然后搭建一个transformer网络，利用transformer网络学习得到 image embedding， 然后把这个 image embedding 作为 decoupled cross-attention 的输入。\n从上图可以看出 fine-grained 模型对原图一些细节部分保持的更好一些。\n小结： IP-adapter 在 SD 原模型基础上加入 image prompt，通过adapter的方式让SD模型在保留原有能力的基础上，增加了image prompt的能力。从结果上来看，其对image 的variation，edit 的能力都是非常不错的。\n",
+  "wordCount" : "1246",
+  "inLanguage": "en",
+  "datePublished": "2023-10-09T17:12:39+08:00",
+  "dateModified": "2023-10-09T17:12:39+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cp0000.github.io/posts/review_ip_adapter/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CP0000 - 一只特立独行的猪",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cp0000.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cp0000.github.io/" accesskey="h" title="CP0000 - 一只特立独行的猪 (Alt + H)">CP0000 - 一只特立独行的猪</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-meta"><span title='2023-10-09 17:12:39 +0800 CST'>October 9, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p><img loading="lazy" src="http://cp0000.github.io/assets/IP-Adapter/0.jpeg" alt="Untitled"  />
+</p>
+<p>本文提出一种 Image Prompt Adapter 方案，实现了类似 Image Prompt的方案。从上图，我们可以看到通过IP-Adapter，我们可以实现（1）Image Variation的能力，如图片中的右上角，image variation 简单来讲就是对目标图片做一些变换的同时，还保留该Image的主要特征。（通俗的来讲是让人看得出来是同一个主体）（2）编辑和inpainting，当我们不好用文本来描述，需要生成的图的内容，或者inpaint区域的内容时，可以用 IP-Adapter 以 Image prompts的方式来完成。（3）IP-Adapter 也可以和 Controlnet兼容，通过Controlnet+IPAdapter，我们可以生成目标主体+动作的图片。</p>
+<p>所谓Image Prompt，可以类比Text Prompt。比如 <a href="https://huggingface.co/lambdalabs/sd-image-variations-diffusers">https://huggingface.co/lambdalabs/sd-image-variations-diffusers</a> 这个image variation的工作，就是在SD模型基础上，把 condition 部分的text embedding 换成 image embedding，然后重新训练一个模型。 这个重新训练的方法效果也是不错的，不过他有两个问题，（1）需要重新训练模型，而社区里面一些其他上下游的工作，比如Controlnet等，就无法和这个模型一并使用了（2）image variation模型condtion部分只能接受 image prompt，text prompt被移除了。这也导致他使用场景会受限。</p>
+<p>IP-Adapter 是一个在SD模型基础上，保留原始SD模型结构和权重的基础上，增加了一个 Image Prompt 分支。具体来说，这个分支分为两个部分， Image Encoder 和 Decoupled Cross-Attention。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/IP-Adapter/1.jpeg" alt="Untitled"  />
+</p>
+<p><strong>Image Encoder</strong></p>
+<p>这部分比较简单，首先会 image 进行 CLIP 提取 embedding 操作，这里提取的是CLIP的倒数第一层，然后设计了一个 linear + 一个 Layer normalization 两个可训练的部分，经过这两个部分得到 Image  embedding. 此时 这个 Image embedding 类似 SD原始模型中Text经过CLIP提取的text embedding。</p>
+<p><strong>Decoupled  Cross-Attention</strong></p>
+<p>这部分结构其实也是比较清晰的，主要是对SD模型中的Cross-Attention部分的 K, V 切换成 Image 的 embedding。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/IP-Adapter/2.jpeg" alt="Untitled"  />
+</p>
+<p>where, $Q = ZW_q$, $K^′ = c_iW_k^′$ and  $V^′ = c_iW_v^′$  are the query, key, and values matrices from the image features. $W_k^′$ and $W_v^′$ are the corresponding weight matrices.</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/IP-Adapter/3.jpeg" alt="Untitled"  />
+</p>
+<p>训练过程中，把原始UNet锁住，只是训练 $W_k^′$ and $W_v^′$。</p>
+<p>以下是摘取的关于 decoupled cross-attention 部分的code：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>to_k(encoder_hidden_states)
+</span></span><span style="display:flex;"><span>value <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>to_v(encoder_hidden_states)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>query <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>head_to_batch_dim(query)
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>head_to_batch_dim(key)
+</span></span><span style="display:flex;"><span>value <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>head_to_batch_dim(value)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>attention_probs <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>get_attention_scores(query, key, attention_mask)
+</span></span><span style="display:flex;"><span>hidden_states <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>bmm(attention_probs, value)
+</span></span><span style="display:flex;"><span>hidden_states <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>batch_to_head_dim(hidden_states)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for ip-adapter</span>
+</span></span><span style="display:flex;"><span>ip_key <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>to_k_ip(ip_hidden_states)
+</span></span><span style="display:flex;"><span>ip_value <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>to_v_ip(ip_hidden_states)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ip_key <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>head_to_batch_dim(ip_key)
+</span></span><span style="display:flex;"><span>ip_value <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>head_to_batch_dim(ip_value)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ip_attention_probs <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>get_attention_scores(query, ip_key, <span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>ip_hidden_states <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>bmm(ip_attention_probs, ip_value)
+</span></span><span style="display:flex;"><span>ip_hidden_states <span style="color:#f92672">=</span> attn<span style="color:#f92672">.</span>batch_to_head_dim(ip_hidden_states)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hidden_states <span style="color:#f92672">=</span> hidden_states <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>scale <span style="color:#f92672">*</span> ip_hidden_states
+</span></span></code></pre></div><p>IP-Adapter 还有一个 fine-grained 版本，你主要修改的地方是 image encoder部分，fine-grained 版本， 首先对Image提取CLIP倒数第二层的feature，然后搭建一个transformer网络，利用transformer网络学习得到 image embedding， 然后把这个 image embedding 作为 decoupled cross-attention 的输入。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/IP-Adapter/4.jpeg" alt="Untitled"  />
+</p>
+<p>从上图可以看出 fine-grained 模型对原图一些细节部分保持的更好一些。</p>
+<p>小结： IP-adapter 在 SD 原模型基础上加入 image prompt，通过adapter的方式让SD模型在保留原有能力的基础上，增加了image prompt的能力。从结果上来看，其对image 的variation，edit 的能力都是非常不错的。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>CP0000</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

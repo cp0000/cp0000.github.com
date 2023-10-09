@@ -6,7 +6,16 @@
     <description>Recent content in Posts on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Fri, 25 Aug 2023 19:15:51 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Oct 2023 17:12:39 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb</title>
+      <link>https://cp0000.github.io/posts/review_ip_adapter/</link>
+      <pubDate>Mon, 09 Oct 2023 17:12:39 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_ip_adapter/</guid>
+      <description>本文提出一种 Image Prompt Adapter 方案，实现了类似 Image Prompt的方案。从上图，我们可以看到通过IP-Adapter，我们可以实现（1）Image Varia</description>
+    </item>
+    
     <item>
       <title>GigaGAN文生图：Scaling up GANs for Text-to-Image Synthesis</title>
       <link>https://cp0000.github.io/posts/review_gigagan/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/bazijizuoweifangfa/</guid>
       <description>现在要通过一切手段来自保，不允许任何人说话。 第一次知道项飙老师是在《得意忘形》的一期播客中听到的，那一期节目，主播请来了淡豹女士录一期节目，</description>
-    </item>
-    
-    <item>
-      <title>Debug 和 Debugger</title>
-      <link>https://cp0000.github.io/posts/debug-and-debugger/</link>
-      <pubDate>Sun, 08 May 2022 01:03:32 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/debug-and-debugger/</guid>
-      <description>Debug 全靠 print 刚毕业之后的第二年，我从事过一份编程工作，主要是要把iOS的程序运行在android上。那是2012年，当时android的tool</description>
     </item>
     
   </channel>
