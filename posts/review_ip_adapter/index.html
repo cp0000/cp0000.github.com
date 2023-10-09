@@ -20,7 +20,28 @@
 <link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <noscript>
     <style>
@@ -181,7 +202,7 @@ if (!doNotTrack) {
   <header class="post-header">
     
     <h1 class="post-title">
-      Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+      Review: IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Modelsb
     </h1>
     <div class="post-meta"><span title='2023-10-09 17:12:39 +0800 CST'>October 9, 2023</span>
 
