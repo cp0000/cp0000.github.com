@@ -6,7 +6,16 @@
     <description>Recent content on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Mon, 09 Oct 2023 17:28:31 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 Nov 2023 14:43:46 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>活到35</title>
+      <link>https://cp0000.github.io/posts/35/</link>
+      <pubDate>Sun, 12 Nov 2023 14:43:46 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/35/</guid>
+      <description>年龄焦虑 35了，国内互联网公司有着35岁失业的说法，国内的考公也要求35岁以下。我想在国内从事互联网相关工作的绝大多数人都会有年龄方面的焦虑</description>
+    </item>
+    
     <item>
       <title>Review:Emu: Enhancing Image Generation Models Using Photogenic Needles in a Haystack</title>
       <link>https://cp0000.github.io/posts/review_emu/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/understanding-disco-diffusion/</guid>
       <description>Disco Diffusion Disco Diffusion是 github 上面一个开源项目，用户通过该项目输入一段文字便可以生成一张和文字有一定相关性的图片，且图片有一定的艺术性。Dis</description>
-    </item>
-    
-    <item>
-      <title>《贪婪的多巴胺》读书笔记</title>
-      <link>https://cp0000.github.io/posts/the-molecule-of-more/</link>
-      <pubDate>Sat, 28 May 2022 18:58:57 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/the-molecule-of-more/</guid>
-      <description>多巴胺，英文dopamine或者DA，是一种重要的神经递质，主要负责大脑的情欲，感觉，将兴奋及开心的信息传递。与上瘾有关。 - wikipedia 前段时间阅读了</description>
     </item>
     
   </channel>
