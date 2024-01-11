@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>review: Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation | CP0000 - 一只特立独行的猪</title>
+<meta name="keywords" content="">
+<meta name="description" content="这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。 方法结构图 ![Untitled] 方法归纳为">
+<meta name="author" content="">
+<link rel="canonical" href="https://cp0000.github.io/posts/animate_anyone/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cp0000.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cp0000.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cp0000.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cp0000.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="review: Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation" />
+<meta property="og:description" content="这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。 方法结构图 ![Untitled] 方法归纳为" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cp0000.github.io/posts/animate_anyone/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-11T19:34:35+08:00" />
+<meta property="article:modified_time" content="2024-01-11T19:34:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="review: Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation"/>
+<meta name="twitter:description" content="这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。 方法结构图 ![Untitled] 方法归纳为"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cp0000.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "review: Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation",
+      "item": "https://cp0000.github.io/posts/animate_anyone/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "review: Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation",
+  "name": "review: Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation",
+  "description": "这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。 方法结构图 ![Untitled] 方法归纳为",
+  "keywords": [
+    
+  ],
+  "articleBody": " 这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。\n方法结构图\n![Untitled] 方法归纳为以下点：\n整体方案是基于StableDiffusion。其中视频生成部分的借鉴了animatediff中的temporal attention的思路。 方案包含了三个主要组成部分： ReferenceNet - 目的是对reference 图片做encoding，得到图片的外表feature。 Pose Guider - 对动作信号进行编码，来达到控制reference image动作的目的。 Temporal Layer - 时序层，目的是为了让同batch生成的不同frame之间具备连续性。 ReferenceNet 设计ReferenceNet来提取图片的信息，而不是直接利用CLIP的原因是\nCLIP 的 image encoding 部分是基于224x224的分辨率训练的，这会导致encoding的feature 丢失了很多细节。 CLIP是对比学习，CLIP image encoding学习出来的feature是为了匹配与之相对应的文本的encoding，这也会导致有一部分的细节会被丢失。 关于 ReferenceNet 的细节：\nReferenceNet 权重是继承自SD。 用Spatial-attention layer 代替 Self-attention layer。具体来说如上图右上角的虚线框内部 $x_1∈R ^{t×h×w×c}$ 为UNet的 denoise feature map，$x_2∈R^{h×w×c}$ 为 referencenet 提取的图片feature map，把 $x_2$ 拷贝 t 次，然后沿着 $w$ 维进行 concatenate. 然后做 self-attention 后，取前半部分的feature。\ncross-attention部分使用的是CLIP image encoder。CLIP image encoder 语义空间和 CLIP text embedding 一致，但可以提供reference image 的特征，有助于加速网络训练收敛。 Pose Guider 为了减轻controlnet带来的计算量，设计了一个轻量级的Pose Guider。Pose Guider 由4层conv组成（4x4 kernels, 2x2 strides, 16,32,64,128 channels）。对pose图进行encoding之后和 latent noise 相加送到 Unet 网络。\nTemporal Layer 借鉴了animatediff的方法\n训练部分 首先训练分成两个部分：\nfirst stage：使用视频的单帧图片，这个阶段我们排除掉 UNet 中的 temporal layer，同时训练ReferenceNet 和 Pose Guider 两个部分。 second stage： 把 temporal layer加回来，temporal layer部分的利用预训练的animateidff模型权重，结合视频帧数据（每次24帧）进行训练。 训练的细节：\n训练用了 4 x A100 5K character video clips (2-10 seconds long) 第一个阶段，数据是从视频中抽帧，分辨率为768x768, center-croped，训练 3万个step， batch size是 64。 第二个阶段，数据是视频连续帧，每次24帧，batch size为4， 训练 1万个step。 结果 结果看起来还不错。\nLimitations 模型的手部运动生成的结果不是特别稳定，有时会出现扭曲和运动模糊。 生成动作中如果角色需要生成原图中不可见的部分，效果会不太稳定，出现诸如模型和生成结果不自然等问题。 因为采用的是DDPM模型，所以生成效率上比非DDPM方案要差。 ",
+  "wordCount" : "1202",
+  "inLanguage": "en",
+  "datePublished": "2024-01-11T19:34:35+08:00",
+  "dateModified": "2024-01-11T19:34:35+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cp0000.github.io/posts/animate_anyone/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CP0000 - 一只特立独行的猪",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cp0000.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cp0000.github.io/" accesskey="h" title="CP0000 - 一只特立独行的猪 (Alt + H)">CP0000 - 一只特立独行的猪</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      review: Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation
+    </h1>
+    <div class="post-meta"><span title='2024-01-11 19:34:35 +0800 CST'>January 11, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><blockquote>
+<p>这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。</p>
+</blockquote>
+<p>方法结构图</p>
+<p>![Untitled]<img loading="lazy" src="http://cp0000.github.io/assets/animate_anyone/0.jpg" alt="Untitled"  />
+</p>
+<p>方法归纳为以下点：</p>
+<ol>
+<li>整体方案是基于StableDiffusion。其中视频生成部分的借鉴了animatediff中的temporal attention的思路。</li>
+<li>方案包含了三个主要组成部分：
+<ol>
+<li>ReferenceNet - 目的是对reference 图片做encoding，得到图片的外表feature。</li>
+<li>Pose Guider - 对动作信号进行编码，来达到控制reference image动作的目的。</li>
+<li>Temporal Layer - 时序层，目的是为了让同batch生成的不同frame之间具备连续性。</li>
+</ol>
+</li>
+<li></li>
+</ol>
+<h3 id="referencenet"><strong>ReferenceNet</strong><a hidden class="anchor" aria-hidden="true" href="#referencenet">#</a></h3>
+<p>设计ReferenceNet来提取图片的信息，而不是直接利用CLIP的原因是</p>
+<ol>
+<li>CLIP 的 image encoding 部分是基于224x224的分辨率训练的，这会导致encoding的feature 丢失了很多细节。</li>
+<li>CLIP是对比学习，CLIP image encoding学习出来的feature是为了匹配与之相对应的文本的encoding，这也会导致有一部分的细节会被丢失。</li>
+</ol>
+<p>关于 ReferenceNet 的细节：</p>
+<ol>
+<li>ReferenceNet 权重是继承自SD。</li>
+<li>用Spatial-attention layer 代替 Self-attention layer。具体来说如上图右上角的虚线框内部</li>
+</ol>
+<p>$x_1∈R ^{t×h×w×c}$ 为UNet的 denoise feature map，$x_2∈R^{h×w×c}$ 为 referencenet 提取的图片feature map，把 $x_2$ 拷贝 t 次，然后沿着  $w$ 维进行 concatenate.  然后做 self-attention 后，取前半部分的feature。</p>
+<ol>
+<li>cross-attention部分使用的是CLIP image encoder。CLIP image encoder 语义空间和 CLIP text embedding 一致，但可以提供reference image 的特征，有助于加速网络训练收敛。</li>
+</ol>
+<h3 id="pose-guider">Pose Guider<a hidden class="anchor" aria-hidden="true" href="#pose-guider">#</a></h3>
+<p>为了减轻controlnet带来的计算量，设计了一个轻量级的Pose Guider。Pose Guider 由4层conv组成（4x4 kernels, 2x2 strides, 16,32,64,128 channels）。对pose图进行encoding之后和 latent noise 相加送到 Unet 网络。</p>
+<h3 id="temporal-layer"><strong>Temporal Layer</strong><a hidden class="anchor" aria-hidden="true" href="#temporal-layer">#</a></h3>
+<p>借鉴了animatediff的方法</p>
+<hr>
+<h2 id="训练部分">训练部分<a hidden class="anchor" aria-hidden="true" href="#训练部分">#</a></h2>
+<p>首先训练分成两个部分：</p>
+<ol>
+<li>first stage：使用视频的单帧图片，这个阶段我们排除掉 UNet 中的 temporal layer，同时训练ReferenceNet 和 Pose Guider 两个部分。</li>
+<li>second stage： 把 temporal layer加回来，temporal layer部分的利用预训练的animateidff模型权重，结合视频帧数据（每次24帧）进行训练。</li>
+</ol>
+<p>训练的细节：</p>
+<ol>
+<li>训练用了 4 x A100</li>
+<li>5K character video clips (2-10 seconds long)</li>
+<li>第一个阶段，数据是从视频中抽帧，分辨率为768x768, center-croped，训练 3万个step， batch size是 64。</li>
+<li>第二个阶段，数据是视频连续帧，每次24帧，batch size为4， 训练 1万个step。</li>
+</ol>
+<h3 id="结果">结果<a hidden class="anchor" aria-hidden="true" href="#结果">#</a></h3>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/animate_anyone/1.jpg" alt="Untitled"  />
+</p>
+<p>结果看起来还不错。</p>
+<h3 id="limitations">Limitations<a hidden class="anchor" aria-hidden="true" href="#limitations">#</a></h3>
+<ol>
+<li>模型的手部运动生成的结果不是特别稳定，有时会出现扭曲和运动模糊。</li>
+<li>生成动作中如果角色需要生成原图中不可见的部分，效果会不太稳定，出现诸如模型和生成结果不自然等问题。</li>
+<li>因为采用的是DDPM模型，所以生成效率上比非DDPM方案要差。</li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>CP0000</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

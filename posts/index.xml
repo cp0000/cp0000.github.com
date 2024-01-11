@@ -6,7 +6,16 @@
     <description>Recent content in Posts on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Sun, 12 Nov 2023 14:43:46 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Jan 2024 19:34:35 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>review: Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation</title>
+      <link>https://cp0000.github.io/posts/animate_anyone/</link>
+      <pubDate>Thu, 11 Jan 2024 19:34:35 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/animate_anyone/</guid>
+      <description>这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。 方法结构图 ![Untitled] 方法归纳为</description>
+    </item>
+    
     <item>
       <title>活到35</title>
       <link>https://cp0000.github.io/posts/35/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/life-under-covid-19-2/</guid>
       <description>2022.6.1，上海持续两个多月的封城解封了，从3.13我所在的小区被封，到6.1号，小区全面解封，我们被关在小区里面大概前后有接近80天</description>
-    </item>
-    
-    <item>
-      <title>理解 Disco Diffusion</title>
-      <link>https://cp0000.github.io/posts/understanding-disco-diffusion/</link>
-      <pubDate>Sat, 04 Jun 2022 10:47:55 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/understanding-disco-diffusion/</guid>
-      <description>Disco Diffusion Disco Diffusion是 github 上面一个开源项目，用户通过该项目输入一段文字便可以生成一张和文字有一定相关性的图片，且图片有一定的艺术性。Dis</description>
     </item>
     
   </channel>
