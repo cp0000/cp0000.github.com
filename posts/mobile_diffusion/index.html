@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>reivew: MobileDiffusion | CP0000 - 一只特立独行的猪</title>
+<meta name="keywords" content="">
+<meta name="description" content="本文主要介绍 Google 最新的一篇关于如何把 diffusion 模型 port 到移动端设备上的论文 MobileDiffusion: Subsecond Text-to-Image Generation on Mobile Devices。google 的博客上有相关的英文blog：http">
+<meta name="author" content="">
+<link rel="canonical" href="https://cp0000.github.io/posts/mobile_diffusion/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cp0000.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cp0000.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cp0000.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cp0000.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="reivew: MobileDiffusion" />
+<meta property="og:description" content="本文主要介绍 Google 最新的一篇关于如何把 diffusion 模型 port 到移动端设备上的论文 MobileDiffusion: Subsecond Text-to-Image Generation on Mobile Devices。google 的博客上有相关的英文blog：http" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cp0000.github.io/posts/mobile_diffusion/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-02-06T17:44:15+08:00" />
+<meta property="article:modified_time" content="2024-02-06T17:44:15+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="reivew: MobileDiffusion"/>
+<meta name="twitter:description" content="本文主要介绍 Google 最新的一篇关于如何把 diffusion 模型 port 到移动端设备上的论文 MobileDiffusion: Subsecond Text-to-Image Generation on Mobile Devices。google 的博客上有相关的英文blog：http"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cp0000.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "reivew: MobileDiffusion",
+      "item": "https://cp0000.github.io/posts/mobile_diffusion/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "reivew: MobileDiffusion",
+  "name": "reivew: MobileDiffusion",
+  "description": "本文主要介绍 Google 最新的一篇关于如何把 diffusion 模型 port 到移动端设备上的论文 MobileDiffusion: Subsecond Text-to-Image Generation on Mobile Devices。google 的博客上有相关的英文blog：http",
+  "keywords": [
+    
+  ],
+  "articleBody": " 本文主要介绍 Google 最新的一篇关于如何把 diffusion 模型 port 到移动端设备上的论文 MobileDiffusion: Subsecond Text-to-Image Generation on Mobile Devices。google 的博客上有相关的英文blog：https://blog.research.google/2024/01/mobilediffusion-rapid-text-to-image.html。本文主要是对这篇blog进行了翻译，以及放了一些paper中信息。\n文生图模型发展非常迅速，diffusion 模型展现出了非常卓越的图像生成能力。主流的文生图扩散模型：Stable Diffusion, DALL-E 2, Imagen 生成质量都很好，但是其模型参数量大，单图运行时间长，导致无论是模型大小，还是耗时都很难在移动端设备上有效运行。\n如果能把文生图扩散模型部署到移动设备上，其好处有：\n用户不需要联网在云端生成图片，其隐私会好很多。 考虑到云端GPU的资源也有限，手机端直接运行可以有效减少用户的等待时间，提升用户体验，让用户更有效率。 本文提出了一个新的模型：MobileDiffusion，其旨在解决Diffusion模型无法运行在移动端上的问题。\nMobiel Diffusion 模型参数量仅为 520M，在主流手机设备上生成一张512x512的图片，耗时在半秒以内。\n背景 把文生图扩散模型移植到移动端设备上会遇到两个主要问题：\n文生图扩散模型在生成图片时需多次迭代（DPM ~20steps）去噪才能生成高质量的图片。 文生图扩散模型的网络参数量很大，通常达到了数十亿级别；这种大小的神经网络，无论是存储还是计算，对移动设备来说都是不小的挑战。 优化扩散模型前向时间是一个非常活跃的领域。对于上述第一个问题，即如何减少迭代次数，业内已经进行了广泛的研究。目前已经有一些新的技术被应用，比如更好的 SDE solvers（例如 DPM）和蒸馏技术（例如 progressive distillation 和 consistency distillation）。利用这些新技术，可以将扩散模型的前向步骤从数百步减少到个位数。而最近的一些技术，如 DiffusionGAN 和对抗扩散蒸馏，甚至可以将前向步骤减少到一步。\n而文生图扩散模型本身的网络结构，其得到的关注和有效优化会少一些。\nMobile Diffusion Mobile Diffusion 是在 Stable Diffusion 的基础上进行了相关的改进。它由三个部分组成：文本编码器，扩散网络UNet，图片解码器。其中 文本编码器，本文采用的是 CLIP-ViT/L14，它的模型参数量为 124 M，对移动设备比较友好。\nDiffusion UNet 文生图扩散模型UNet网络主要是由 transformer blocks 和 convolution blocks组成。其中 transformer block 由self-attention layer, cross-attention layer 以及 feed-forward layer 三个部分组成。\nself-attention layer 用来建模视觉特征之间相互的远程依赖性。 cross-attention layer 用来让文本condition和视觉特征相互作用 feed-forward 用来对 attention 层进行后处理 tranformer block是网络中最关键的部分，对生成图片语义是否对齐文本起到决定性的作用。不过 attention 操作的计算复杂度是序列长度的二次方，会带来很大的效率挑战。本文遵循 UViT 结构，在UNet的bottlnet部分放更多的transfomer block。\nMobileDiffusion 的UNet 架构在高分辨率部分不用 SA，并在网络的中间部分加了更多的transformer blocks.（其实和SDXL 的网络优化有点类似）。\n网络中的 conv blocks，用于提取特征，其计算成本，特别是在高分辨率的layer，还是比较大的。 MobileDiffusion 使用了 MobileNet 的深度可分离卷积，在UNet 比较深的部分使用轻量级可分离卷积层代替常规卷积层，以此来减少网络的计算量。\n下图是MobileDiffusion 和 其他模型关于 FLOPs（浮点运算量）和网络参数的对比。\nImage Decoder 本文训练了一个 VAE，和SD的VAE不同的地方是，本文的VAE 把一张RGB图片编码到一个大小为 1/8， channel 为8 的 latent code。（SD的VAE 的channel数为4）。\n下图是关于 VAE 重建能力的对比\n下面的表格是关于 VAE 的量化指标：\nDecoder #Params (M) PSNR↑ SSIM↑ LPIPS↓ SD 49.5 26.7 0.76 0.037 Ours 39.3 30.0 0.83 0.032 Ours-Lite 9.8 30.2 0.84 0.032 One-step sampling 为了优化扩散模型生成过程的迭代步数，本文引入了 DiffusionGAN 的方法。考虑到从头训练一个DiffusionGAN，难度大，训练成本高。本文利用预训练扩散模型来初始化GAN网络的 generator和discriminator，这种策略显著简化了训练。\n下图是关于 DiffusionGAN 的训练处理细节。经过初始化之后，一张噪声图片被送到generator中，经过一次diffusion，其结果output被用来和groundtruth进行重建loss计算。\n然后对output进行加噪声，并送入到判别器中，进行GAN loss计算。因为使用了预训练的模型权重来初始化生成器和判别器，训变成了一个finetune过程，模型经过不到10k的迭代就收敛了。\nResults 耗时对比\n以上。\n",
+  "wordCount" : "1854",
+  "inLanguage": "en",
+  "datePublished": "2024-02-06T17:44:15+08:00",
+  "dateModified": "2024-02-06T17:44:15+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cp0000.github.io/posts/mobile_diffusion/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CP0000 - 一只特立独行的猪",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cp0000.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cp0000.github.io/" accesskey="h" title="CP0000 - 一只特立独行的猪 (Alt + H)">CP0000 - 一只特立独行的猪</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      reivew: MobileDiffusion
+    </h1>
+    <div class="post-meta"><span title='2024-02-06 17:44:15 +0800 CST'>February 6, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><blockquote>
+<p>本文主要介绍 Google 最新的一篇关于如何把 diffusion 模型 port 到移动端设备上的论文  <strong><a href="https://arxiv.org/abs/2311.16567">MobileDiffusion: Subsecond Text-to-Image Generation on Mobile Devices</a></strong>。google 的博客上有相关的英文blog：<a href="https://blog.research.google/2024/01/mobilediffusion-rapid-text-to-image.html">https://blog.research.google/2024/01/mobilediffusion-rapid-text-to-image.html</a>。本文主要是对这篇blog进行了翻译，以及放了一些paper中信息。</p>
+</blockquote>
+<p>文生图模型发展非常迅速，diffusion 模型展现出了非常卓越的图像生成能力。主流的文生图扩散模型：Stable Diffusion, DALL-E 2, Imagen 生成质量都很好，但是其模型参数量大，单图运行时间长，导致无论是模型大小，还是耗时都很难在移动端设备上有效运行。</p>
+<p>如果能把文生图扩散模型部署到移动设备上，其好处有：</p>
+<ul>
+<li>用户不需要联网在云端生成图片，其隐私会好很多。</li>
+<li>考虑到云端GPU的资源也有限，手机端直接运行可以有效减少用户的等待时间，提升用户体验，让用户更有效率。</li>
+</ul>
+<p>本文提出了一个新的模型：MobileDiffusion，其旨在解决Diffusion模型无法运行在移动端上的问题。</p>
+<p>Mobiel Diffusion 模型参数量仅为 520M，在主流手机设备上生成一张512x512的图片，耗时在半秒以内。</p>
+<h3 id="背景">背景<a hidden class="anchor" aria-hidden="true" href="#背景">#</a></h3>
+<p>把文生图扩散模型移植到移动端设备上会遇到两个主要问题：</p>
+<ol>
+<li>文生图扩散模型在生成图片时需多次迭代（DPM ~20steps）去噪才能生成高质量的图片。</li>
+<li>文生图扩散模型的网络参数量很大，通常达到了数十亿级别；这种大小的神经网络，无论是存储还是计算，对移动设备来说都是不小的挑战。</li>
+</ol>
+<p>优化扩散模型前向时间是一个非常活跃的领域。对于上述第一个问题，即如何减少迭代次数，业内已经进行了广泛的研究。目前已经有一些新的技术被应用，比如更好的 SDE solvers（例如 DPM）和蒸馏技术（例如 progressive distillation 和 consistency distillation）。利用这些新技术，可以将扩散模型的前向步骤从数百步减少到个位数。而最近的一些技术，如 DiffusionGAN 和对抗扩散蒸馏，甚至可以将前向步骤减少到一步。</p>
+<p>而文生图扩散模型本身的网络结构，其得到的关注和有效优化会少一些。</p>
+<h3 id="mobile-diffusion">Mobile Diffusion<a hidden class="anchor" aria-hidden="true" href="#mobile-diffusion">#</a></h3>
+<p>Mobile Diffusion 是在 Stable Diffusion 的基础上进行了相关的改进。它由三个部分组成：文本编码器，扩散网络UNet，图片解码器。其中 文本编码器，本文采用的是 CLIP-ViT/L14，它的模型参数量为 124 M，对移动设备比较友好。</p>
+<h3 id="diffusion-unet">Diffusion UNet<a hidden class="anchor" aria-hidden="true" href="#diffusion-unet">#</a></h3>
+<p>文生图扩散模型UNet网络主要是由 transformer blocks 和 convolution blocks组成。其中 transformer block 由self-attention layer, cross-attention layer 以及 feed-forward layer 三个部分组成。</p>
+<ul>
+<li>self-attention layer 用来建模视觉特征之间相互的远程依赖性。</li>
+<li>cross-attention layer 用来让文本condition和视觉特征相互作用</li>
+<li>feed-forward 用来对 attention 层进行后处理</li>
+</ul>
+<p>tranformer block是网络中最关键的部分，对生成图片语义是否对齐文本起到决定性的作用。不过 attention 操作的计算复杂度是序列长度的二次方，会带来很大的效率挑战。本文遵循 UViT 结构，在UNet的bottlnet部分放更多的transfomer block。</p>
+<p>MobileDiffusion 的UNet 架构在高分辨率部分不用 SA，并在网络的中间部分加了更多的transformer blocks.（其实和SDXL 的网络优化有点类似）。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/mobilediffusion/Untitled.jpeg" alt=""  />
+</p>
+<p>网络中的 conv blocks，用于提取特征，其计算成本，特别是在高分辨率的layer，还是比较大的。 MobileDiffusion 使用了 MobileNet 的深度可分离卷积，在UNet 比较深的部分使用轻量级可分离卷积层代替常规卷积层，以此来减少网络的计算量。</p>
+<p>下图是MobileDiffusion 和 其他模型关于 FLOPs（浮点运算量）和网络参数的对比。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/mobilediffusion/Untitled.png" alt=""  />
+</p>
+<h3 id="image-decoder">Image Decoder<a hidden class="anchor" aria-hidden="true" href="#image-decoder">#</a></h3>
+<p>本文训练了一个 VAE，和SD的VAE不同的地方是，本文的VAE 把一张RGB图片编码到一个大小为 1/8， channel 为8 的 latent code。（SD的VAE 的channel数为4）。</p>
+<p>下图是关于 VAE 重建能力的对比</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/mobilediffusion/1.jpg" alt=""  />
+</p>
+<p>下面的表格是关于 VAE 的量化指标：</p>
+<table>
+<thead>
+<tr>
+<th>Decoder</th>
+<th>#Params (M)</th>
+<th>PSNR↑</th>
+<th>SSIM↑</th>
+<th>LPIPS↓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SD</td>
+<td>49.5</td>
+<td>26.7</td>
+<td>0.76</td>
+<td>0.037</td>
+</tr>
+<tr>
+<td>Ours</td>
+<td>39.3</td>
+<td>30.0</td>
+<td>0.83</td>
+<td>0.032</td>
+</tr>
+<tr>
+<td>Ours-Lite</td>
+<td>9.8</td>
+<td>30.2</td>
+<td>0.84</td>
+<td>0.032</td>
+</tr>
+</tbody>
+</table>
+<h3 id="one-step-sampling">One-step sampling<a hidden class="anchor" aria-hidden="true" href="#one-step-sampling">#</a></h3>
+<p>为了优化扩散模型生成过程的迭代步数，本文引入了 DiffusionGAN  的方法。考虑到从头训练一个DiffusionGAN，难度大，训练成本高。本文利用预训练扩散模型来初始化GAN网络的 generator和discriminator，这种策略显著简化了训练。</p>
+<p>下图是关于 DiffusionGAN 的训练处理细节。经过初始化之后，一张噪声图片被送到generator中，经过一次diffusion，其结果output被用来和groundtruth进行重建loss计算。</p>
+<p>然后对output进行加噪声，并送入到判别器中，进行GAN loss计算。因为使用了预训练的模型权重来初始化生成器和判别器，训变成了一个finetune过程，模型经过不到10k的迭代就收敛了。</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p><img loading="lazy" src="http://cp0000.github.io/assets/mobilediffusion/Untitled%202.png" alt="Untitled"  />
+</p>
+<h3 id="results">Results<a hidden class="anchor" aria-hidden="true" href="#results">#</a></h3>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/mobilediffusion/Untitled%201.jpeg" alt="Untitled"  />
+</p>
+<p>耗时对比</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/mobilediffusion/Untitled%203.png" alt="Untitled"  />
+</p>
+<p>以上。</p>
+<h1 id="heading"><a hidden class="anchor" aria-hidden="true" href="#heading">#</a></h1>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>CP0000</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
