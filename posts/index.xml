@@ -6,7 +6,16 @@
     <description>Recent content in Posts on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Tue, 06 Feb 2024 17:44:15 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Feb 2024 20:03:37 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的2023</title>
+      <link>https://cp0000.github.io/posts/my_2023/</link>
+      <pubDate>Tue, 13 Feb 2024 20:03:37 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/my_2023/</guid>
+      <description>疫情结束 23年的元旦前后，随着国内的清零政策放开，疫情一波大爆发之后，新冠在23年从人们的生活中消散了。持续3年的疫情终于结束了。在23年的</description>
+    </item>
+    
     <item>
       <title>Reivew: MobileDiffusion</title>
       <link>https://cp0000.github.io/posts/mobile_diffusion/</link>
@@ -22,7 +31,7 @@
       <pubDate>Thu, 11 Jan 2024 19:34:35 +0800</pubDate>
       
       <guid>https://cp0000.github.io/posts/animate_anyone/</guid>
-      <description>这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。 方法结构图 ![Untitled] 方法归纳为</description>
+      <description>这一篇关于 Animate Anyone 的读书笔记。Animate Anyone介绍了一种能够根据图像以及结合动作姿态序列生成一段动作视频的方法。 方法结构图 方法归纳为以</description>
     </item>
     
     <item>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/the-almanack-of-naval-ravikant/</guid>
       <description>最近看完了《纳瓦尔宝典》这本小册子，本文主要是关于该书的一些书摘和笔记。 关于财富 积累财富 要想获得财富，你就必须知道做什么，和谁一起做，什么时</description>
-    </item>
-    
-    <item>
-      <title>2022 上半年</title>
-      <link>https://cp0000.github.io/posts/2022-h1/</link>
-      <pubDate>Sun, 03 Jul 2022 14:41:02 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/2022-h1/</guid>
-      <description>新冠封城 农历新年大概在每年公历的2月中旬，我们中国人过完农历新年，一年才算开始。从2月中旬，到6月底，大概4个半月，生活在上海的人，因为新冠</description>
     </item>
     
   </channel>
