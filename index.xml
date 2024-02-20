@@ -8,20 +8,20 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Tue, 20 Feb 2024 16:10:03 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>How Sora works</title>
-      <link>https://cp0000.github.io/how_sora_works/</link>
-      <pubDate>Tue, 20 Feb 2024 16:10:03 +0800</pubDate>
-      
-      <guid>https://cp0000.github.io/how_sora_works/</guid>
-      <description>OpenAI 于2024.2.16 发布了视频生成模型Sora，Sora可以生成时长1分钟的高清视频，其生成质量非常惊人。 Demo: https://cdn.openai.com/tmp/s/title_0.mp4 官网地址：Sora 技术报告：</description>
-    </item>
-    
-    <item>
       <title>How_sora_works</title>
       <link>https://cp0000.github.io/posts/how_sora_works/</link>
       <pubDate>Tue, 20 Feb 2024 16:10:03 +0800</pubDate>
       
       <guid>https://cp0000.github.io/posts/how_sora_works/</guid>
+      <description>OpenAI 于2024.2.16 发布了视频生成模型Sora，Sora可以生成时长1分钟的高清视频，其生成质量非常惊人。 Demo: https://cdn.openai.com/tmp/s/title_0.mp4 官网地址：Sora 技术报告：</description>
+    </item>
+    
+    <item>
+      <title>Sora 是如何工作的？</title>
+      <link>https://cp0000.github.io/how_sora_works/</link>
+      <pubDate>Tue, 20 Feb 2024 16:10:03 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/how_sora_works/</guid>
       <description>OpenAI 于2024.2.16 发布了视频生成模型Sora，Sora可以生成时长1分钟的高清视频，其生成质量非常惊人。 Demo: https://cdn.openai.com/tmp/s/title_0.mp4 官网地址：Sora 技术报告：</description>
     </item>
     
