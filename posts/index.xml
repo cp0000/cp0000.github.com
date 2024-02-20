@@ -6,7 +6,16 @@
     <description>Recent content in Posts on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Tue, 13 Feb 2024 20:03:37 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Feb 2024 16:10:03 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How_sora_works</title>
+      <link>https://cp0000.github.io/posts/how_sora_works/</link>
+      <pubDate>Tue, 20 Feb 2024 16:10:03 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/how_sora_works/</guid>
+      <description>OpenAI 于2024.2.16 发布了视频生成模型Sora，Sora可以生成时长1分钟的高清视频，其生成质量非常惊人。 Demo: https://cdn.openai.com/tmp/s/title_0.mp4 官网地址：Sora 技术报告：</description>
+    </item>
+    
     <item>
       <title>我的2023</title>
       <link>https://cp0000.github.io/posts/my_2023/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/the-psychology-of-money/</guid>
       <description>No One&amp;rsquo;s Crazy We all do crazy stuff with money,because we&amp;rsquo;re all relatively new to this game and what looks crazy to you might make sense to me. But no one is crazy - we all make decisions based on our own unique experiences that seem to make sense to us in a given moment. Luck &amp;amp; Risk Nothing is as good or as bad as it seems Luck and</description>
-    </item>
-    
-    <item>
-      <title>《纳瓦尔宝典》读书笔记</title>
-      <link>https://cp0000.github.io/posts/the-almanack-of-naval-ravikant/</link>
-      <pubDate>Sun, 21 Aug 2022 15:28:23 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/the-almanack-of-naval-ravikant/</guid>
-      <description>最近看完了《纳瓦尔宝典》这本小册子，本文主要是关于该书的一些书摘和笔记。 关于财富 积累财富 要想获得财富，你就必须知道做什么，和谁一起做，什么时</description>
     </item>
     
   </channel>
