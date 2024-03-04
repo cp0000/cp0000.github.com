@@ -8,12 +8,12 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Mon, 04 Mar 2024 14:45:17 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Review_EMO</title>
+      <title>Review EMO</title>
       <link>https://cp0000.github.io/posts/review_emo/</link>
       <pubDate>Mon, 04 Mar 2024 14:45:17 +0800</pubDate>
       
       <guid>https://cp0000.github.io/posts/review_emo/</guid>
-      <description>review EMO 主页： EMO 简介： 阿里最新的一片 talking head 的工作，输入为一张 reference image 和 一段音频，生成一段视频。EMO 这篇工作生成的视频结果，其视频生成结果稳定，帧间一</description>
+      <description>主页： EMO 简介： 阿里最新的一片 talking head 的工作，输入为一张 reference image 和 一段音频，生成一段视频。EMO 这篇工作生成的视频结果，其视频生成结果稳定，帧间一致性</description>
     </item>
     
     <item>
