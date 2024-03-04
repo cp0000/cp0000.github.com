@@ -6,7 +6,16 @@
     <description>Recent content on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Tue, 20 Feb 2024 16:10:03 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Mar 2024 14:45:17 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review_EMO</title>
+      <link>https://cp0000.github.io/posts/review_emo/</link>
+      <pubDate>Mon, 04 Mar 2024 14:45:17 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_emo/</guid>
+      <description>review EMO 主页： EMO 简介： 阿里最新的一片 talking head 的工作，输入为一张 reference image 和 一段音频，生成一段视频。EMO 这篇工作生成的视频结果，其视频生成结果稳定，帧间一</description>
+    </item>
+    
     <item>
       <title>Sora 是如何工作的？</title>
       <link>https://cp0000.github.io/how_sora_works/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/what_is_stable_diffusion/</guid>
       <description>Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。 接下来先介绍下 Latent</description>
-    </item>
-    
-    <item>
-      <title>AI绘画：什么是Diffusion模型</title>
-      <link>https://cp0000.github.io/posts/what_is_diffusion/</link>
-      <pubDate>Wed, 14 Sep 2022 00:05:53 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/what_is_diffusion/</guid>
-      <description>这是一篇关于 What are Diffusion Models 的译文。很多地方借鉴了由浅入深了解Diffusion Model 一文。 2022年最火的AI算法要属AIGC：（AI-generat</description>
     </item>
     
   </channel>

@@ -6,7 +6,16 @@
     <description>Recent content in Posts on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Tue, 20 Feb 2024 16:10:03 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Mar 2024 14:45:17 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review_EMO</title>
+      <link>https://cp0000.github.io/posts/review_emo/</link>
+      <pubDate>Mon, 04 Mar 2024 14:45:17 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_emo/</guid>
+      <description>review EMO 主页： EMO 简介： 阿里最新的一片 talking head 的工作，输入为一张 reference image 和 一段音频，生成一段视频。EMO 这篇工作生成的视频结果，其视频生成结果稳定，帧间一</description>
+    </item>
+    
     <item>
       <title>Sora 是如何工作的？</title>
       <link>https://cp0000.github.io/posts/how_sora_works/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/what_is_diffusion/</guid>
       <description>这是一篇关于 What are Diffusion Models 的译文。很多地方借鉴了由浅入深了解Diffusion Model 一文。 2022年最火的AI算法要属AIGC：（AI-generat</description>
-    </item>
-    
-    <item>
-      <title>The Psychology Of Money</title>
-      <link>https://cp0000.github.io/posts/the-psychology-of-money/</link>
-      <pubDate>Sat, 03 Sep 2022 11:07:34 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/the-psychology-of-money/</guid>
-      <description>No One&amp;rsquo;s Crazy We all do crazy stuff with money,because we&amp;rsquo;re all relatively new to this game and what looks crazy to you might make sense to me. But no one is crazy - we all make decisions based on our own unique experiences that seem to make sense to us in a given moment. Luck &amp;amp; Risk Nothing is as good or as bad as it seems Luck and</description>
     </item>
     
   </channel>
