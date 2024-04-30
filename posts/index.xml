@@ -6,7 +6,16 @@
     <description>Recent content in Posts on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Mon, 04 Mar 2024 14:45:17 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 30 Apr 2024 15:55:05 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review_PuLID</title>
+      <link>https://cp0000.github.io/posts/review_pulid/</link>
+      <pubDate>Tue, 30 Apr 2024 15:55:05 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_pulid/</guid>
+      <description>https://arxiv.org/pdf/2404.16022 字节的一篇关于人脸保ID的工作。 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的一些特性，比如风</description>
+    </item>
+    
     <item>
       <title>Review EMO</title>
       <link>https://cp0000.github.io/posts/review_emo/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/what_is_stable_diffusion/</guid>
       <description>Stable Diffusion是由 stability.ai 于2022.8.22 开源的Text2Image模型。Stable Diffusion 项目整体是基于 Latent Diffusion 框架研发而成。 接下来先介绍下 Latent</description>
-    </item>
-    
-    <item>
-      <title>AI绘画：什么是Diffusion模型</title>
-      <link>https://cp0000.github.io/posts/what_is_diffusion/</link>
-      <pubDate>Wed, 14 Sep 2022 00:05:53 +0000</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/what_is_diffusion/</guid>
-      <description>这是一篇关于 What are Diffusion Models 的译文。很多地方借鉴了由浅入深了解Diffusion Model 一文。 2022年最火的AI算法要属AIGC：（AI-generat</description>
     </item>
     
   </channel>
