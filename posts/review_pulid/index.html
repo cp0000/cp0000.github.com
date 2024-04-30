@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Review_PuLID | CP0000 - 一只特立独行的猪</title>
 <meta name="keywords" content="">
-<meta name="description" content="https://arxiv.org/pdf/2404.16022 一篇关于人脸保ID的工作。 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的一些特性，比如风格，和">
+<meta name="description" content="本文介绍一篇关于人脸保ID的工作 PuLID: Pure and Lightning ID Customization via Contrastive Alignment 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的">
 <meta name="author" content="">
 <link rel="canonical" href="https://cp0000.github.io/posts/review_pulid/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
@@ -91,7 +91,7 @@ if (!doNotTrack) {
 }
 </script>
 <meta property="og:title" content="Review_PuLID" />
-<meta property="og:description" content="https://arxiv.org/pdf/2404.16022 一篇关于人脸保ID的工作。 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的一些特性，比如风格，和" />
+<meta property="og:description" content="本文介绍一篇关于人脸保ID的工作 PuLID: Pure and Lightning ID Customization via Contrastive Alignment 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://cp0000.github.io/posts/review_pulid/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-04-30T15:55:05+08:00" />
@@ -99,7 +99,7 @@ if (!doNotTrack) {
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Review_PuLID"/>
-<meta name="twitter:description" content="https://arxiv.org/pdf/2404.16022 一篇关于人脸保ID的工作。 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的一些特性，比如风格，和"/>
+<meta name="twitter:description" content="本文介绍一篇关于人脸保ID的工作 PuLID: Pure and Lightning ID Customization via Contrastive Alignment 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的"/>
 
 
 <script type="application/ld+json">
@@ -128,12 +128,12 @@ if (!doNotTrack) {
   "@type": "BlogPosting",
   "headline": "Review_PuLID",
   "name": "Review_PuLID",
-  "description": "https://arxiv.org/pdf/2404.16022 一篇关于人脸保ID的工作。 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的一些特性，比如风格，和",
+  "description": "本文介绍一篇关于人脸保ID的工作 PuLID: Pure and Lightning ID Customization via Contrastive Alignment 主要的贡献在于： （1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的",
   "keywords": [
     
   ],
-  "articleBody": " https://arxiv.org/pdf/2404.16022\n一篇关于人脸保ID的工作。\n主要的贡献在于：\n（1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的一些特性，比如风格，和构图。本文的保ID方法可以维持住底座模型的风格和构图。\n（2）人脸相似度比其他方法做的更像。diffusion 在训练的时候，因为diffusion 范式特性，导致除了 diffusion 的loss 没办法加其他的 loss。本文借助 sdxl-lighting 可以在比较少 step 下生成质量比较好的图片的特性，把人脸 ID loss 加到 diffusion 训练过程中，以此来提升人脸相似度。\n架构：\nLoss:\nDataset:\n1.5M 的人像数据，数据来源为 LAION 加清洗，以及一些网络数据的爬取。 caption 用的是 BLIP-2。 Training:\n分成三个阶段：\n利用采集的1.5M人像数据，做上图上半部分的训练。训练的底座是基于 sdxl base模型，利用ip adapter 的架构，把人脸过 arcface 的特征ID 和 CLIP image 的 embedding concate 之后作为 condition 信息，指引模型生成和 condition 人像相似的人脸。 在第一步的模型上，加入 $L_{id}$ 这一部分对应的是图中的下半部分，利用 sdxl-lighting 4 step出图的特性，在训练过程中对 diffusion 的 predict 结果做人脸的特征cosine similarity loss。以此来进一步提升人脸相似度。\n经过上述两个阶段的训练之后，模型此时已经有了很好的保人脸ID的能力；不过这个模型会污染底座模型的一些特性，特别是风格和布局。 本文为了解决这个问题，设计了一个第三阶段的训练，具体来讲是在训练过程加了一组 align-sem 和 align-layout 两个loss，来保持住底座模型的风格和布局。\nalign-sem, align-layout 参加 loss部分。\n其中 $Q_t$ 表示的是不带 ID embedding 的 UNet features, $Q_{tid}$ 则表示的是带 ID embeddig的 UNet features。\nCross-Attention 部分计算如下图：\nalign-layout 是在 $Q_t$ 和 $Q_{tid}$ 之间做 loss，来让图像layout保持底模的特性\nalign-sem 的 loss 中一部分计算是： Attention(K, Q, Q) ，让 UNet 的 feature 作为 condition，用 text 得 feature 作为 query；让 $Q_t$ 和 $Q_{tid}$ 两种情况下Attention结果接近，以此来消除插入的人脸 ID 对结果的影响。\n下图是一个加入不同loss的对比：\n更多可视化的消融对比\nTesting\n定性对比\n从上图展示的结果来看，优势有：\n风格和构图和底模更一致 语义上align得更好 定量对比\nID 不同权重的效果对比\n",
-  "wordCount" : "834",
+  "articleBody": " 本文介绍一篇关于人脸保ID的工作 PuLID: Pure and Lightning ID Customization via Contrastive Alignment\n主要的贡献在于：\n（1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的一些特性，比如风格，和构图。本文的保ID方法可以维持住底座模型的风格和构图。\n（2）人脸相似度比其他方法做的更像。diffusion 在训练的时候，因为diffusion 范式特性，导致除了 diffusion 的loss 没办法加其他的 loss。本文借助 sdxl-lighting 可以在比较少 step 下生成质量比较好的图片的特性，把人脸 ID loss 加到 diffusion 训练过程中，以此来提升人脸相似度。\n架构：\nLoss:\nDataset:\n1.5M 的人像数据，数据来源为 LAION 加清洗，以及一些网络数据的爬取。 caption 用的是 BLIP-2。 Training:\n分成三个阶段：\n利用采集的1.5M人像数据，做上图上半部分的训练。训练的底座是基于 sdxl base模型，利用ip adapter 的架构，把人脸过 arcface 的特征ID 和 CLIP image 的 embedding concate 之后作为 condition 信息，指引模型生成和 condition 人像相似的人脸。 在第一步的模型上，加入 $L_{id}$ 这一部分对应的是图中的下半部分，利用 sdxl-lighting 4 step出图的特性，在训练过程中对 diffusion 的 predict 结果做人脸的特征cosine similarity loss。以此来进一步提升人脸相似度。\n经过上述两个阶段的训练之后，模型此时已经有了很好的保人脸ID的能力；不过这个模型会污染底座模型的一些特性，特别是风格和布局。 本文为了解决这个问题，设计了一个第三阶段的训练，具体来讲是在训练过程加了一组 align-sem 和 align-layout 两个loss，来保持住底座模型的风格和布局。\nalign-sem, align-layout 参加 loss部分。\n其中 $Q_t$ 表示的是不带 ID embedding 的 UNet features, $Q_{tid}$ 则表示的是带 ID embeddig的 UNet features。\nCross-Attention 部分计算如下图：\nalign-layout 是在 $Q_t$ 和 $Q_{tid}$ 之间做 loss，来让图像layout保持底模的特性\nalign-sem 的 loss 中一部分计算是： Attention(K, Q, Q) ，让 UNet 的 feature 作为 condition，用 text 得 feature 作为 query；让 $Q_t$ 和 $Q_{tid}$ 两种情况下Attention结果接近，以此来消除插入的人脸 ID 对结果的影响。\n下图是一个加入不同loss的对比：\n更多可视化的消融对比\nTesting\n定性对比\n从上图展示的结果来看，优势有：\n风格和构图和底模更一致 语义上align得更好 定量对比\nID 不同权重的效果对比\n",
+  "wordCount" : "845",
   "inLanguage": "en",
   "datePublished": "2024-04-30T15:55:05+08:00",
   "dateModified": "2024-04-30T15:55:05+08:00",
@@ -210,8 +210,8 @@ if (!doNotTrack) {
   </header> 
   <div class="post-content"><p><img loading="lazy" src="http://cp0000.github.io/assets/PuLID/0.jpeg" alt=""  />
 </p>
-<p><a href="https://arxiv.org/pdf/2404.16022">https://arxiv.org/pdf/2404.16022</a></p>
-<p>一篇关于人脸保ID的工作。</p>
+<p>本文介绍一篇关于人脸保ID的工作 <a href="https://arxiv.org/pdf/2404.16022">PuLID: Pure and Lightning ID Customization via
+Contrastive Alignment</a></p>
 <p>主要的贡献在于：</p>
 <p>（1）之前的保ID方法，在底座风格模型上加入人脸ID之后，会丢失底座模型的一些特性，比如风格，和构图。本文的保ID方法可以维持住底座模型的风格和构图。</p>
 <p>（2）人脸相似度比其他方法做的更像。diffusion 在训练的时候，因为diffusion 范式特性，导致除了 diffusion 的loss 没办法加其他的 loss。本文借助 sdxl-lighting 可以在比较少 step 下生成质量比较好的图片的特性，把人脸 ID loss 加到 diffusion 训练过程中，以此来提升人脸相似度。</p>
