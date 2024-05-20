@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Review_VASA-1 | CP0000 - 一只特立独行的猪</title>
+<meta name="keywords" content="">
+<meta name="description" content="VASA-1: Lifelike Audio-Driven Talking Faces Generated in Real Time https://www.microsoft.com/en-us/research/project/vasa-1/ 微软的一篇关于 talking head 的工作，叫：VASA-1。VASA-1 是利用一段音频和一张照片，生成一段该照片说话的视频。 他的核心贡献">
+<meta name="author" content="">
+<link rel="canonical" href="https://cp0000.github.io/posts/review_vasa-1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cp0000.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cp0000.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cp0000.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cp0000.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Review_VASA-1" />
+<meta property="og:description" content="VASA-1: Lifelike Audio-Driven Talking Faces Generated in Real Time https://www.microsoft.com/en-us/research/project/vasa-1/ 微软的一篇关于 talking head 的工作，叫：VASA-1。VASA-1 是利用一段音频和一张照片，生成一段该照片说话的视频。 他的核心贡献" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cp0000.github.io/posts/review_vasa-1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-20T19:36:57+08:00" />
+<meta property="article:modified_time" content="2024-05-20T19:36:57+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Review_VASA-1"/>
+<meta name="twitter:description" content="VASA-1: Lifelike Audio-Driven Talking Faces Generated in Real Time https://www.microsoft.com/en-us/research/project/vasa-1/ 微软的一篇关于 talking head 的工作，叫：VASA-1。VASA-1 是利用一段音频和一张照片，生成一段该照片说话的视频。 他的核心贡献"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cp0000.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Review_VASA-1",
+      "item": "https://cp0000.github.io/posts/review_vasa-1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Review_VASA-1",
+  "name": "Review_VASA-1",
+  "description": "VASA-1: Lifelike Audio-Driven Talking Faces Generated in Real Time https://www.microsoft.com/en-us/research/project/vasa-1/ 微软的一篇关于 talking head 的工作，叫：VASA-1。VASA-1 是利用一段音频和一张照片，生成一段该照片说话的视频。 他的核心贡献",
+  "keywords": [
+    
+  ],
+  "articleBody": "VASA-1: Lifelike Audio-Driven Talking Faces Generated in Real Time https://www.microsoft.com/en-us/research/project/vasa-1/\n微软的一篇关于 talking head 的工作，叫：VASA-1。VASA-1 是利用一段音频和一张照片，生成一段该照片说话的视频。\n他的核心贡献是：\n结合 Diffusion 范式和 transformer 网络框架，将其利用在 talking head 领域。 下图是简介：\nTraining and Testing\n从上图可以概括来讲：\n模型框架叫：motion latent diffusion。它是基于 transformer-based，结合 diffusion 范式（数据处理方式，loss） 模型的生成目标是：目标条件下的人脸的 motion latents 预测的时候，利用训练好的 motion latent diffusion 得到 motion latents，结合 single frame 的 app volume 和 ID latent，decode成视频帧。 细节上：\n在训练的时候，会先对一段视频做音频和视频帧的处理：\n$E_{audio}$：音频特征提取；文中利用的是 audio2wav 预训练好的模型。 $E_{mtn}:$ 表情动作特征提取；文中是基于另外一篇工作：MegaPortraits: One-shot megapixel neural head avatars，利用训练好的 MegaPortraits 的 motion encoder 来提取视频帧的 motion latents。 本文对 MegaPortraits 的模型进行优化，主要是 loss 设计上的，后面会提到。 motion latent diffusion 训练 pipeline 很清晰明了：把 音频特征，motion latents 以及 other conditions，拼成一个大的 token，利用 transformer 结构，结合 diffusion loss 进行训练，生成目标 motion latents。\n预测部分：\napp.volume 和 ID latent，是利用 MegaPortraits : One-shot megapixel neural head avatars 中的方法，获取的。\n其中涉及到如何把一张人脸进行属性解耦，具体是采用MegaPortraits : One-shot megapixel neural head avatars中的方法， 如下图：\n简要介绍 MegaPortraits 的训练思路：\n训练第一阶段，从同一段视频中采样 $x_s$ 和 $x_d$ 两帧视频帧，利用 $E_{app}$ 提取 $v_s$ 和 $e_s$. 利用 $E_{mtn}$ 分别提取 $x_s$ 和 $x_d$ $z_s$ 和 $z_d$。训练把 $x_s$ 的 motion 去掉，并投射到一个标准坐标在，然后在诸如 $x_d$ 的 motion。 此外推理时，source 图和目标动作图非同一个视频，只利用上述同视频不同帧训练，泛化效果不好。MegaProtraits 加入 cycle loss来优化这个问题。具体来说 source帧和目标帧从两个不同的视频中采样，并利用cyclegan的那种方式来进行 loss 设计和训练。 Loss\n文中指出 MegaPortraits : One-shot megapixel neural head avatars 解耦效果还不够好，所以在此基础上，加了两个loss来进行优化。\n$I_i$ and $I_j$ 是同一段视频中的不同两帧\n定义\n$\\hat{I}{j,z^{pose}{i}}$ : 表示 j apply i 帧的 pose;\n$\\hat{I}{i,z^{dyn}{j}}$ 表示 i apply j 帧的 dyn;\n目标状态的id，pose 和 dyn均一致, 然后最小化 $\\hat{I}{j,z^{pose}{i}}$ 和 $\\hat{I}{i,z^{dyn}{j}}$ 。\n为了进一步加强ID：\n$I_s$ 和 $I_d$ 为一段视频的两帧\n定义\n上述公式 是利用 s 帧 的 id ，volume 和 d 帧的 pose和dyn ，也就是把 d 帧的motion 迁移到 s 帧，对迁移后的结果和 $I_s$ 算人脸 cosin-similarity。\n利用这两个 loss，对 One-shot megapixel neural head avatars 进行训练优化，得到更好的$E_{app}$ 和 $E_{mtn}$。\n条件信号： Conditioning signals\n$C = [X^{pre}, A^{pre}; A, g, d, e]$\nClassifier-free guidance (CFG)\ng: the main eye gaze direction\nd: head to camera distance\ne: emotion offset e\n生成结果：\n问题\n（1）部分视频生成的人脸表情比较僵硬，看起不真实\n（2）生成效率还是不够好，目前还没有办法在实时通信场景下应用\n以上。\n",
+  "wordCount" : "1164",
+  "inLanguage": "en",
+  "datePublished": "2024-05-20T19:36:57+08:00",
+  "dateModified": "2024-05-20T19:36:57+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cp0000.github.io/posts/review_vasa-1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CP0000 - 一只特立独行的猪",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cp0000.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cp0000.github.io/" accesskey="h" title="CP0000 - 一只特立独行的猪 (Alt + H)">CP0000 - 一只特立独行的猪</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Review_VASA-1
+    </h1>
+    <div class="post-meta"><span title='2024-05-20 19:36:57 +0800 CST'>May 20, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="vasa-1-lifelike-audio-driven-talking-faces-generated-in-real-time">VASA-1: Lifelike Audio-Driven Talking Faces Generated in Real Time<a hidden class="anchor" aria-hidden="true" href="#vasa-1-lifelike-audio-driven-talking-faces-generated-in-real-time">#</a></h1>
+<p><a href="https://www.microsoft.com/en-us/research/project/vasa-1/">https://www.microsoft.com/en-us/research/project/vasa-1/</a></p>
+<p>微软的一篇关于 talking head 的工作，叫：VASA-1。VASA-1 是利用一段音频和一张照片，生成一段该照片说话的视频。</p>
+<p>他的核心贡献是：</p>
+<ul>
+<li>结合 Diffusion 范式和 transformer 网络框架，将其利用在 talking head 领域。</li>
+</ul>
+<p>下图是简介：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/0.jpeg" alt=""  />
+</p>
+<p><strong>Training and Testing</strong></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/1.jpeg" alt=""  />
+</p>
+<p>从上图可以概括来讲：</p>
+<ul>
+<li>模型框架叫：motion latent diffusion。它是基于 transformer-based，结合 diffusion 范式（数据处理方式，loss）</li>
+<li>模型的生成目标是：目标条件下的人脸的 motion latents</li>
+<li>预测的时候，利用训练好的 motion latent diffusion 得到 motion latents，结合 single frame 的 app volume 和 ID latent，decode成视频帧。</li>
+</ul>
+<p>细节上：</p>
+<p>在训练的时候，会先对一段视频做音频和视频帧的处理：</p>
+<ul>
+<li>$E_{audio}$：音频特征提取；文中利用的是 audio2wav 预训练好的模型。</li>
+<li>$E_{mtn}:$  表情动作特征提取；文中是基于另外一篇工作：MegaPortraits: One-shot megapixel neural head avatars，利用训练好的 MegaPortraits 的 motion encoder 来提取视频帧的 motion latents。</li>
+<li>本文对 MegaPortraits 的模型进行优化，主要是 loss 设计上的，后面会提到。</li>
+</ul>
+<p>motion latent diffusion 训练 pipeline 很清晰明了：把 音频特征，motion latents 以及 other conditions，拼成一个大的 token，利用 transformer 结构，结合 diffusion loss 进行训练，生成目标 motion latents。</p>
+<p>预测部分：</p>
+<p>app.volume 和 ID latent，是利用 <a href="https://arxiv.org/pdf/2207.07621">MegaPortraits : One-shot megapixel neural head avatars</a> 中的方法，获取的。</p>
+<p>其中涉及到如何把一张人脸进行属性解耦，具体是采用<a href="https://arxiv.org/pdf/2207.07621">MegaPortraits : One-shot megapixel neural head avatars</a>中的方法， 如下图：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/2.jpeg" alt=""  />
+</p>
+<p>简要介绍 MegaPortraits 的训练思路：</p>
+<ol>
+<li>训练第一阶段，从同一段视频中采样 $x_s$ 和 $x_d$ 两帧视频帧，利用 $E_{app}$ 提取 $v_s$ 和 $e_s$. 利用 $E_{mtn}$ 分别提取 $x_s$ 和 $x_d$ $z_s$ 和 $z_d$。训练把 $x_s$ 的 motion 去掉，并投射到一个标准坐标在，然后在诸如 $x_d$ 的 motion。</li>
+</ol>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/0.png" alt=""  />
+</p>
+<ol>
+<li>此外推理时，source 图和目标动作图非同一个视频，只利用上述同视频不同帧训练，泛化效果不好。MegaProtraits 加入 cycle loss来优化这个问题。具体来说 source帧和目标帧从两个不同的视频中采样，并利用cyclegan的那种方式来进行 loss 设计和训练。</li>
+</ol>
+<p><strong>Loss</strong></p>
+<p>文中指出 <a href="https://arxiv.org/pdf/2207.07621">MegaPortraits : One-shot megapixel neural head avatars</a> 解耦效果还不够好，所以在此基础上，加了两个loss来进行优化。</p>
+<p>$I_i$ and  $I_j$ 是同一段视频中的不同两帧</p>
+<p>定义</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/3.jpeg" alt=""  />
+</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/4.jpeg" alt=""  />
+</p>
+<p>$\hat{I}<em>{j,z^{pose}</em>{i}}$ : 表示 j apply i 帧的 pose;</p>
+<p>$\hat{I}<em>{i,z^{dyn}</em>{j}}$ 表示 i apply j 帧的 dyn;</p>
+<p>目标状态的id，pose 和 dyn均一致, 然后最小化 $\hat{I}<em>{j,z^{pose}</em>{i}}$ 和 $\hat{I}<em>{i,z^{dyn}</em>{j}}$ 。</p>
+<p>为了进一步加强ID：</p>
+<p>$I_s$ 和 $I_d$ 为一段视频的两帧</p>
+<p>定义</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/1.png" alt=""  />
+</p>
+<p>上述公式 是利用 s 帧 的 id ，volume 和 d 帧的 pose和dyn ，也就是把 d 帧的motion 迁移到 s 帧，对迁移后的结果和  $I_s$ 算人脸 cosin-similarity。</p>
+<p>利用这两个 loss，对 <a href="https://arxiv.org/pdf/2207.07621">One-shot megapixel neural head avatars</a> 进行训练优化，得到更好的$E_{app}$ 和 $E_{mtn}$。</p>
+<p><strong>条件信号： Conditioning signals</strong></p>
+<p>$C = [X^{pre}, A^{pre}; A, g, d, e]$</p>
+<p><strong>Classifier-free guidance (CFG)</strong></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/2.png" alt=""  />
+</p>
+<p>g: the main eye gaze direction</p>
+<p>d: head to camera distance</p>
+<p>e: emotion offset e</p>
+<p><strong>生成结果：</strong></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/5.jpeg" alt=""  />
+</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/vasa/3.png" alt=""  />
+</p>
+<p>问题</p>
+<p>（1）部分视频生成的人脸表情比较僵硬，看起不真实</p>
+<p>（2）生成效率还是不够好，目前还没有办法在实时通信场景下应用</p>
+<p>以上。</p>
+<hr>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>CP0000</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

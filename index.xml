@@ -6,7 +6,16 @@
     <description>Recent content on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Tue, 30 Apr 2024 15:55:05 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 May 2024 19:36:57 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review_VASA-1</title>
+      <link>https://cp0000.github.io/posts/review_vasa-1/</link>
+      <pubDate>Mon, 20 May 2024 19:36:57 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_vasa-1/</guid>
+      <description>VASA-1: Lifelike Audio-Driven Talking Faces Generated in Real Time https://www.microsoft.com/en-us/research/project/vasa-1/ 微软的一篇关于 talking head 的工作，叫：VASA-1。VASA-1 是利用一段音频和一张照片，生成一段该照片说话的视频。 他的核心贡献</description>
+    </item>
+    
     <item>
       <title>Review_PuLID</title>
       <link>https://cp0000.github.io/posts/review_pulid/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/34/</guid>
       <description>莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。 料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也</description>
-    </item>
-    
-    <item>
-      <title>AI绘画：什么是AIGC，以及AIGC相关算法介绍</title>
-      <link>https://cp0000.github.io/posts/ai_generate_content/</link>
-      <pubDate>Mon, 31 Oct 2022 17:21:09 +0800</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/ai_generate_content/</guid>
-      <description>2022年最火的AI算法要属AIGC：（AI-generated content，AI生成内容）。要说AIGC这一概念的流行，最大的功劳估计要</description>
     </item>
     
   </channel>
