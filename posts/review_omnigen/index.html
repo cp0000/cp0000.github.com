@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Review_omnigen | CP0000 - 一只特立独行的猪</title>
+<meta name="keywords" content="">
+<meta name="description" content="OmniGen: Unified Image Generation OmniGen： A new diffusion model for unified image generation. OmniGen no longer requires additional modules such as ControlNet or IP-Adapter to process diverse control conditions. https://github.com/VectorSpaceLab/OmniGen https://arxiv.org/abs/2409.11340 简介 本文推出一种新的统一的文生图扩散模型：OmniGen. 相较于">
+<meta name="author" content="">
+<link rel="canonical" href="https://cp0000.github.io/posts/review_omnigen/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cp0000.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cp0000.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cp0000.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cp0000.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Review_omnigen" />
+<meta property="og:description" content="OmniGen: Unified Image Generation OmniGen： A new diffusion model for unified image generation. OmniGen no longer requires additional modules such as ControlNet or IP-Adapter to process diverse control conditions. https://github.com/VectorSpaceLab/OmniGen https://arxiv.org/abs/2409.11340 简介 本文推出一种新的统一的文生图扩散模型：OmniGen. 相较于" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cp0000.github.io/posts/review_omnigen/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-25T20:31:37+08:00" />
+<meta property="article:modified_time" content="2024-11-25T20:31:37+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Review_omnigen"/>
+<meta name="twitter:description" content="OmniGen: Unified Image Generation OmniGen： A new diffusion model for unified image generation. OmniGen no longer requires additional modules such as ControlNet or IP-Adapter to process diverse control conditions. https://github.com/VectorSpaceLab/OmniGen https://arxiv.org/abs/2409.11340 简介 本文推出一种新的统一的文生图扩散模型：OmniGen. 相较于"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cp0000.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Review_omnigen",
+      "item": "https://cp0000.github.io/posts/review_omnigen/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Review_omnigen",
+  "name": "Review_omnigen",
+  "description": "OmniGen: Unified Image Generation OmniGen： A new diffusion model for unified image generation. OmniGen no longer requires additional modules such as ControlNet or IP-Adapter to process diverse control conditions. https://github.com/VectorSpaceLab/OmniGen https://arxiv.org/abs/2409.11340 简介 本文推出一种新的统一的文生图扩散模型：OmniGen. 相较于",
+  "keywords": [
+    
+  ],
+  "articleBody": "OmniGen: Unified Image Generation OmniGen： A new diffusion model for unified image generation. OmniGen no longer requires additional modules such as ControlNet or IP-Adapter to process diverse control conditions.\nhttps://github.com/VectorSpaceLab/OmniGen\nhttps://arxiv.org/abs/2409.11340\n简介 本文推出一种新的统一的文生图扩散模型：OmniGen. 相较于之前的 StableDiffusion，或者Flux 等模型， OmniGen有以下特性：\n统一： OmniGen 不仅能做文生图任务，也可以支持下游任务：比如图像编辑，主体生成，以及视觉提交生成。此外，OmniGen还可以做一些传统计算机视觉任务，比如边缘检测，人体姿态识别。 简单：OmniGen 的网络架构非常简单。 知识迁移：OmniGen可以非常高效的迁移到未处理过的任务上。 本文的贡献：\n推出OmniGen，一个全新的统一各种文生图任务的扩散模型。 一个新的数据集 X2I， Anything to Image 的缩写。这个数据集包含了各种图像生成任务数据，以标准化的格式存储。 在OmniGen上，可以非常高效的把现有能力迁移到新的任务上。 OmniGen Network Architecture\n网络架构上由两部分组成：VAE 和 Transformer 模型。其中 VAE 使用的是 SDXL 的 VAE 模型，训练的时候是被 freeze 的。 transformer 模型采用的是 Phi-3 的网络结构和初始化权重。\n网络结构如下图所示：\n输入格式：\n图片：利用 VAE 得到 latent 表示。然后展开成序列。文本和图像嵌入在一起成为一条长的序列。在图像的前后，插入了两个特殊token 和 注意力机制：\n如上图左边的 Attention Mechanism 所示，序列中除了 Image Patch 以外的其他元素采用因果注意力机制，图像序列内应用双向注意力机制。\n训练管线\n选择从小分辨率到大分辨率，渐进式训练策略\n数据集\n数据集制作部分，介绍下主体驱动生成图像。\n本文制作了两个数据集，分别是通过下图左半部分流程制作出来的 GRIT-Entity数据集,和通过下图右半部分制作而成的高质量领先数据集。\nGRIT-Entity：利用 DINO 和 SAM 对图像分别做检测和分割，然后利用 MS-Diffusion 来重绘和增强图片。一共只做了 6M 的数据对。\n高质量数据集：只使用 GRIT-Entity 会让模型有比较强的 copy-paste 痕迹，所以本文构造了一个从真实数据中采集多主体的数据集，如下图右半部分所示，对于人物A和人物B的合影，我们从人物A和人物B的单张照片中抽取几张图片，并利用 MLLM 判断他们是否出现在合影中。只有当人物A和人物B的“YES”比例都达到特定的阈值时，才会保留合影。标记为“YES”的单张图片与相应的合影图片构建成一个数据对，用这种方法一共构建了 533,000 图像数据对。\n效果部分\n可以看到 OmniGen 在各种任务上都有不错的表现。\n以上。\n",
+  "wordCount" : "946",
+  "inLanguage": "en",
+  "datePublished": "2024-11-25T20:31:37+08:00",
+  "dateModified": "2024-11-25T20:31:37+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cp0000.github.io/posts/review_omnigen/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CP0000 - 一只特立独行的猪",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cp0000.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cp0000.github.io/" accesskey="h" title="CP0000 - 一只特立独行的猪 (Alt + H)">CP0000 - 一只特立独行的猪</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Review_omnigen
+    </h1>
+    <div class="post-meta"><span title='2024-11-25 20:31:37 +0800 CST'>November 25, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="omnigen-unified-image-generation">OmniGen: Unified Image Generation<a hidden class="anchor" aria-hidden="true" href="#omnigen-unified-image-generation">#</a></h1>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/omnigen/0.jpeg" alt=""  />
+</p>
+<p>OmniGen： A new diffusion model for unified image generation. OmniGen no longer requires additional modules such as ControlNet or IP-Adapter to process diverse control conditions.</p>
+<p><a href="https://github.com/VectorSpaceLab/OmniGen">https://github.com/VectorSpaceLab/OmniGen</a></p>
+<p><a href="https://arxiv.org/abs/2409.11340">https://arxiv.org/abs/2409.11340</a></p>
+<h3 id="简介">简介<a hidden class="anchor" aria-hidden="true" href="#简介">#</a></h3>
+<p>本文推出一种新的统一的文生图扩散模型：OmniGen. 相较于之前的 StableDiffusion，或者Flux 等模型， OmniGen有以下特性：</p>
+<ol>
+<li>统一： OmniGen 不仅能做文生图任务，也可以支持下游任务：比如图像编辑，主体生成，以及视觉提交生成。此外，OmniGen还可以做一些传统计算机视觉任务，比如边缘检测，人体姿态识别。</li>
+<li>简单：OmniGen 的网络架构非常简单。</li>
+<li>知识迁移：OmniGen可以非常高效的迁移到未处理过的任务上。</li>
+</ol>
+<p>本文的贡献：</p>
+<ol>
+<li>推出OmniGen，一个全新的统一各种文生图任务的扩散模型。</li>
+<li>一个新的数据集 X2I， Anything to Image 的缩写。这个数据集包含了各种图像生成任务数据，以标准化的格式存储。</li>
+<li>在OmniGen上，可以非常高效的把现有能力迁移到新的任务上。</li>
+</ol>
+<h3 id="omnigen">OmniGen<a hidden class="anchor" aria-hidden="true" href="#omnigen">#</a></h3>
+<p><strong>Network Architecture</strong></p>
+<p>网络架构上由两部分组成：VAE 和 Transformer 模型。其中 VAE 使用的是 SDXL 的 VAE 模型，训练的时候是被 freeze 的。 transformer 模型采用的是 Phi-3 的网络结构和初始化权重。</p>
+<p>网络结构如下图所示：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/omnigen/1.jpg" alt=""  />
+</p>
+<p><strong>输入格式：</strong></p>
+<p>图片：利用 VAE 得到 latent 表示。然后展开成序列。文本和图像嵌入在一起成为一条长的序列。在图像的前后，插入了两个特殊token <!-- raw HTML omitted --> 和 <!-- raw HTML omitted --></p>
+<p><strong>注意力机制：</strong></p>
+<p>如上图左边的 Attention Mechanism 所示，序列中除了 Image Patch 以外的其他元素采用因果注意力机制，图像序列内应用双向注意力机制。</p>
+<p><strong>训练管线</strong></p>
+<p>选择从小分辨率到大分辨率，渐进式训练策略</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/omnigen/2.jpg" alt=""  />
+</p>
+<p><strong>数据集</strong></p>
+<p>数据集制作部分，介绍下主体驱动生成图像。</p>
+<p>本文制作了两个数据集，分别是通过下图左半部分流程制作出来的 GRIT-Entity数据集,和通过下图右半部分制作而成的高质量领先数据集。</p>
+<p>GRIT-Entity：利用 DINO 和 SAM 对图像分别做检测和分割，然后利用 MS-Diffusion 来重绘和增强图片。一共只做了 6M 的数据对。</p>
+<p>高质量数据集：只使用 GRIT-Entity 会让模型有比较强的 copy-paste 痕迹，所以本文构造了一个从真实数据中采集多主体的数据集，如下图右半部分所示，对于人物A和人物B的合影，我们从人物A和人物B的单张照片中抽取几张图片，并利用 MLLM 判断他们是否出现在合影中。只有当人物A和人物B的“YES”比例都达到特定的阈值时，才会保留合影。标记为“YES”的单张图片与相应的合影图片构建成一个数据对，用这种方法一共构建了 533,000 图像数据对。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/omnigen/3.jpg" alt=""  />
+</p>
+<p><strong>效果部分</strong></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/omnigen/4.jpg" alt=""  />
+</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/omnigen/5.jpg" alt=""  />
+</p>
+<p>可以看到 OmniGen 在各种任务上都有不错的表现。</p>
+<p>以上。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>CP0000</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
