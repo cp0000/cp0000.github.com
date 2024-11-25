@@ -8,12 +8,12 @@
     <copyright>CP0000</copyright>
     <lastBuildDate>Mon, 25 Nov 2024 20:31:37 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Review_omnigen</title>
+      <title>Review OmniGen: Unified Image Generation</title>
       <link>https://cp0000.github.io/posts/review_omnigen/</link>
       <pubDate>Mon, 25 Nov 2024 20:31:37 +0800</pubDate>
       
       <guid>https://cp0000.github.io/posts/review_omnigen/</guid>
-      <description>OmniGen: Unified Image Generation OmniGen： A new diffusion model for unified image generation. OmniGen no longer requires additional modules such as ControlNet or IP-Adapter to process diverse control conditions. https://github.com/VectorSpaceLab/OmniGen https://arxiv.org/abs/2409.11340 简介 本文推出一种新的统一的文生图扩散模型：OmniGen. 相较于</description>
+      <description>OmniGen： A new diffusion model for unified image generation. OmniGen no longer requires additional modules such as ControlNet or IP-Adapter to process diverse control conditions. https://github.com/VectorSpaceLab/OmniGen https://arxiv.org/abs/2409.11340 简介 本文推出一种新的统一的文生图扩散模型：OmniGen. 相较于之前的 S</description>
     </item>
     
     <item>
