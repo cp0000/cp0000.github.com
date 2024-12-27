@@ -6,7 +6,16 @@
     <description>Recent content on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Mon, 23 Dec 2024 22:12:36 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Dec 2024 11:25:14 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review_hunyuan_video</title>
+      <link>https://cp0000.github.io/posts/review_hunyuan_video/</link>
+      <pubDate>Fri, 27 Dec 2024 11:25:14 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_hunyuan_video/</guid>
+      <description>review: HunyuanVideo: A Systematic Framework For Large Video Generation Model Training https://github.com/Tencent/HunyuanVideo 腾讯开源的一个 13B 的视频生成模型 HunyuanVideo. 生成的视频帧率是 24fps，分辨率为720p。视频质量相较于目前其他的开源视频生成模</description>
+    </item>
+    
     <item>
       <title>36</title>
       <link>https://cp0000.github.io/posts/36/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/cognitive_awakening/</guid>
       <description>《认知觉醒：开启自我改变的原动力》是一本很好读的书，他帮助我相对系统性的理清了自己这些年潜意识中模糊存在的道理。这本书给我最明显的收获有两点</description>
-    </item>
-    
-    <item>
-      <title>关于投资</title>
-      <link>https://cp0000.github.io/posts/my_investment/</link>
-      <pubDate>Wed, 29 Mar 2023 19:41:20 +0800</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/my_investment/</guid>
-      <description>工具 学生时代，没有任何的储蓄，对投资理财没有任何概念。工作之后，早期收入比较少，没有意识需要去做投资。我想可能很多人和我一样，第一次亲手操作</description>
     </item>
     
   </channel>

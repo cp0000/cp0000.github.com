@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Review_hunyuan_video | CP0000 - 一只特立独行的猪</title>
+<meta name="keywords" content="">
+<meta name="description" content="review: HunyuanVideo: A Systematic Framework For Large Video Generation Model Training https://github.com/Tencent/HunyuanVideo 腾讯开源的一个 13B 的视频生成模型 HunyuanVideo. 生成的视频帧率是 24fps，分辨率为720p。视频质量相较于目前其他的开源视频生成模">
+<meta name="author" content="">
+<link rel="canonical" href="https://cp0000.github.io/posts/review_hunyuan_video/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cp0000.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cp0000.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cp0000.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cp0000.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Review_hunyuan_video" />
+<meta property="og:description" content="review: HunyuanVideo: A Systematic Framework For Large Video Generation Model Training https://github.com/Tencent/HunyuanVideo 腾讯开源的一个 13B 的视频生成模型 HunyuanVideo. 生成的视频帧率是 24fps，分辨率为720p。视频质量相较于目前其他的开源视频生成模" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cp0000.github.io/posts/review_hunyuan_video/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-12-27T11:25:14+08:00" />
+<meta property="article:modified_time" content="2024-12-27T11:25:14+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Review_hunyuan_video"/>
+<meta name="twitter:description" content="review: HunyuanVideo: A Systematic Framework For Large Video Generation Model Training https://github.com/Tencent/HunyuanVideo 腾讯开源的一个 13B 的视频生成模型 HunyuanVideo. 生成的视频帧率是 24fps，分辨率为720p。视频质量相较于目前其他的开源视频生成模"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cp0000.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Review_hunyuan_video",
+      "item": "https://cp0000.github.io/posts/review_hunyuan_video/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Review_hunyuan_video",
+  "name": "Review_hunyuan_video",
+  "description": "review: HunyuanVideo: A Systematic Framework For Large Video Generation Model Training https://github.com/Tencent/HunyuanVideo 腾讯开源的一个 13B 的视频生成模型 HunyuanVideo. 生成的视频帧率是 24fps，分辨率为720p。视频质量相较于目前其他的开源视频生成模",
+  "keywords": [
+    
+  ],
+  "articleBody": "review: HunyuanVideo: A Systematic Framework For Large Video Generation Model Training https://github.com/Tencent/HunyuanVideo\n腾讯开源的一个 13B 的视频生成模型 HunyuanVideo.\n生成的视频帧率是 24fps，分辨率为720p。视频质量相较于目前其他的开源视频生成模型有着比较明显的提升。\n下图是混元的模型训练系统。主要分成三个部分，第一个部分是数据处理部分，主要是对网络爬取的数据进行清洗，以及caption label。第二个部分是模型训练，这里采用多阶段训练（分辨率维度的）。第三部分是算法部分，这里主要是一些比较偏上层的应用算法，有图生视频，上半生的talking head视频生成，以及全身形象视频生成。\n关于数据筛选\n利用 PySceneDetect 对视频进行分镜头切分。 然后利用 opencv 中的拉普拉斯方法筛选出单个视频中最清晰的那一帧，作为每个视频的起始帧。 使用内部的 VideoCLIP 来提取 视频片段的 embedding。这个 embedding 有两个作用。 利用 cosine 距离来进行视频去重。 利用 k-means 进行聚类，大概聚了 ～10k 的类别，用来进行重采样和数据平衡。 利用 Dover 对视频进行美观度评估。 训练了一个模型对视频进行清晰度和视觉模糊进行评价。 利用光流把静止和动作缓慢的视频筛除。 利用 OCR 模型把视频帧中存在过的字幕的视频筛除。 训练了一个类 yolo 的网络，把视频中的水印，边框，和 logo 去除掉。 下图是整体的数据处理流程：\n在SFT阶段，我们构建了一个～1M的高质量数据集。这个数据集的数据从两个维度考察：\n美学方面： 光照，色彩，空间布局，和物理规律。 运动方面：运动速度，动作完整性，以及是否有 运动模糊。 此外我们还构建了两个图像数据集：\n第一个数据集包含 1B 级别的数据，主要用来做预训练。 第二个数据集在千万级别，用来做第二阶段的预训练。 数据标注：\n我们训练一个 VLM 模型来给视频生成类结构化的caption。这个结构化的caption包括：\n短描述：描述视频的主场景 密集描述：描述场景切换，以及相机移动等。 背景：视频主体所在的背景。 风格：比如纪录片，电影，真人等。 镜头类型：比如空中拍摄、特写镜头、中景拍摄或远景拍摄。 灯光：视频的灯光 氛围：视频中体现的氛围感，比如温馨，紧张，神秘。 模型结构：\n从文中介绍的模型结构来看，采用的是 3DVAE + DiT 结合的结构，和目前开源的 CogVideo 架构比较相似。其中3D VAE部分和 CogVideo 参数上也比较接近， T,H,W 维度 分别进行了 4x8x8 倍的压缩。\nDiT 部分，是参考了的 12B 的 Flux 模型，改动是把 Flux 的 T5 换成了 MLLM 以支持多语种的输入。其余结构和 Flux 几乎一致。\n3D VAE 的结构：\nDiT 部分\n模型网络参数：\n结构参考了 Flux ，文本部分用 MLLM 替换了 T5，这样可以支持中英文多语种输入。值得注意的是，文中提到T5 采用的是 双注意力机制，这对图片文本对齐效果有帮助，所以他们对 MLLM 进行改造引入了双注意力机制。\n如下图：\n训练的过程采用，文生图预训练，然后视频生成从低分辨率到高分辨率训练。\n应用\n基于混元视频生成的DiT框架，还可以做类似音频生成的任务。框架如下图：\n图生视频\n还可以做根据音频/姿态表情驱动图片生成视频：\n不过他的 ref 是过MLLM 的，这个有点怪， MLLM 是语言模型，不知道为啥可以吃 ref 作为输入。\n音频和姿态的输入方式，和之前的工作比较接近。表情部分，文中用的是 VASA 的表情提取器，不过VASA也没有开源，估计是自己训练了一个。\n总的来说，混元开源的视频生成模型，生成效果是目前开源中最好的模型。\n",
+  "wordCount" : "1293",
+  "inLanguage": "en",
+  "datePublished": "2024-12-27T11:25:14+08:00",
+  "dateModified": "2024-12-27T11:25:14+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cp0000.github.io/posts/review_hunyuan_video/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CP0000 - 一只特立独行的猪",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cp0000.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cp0000.github.io/" accesskey="h" title="CP0000 - 一只特立独行的猪 (Alt + H)">CP0000 - 一只特立独行的猪</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Review_hunyuan_video
+    </h1>
+    <div class="post-meta"><span title='2024-12-27 11:25:14 +0800 CST'>December 27, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="review-hunyuanvideo-a-systematic-framework-for-large-video-generation-model-training">review: HunyuanVideo: A Systematic Framework For Large Video Generation Model Training<a hidden class="anchor" aria-hidden="true" href="#review-hunyuanvideo-a-systematic-framework-for-large-video-generation-model-training">#</a></h1>
+<p><a href="https://github.com/Tencent/HunyuanVideo">https://github.com/Tencent/HunyuanVideo</a></p>
+<p>腾讯开源的一个 13B 的视频生成模型 HunyuanVideo.</p>
+<p>生成的视频帧率是 24fps，分辨率为720p。视频质量相较于目前其他的开源视频生成模型有着比较明显的提升。</p>
+<p>下图是混元的模型训练系统。主要分成三个部分，第一个部分是数据处理部分，主要是对网络爬取的数据进行清洗，以及caption label。第二个部分是模型训练，这里采用多阶段训练（分辨率维度的）。第三部分是算法部分，这里主要是一些比较偏上层的应用算法，有图生视频，上半生的talking head视频生成，以及全身形象视频生成。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E6%2588%25AA%25E5%25B1%258F2024-12-04_10.32.29.jpg" alt=""  />
+</p>
+<p><strong>关于数据筛选</strong></p>
+<ol>
+<li>利用 PySceneDetect 对视频进行分镜头切分。</li>
+<li>然后利用 opencv 中的拉普拉斯方法筛选出单个视频中最清晰的那一帧，作为每个视频的起始帧。</li>
+<li>使用内部的 VideoCLIP 来提取 视频片段的 embedding。这个 embedding 有两个作用。
+<ol>
+<li>利用 cosine 距离来进行视频去重。</li>
+<li>利用 k-means 进行聚类，大概聚了 ～10k 的类别，用来进行重采样和数据平衡。</li>
+</ol>
+</li>
+<li>利用 Dover 对视频进行美观度评估。</li>
+<li>训练了一个模型对视频进行清晰度和视觉模糊进行评价。</li>
+<li>利用光流把静止和动作缓慢的视频筛除。</li>
+<li>利用 OCR 模型把视频帧中存在过的字幕的视频筛除。</li>
+<li>训练了一个类 yolo 的网络，把视频中的水印，边框，和 logo 去除掉。</li>
+</ol>
+<p>下图是整体的数据处理流程：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E4%25BC%2581%25E4%25B8%259A%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_42a6db1c-d156-4945-929e-8211ec3e3332.png" alt=""  />
+</p>
+<p>在SFT阶段，我们构建了一个～1M的高质量数据集。这个数据集的数据从两个维度考察：</p>
+<ol>
+<li>美学方面： 光照，色彩，空间布局，和物理规律。</li>
+<li>运动方面：运动速度，动作完整性，以及是否有 运动模糊。</li>
+</ol>
+<p>此外我们还构建了两个图像数据集：</p>
+<ol>
+<li>第一个数据集包含 1B 级别的数据，主要用来做预训练。</li>
+<li>第二个数据集在千万级别，用来做第二阶段的预训练。</li>
+</ol>
+<p>数据标注：</p>
+<p>我们训练一个 VLM 模型来给视频生成类结构化的caption。这个结构化的caption包括：</p>
+<ol>
+<li>短描述：描述视频的主场景</li>
+<li>密集描述：描述场景切换，以及相机移动等。</li>
+<li>背景：视频主体所在的背景。</li>
+<li>风格：比如纪录片，电影，真人等。</li>
+<li>镜头类型：比如空中拍摄、特写镜头、中景拍摄或远景拍摄。</li>
+<li>灯光：视频的灯光</li>
+<li>氛围：视频中体现的氛围感，比如温馨，紧张，神秘。</li>
+</ol>
+<p><strong>模型结构：</strong></p>
+<p>从文中介绍的模型结构来看，采用的是 3DVAE + DiT 结合的结构，和目前开源的 CogVideo 架构比较相似。其中3D VAE部分和 CogVideo 参数上也比较接近， T,H,W 维度 分别进行了 4x8x8 倍的压缩。</p>
+<p>DiT 部分，是参考了的 12B 的 Flux 模型，改动是把 Flux 的 T5 换成了 MLLM 以支持多语种的输入。其余结构和 Flux 几乎一致。</p>
+<p><strong>3D VAE 的结构：</strong></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E4%25BC%2581%25E4%25B8%259A%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_4945cee0-f3b9-4556-bba2-290fd9a9c766.png" alt=""  />
+</p>
+<p><strong>DiT 部分</strong></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E4%25BC%2581%25E4%25B8%259A%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_fc1745c6-a96f-416e-b1e3-e35cca7f412f.png" alt=""  />
+</p>
+<p>模型网络参数：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E4%25BC%2581%25E4%25B8%259A%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_7af84d30-9917-4285-9abc-cedee863949b.png" alt=""  />
+</p>
+<p>结构参考了 Flux ，文本部分用 MLLM 替换了 T5，这样可以支持中英文多语种输入。值得注意的是，文中提到T5 采用的是 双注意力机制，这对图片文本对齐效果有帮助，所以他们对 MLLM 进行改造引入了双注意力机制。</p>
+<p>如下图：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E4%25BC%2581%25E4%25B8%259A%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_5f252722-db88-49b4-b68a-6d95eafb45b6.png" alt=""  />
+</p>
+<p>训练的过程采用，文生图预训练，然后视频生成从低分辨率到高分辨率训练。</p>
+<p><strong>应用</strong></p>
+<p>基于混元视频生成的DiT框架，还可以做类似音频生成的任务。框架如下图：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E4%25BC%2581%25E4%25B8%259A%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_403a9891-79ac-4f99-89ae-180becc67c79.png" alt=""  />
+</p>
+<p>图生视频</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E4%25BC%2581%25E4%25B8%259A%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_806d7b46-2ba1-4910-8514-135fc463e4ea.png" alt=""  />
+</p>
+<p>还可以做根据音频/姿态表情驱动图片生成视频：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/hunyuan_video/%25E4%25BC%2581%25E4%25B8%259A%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_163769be-78c1-4348-b191-dd0dc6d4cb33.png" alt=""  />
+</p>
+<p>不过他的 ref 是过MLLM 的，这个有点怪， MLLM 是语言模型，不知道为啥可以吃 ref 作为输入。</p>
+<p>音频和姿态的输入方式，和之前的工作比较接近。表情部分，文中用的是 VASA 的表情提取器，不过VASA也没有开源，估计是自己训练了一个。</p>
+<p>总的来说，混元开源的视频生成模型，生成效果是目前开源中最好的模型。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>CP0000</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

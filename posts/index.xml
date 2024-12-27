@@ -6,7 +6,16 @@
     <description>Recent content in Posts on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Mon, 23 Dec 2024 22:12:36 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Dec 2024 11:25:14 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review_hunyuan_video</title>
+      <link>https://cp0000.github.io/posts/review_hunyuan_video/</link>
+      <pubDate>Fri, 27 Dec 2024 11:25:14 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_hunyuan_video/</guid>
+      <description>review: HunyuanVideo: A Systematic Framework For Large Video Generation Model Training https://github.com/Tencent/HunyuanVideo 腾讯开源的一个 13B 的视频生成模型 HunyuanVideo. 生成的视频帧率是 24fps，分辨率为720p。视频质量相较于目前其他的开源视频生成模</description>
+    </item>
+    
     <item>
       <title>36</title>
       <link>https://cp0000.github.io/posts/36/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/my_investment/</guid>
       <description>工具 学生时代，没有任何的储蓄，对投资理财没有任何概念。工作之后，早期收入比较少，没有意识需要去做投资。我想可能很多人和我一样，第一次亲手操作</description>
-    </item>
-    
-    <item>
-      <title>2023年春节</title>
-      <link>https://cp0000.github.io/posts/2023_chinese_new_year/</link>
-      <pubDate>Sun, 29 Jan 2023 22:37:24 +0800</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/2023_chinese_new_year/</guid>
-      <description>2023年春节是自新冠疫情爆发以来的第一个社会面开放的中国新年，还没回家之前，听说回家过年的人很多。我这次选择了开车回家，从上海到安徽，40</description>
     </item>
     
   </channel>
