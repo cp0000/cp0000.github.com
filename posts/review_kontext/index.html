@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Review FLUX.1 Kontext | CP0000 - 一只特立独行的猪</title>
+<meta name="keywords" content="">
+<meta name="description" content="src: “FLUX.1 Kontext: Flow Matching for In&ndash;Context Image Generation and Editing in Latent Space” (arXiv:2506.15742v2) 摘要 Black Forest Labs 提出一个新的生成模型：FLUX.1 Kontext。FLUX.1 Kontext 是一个面向图像">
+<meta name="author" content="">
+<link rel="canonical" href="https://cp0000.github.io/posts/review_kontext/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cp0000.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cp0000.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cp0000.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cp0000.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cp0000.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHC2G67ZSX"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-SHC2G67ZSX', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Review FLUX.1 Kontext" />
+<meta property="og:description" content="src: “FLUX.1 Kontext: Flow Matching for In&ndash;Context Image Generation and Editing in Latent Space” (arXiv:2506.15742v2) 摘要 Black Forest Labs 提出一个新的生成模型：FLUX.1 Kontext。FLUX.1 Kontext 是一个面向图像" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cp0000.github.io/posts/review_kontext/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-07-28T19:20:46+08:00" />
+<meta property="article:modified_time" content="2025-07-28T19:20:46+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Review FLUX.1 Kontext"/>
+<meta name="twitter:description" content="src: “FLUX.1 Kontext: Flow Matching for In&ndash;Context Image Generation and Editing in Latent Space” (arXiv:2506.15742v2) 摘要 Black Forest Labs 提出一个新的生成模型：FLUX.1 Kontext。FLUX.1 Kontext 是一个面向图像"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cp0000.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Review FLUX.1 Kontext",
+      "item": "https://cp0000.github.io/posts/review_kontext/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Review FLUX.1 Kontext",
+  "name": "Review FLUX.1 Kontext",
+  "description": "src: “FLUX.1 Kontext: Flow Matching for In\u0026ndash;Context Image Generation and Editing in Latent Space” (arXiv:2506.15742v2) 摘要 Black Forest Labs 提出一个新的生成模型：FLUX.1 Kontext。FLUX.1 Kontext 是一个面向图像",
+  "keywords": [
+    
+  ],
+  "articleBody": " src: “FLUX.1 Kontext: Flow Matching for In–Context Image Generation and Editing in Latent Space” (arXiv:2506.15742v2)\n摘要 Black Forest Labs 提出一个新的生成模型：FLUX.1 Kontext。FLUX.1 Kontext 是一个面向图像生成和编辑的算法模型。\n它的优点有：\n多功能统一：单个模型可以处理多种复杂的编辑和生成任务。 一致性：在连续编辑中能够高度保持角色和物体的身份特征，适合故事板创作、品牌形象设计等需要连续性的应用。 交互式速度：通过蒸馏对抗的方法减少了推理时需要的步数，生成速度快。 广泛的应用场景：论文展示了其在产品摄影，人物表情编辑，风格迁移和基于视觉提示（如红框）的局部编辑等多种场景下的强大能力。 下面这张图展示 Kontext 的能力，从（a）去除遮挡，得到（b）,把（b）改成在Freiburg的街头自拍，得到（c）；最后把（c）改成下雪得到（d）。\n整个多轮编辑效果质量都非常高。\n技术与原理 模型的核心思想是把所有输入（文本指令， 上下文图像，目标图像）都转换成统一的 token 序列进行处理。\n序列拼接（Sequence Concatenation） 是实现统一架构的关键。\n上下文图像和目标图像均使用 VAE encoder 得到 latent 之后，patchy 成 Token 序列。上下文图像的Token序列附加在目标图像的Token序列之后，形成一个更长的序列。这个组合序列被一同送入模型的视觉处理流中。该方法被证实比通道维度的拼接更为有效。 如下图所示：\n位置编码方案\n为了让模型准确区分拼接后序列中的上下文图像部分和目标图像部分，Kontext 采用了一种新的位置编码方案。\n3D 旋转位置潜入（3D RoPE）：模型使用 3D RoPE 来编码每个 Token 的时空位置信息（t, h, w）。 虚拟时间步（Virtual Time Step）：这是区分上下文图像和目标图像的核心技巧。目标图像的Token的 t=0, 而上下文图像Token的 timestep 设置成 t=1。这个虚拟时间步，在逻辑上清晰地将两者分离开来，使得模型在处理时能够明确各自的角色。 流匹配\nKontext 是基于 Rectified Flow Matching 构建的模型，在 latent 空间上通过学习 “如何从噪声到真实图像” 来生成图片或编辑图片。\nKontext 模型学习条件分布：p_θ(x|y,c)\nx: 目标图像（模型要生成的） y: 上下文图像（可以为空） c: 文本指令 当 y != ∅ 时，图像局部编辑 当 y = ∅ 时，文生图\n训练数据\nKontext 在训练的过程中使用到了百万级别的 (x|y,c) 数据paired对，这个数据集是 Kontext 效果如何之好的核心因素。\nLoss 函数\nKontextBench 为了更加系统准确的评估模型性能，研究团队构建了KontextBench。\n构成： 108 张基础图像，通过 prompts 组合成 1026个独特的 “图像-提示” 对。 任务分类： KontextBench 覆盖了五个核心任务类别： 局部指令编辑 全局指令编辑 角色参考 风格参考 文本编辑 下面是一些show case：\n附录 - 代码：\n位置编码：\n# 下面是 target image 和 incontext image 位置编码代码，img_ids t set 0，img_cond_ids set 1 img_ids = torch.zeros(h // 2, w // 2, 3) img_ids[..., 1] = img_ids[..., 1] + torch.arange(h // 2)[:, None] img_ids[..., 2] = img_ids[..., 2] + torch.arange(w // 2)[None, :] img_ids = repeat(img_ids, \"h w c -\u003e b (h w) c\", b=bs) img_cond_ids = torch.zeros(height // 2, width // 2, 3) img_cond_ids[..., 0] = 1 img_cond_ids[..., 1] = img_cond_ids[..., 1] + torch.arange(height // 2)[:, None] img_cond_ids[..., 2] = img_cond_ids[..., 2] + torch.arange(width // 2)[None, :] img_cond_ids = repeat(img_cond_ids, \"h w c -\u003e b (h w) c\", b=bs) 推理代码\nimg_cond_seq : in context image sequence\nimg_cond_seq_ids : in context image sequence position embedding\ndef denoise( model: Flux, # model input img: Tensor, img_ids: Tensor, txt: Tensor, txt_ids: Tensor, vec: Tensor, # sampling parameters timesteps: list[float], guidance: float = 4.0, # extra img tokens (channel-wise) img_cond: Tensor | None = None, # extra img tokens (sequence-wise) img_cond_seq: Tensor | None = None, img_cond_seq_ids: Tensor | None = None, ): # this is ignored for schnell guidance_vec = torch.full((img.shape[0],), guidance, device=img.device, dtype=img.dtype) for t_curr, t_prev in zip(timesteps[:-1], timesteps[1:]): t_vec = torch.full((img.shape[0],), t_curr, dtype=img.dtype, device=img.device) img_input = img img_input_ids = img_ids if img_cond is not None: img_input = torch.cat((img, img_cond), dim=-1) if img_cond_seq is not None: assert ( img_cond_seq_ids is not None ), \"You need to provide either both or neither of the sequence conditioning\" img_input = torch.cat((img_input, img_cond_seq), dim=1) img_input_ids = torch.cat((img_input_ids, img_cond_seq_ids), dim=1) pred = model( img=img_input, img_ids=img_input_ids, txt=txt, txt_ids=txt_ids, y=vec, timesteps=t_vec, guidance=guidance_vec, ) if img_input_ids is not None: pred = pred[:, : img.shape[1]] img = img + (t_prev - t_curr) * pred return img End。\n",
+  "wordCount" : "1383",
+  "inLanguage": "en",
+  "datePublished": "2025-07-28T19:20:46+08:00",
+  "dateModified": "2025-07-28T19:20:46+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cp0000.github.io/posts/review_kontext/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CP0000 - 一只特立独行的猪",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cp0000.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cp0000.github.io/" accesskey="h" title="CP0000 - 一只特立独行的猪 (Alt + H)">CP0000 - 一只特立独行的猪</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Review FLUX.1 Kontext
+    </h1>
+    <div class="post-meta"><span title='2025-07-28 19:20:46 +0800 CST'>July 28, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><blockquote>
+<p>src: “FLUX.1 Kontext: Flow Matching for In&ndash;Context Image Generation and Editing in Latent Space” (arXiv:2506.15742v2)</p>
+</blockquote>
+<h3 id="摘要">摘要<a hidden class="anchor" aria-hidden="true" href="#摘要">#</a></h3>
+<p>Black Forest Labs 提出一个新的生成模型：FLUX.1 Kontext。FLUX.1 Kontext 是一个面向图像生成和编辑的算法模型。</p>
+<p>它的优点有：</p>
+<ul>
+<li>多功能统一：单个模型可以处理多种复杂的编辑和生成任务。</li>
+<li>一致性：在连续编辑中能够高度保持角色和物体的身份特征，适合故事板创作、品牌形象设计等需要连续性的应用。</li>
+<li>交互式速度：通过蒸馏对抗的方法减少了推理时需要的步数，生成速度快。</li>
+<li>广泛的应用场景：论文展示了其在产品摄影，人物表情编辑，风格迁移和基于视觉提示（如红框）的局部编辑等多种场景下的强大能力。</li>
+</ul>
+<p>下面这张图展示 Kontext 的能力，从（a）去除遮挡，得到（b）,把（b）改成在Freiburg的街头自拍，得到（c）；最后把（c）改成下雪得到（d）。</p>
+<p>整个多轮编辑效果质量都非常高。</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/kontext/0.jpg" alt="Untitled"  />
+</p>
+<h3 id="技术与原理">技术与原理<a hidden class="anchor" aria-hidden="true" href="#技术与原理">#</a></h3>
+<p>模型的核心思想是把所有输入（文本指令， 上下文图像，目标图像）都转换成统一的 token 序列进行处理。</p>
+<p><strong>序列拼接（Sequence Concatenation）</strong> 是实现统一架构的关键。</p>
+<ul>
+<li>上下文图像和目标图像均使用 VAE encoder 得到 latent 之后，patchy 成 Token 序列。上下文图像的Token序列附加在目标图像的Token序列之后，形成一个更长的序列。这个组合序列被一同送入模型的视觉处理流中。该方法被证实比通道维度的拼接更为有效。</li>
+</ul>
+<p>如下图所示：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/kontext/2.jpg" alt="Untitled"  />
+</p>
+<p><strong>位置编码方案</strong></p>
+<p>为了让模型准确区分拼接后序列中的上下文图像部分和目标图像部分，Kontext 采用了一种新的位置编码方案。</p>
+<ul>
+<li>3D 旋转位置潜入（3D RoPE）：模型使用 3D RoPE 来编码每个 Token 的时空位置信息（t, h, w）。</li>
+<li>虚拟时间步（Virtual Time Step）：这是区分上下文图像和目标图像的核心技巧。目标图像的Token的 t=0, 而上下文图像Token的 timestep 设置成 t=1。这个虚拟时间步，在逻辑上清晰地将两者分离开来，使得模型在处理时能够明确各自的角色。</li>
+</ul>
+<p><strong>流匹配</strong></p>
+<p>Kontext 是基于 Rectified Flow Matching 构建的模型，在 latent 空间上通过学习 “如何从噪声到真实图像” 来生成图片或编辑图片。</p>
+<p>Kontext 模型学习条件分布：p_θ(x|y,c)</p>
+<ul>
+<li>x: 目标图像（模型要生成的）</li>
+<li>y: 上下文图像（可以为空）</li>
+<li>c: 文本指令</li>
+</ul>
+<p>当 y != ∅ 时，图像局部编辑
+当 y = ∅ 时，文生图</p>
+<p><strong>训练数据</strong></p>
+<p>Kontext 在训练的过程中使用到了百万级别的 (x|y,c) 数据paired对，这个数据集是 Kontext 效果如何之好的核心因素。</p>
+<p><strong>Loss 函数</strong></p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/kontext/3.jpg" alt="Untitled"  />
+</p>
+<h3 id="kontextbench">KontextBench<a hidden class="anchor" aria-hidden="true" href="#kontextbench">#</a></h3>
+<p>为了更加系统准确的评估模型性能，研究团队构建了KontextBench。</p>
+<ul>
+<li>构成： 108 张基础图像，通过 prompts 组合成 1026个独特的 “图像-提示” 对。</li>
+<li>任务分类： KontextBench 覆盖了五个核心任务类别：
+<ul>
+<li>局部指令编辑</li>
+<li>全局指令编辑</li>
+<li>角色参考</li>
+<li>风格参考</li>
+<li>文本编辑</li>
+</ul>
+</li>
+</ul>
+<p>下面是一些show case：</p>
+<p><img loading="lazy" src="http://cp0000.github.io/assets/kontext/1.jpg" alt="Untitled"  />
+</p>
+<p>附录 - 代码：</p>
+<p>位置编码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 下面是 target image 和 incontext image 位置编码代码，img_ids t set 0，img_cond_ids set 1</span>
+</span></span><span style="display:flex;"><span>img_ids <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>zeros(h <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>, w <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>img_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> img_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> torch<span style="color:#f92672">.</span>arange(h <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>)[:, <span style="color:#66d9ef">None</span>]
+</span></span><span style="display:flex;"><span>img_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> img_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">2</span>] <span style="color:#f92672">+</span> torch<span style="color:#f92672">.</span>arange(w <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>)[<span style="color:#66d9ef">None</span>, :]
+</span></span><span style="display:flex;"><span>img_ids <span style="color:#f92672">=</span> repeat(img_ids, <span style="color:#e6db74">&#34;h w c -&gt; b (h w) c&#34;</span>, b<span style="color:#f92672">=</span>bs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>img_cond_ids <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>zeros(height <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>, width <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>img_cond_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>img_cond_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> img_cond_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> torch<span style="color:#f92672">.</span>arange(height <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>)[:, <span style="color:#66d9ef">None</span>]
+</span></span><span style="display:flex;"><span>img_cond_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> img_cond_ids[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">2</span>] <span style="color:#f92672">+</span> torch<span style="color:#f92672">.</span>arange(width <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>)[<span style="color:#66d9ef">None</span>, :]
+</span></span><span style="display:flex;"><span>img_cond_ids <span style="color:#f92672">=</span> repeat(img_cond_ids, <span style="color:#e6db74">&#34;h w c -&gt; b (h w) c&#34;</span>, b<span style="color:#f92672">=</span>bs)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> 
+</span></span></code></pre></div><p>推理代码</p>
+<p><code>img_cond_seq</code>  : in context image sequence</p>
+<p><code>img_cond_seq_ids</code>  :  in context image sequence position embedding</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">denoise</span>(
+</span></span><span style="display:flex;"><span>    model: Flux,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># model input</span>
+</span></span><span style="display:flex;"><span>    img: Tensor,
+</span></span><span style="display:flex;"><span>    img_ids: Tensor,
+</span></span><span style="display:flex;"><span>    txt: Tensor,
+</span></span><span style="display:flex;"><span>    txt_ids: Tensor,
+</span></span><span style="display:flex;"><span>    vec: Tensor,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># sampling parameters</span>
+</span></span><span style="display:flex;"><span>    timesteps: list[float],
+</span></span><span style="display:flex;"><span>    guidance: float <span style="color:#f92672">=</span> <span style="color:#ae81ff">4.0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># extra img tokens (channel-wise)</span>
+</span></span><span style="display:flex;"><span>    img_cond: Tensor <span style="color:#f92672">|</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># extra img tokens (sequence-wise)</span>
+</span></span><span style="display:flex;"><span>    img_cond_seq: Tensor <span style="color:#f92672">|</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>,
+</span></span><span style="display:flex;"><span>    img_cond_seq_ids: Tensor <span style="color:#f92672">|</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>,
+</span></span><span style="display:flex;"><span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># this is ignored for schnell</span>
+</span></span><span style="display:flex;"><span>    guidance_vec <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>full((img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],), guidance, device<span style="color:#f92672">=</span>img<span style="color:#f92672">.</span>device, dtype<span style="color:#f92672">=</span>img<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> t_curr, t_prev <span style="color:#f92672">in</span> zip(timesteps[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], timesteps[<span style="color:#ae81ff">1</span>:]):
+</span></span><span style="display:flex;"><span>        t_vec <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>full((img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],), t_curr, dtype<span style="color:#f92672">=</span>img<span style="color:#f92672">.</span>dtype, device<span style="color:#f92672">=</span>img<span style="color:#f92672">.</span>device)
+</span></span><span style="display:flex;"><span>        img_input <span style="color:#f92672">=</span> img
+</span></span><span style="display:flex;"><span>        img_input_ids <span style="color:#f92672">=</span> img_ids
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> img_cond <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            img_input <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>cat((img, img_cond), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> img_cond_seq <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">assert</span> (
+</span></span><span style="display:flex;"><span>                img_cond_seq_ids <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>            ), <span style="color:#e6db74">&#34;You need to provide either both or neither of the sequence conditioning&#34;</span>
+</span></span><span style="display:flex;"><span>            img_input <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>cat((img_input, img_cond_seq), dim<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>            img_input_ids <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>cat((img_input_ids, img_cond_seq_ids), dim<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        pred <span style="color:#f92672">=</span> model(
+</span></span><span style="display:flex;"><span>            img<span style="color:#f92672">=</span>img_input,
+</span></span><span style="display:flex;"><span>            img_ids<span style="color:#f92672">=</span>img_input_ids,
+</span></span><span style="display:flex;"><span>            txt<span style="color:#f92672">=</span>txt,
+</span></span><span style="display:flex;"><span>            txt_ids<span style="color:#f92672">=</span>txt_ids,
+</span></span><span style="display:flex;"><span>            y<span style="color:#f92672">=</span>vec,
+</span></span><span style="display:flex;"><span>            timesteps<span style="color:#f92672">=</span>t_vec,
+</span></span><span style="display:flex;"><span>            guidance<span style="color:#f92672">=</span>guidance_vec,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> img_input_ids <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            pred <span style="color:#f92672">=</span> pred[:, : img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        img <span style="color:#f92672">=</span> img <span style="color:#f92672">+</span> (t_prev <span style="color:#f92672">-</span> t_curr) <span style="color:#f92672">*</span> pred
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> img
+</span></span></code></pre></div><p>End。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>CP0000</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

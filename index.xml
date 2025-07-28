@@ -6,7 +6,16 @@
     <description>Recent content on CP0000 - 一只特立独行的猪</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>CP0000</copyright>
-    <lastBuildDate>Sat, 08 Mar 2025 14:35:55 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Jul 2025 19:20:46 +0800</lastBuildDate><atom:link href="https://cp0000.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Review FLUX.1 Kontext</title>
+      <link>https://cp0000.github.io/posts/review_kontext/</link>
+      <pubDate>Mon, 28 Jul 2025 19:20:46 +0800</pubDate>
+      
+      <guid>https://cp0000.github.io/posts/review_kontext/</guid>
+      <description>src: “FLUX.1 Kontext: Flow Matching for In&amp;ndash;Context Image Generation and Editing in Latent Space” (arXiv:2506.15742v2) 摘要 Black Forest Labs 提出一个新的生成模型：FLUX.1 Kontext。FLUX.1 Kontext 是一个面向图像</description>
+    </item>
+    
     <item>
       <title>劝君更尽一杯酒，西出阳关无故人。</title>
       <link>https://cp0000.github.io/posts/memo_about_old_friend/</link>
@@ -176,15 +185,6 @@
       
       <guid>https://cp0000.github.io/posts/text-to-image-diffusion-survey/</guid>
       <description>Text-to-image Diffusion Models in Generative AI: A Survey 本文是关于 Text-to-image Diffusion Models in Generative AI:A Survey 的翻译和摘要。 自2021年2月 OpenAI 推出 DALL- E 之后，文生图进入了AI研究人员和大众的视野。伴随着22年 DALL-E 2</description>
-    </item>
-    
-    <item>
-      <title>读书笔记：《认知觉醒：开启自我改变的原动力》</title>
-      <link>https://cp0000.github.io/posts/cognitive_awakening/</link>
-      <pubDate>Sun, 23 Apr 2023 22:08:46 +0800</pubDate>
-      
-      <guid>https://cp0000.github.io/posts/cognitive_awakening/</guid>
-      <description>《认知觉醒：开启自我改变的原动力》是一本很好读的书，他帮助我相对系统性的理清了自己这些年潜意识中模糊存在的道理。这本书给我最明显的收获有两点</description>
     </item>
     
   </channel>
